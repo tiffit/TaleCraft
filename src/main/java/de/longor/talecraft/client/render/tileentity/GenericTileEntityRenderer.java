@@ -1,24 +1,15 @@
 package de.longor.talecraft.client.render.tileentity;
 
 import java.util.List;
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-
 import com.google.common.collect.Lists;
 
-import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.blocks.util.tileentity.ClockBlockTileEntity;
 import de.longor.talecraft.client.ClientResources;
-import de.longor.talecraft.client.render.RenderHelper;
 import de.longor.talecraft.client.render.renderers.BoxRenderer;
 import de.longor.talecraft.invoke.BlockTriggerInvoke;
 import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.invoke.IInvokeSource;
 import de.longor.talecraft.proxy.ClientProxy;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -26,7 +17,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -48,8 +38,8 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
     }
     
 	@Override
-	public void renderTileEntityAt(TileEntity p_180535_1_, double posX, double posY, double posZ, float partialTicks, int p_180535_9_) {
-		T tile = (T) p_180535_1_;
+	public void renderTileEntityAt(TileEntity tileentity, double posX, double posY, double posZ, float partialTicks, int destroyStage) {
+		T tile = (T) tileentity;
         
         // render states
         GlStateManager.disableLighting();
@@ -81,7 +71,7 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 	        // time to render
 	        
 	        // top
-	        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+	        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 	        //worldrenderer.setBrightness(0xEE); //TODO: FIX
 	        
 	        worldrenderer.pos(I, A, A).tex(1, 0).endVertex();
@@ -235,14 +225,11 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
         	}
         	
             GlStateManager.popMatrix();
-        }
-        
+        } 
         
         GlStateManager.enableLighting();
         GlStateManager.enableCull();
         
 	}
-	
-	
 	
 }
