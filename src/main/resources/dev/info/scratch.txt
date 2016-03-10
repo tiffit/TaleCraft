@@ -1,0 +1,154 @@
+WARNING:
+  This is a scratch file! That means that the content of this file is NOT to be taken as a specification for the mod.
+  EVERYTHING IN THIS FILE COULD CHANGE AT ANY TIME.
+
+This document contains things that are probably going to be implemented sooner or later,
+and things that are implemented but incomplete..
+
+
+
+command -> /TaleCraft_Visualize < ? >
+    /tc_vz
+    
+    ; How to do this?!
+    /tc_vz es <selector>
+    /tc_vz es <selector> <target>
+    
+    /tc_vz sh cy <color> <radius>
+    /tc_vz sh cy <color> d<radius>
+    
+    /tc_vz sh sp <color> <radius>
+    /tc_vz sh sp <color> d<diameter>
+^^
+
+THE FOLLOWING COMMAND IS NOW BEING INTEGRATED INTO /tc_wand!
+command -> /tc_region < ? >
+    /tc_region
+      Operates on regions selected by the wand and the ones stored in the server clipboard.
+    
+    Notes:
+      * The 'clipboard' is on the server-side.
+        - The clipboard contents are DELETED on server termination.
+        - The clipboard is globally accessible by EVERYBODY ANY TIME.
+        - The clipboard uses the 'prop'-format to store things.
+          This means that entities can be stored in the clipboard.
+      * A single-entry 'clipboard' is on the client-side.
+      * The clipboard of a given player can only be set/modified/cleared by that player.
+      * All players can access any other players clipboard, but cannot modify it.
+      * The name of a players private clipboard is always defined as 'player.<UUID>'.
+      * SELF
+        - SELF means either means 'this players selection' or 'this players clipboard'.
+        - SELF is only available if the sender of the command is a player.
+        - SELF references a players private clipboard named 'player.<UUID>'.
+      * PasteItem
+        - If a PasteItem instance is named the clipboard-entry with
+          that name will be used instead of the players private clipboard.
+    
+    /tc_region cut <name|SELF> <<x0> <y0> <z0> <x1> <y1> <z1>|SELF|>
+       Cuts out a piece of the world and creates a new schematic in the clipboard from that.
+    
+    /tc_region copy <name|SELF> <<x0> <y0> <z0> <x1> <y1> <z1>|SELF|>
+       Copies a piece of the world and creates a new schematic in the clipboard from that.
+       Partially implemented.
+    
+    /tc_region paste <name|SELF> <<x> <y> <z>|SELF|>
+       Copies a specific schematic from the clipboard into the world at a specific position.
+       Partially implemented.
+^^
+
+
+
+
+
+block -> Clip:
+  | This block is similar to the 'Barrier'-block from vanilla minecraft, except that it can filter specific objects.
+  * Types:
+    - All Blocking: No entity can pass trough.
+    - Boss Blocking: Boss'es can't pass trough.
+    - Player Blocking: Players can't pass trough.
+    - Monster Blocking: Monsters can't pass trough.
+    - Villager Blocking: Villagers can't pass trough.
+    - Projectile Blocking: Projectiles can't pass trough.
+^^
+
+block -> DataStore:
+  | This block stores any kind/amount of NBT-Data, permanently.
+  * Properties
+    - nbtCompound:DATA: The data stored within this block.
+  * (trigger)
+    - arg0=-1: Clear/Delete all stored data.
+^^
+
+item -> VoxelBrush: (partially implemented)
+  - FUNCTIONS
+    * smooth-average -> Smooths the voxels together over a given area based on a average.
+    * smooth-cubic -> Smooths the voxels together over a given area with a cube-kernel.
+^^
+
+
+
+
+item -> TerrainBrush:
+  This tool acts upon the worlds heightmap.
+  - SHAPES
+    * Box
+    * Circle (default)
+  - FUNCTIONS
+    * brush
+      The brush can be any size between 4 and 32.
+      The brush works solely on the heightmap (which is 2D!).
+      The brush should have a direct visualization of what changes.
+      The brush formula is as following:
+        height.new = height.old + brush.power * brush.value[|height.xz -> brush.center.xz|]
+      
+      * add : Adds height to the terrain.
+      * subtract : Subtracts height from the terrain.
+      * flatten : Flattens the terrain to the height at the center of the brush.
+      * smooth : Smooths out the terrain.
+      * BRUSHES
+        * Flat
+        * Linear
+        * Smooth (default)
+        * Sinus
+        * Spike
+        * Gaussian
+        * Noise
+    * grassify -> Replace every solid block that is euqal to ARG2 or is natural and has air above it with grass.
+    * winterify -> Let it snow!
+^^
+
+
+
+
+# Not really useful with the features listed below. :/
+gui -> MapInterface:
+  - A gui that is opened by pressing 'M' on the keyboard without any special keys.
+  - The gui contains tabs that contains GUI's for different tools and utilities.
+  - TABS:
+    - Clipboard: Manage the contents of the clipboard.
+    - Scripts: The current worlds ScriptManager. It is possible to add world-scripts here.
+      # WORLD SCRIPTS ARE A REALLY BAD IDEA! Find better solution.
+    - World: Utilities for the world instance you are in. (status info, weather control, gamerules)
+      # Apart from being able to see the gamerules, this isn't really necessary.
+    - Resources: View and browse ALL resources currently loaded in the game. (textures[block, item, entity, *], sounds, music)
+      # This is not possible.
+^^
+
+
+
+system -> CLIPBOARD (!!!)
+  The 'clipboard' is a system that allows players to store something called 'props'.
+  
+  CLIPBOARD
+    - The clipboard is mostly on the server-side of things.
+    - The clipboard solely stores 'props' and nothing else.
+    - There is a so-called 'private clipboard' that is per-player, and exists on the client AND the server. (synchronized!)
+    - Players can look into (and copy!) the private clipboard of other players, but not modify them.
+  
+  PROP
+    - A 'prop' is a collection of objects in a 3D-space.
+    - A prop can store these things: Blocks, Entitties, Metadata.
+    - Props can be saved from the clipboard to a harddrive.
+    - Props can be loaded from a hardrive into the clipboard.
+  
+^^

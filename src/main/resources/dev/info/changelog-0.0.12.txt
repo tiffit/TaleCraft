@@ -1,0 +1,172 @@
+Changes:
+- Added new block: Collision Trigger Block
+  When a entity starts colliding with this block, a invoke will get executed.
+  When the entity stops colliding with this block, another invoke gets executed.
+  
+  The GUI is pretty empty, and only contains the 'start' and 'stop' invokes.
+  
+  Script Parameters:
+  - 'entity': The entity that is starting/stopping to collide.
+
+- Added new decoration blocks:
+  deco_wood_a (x16)
+
+- Added new subcommand to: /tc_vz
+  /tc_vz sh chunk
+  Sorrounds the chunk you are in with a box.
+
+- Added new set of gamerules:
+  * disable.damage.*: If active, all damage is disabled globally.
+  * disable.damage.fall: If active, fall damage is disabled globally.
+  * disable.damage.lava: If active, lava damage is disabled globally.
+  * disable.damage.fire: If active, fire damage is disabled globally.
+  * disable.damage.magic: If active, fall damage is disabled globally.
+  * disable.damage.drown: If active, drowning damage is disabled globally.
+  * disable.damage.suffocate: If active, suffocation damage is disabled globally.
+  
+  'globally' menas for ALL entities across the ENTIRE map/world.
+
+- Added new decoration blocks:
+  deco_stone_d (x16)
+  deco_stone_e (x16)
+
+
+- Changed Image Hologram Block:
+  If the 'width' is negative, the image will be repeated along the X-Axis.
+  If the 'height' is negative, the image will be repeated along the Y-Axis.
+
+- Added new decoration blocks:
+  deco_stone_f (x16)
+  deco_glass_a (x16)
+
+- Added new subcommand to: /tc_wand
+  /tc_wand region repeat <count> [direction]
+  
+  Repeats the currently selected region in the given direction 'count' times.
+  If 'direction' is not given, the direction the player is looking in is used.
+  Minimum 'count' is 1, maximum is 128.
+
+- Added new block: Light Block
+  This block can emit a customizable amount of light,
+  and it can be turned on/off per trigger!
+
+- Added new item: Meta Swapper
+  Changes the state of blocks (if possible).
+
+- Added new block: Hidden Block
+  This block is always invisible+invincible and can not be collided with,
+  but is 'solid' so blocks like ladders/torches can be placed on it.
+
+- Added new decoration blocks:
+  deco_cage_a (x12)
+
+- Added new system: Entity Editor
+  Left-Click ANY entity with the Wand-item to edit that entities data.
+  Alternatively, use the '/tc_editentity' command.
+  
+  Raw NBT will also be shown if the small checkbox in the upper right of
+  the GUI is toggled on. The 'Copy to Clipboard as JSON'-button is there too.
+  
+  If the entity has an inventory of any kind, you can edit the items in that
+  inventory by clicking on the buttons that show up as 'slots'.
+  Some entities allow adding new items to the inventory.
+  
+  Notes:
+  - The GUI *should* be pretty self explaining.
+  - The GUI is generated procdurally from the data of the given entity.
+  - The GUI can cause serios lag because there is so much text.
+
+- Added new command: /tc_editentity
+  /tc_editentity <selector>
+  
+  Opens the entity editor for the given entity.
+  
+  Possible selectors:
+  - self
+  - @a @e @r @p
+  
+  Warning: If neither "self" or a entity-selector is given,
+           the command will assume that the selector is a UUID.
+           A UUID is a long piece of text that globally identifies a entity.
+
+- Added new system: Itemstack Editor
+  This editor allows one to change the attributes of a itemstack.
+  Currently only used in Entity-Editor. Later usage in Store-Block.
+
+- Added new subcommand to: /tc_wand
+  /tc_wand region butcher
+  Kills all living things (and items) in the selected region.
+
+- Added new item: Spawn Point
+  Spawns a tc_point entity at the current position and rotation.
+  
+  Note: The point entity may later be used to implement cutscenes.
+        If you feel funny, you can do so right now with scripts.
+
+- Changed Teleporter-Item and Point-Entity:
+  Mounting a point entity with the teleporter works correctly now.
+
+- Changed GUI: Emitter Block Gui
+  You can now directly select the particle type in the '?' dialog.
+
+- Replaced the old talecraft logo with the one provided by Morning_Woody (heh).
+  INFO @ WIKI: Replace the TaleCraft logo with the new one!
+
+- Added new command: /tc_attack
+  /tc_attack <entity-selector> <damage-type> <damage-amount>
+  
+  Attacks the selected entities with the given damate type and amount.
+  
+  Entity-Selector:
+    @e @a @p @r
+  
+  Damage types:
+    magic anvil cactus drown fall fallingblock generic fire
+    wall lava lightingbolt onfire out_of_world starve wither
+  
+  Damage amount:
+    0 .. 1000
+
+- Added new block: Message Block
+  This block sends a message to a seleted set of players when triggered.
+  
+  Options:
+    - message: The message to send. Linebreaks are done with '\n'.
+    - selector: The selector that selects the players to send the message to.
+    - tellraw: If the message should be threated as /tellraw-style JSON.
+
+- Added new block: Inverter Block
+  Inverts any incoming trigger signal and executes a invoke with that.
+
+- Added new block: Memory Block
+  This block executes a invoke when triggered,
+  and it does so only ONCE, then never again unless reset.
+
+- Changed InfoBar:
+  [MIN] | [MAX] -> [SIZE] = [VOLUME]
+  
+  Note: MIN and MAX might sometimes go out of sync with the server.
+
+- Added new block: Trigger Filter
+  Filters selected trigger signals.
+
+Changes (internal):
+- Added 'parameters' to invokes.
+  Scripts now get, depending on the context, additional parameters.
+  These 'dynamic' parameters only exist for the duration of the invoke.
+- ImageHologramBlock no longer uses the BoxRenderer for the 'hologram'.
+- Refactored the '/tc_wand'-command a lot. Lot's of methods now.
+- (!) Changed the StringNBTCommand packet to use compressed reading/writing.
+  This should improve network performance.
+- The text on QADButton's can now be aligned left/right.
+- Pressing 'F1' in a QAD-based GUI will now show the 'hitboxes' of components.
+  (Useful for creating layout's)
+- Added a brand new toJson(NBT)-method. Is used in the entity editor.
+- Completely redid the Block-Trigger part of the invoke system.
+  Now works correctly with ON/OFF/INVERT/IGNORE.
+
+Fixes:
+- Fixed the bug that one HAS to click in the air to copy a region of blocks with the COPY/CUT items.
+- Fixed 'copy' and 'spawn' messages for pasting blocks and entities into the world.
+- Fixed the bug that the InfoBar is not displayed while the chat is open.
+- Fixed the bug that living entities try to jump on top of utility blocks.

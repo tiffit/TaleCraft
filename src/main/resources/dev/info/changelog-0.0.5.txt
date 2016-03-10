@@ -1,0 +1,59 @@
+- Added item: Voxel-Brush (talecraft:voxelbrush)
+  Every new voxelbrush has to be initialized with
+  the following command: /tc_voxelbrush init
+  
+  At the point this setence was written,
+  the voxelbrush ONLY creates stone blocks.
+  
+- Added command: tc_voxelbrush
+  This command requires explanation.
+  This command can only be used by a player.
+  To use this command, you must have a voxelbrush equipped.
+  
+  /tc_voxelbrush init
+    Initializes a newly created voxelbrush,
+    or resets a existing voxelbrush.
+  
+  /tc_voxelbrush shape box <cube half-size>
+  /tc_voxelbrush shape box <horizontal half-size> <vertical half-size>
+  /tc_voxelbrush shape box <half-width> <half-height> <half-length>
+  /tc_voxelbrush shape cylinder <half-height> <radius>
+  /tc_voxelbrush shape cylinder <half-height> d<diameter>
+  /tc_voxelbrush shape sphere <radius>
+  /tc_voxelbrush shape sphere d<diameter>
+  
+  /tc_voxelbrush shape offset <x> <y> <z>
+  
+  /tc_voxelbrush action replace <block>
+  /tc_voxelbrush action grassify
+
+- Added command: tc_wand
+  This command requires explanation.
+  This command can only be used by a player.
+  
+  /tc_wand .
+    Sets the selection of the wand to
+    a box at the players position.
+  
+  /tc_wand .o
+    Sets the selection of the wand to
+    a box at the worlds origin.
+    (0,0,0|0,0,0)
+  
+  /tc_wand expand <expand>
+    Expands the wand selection by the given extent.
+    (px-ex,py-ex,pz-ex|px+ex,py+ex,p+ex)
+  
+  /tc_wand expand_h <expand>
+    The same as 'expand', just that it only expands horizontally.
+  
+  /tc_wand expand_v <expand>
+    The same as 'expand', just that it only expands vertically.
+    
+  /tc_wand region erase
+    Erases the region selected with the wand.
+    (eg: replaces it with air)
+  
+  /tc_wand region fill <block> [block-meta]
+    Fills the region selected with the wand with the given block.
+  

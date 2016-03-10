@@ -1,0 +1,36 @@
+Changes:
+- Changed Message Block!
+  Linebreaks are now done with a single '\'.
+
+Changes (internal):
+
+Fixes:
+- Fixed the bug that prevented pistons from working.
+    Bug reason:
+    TaleCraft registered tileentities in the
+    'pre_init' method instead of the 'init' method.
+- Fixed the InfoBar not displaying metadata.
+- Fixed the bug that linebreaks don't work in the Message-Block.
+- Fixed the bug that made scripts not work.
+  Caused by: Gradle not copying a bunch of files. (WHY?!)
+
+Example Script
+--------------
+    // Print the position of the block executing this script to the console...
+    out.println(position);
+
+    // Build a 32 blocks high pillar, starting 3 blocks above the executor
+    for (var y = position.y() + 3, count = 0; count < 32; y++, count++) {
+        
+        // "minecraft:stained_glass" is the type identifier.
+        // 'count % 16' is the metadata value of the block.
+        id = "minecraft:stained_glass/"+(count % 16);
+        
+        // get the 'blockstate'
+        block = system.getBlock(id);
+        
+        // Places a block of the given blockstate at the given position.
+        world.setBlock(position.x(), y, position.z(), block);
+    }
+
+    // end of script

@@ -1,0 +1,41 @@
+Facts:
+  This is a general purpose file-format definition.
+  This format uses NBT (Named Binary Tag) for data storage.
+  This format is originally made for sharing minecraft (+r1.8) structures.
+
+* Supports blocks/items/entities from mods/plugins/addons.
+* The maximum structure size is (2^31-1)^3 blocks.
+* TileEntities are stored.
+* Entities are stored.
+
+NBT STRUCTURE DEFINITION FOLLOWS!
+---------------------------------
+
+-fileroot
+  -blocks
+    -pallet
+      [identifier : STRING, numcode : INTEGER]
+    
+    -dimensions : ARRAY of INTEGER
+      [x y z]
+    
+    -tiles : ARRAY of BYTE|INTEGER
+      [numcode]
+        index(x,y,z) := (y0*x*z) + (z0*x) + (x0)
+        encode(identifier) := hash(identifier)
+        decode(numcode) := pallet.get(numcode)
+    
+    -tileentities : LIST of TAGCOMPOUND
+      The format here is exactly the same as in the Minecraft engine.
+  
+  -entities : LIST of TAGCOMPOUND
+    The format here is exactly the same as in the Minecraft engine.
+  
+  -metadata
+    May contain anything...
+    
+    source : STRING
+    author : STRING
+    created : LONG
+    description : STRING
+    

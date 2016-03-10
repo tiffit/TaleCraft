@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "sub=0": { "model": "talecraft:deco_stone/block16" },
+        "sub=1": { "model": "talecraft:deco_stone/block17" },
+        "sub=2": { "model": "talecraft:deco_stone/block18" },
+        "sub=3": { "model": "talecraft:deco_stone/block19" },
+        "sub=4": { "model": "talecraft:deco_stone/block20" },
+        "sub=5": { "model": "talecraft:deco_stone/block21" },
+        "sub=6": { "model": "talecraft:deco_stone/block22" },
+        "sub=7": { "model": "talecraft:deco_stone/block23" },
+        "sub=8": { "model": "talecraft:deco_stone/block24" },
+        "sub=9": { "model": "talecraft:deco_stone/block25" },
+        "sub=10": { "model": "talecraft:deco_stone/block26" },
+        "sub=11": { "model": "talecraft:deco_stone/block27" },
+        "sub=12": { "model": "talecraft:deco_stone/block28" },
+        "sub=13": { "model": "talecraft:deco_stone/block29" },
+        "sub=14": { "model": "talecraft:deco_stone/block30" },
+        "sub=15": { "model": "talecraft:deco_stone/block31" }
+    }
+}

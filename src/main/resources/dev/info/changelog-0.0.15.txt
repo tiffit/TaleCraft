@@ -1,0 +1,35 @@
+Changes:
+- Added new command: tc_highlight
+  Highlights various objects in the game world.
+  Right now only blocks can be highlighted.
+  
+  Syntax:
+    /tc_highlight block <duration> <x> <y> <z>
+        <duration> is in seconds. Maximum 10.
+        <x> <y> <z> is a block position.
+
+
+
+Changes (internal):
+- Refactored the ClientProxy class TO HELL.
+  Created a whole bunch of new classes.
+- Added class shutter to script engine.
+
+Fixes:
+- Fixed the bug that the 'Paste'-Tool wasn't working.
+- Fixed the bug that the URL is not shown in the 'Confirm Open Link' dialog
+  when opened by the URL-Block.
+
+WIP:
+- Started working on a new VoxelBrush called 'Voxelator'
+- Started working on a in-game file browser.
+
+Script: list_all_entities
+-------------------------
+// Lists all entities (name and position) except players.
+entities = world.getEntities("@e[type=!Player]");
+
+for (var i = 0; i < entities.size(); i++) {
+    var entity = entities.get(i);
+    out.println(entity.getName() + " @ " + entity.getPosition());
+}

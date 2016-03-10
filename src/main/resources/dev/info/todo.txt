@@ -1,0 +1,97 @@
+### MISCELLANIUS
+
+- TAKE A LOOK AT THE 'Entity:IExtendedProperties' system!
+  A lot of possibilities for features can open up there!
+
+- Find a way to force the 'yes'-option in the "Accept Resourcepack Prompt" GUI.
+  Note: Workaround does not work. There are no hooks in the relevant code.
+        Also, the code is cluttered with callbacks to no end.
+        Ergo: Not possible.
+
+// THIS IS IMPORTANT!
+- Implement saving of clipboard items to the harddrive.
+- Implement loading of clipboatd items from the harddrive.
+
+### COMMAND
+
+- Implement a 'tc_highlight' command.
+  "Highlights a specific set of objects in the game world."
+  IS PARTIALLY IMPLEMENTED!
+  Entity highlighting is missing.
+
+
+### BLOCKS / ITEMS
+- Implement a button block that executes a invoke when clicked.
+  Invoke:OnPress, Invoke:OnRelease
+
+
+- Make the 'actions' of action blocks visible in the invoke tracker bar.
+  Note:
+    This requires the 'trigger' function in Invoke.java to
+    send a packet for every single triggered block. VERY Bad Idea!
+
+- Implement the ClipBlock as specified in scratch.txt
+  CURRENTLY NOT POSSIBLE BECAUSE OF RENDERING PROBLEMS.
+  (Also, can't make this a tileentity. Too high memory usage!)
+
+- Implement the TerrainBrush-item.
+  CURRENTLY NOT POSSIBLE BECAUSE OF MISSING KNOWLEDGE.
+
+- Implement grass blocks.
+  WAIT: For textures from 'Daggard'. (only a few are missing)
+- Implement class to support directional models.
+  WAIT: 1.9 will bring support for 'if X then Y' into the model format.
+- Take a look at Potofantom's block models. (Look into collecting folder './desktop/scrwat/')
+  WAIT: Models like this will get simpler with the 1.9 'if X then Y' modelsystem feature.
+
+- ~~~Find a way to implement the custom mob spawner with all its functions.~~~
+  Problem: The correct serialization/deserialization of the spawned entitites list.
+
+- The following blocks are currently missing:
+    - static
+    darkness  (currently not possible)
+    clip      (currently not possible)
+    - dynamic
+    store
+    music
+    sky
+    potionEffectZone
+
+
+### SCRIPTING
+- Create a ingame editor for FileScriptInvoke. (need: QADTextArea)
+- Create a ingame editor for EmbeddedScriptInvoke. (need: QADTextArea)
+
+- Create all the wrappers necessary for scripting in minecraft. (This will take a LOT of time!)
+  - Wrappers are necessary because of the class obfuscation and because of security concerns.
+  - Completion: ~30%. Basics are covered.
+
+- Add ALL the missing parameters to the invoke calls.
+  Note: Only create the parameter map if the invoke is of type IScriptInvoke.
+        If its not let the parameter map be null, the Invoke system doesn't care.
+
+
+
+### INTERNALS
+- !!! MAKE GOD DAMN SURE THAT NO CLIENT CODE IS ON THE SERVER SIDE!
+
+- Refactor the GuiEntityEditor class. Make it less cluttered.
+  - Refactor all 'panels' into their own classes.
+  - Create methods to create the editor fields simpler.
+
+- Try to find a way to reduce the massive amount of lag when displaying the item-list.
+  Note: This is caused by the Font-Renderer being THE (!) most horrible font-renderer in existance.
+        Ergo: Can't fix this problem. :(
+        Note: Could fix if I build my own fontrenderer.
+              Would take too much time though...
+
+
+- Create a debug window (/swing) that can be opened alongside Minecraft on the SERVER side.
+  The window should do the following:
+  - Show a prompt to submit commands to the server and get the results.
+  - Show a realtime data view of single blocks.
+  - Show a realtime data view of a group of blocks.
+  - Show all the invokes as they happen.
+  - Show all the events as they happen.
+  - Show all the loaded scripts.
+  IMPORTANT NOTE: This should be done as a separate mod.

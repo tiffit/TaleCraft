@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "sub=0": { "model": "talecraft:deco_wood/block0" },
+        "sub=1": { "model": "talecraft:deco_wood/block1" },
+        "sub=2": { "model": "talecraft:deco_wood/block2" },
+        "sub=3": { "model": "talecraft:deco_wood/block3" },
+        "sub=4": { "model": "talecraft:deco_wood/block4" },
+        "sub=5": { "model": "talecraft:deco_wood/block5" },
+        "sub=6": { "model": "talecraft:deco_wood/block6" },
+        "sub=7": { "model": "talecraft:deco_wood/block7" },
+        "sub=8": { "model": "talecraft:deco_wood/block8" },
+        "sub=9": { "model": "talecraft:deco_wood/block9" },
+        "sub=10": { "model": "talecraft:deco_wood/block10" },
+        "sub=11": { "model": "talecraft:deco_wood/block11" },
+        "sub=12": { "model": "talecraft:deco_wood/block12" },
+        "sub=13": { "model": "talecraft:deco_wood/block13" },
+        "sub=14": { "model": "talecraft:deco_wood/block14" },
+        "sub=15": { "model": "talecraft:deco_wood/block15" }
+    }
+}

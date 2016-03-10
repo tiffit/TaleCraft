@@ -1,0 +1,50 @@
+Changes:
+- Added invoke tracking.
+  Enable with: /tcc_inktrk true
+  
+  Invokes will be shown as colored blocks right under the InfoBar.
+  The top of a block is the 'source', the bottom is the 'target'.
+  
+  Warning: This can create some serious lag, so its best to disable.
+
+- Added new subcommand to: /tc_wand
+  /tc_wand region copy <name>
+  
+  Copies the currently selected region to the clipboard with the given name.
+  
+- Added new subcommand to: /tc_wand
+  /tc_wand region paste <name>
+  
+  Copies a region with a given name from the clipboard back into the world.
+  The region is put where the wand selection is!
+
+- Changed command name:
+  /tcc_r_invokeviz
+  to
+  /tcc_invokeviz
+
+- Changed Paste Item and added new Command:
+  /tcc_pastesnap <0..64>
+  
+  Sets a 'snap' value to snap the paste position to a grid.
+  Default is 0.
+
+- Added new decoration blocks:
+  deco_stone_a (x16)
+  deco_stone_b (x16)
+  deco_stone_c (x16)
+  ...for a total of 48.
+
+- Added new client command:
+  /tcc_fulldebugprint
+  
+  This command prints all registry information about TaleCraft to the console.
+
+Changes (internal):
+- Moved ServerHandler to server package.
+- Scripts should no longer crash the game in case of an exception/error.
+
+Fixes:
+- Fixed the bug that killblocks (and others) get destroyed by flowing lava.
+- Wand Selection is no longer shown in survival/adventure-mode.
+- A bunch of small bugs with command parsing.

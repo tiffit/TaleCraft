@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "normal" : {"model" : "talecraft:redstone_trigger"},
+    "triggered=true" : {"model" : "talecraft:redstone_trigger"},
+    "triggered=false" : {"model" : "talecraft:redstone_trigger"}
+  }
+}

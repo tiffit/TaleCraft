@@ -1,0 +1,53 @@
+- Added trigger behaviour for BlockTNT.
+- Added trigger behaviour for BlockDispenser.
+- Added trigger behaviour for BlockDropper.
+- Added trigger behaviour for BlockCommandBlock.
+- Added trigger behaviour for BlockLever (experimental).
+- Added trigger behaviour for BlockButton (experimental).
+
+- Added trigger command:
+  /tc_trigger <x> <y> <z>
+  
+  Triggers the block at the given coordinate.
+  x|y|z can be made relative with '~'.
+
+- Added tick command:
+  /tc_tickblock <x> <y> <z>
+  
+  Runs a tick-update for the block at the given coordinate.
+  x|y|z can be made relative with '~'.
+
+- Added velocity command!
+  /tc_velocity <set|add|multiply> <this|entity-selector> <x> <y> <z>
+  
+  Modifies the velocity of the given entity.
+  
+  ACTIONs:
+  - set: Sets the velocity to the given values.
+  - add: Adds the given values to the current velocity.
+  - multiply: Multiplies the given values with the current velocity.
+  
+  SELECTORs:
+  - this: Change the velocity of the CommandSender that runs this command.
+  - @a @p @r @e: Default usage.
+
+- Added mount command!
+  /tc_mount <rider> <mount>
+  
+  Forces the given RIDER to mount the given MOUNT.
+  Entity-Selectors are allowed (and necessary).
+
+- Added gamerule: visualEventDebugging
+  EXPERIMENTAL FEATURE! Best left disabled.
+
+- Added entity 'tc_point':
+  This entity is just a simple point that can have a name.
+  The entity is only visible in creative-mode.
+  Can currently only be created with the 'summon' command.
+  Name can be changed by right-click with a nametag.
+
+- COMPLETELY REDID THE TRIGGER/INVOKE SYSTEM!
+  The system does now support multiply kinds of invokes.
+  Right now there is only the good old BlockTriggerInvoke.
+
+- Added new block: Relay (incomplete: GUI is missing!)

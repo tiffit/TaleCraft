@@ -1,0 +1,271 @@
+TaleCraft 0.0.9 - Command Insanity
+
+Changes:
+- Teleporter: If the 'sneak'-key is held while teleporting, the position on the Y-Axis remains unchanged.
+- VoxelBrush: It is no longer necessary to run the command '/tc_voxelbrush init' after getting a new VoxelBrush.
+
+- Added Block: Block Update Detector.
+  This block executes a invoke whenever a neighbouring block is updated.
+  WARNING: If multiple blocks get updated around this block the invoke will be executed multiple times!
+
+- Added GameRule: disableWeather <true/false>
+  As long as this gamerule is set to true,
+  the weather will be forcefully cleared every tick.
+  Disable this gamerule if you need to change the weather!
+
+- Added GameRule: disableTCVoxelBrush <true/false>
+  Disables the voxelbrush item.
+- Added GameRule: disableTCTeleporter <true/false>
+  Disables the teleporter item.
+- Added GameRule: disableTCInvokeSystem <true/false>
+  Disables the invoke system.
+  WARNING: This gamerule completely disables the invoke system if set to true!
+
+- Added new subcommand to /tc_wand:
+  /tc_wand .c
+  Selects the chunk the player is located in.
+
+- Changed the way the wand selection is rendered.
+  Its animated now. Looks fancy!
+
+- Changed the InfoBar:
+  The direction you are looking in
+  (and more related information)
+  is now included in the InfoBar.
+
+- Added new item: Nudger
+  Select a bunch of blocks with the Wand,
+  then right-click (with the Nudger) in any direction,
+  and the selection will be moved in that direction.
+  Holding the SNEAK-key will invert the direction.
+
+- Added new client-command: /tcc_bounds
+  Toggles the display of entity bounding boxes.
+
+- Added new client-command: /tcc_clearchat
+  Clears the chat.
+
+- Added new client-command: /tcc_vismode [mode]
+  Sets the visualization mode.
+
+- Added new client-command: /tcc_tpo
+  Issues the command: /tp 0 255 0
+
+- Added new client-command: /tcc_resreload
+  Prompts minecraft to reload all resources (textures, sounds, text, ...).
+
+- Started working on the 'tc_vz' command.
+  This command exists to spawn visual building aids into the world.
+  For now one can create boxes using:
+  /tc_vz sh c_bx <color> <size>
+  /tc_vz sh c_bx <color> <horizontal> <vertical>
+  /tc_vz sh c_bx <color> <x-size> <y-size> <z-size>
+  
+  And use the following to clear them:
+  /tc_vz clear
+  
+  <color> is:
+    #FFF
+    #FFFFFF
+    white black red green ...
+  
+  NOTE: These visualizations are on the client-side. Logging out clears them. Logging back in will not bring them back.
+
+- Added new item: Copy
+  This item copies the currently selected region to the clipboard.
+  
+- Added new item: Paste
+  This item copies the content of the clipboard into the world.
+  A animated green box (the 'clip-box') is shown were the structure will be placed into the world.
+  
+- Added new client-command: /tcc_pastereach
+  /tcc_pastereach <distance>
+  
+  Sets the distance at which the Paste/Cut-tool should do its thing.
+
+- InfoBar: Its now possible to disable the infobar.
+  Command: /tcc_infobar <true/false>
+
+- Added new subcommand to /tc_wand:
+  /tc_wand expand_to <x> <y> <z>
+  /tc_wand exto <...>
+  
+  Expands the wand selection to contain the given point.
+  Relative coordianets can be used.
+
+- Added new subcommand to /tc_wand:
+  /tc_wand set <x0|y0|z0|x1|y1|z1> <new-value>
+  
+  Sets the bound (x0,y0,z0,x1,y1,z1) of the selection to a new value ('new-value').
+  Relative coordinates can be used.
+
+- Added new subcommand to /tc_wand:
+  /tc_wand set <x0> <y0> <z0> <x1> <y1> <z1>
+  
+  Sets the selection to the given bounds.
+  Relative coordinates can be used.
+
+- Added new subcommand to /tc_wand:
+  /tc_wand ..
+  
+  Sets the selection to a box surrounding the player.
+
+- NEW BLOCK TYPE SYNTAX:
+    package:type/meta
+  
+  'type' is the in-engine name of the block.
+  'package' is the mod package the block comes from. Optional.
+  '/meta' is the sub-type of the block. Optional.
+  
+  Examples:
+    minecraft:air
+    minecraft:stone
+    minecraft:stained_glass/8
+    talecraft:killblock/0
+  
+  All occurrences of block parameters will be replaced with this new syntax.
+  Reason: Now only ONE parameter is needed instead of two (second parameter was for meta).
+
+- Added/changed/removed methods to the script API.
+  Many methods now accept the new block syntax as parameter.
+
+- Added new subcommand to /tc_wand:
+  /tc_wand region replace <block> <mask>
+  
+  Replaces all blocks in the selection that match the given mask with the given block.
+  This command uses the new block type syntax.
+
+- Changed subcommand of /tc_wand:
+  /tc_wand region fill <block>
+  
+  Changed syntax. Block type and meta is now one parameter instead of two.
+  This command uses the new block type syntax.
+
+- Added new subcommand to /tc_wand:
+  /tc_wand expand_into <direction> <distance>
+  /tc_wand exito <...>
+  
+  Expands the selection in the given direction by the given distance.
+  Distance is measured in blocks.
+  
+  Allowed directions:
+    up down north east south west
+    +x -x +y -y +z -z
+    x y z (Same as the '+?' variants)
+    me (The direction the player is looking in)
+
+- Changed subcommand: /tc_voxelbrush
+  /tc_voxelbrush action replace <block>
+  This command uses the new block type syntax now.
+
+- Changed subcommand: /tc_voxelbrush
+  /tc_voxelbrush action maskreplace <block> <mask>
+  This command uses the new block type syntax now.
+
+- Added new subcommand to /tc_wand:
+  /tc_wand region trigger
+  
+  Triggers the selected region.
+
+- Added new subcommand to /tc_wand:
+  /tc_wand region copy
+  
+  Copies the selected region to the private clipboard.
+
+- Added new command: /tc_isblock
+  /tc_isblock <block>
+  
+  Checks if a given block type exists.
+
+- Added new Item: Cut
+  Does the exact same thing as the 'Copy' item,
+  but it also erases the selected region after copying.
+
+- Changed InfoBar:
+  Holding CTRL while looking at a block now shows the
+  type of the block using the new block type syntax.
+
+- Added visualization for BlockTriggerInvoke's! (Looks fancy!)
+  Only works when the block containing the invoke is in range (and the view-frustum) of the player.
+
+- Changed Item: Copy
+  Left-clicking an entity with this item now copies that entity to the clipboard.
+
+- Changed Item: Paste
+  If a entity is in the clipboard, right-clicking will spawn it.
+  The color of the clip-box will change to red if an entity is in the clipboard.
+
+- Added new creative inventory tag: [Decoration].
+  This tab will contain blocks/items that are solely made for decoration purposes.
+
+- Added new block: Blank Block
+  This block is blank (white, solid + opaque), so you can do whatever you want with it.
+  Primarely exists as a customizable building block for map makers.
+  There are 16 different instances for this block.
+
+- Added new block: Storage Block
+  This block has the same functions (/uses the same functions) as the Copy/Paste items.
+  It can store a region of blocks, and can paste it back when triggered.
+
+- Change in invoke system:
+  BlockTriggerInvoke visualization is very fancy now.
+  Can be disabled with: /tcc_r_invokeviz
+
+- Added new client-command: /tcc_r_invokeviz
+  /tcc_r_invokeviz <true/false>
+  
+  Enables/Disables the invoke visualization.
+  If your game lags this is the first thing to disable,
+  as this feature takes a lot of performance.
+
+- Added new block: Emitter Block
+  This block emits particles!
+  
+  To make things a bit eaiser you can click the '?'
+  button in the GUI for a list of all particle types.
+
+- Added new block: Image Hologram Block
+  This block projects images (/textures) as holograms into the world.
+  Examples:
+    - minecraft:textures/blocks/stone.png
+    - talecraft:textures/wandselection.png
+    - #atlas
+
+
+Changes (internal):
+- Lots of refactoring again!
+
+- Added 'settings'.
+  The settings store various settings for the client.
+  The settings are stored in a file in the .minecraft folder,
+  named: talecraft-client-settings.dat
+  
+  Available settings:
+    item.paste.reach
+    client.render.useAlternateSelectionTexture
+    client.render.entity.point.fancy
+    client.render.invokeVisualize
+    client.infobar.enabled
+    client.infobar.heldItemInfo
+    client.infobar.movingObjectPosition
+    client.infobar.visualizationMode
+    client.infobar.showFPS
+    client.infobar.showRenderables
+    client.infobar.showWandInfo
+    client.infobar.showLookDirectionInfo
+  
+- Added 'clipboard' system.
+  Stores temporary structures (blocks and/or entities).
+  Every player has a 'private' clipboard item that only he can edit.
+
+- Added the QADScrollPanel and promptly used it in the Emitter-Block GUI.
+  To scroll, hold down the right/middle-mousebutton and move your mouse up/down.
+  The left-button is disabled for movement in most cases.
+  All gui components inside the scrollpane work as usual without changes.
+
+Fixes:
+- Fixed the bug that left-clicking with an TC-Item destroys blocks.
+- Left-Clicking an entity with ANY TCItem no longer deals damage to the entity.
+  The InstaKill item is a (obvious) exception from this.
+- Fixed the bug that the invokes of the clock-block can't be set seperately correctly.
+- Many small fixes.

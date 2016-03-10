@@ -1,0 +1,55 @@
+Changes:
+- Added new subcommand to: /tc_wand
+  /tc_wand region room <flags> <block>
+  
+  Flags can be combined.
+  
+  <flags>:
+  - U = Ceiling
+  - D = Floor
+  - N = North Wall
+  - E = East Wall
+  - S = South Wall
+  - W = West Wall
+  - B = All Walls.
+  - A = All Walls, Floor & Ceiling.
+
+- Changed item: Teleporter
+  If you sprint while teleporting, your horizontal movement will be multiplied by a factor of 5.
+
+- Changed command: /tc_voxelbrush
+  Added new shape:
+  /tc_voxelbrush shape hollowsphere <radius>
+  /tc_voxelbrush shape hollowsphere d<radius>
+  /tc_voxelbrush shape hollowsphere <radius> <hollow>
+  /tc_voxelbrush shape hollowsphere d<radius> <hollow>
+
+- Changed command: /tc_voxelbrush
+  Added new shape:
+  /tc_voxelbrush shape hollowcylinder <height> <radius>
+  /tc_voxelbrush shape hollowcylinder <height> d<radius>
+  /tc_voxelbrush shape hollowcylinder <height> <radius> <hollow>
+  /tc_voxelbrush shape hollowcylinder <height> d<radius> <hollow>
+
+
+
+Changes (internal):
+- Refactored settings system on the client side.
+  - Settings get saved when changed.
+  - Settings get send to server when relevent settings changed.
+  - Sending settings to server now happens in a seperate StringNBTCommand.
+  - Code looks much nicer.
+
+
+
+Fixes:
+- Fixed a bug that some block types could not be found with the new type syntax.
+  The bug was caused by a mismatch in the unlacalized name with the given type.
+
+- Fixed the crashbug that was caused when loading BlockTriggerInvoke's.
+  Bug was caused by autocomplete importing the wrong class.
+
+Warnings:
+- Do NOT sprint-teleport too fast with the Teleporter,
+  as this WILL cause the internal server to hang up.
+

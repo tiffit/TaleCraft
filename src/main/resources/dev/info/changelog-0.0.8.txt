@@ -1,0 +1,24 @@
+Changes:
+- You can now change the type of invokes to be run!
+  All triggerable blocks can now have whatever invoke they want,
+  instead of a fixed one (except the script block!).
+  
+  For example, the Clock-Block has 3 invokes now: Tick, Start and Stop
+  All of these can be any of the following:
+   - None
+   - Block Trigger
+   - Script File
+   - Command
+   - (more to be made available!)
+  
+  The invoke system is *very* powerful now, so be careful.
+  Crashing the game just got over 9000% easier!
+
+- Added/Finished the Relay-Block and its GUI.
+  The Relay-Block can execute a set (of any size) of invokes when triggered.
+
+Changes (internal):
+- Gave QADButton's the possibility to have a Icon.
+
+Fixes:
+- Small fixes.

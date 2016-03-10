@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "sub=0": { "model": "talecraft:blankblock" },
+        "sub=1": { "model": "talecraft:blankblock" },
+        "sub=2": { "model": "talecraft:blankblock" },
+        "sub=3": { "model": "talecraft:blankblock" },
+        "sub=4": { "model": "talecraft:blankblock" },
+        "sub=5": { "model": "talecraft:blankblock" },
+        "sub=6": { "model": "talecraft:blankblock" },
+        "sub=7": { "model": "talecraft:blankblock" },
+        "sub=8": { "model": "talecraft:blankblock" },
+        "sub=9": { "model": "talecraft:blankblock" },
+        "sub=10": { "model": "talecraft:blankblock" },
+        "sub=11": { "model": "talecraft:blankblock" },
+        "sub=12": { "model": "talecraft:blankblock" },
+        "sub=13": { "model": "talecraft:blankblock" },
+        "sub=14": { "model": "talecraft:blankblock" },
+        "sub=15": { "model": "talecraft:blankblock" }
+    }
+}

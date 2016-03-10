@@ -1,0 +1,66 @@
+Changes:
+- Added new block: Delay Block
+  After being triggered, this block will wait for a set delay,
+  then it will execute a invoke.
+
+- Added new block: URL Block
+  Shows the selected players a 'Confirm Open Link' dialog with the URL set in the block.
+  Bug: The URL is not shown in the GUI for some reason. (Wat?)
+
+- Added new command: tc_tp
+  This commnd can teleport any amount of (loaded!) entities to any location.
+  
+  Syntax:
+    tc_tp <SELF|selector|name> <<SELF|selector|name>|<x> <y> <z>>
+    -----
+      tc_tp self <target>
+      tc_tp self <x> <y> <z>
+      tc_tp <selector> <target>
+      tc_tp <selector> <x> <y> <z>
+      tc_tp <name> <target>
+      tc_tp <name> <x> <y> <z>
+  
+  'self' is 'The thing that sent of the command'.
+  'selector' is one of: @e @a @p @r.
+  'name' is a name that was given to a entity.
+
+- Changed item: Meta Swapper
+  Right-clicking into the air while holding the sneak-key will
+  now swap the metadata of all blocks in the currently selected
+  wand region.
+
+- Changed item: Spawn Point-Entity
+  * Holding the sneak-key while using the item will use the
+    players feet position instead of his eye position.
+  
+  * If the item has a custom name, all points spawned by it
+    will be given the items name when created.
+
+- Added new client command: tcc_click
+  Syntax: /tcc_click <x> <y> <z>
+  
+  Executes a client-side right-click on the block at the given position.
+
+- GUI STYLE OVERHAULED
+  Looks fancy.
+
+- Added new block: Summon Block
+  You wanted a new mob-spawner? Here it is!
+  There are too many features to explain,
+  so there is no description provided here.
+
+- Note:
+  I tried to fix a bunch of bugs with the QADTextField,
+  and accidentally introduced a bunch of small bugs.
+  If you find any: No need to tell me, I already know.
+  I tried fixing the damn thing for 3 days!
+
+Changes (internal):
+
+Fixes:
+- Fixed the bug that trigger-blocks are recolored for no appearant reason.
+- Fixed the bug that 'INVERT' doesn't toggle the state of the Hologram-Block.
+- Fixed the wrong title label in the collision trigger block's GUI.
+- Fixed the block model error with deco_stone_e/7 and /8.
+- Changed the name of 'Spawn Point' into 'Spawn Point-Entity'.
+- Made a tiny optimization to the VoxelBrush.

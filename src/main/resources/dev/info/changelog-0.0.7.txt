@@ -1,0 +1,7 @@
+- Fixed the bug that tooltips on TextField's are not displayed.
+
+- Added new command: tc_regiontrigger.
+  /tc_regiontrigger <min-x> <min-y> <min-z> <max-x> <max-y> <max-z>
+  Triggers all blocks in the given region.
+  Relative coordinates can be used.
+

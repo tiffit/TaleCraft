@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "ktype=0": { "model": "talecraft:killblock_t0" },
+        "ktype=1": { "model": "talecraft:killblock_t0" },
+        "ktype=2": { "model": "talecraft:killblock_t0" },
+        "ktype=3": { "model": "talecraft:killblock_t0" },
+        "ktype=4": { "model": "talecraft:killblock_t0" },
+        "ktype=5": { "model": "talecraft:killblock_t0" },
+        "ktype=6": { "model": "talecraft:killblock_t0" },
+        "ktype=7": { "model": "talecraft:killblock_t0" },
+        "ktype=8": { "model": "talecraft:killblock_t0" },
+        "ktype=9": { "model": "talecraft:killblock_t0" },
+        "ktype=10": { "model": "talecraft:killblock_t0" },
+        "ktype=11": { "model": "talecraft:killblock_t0" },
+        "ktype=12": { "model": "talecraft:killblock_t0" },
+        "ktype=13": { "model": "talecraft:killblock_t0" },
+        "ktype=14": { "model": "talecraft:killblock_t0" },
+        "ktype=15": { "model": "talecraft:killblock_t0" }
+    }
+}

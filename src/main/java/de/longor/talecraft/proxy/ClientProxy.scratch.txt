@@ -1,0 +1,25 @@
+
+                
+                /*// EXT_FontRenderer is confirmed to work trough these lines of code...
+                if(mc.ingameGUI != null) {
+                    mc.ingameGUI.drawRect(0, 0, 96, 24, 0x80000000);
+                    fontRenderer.drawStringInBox("HELLO WORLD", 0, 0, 96, 24, -1, false, 1, 1);
+                }
+                //*/
+                
+                
+                
+                
+                /* // This code is a test if a 'fade overlay' can be done in a simple manner.
+                // Turns out this doesn't really work, because this also paints over the GUI.
+                    if(true) {
+                        double t = Math.sin(mc.getSystemTime() * 0.01);
+                        double fade = (t + 1.0) * 0.5;
+                        int color = 0x000000;
+                        int alpha = MathHelper.clamp_int((int) (t * 256), 0, 255);
+                        int mixed = (alpha & 0xFF) << 24 | (color);
+                        
+                        GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+                        mc.ingameGUI.drawRect(0, 0, mc.displayWidth, mc.displayHeight, mixed);
+                    }
+                    //*/

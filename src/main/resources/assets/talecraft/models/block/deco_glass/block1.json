@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "talecraft:blocks/translucents/glass/1"
+    }
+}

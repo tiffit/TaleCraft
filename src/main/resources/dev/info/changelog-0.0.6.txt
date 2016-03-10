@@ -1,0 +1,48 @@
+- Added new action to voxelbrush: eraser
+- Added new action to voxelbrush: maskreplace
+
+- Added new block: ScriptBlock.
+
+- Added scripting. (!!!)
+  Scripting is based on JavaScript (using the Rhino library).
+  Right now you can only use the script-block to run scripts (there will be more ways to run a script later).
+  
+  When scripting, you will always have access to these two objects:
+  * system: Contains functions to create (and get) all objects from Minecraft you could possibly needs.
+  * out: The console output. Use 'println()'!
+  
+  When a script is ran from a block, the following is avialable:
+  * world: The world the block is contained within.
+  * position: The position of the block.
+  
+  To find out more about a given object (fields/methods), do one of the following:
+    out.println(OBJECT.getOwnPropertyNames());
+    out.println(OBJECT);
+  This SHOULD work with pretty much every object you can get your hands on while scripting.
+
+- Added script wrappers for:
+  * World
+    * Scoreboard (Scoreboard, Objective, Score)
+    * WorldBorder
+    * Gamerules
+  * Block (Block, IBlockState)
+  * Item (Item, ItemStack)
+  * Potion (Potion, PotionEffect)
+  * Entity (Entity, EntityLiving)
+  * NBT
+
+- Added tooltips in all the existing GUI's.
+
+- Fixed the incorrect display of some items names in the InfoBar.
+- Fixed that placing a trigger-block in the same spot as another trigger-block causes serious data corruption.
+- Fixed the bug that clockblocks instantly start their countdown as they are placed down.
+
+- Made redstone-triggers triggerable by other trigger blocks, instead of just redstone signals.
+
+- Added new block: Redstone Activator
+  This block is like a minecraft:lever (it can be on/off and emits a redstone signal),
+  with the difference that it is enabled/disabled by triggering it.
+
+- Did some SERIOUS refactoring. There are now 36 folders of code. Also fixed a couple of small bugs while doing so.
+
+- Added new visulaization mode: Nightvision

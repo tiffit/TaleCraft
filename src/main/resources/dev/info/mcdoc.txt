@@ -1,0 +1,7 @@
+world.raytrace(...)
+    p_3_ canCollide.hitIfLiquid
+    p_4_ canCollide.withFirstBlock
+    p_5_ FALSE
+;
+
+
