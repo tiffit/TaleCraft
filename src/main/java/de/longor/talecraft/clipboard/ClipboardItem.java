@@ -1,5 +1,15 @@
 package de.longor.talecraft.clipboard;
 
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$ENTITY;
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$OFFSET;
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$REGION;
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$REGION_DATA;
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$REGION_DYNAMIC_DATA;
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$REGION_HEIGHT;
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$REGION_LENGTH;
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$REGION_PALLET;
+import static de.longor.talecraft.clipboard.ClipboardTagNames.$REGION_WIDTH;
+
 import java.util.List;
 import java.util.Map;
 
@@ -23,15 +33,10 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
-import net.minecraftforge.fml.relauncher.Side;
-import static de.longor.talecraft.clipboard.ClipboardTagNames.*;
 
 public class ClipboardItem {
 	private NBTTagCompound data;
@@ -170,9 +175,7 @@ public class ClipboardItem {
 		for(int ix = 0; ix < blocksRaw.length; ix++) {
 			IBlockState state = blocksRaw[ix];
 			Block block = state.getBlock();
-			
 			UniqueIdentifier identifier = GameRegistry.findUniqueIdentifierFor(block);
-			
 			String typeName = identifier.modId + ":" + identifier.name;
 			int typeMeta = block.getMetaFromState(state);
 			

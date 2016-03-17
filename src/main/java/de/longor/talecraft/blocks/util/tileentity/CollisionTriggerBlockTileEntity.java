@@ -25,7 +25,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ITickable;
 
-public class CollisionTriggerBlockTileEntity extends TCTileEntity implements ITickable {
+public class CollisionTriggerBlockTileEntity extends TCTileEntity{
 	IInvoke collisionStartTrigger = BlockTriggerInvoke.ZEROINSTANCE;
 	IInvoke collisionStopTrigger = BlockTriggerInvoke.ZEROINSTANCE;
 	private int entityFilter = 1;
@@ -130,6 +130,7 @@ public class CollisionTriggerBlockTileEntity extends TCTileEntity implements ITi
 	
 	@Override
 	public void update() {
+		super.update();
 		LinkedList<Entity> toRemove = null;
 		
 		for(Entry<Entity,MutableInteger> entity : collidingEntities.entrySet()) {

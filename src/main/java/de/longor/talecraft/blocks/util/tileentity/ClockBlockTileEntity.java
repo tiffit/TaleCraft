@@ -127,6 +127,7 @@ public class ClockBlockTileEntity extends TCTileEntity implements ITickable  {
     
     @Override
     public void update() {
+    	super.update();
     	if(worldObj.isRemote)
     		return;
     	

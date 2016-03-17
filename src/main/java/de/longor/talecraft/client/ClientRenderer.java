@@ -6,25 +6,6 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderWorldEvent.Pre;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import de.longor.talecraft.TaleCraftBlocks;
 import de.longor.talecraft.TaleCraftItems;
 import de.longor.talecraft.blocks.util.tileentity.BlockUpdateDetectorTileEntity;
@@ -58,6 +39,27 @@ import de.longor.talecraft.client.render.tileentity.StorageBlockTileEntityEXTRen
 import de.longor.talecraft.client.render.tileentity.SummonBlockTileEntityEXTRenderer;
 import de.longor.talecraft.entities.EntityPoint;
 import de.longor.talecraft.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderWorldEvent.Pre;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import tiffit.talecraft.util.ConfigurationManager;
 
 public class ClientRenderer {
 	private final ClientProxy proxy;
@@ -90,7 +92,7 @@ public class ClientRenderer {
 		init_render_item(mesher);
 
 		init_render_entity();
-		init_render_tilentity();
+		if(!ConfigurationManager.USE_PARTICLE_RENDERING) init_render_tilentity();
 		
 		fontRenderer = new EXTFontRenderer(mc.fontRendererObj);
 	}
@@ -179,34 +181,34 @@ public class ClientRenderer {
 			
 			// stone block A
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), i, new ModelResourceLocation("talecraft:deco_stone/block"+i, "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), mkstrlfint("talecraft:deco_stone/block", 0));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), mkstrlfint("talecraft:deco_stone/block", 0));
 			// stone block B
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+16), "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), mkstrlfint("talecraft:deco_stone/block", 16));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), mkstrlfint("talecraft:deco_stone/block", 16));
 			// stone block C
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+32), "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), mkstrlfint("talecraft:deco_stone/block", 32));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), mkstrlfint("talecraft:deco_stone/block", 32));
 			// stone block D
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+48), "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), mkstrlfint("talecraft:deco_stone/block", 48));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), mkstrlfint("talecraft:deco_stone/block", 48));
 			// stone block E
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+64), "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), mkstrlfint("talecraft:deco_stone/block", 64));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), mkstrlfint("talecraft:deco_stone/block", 64));
 			// stone block E
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+80), "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), mkstrlfint("talecraft:deco_stone/block", 80));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), mkstrlfint("talecraft:deco_stone/block", 80));
 			
 			// wood block A
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), i, new ModelResourceLocation("talecraft:deco_wood/block"+i, "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), mkstrlfint("talecraft:deco_wood/block", 0));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), mkstrlfint("talecraft:deco_wood/block", 0));
 			
 			// glass block A
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), i, new ModelResourceLocation("talecraft:deco_glass/block"+i, "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), mkstrlfint("talecraft:deco_glass/block", 0));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), mkstrlfint("talecraft:deco_glass/block", 0));
 			
 			// cage block A
 			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), i, new ModelResourceLocation("talecraft:deco_cage/block"+i, "inventory"));
-			ModelBakery.addVariantName(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), mkstrlfint("talecraft:deco_cage/block", 0));
+			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), mkstrlfint("talecraft:deco_cage/block", 0));
 		
 		// barrier-ext block
 //		for(int i = 0; i < 7; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.barrierEXTBlock), i, new ModelResourceLocation("talecraft:barrierextblock", "inventory"));
@@ -233,13 +235,16 @@ public class ClientRenderer {
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.summonBlock), 0, new ModelResourceLocation("talecraft:summonblock", "inventory"));
 	}
 	
-	private String[] mkstrlfint(String string, int j) {
+	private ResourceLocation[] mkstrlfint(String string, int j) {
 		String[] ary = new String[16];
 		
 		for(int i = 0; i < 16; i++)
 			ary[i] = string + (j+i);
-		
-		return ary;
+		ResourceLocation[] res = new ResourceLocation[16];
+		for(int i = 0; i < 16; i++){
+			res[i] = new ResourceLocation(ary[i]);
+		}
+		return res;
 	}
 	
 	private void init_render_entity() {

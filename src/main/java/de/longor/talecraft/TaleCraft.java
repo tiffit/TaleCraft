@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.eventbus.Subscribe;
 
 import sun.net.NetworkClient;
+import tiffit.talecraft.util.ConfigurationManager;
 import de.longor.talecraft.client.commands.TaleCraftClientCommands;
 import de.longor.talecraft.managers.TCWorldsManager;
 import de.longor.talecraft.network.StringNBTCommand;
@@ -35,6 +36,7 @@ import net.minecraft.util.RegistrySimple;
 import net.minecraft.world.World;
 import net.minecraftforge.client.gui.ForgeGuiFactory.ForgeConfigGui;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -77,15 +79,17 @@ public class TaleCraft
     public static CommonProxy proxy;
 	
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event){
     	logger = event.getModLog();
     	container = FMLCommonHandler.instance().findContainerFor(instance);
-    	
     	logger.info("TaleCraft initialization...");
     	logger.info("TaleCraft Version: " + Reference.MOD_VERSION);
     	logger.info("TaleCraft ModContainer: " + container);
-    	
+    	logger.info("Creating/Reading configuration file!");
+    	Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+    	ConfigurationManager.init(config);
+    	config.save();
+    	logger.info("Configuration loaded!");
     	MinecraftForge.EVENT_BUS.register(this);
     	
     	random = new Random(42);

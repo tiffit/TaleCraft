@@ -23,7 +23,7 @@ public class BoxRenderer {
 			float x0, float y0, float z0, float x1, float y1, float z1,
 			float X, float Y, float Z,
 			float r, float g, float b, float a) {
-		
+		System.out.println("test");
 		float minX = x0;
 		float minY = y0;
 		float minZ = z0;
@@ -127,7 +127,8 @@ public class BoxRenderer {
 		float ny = dy / length;
 		float nz = dz / length;
 		
-        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        System.out.println("test");
         worldrenderer.color(r, g, b, a);
         //worldrenderer.setBrightness(0xFF); //TODO FIX
         float minX,minY,minZ,maxX,maxY,maxZ,tx,ty,tz, size = 0.05f;
@@ -513,7 +514,6 @@ public class BoxRenderer {
         worldrenderer.startDrawingQuads();
         worldrenderer.setColorRGBA_F(r, g, b, a);
         //worldrenderer.setBrightness(0xEE); //TODO FIX
-        
         worldrenderer.putNormal(0, 1, 0);
         worldrenderer.addVertexWithUV(minX, maxY, maxZ, u0, w0);
         worldrenderer.addVertexWithUV(maxX, maxY, maxZ, u1, w0);
@@ -589,7 +589,7 @@ public class BoxRenderer {
 		}
 		
 		public void startDrawingQuads(){
-			rend.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+			rend.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		}
 		
 		public void setBrightness(int arg){

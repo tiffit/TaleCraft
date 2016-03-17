@@ -30,6 +30,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tiffit.talecraft.util.ConfigurationManager;
 
 @SideOnly(Side.CLIENT)
 public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntitySpecialRenderer {
@@ -48,9 +49,9 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
     }
     
 	@Override
-	public void renderTileEntityAt(TileEntity p_180535_1_, double posX, double posY, double posZ, float partialTicks, int p_180535_9_) {
-		T tile = (T) p_180535_1_;
-        
+	public void renderTileEntityAt(TileEntity te, double posX, double posY, double posZ, float partialTicks, int p_180535_9_) {
+		T tile = (T) te;
+		
         // render states
         GlStateManager.disableLighting();
         GlStateManager.color(1, 1, 1, 1);
@@ -81,7 +82,7 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 	        // time to render
 	        
 	        // top
-	        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+	        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 	        //worldrenderer.setBrightness(0xEE); //TODO: FIX
 	        
 	        worldrenderer.pos(I, A, A).tex(1, 0).endVertex();

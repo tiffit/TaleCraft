@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 
-public class EmitterBlockTileEntity extends TCTileEntity implements ITickable {
+public class EmitterBlockTileEntity extends TCTileEntity{
 	private static final int[] NULL_PARAMS = new int[8];
 	NBTTagCompound emitterData;
 	boolean state = false;
@@ -99,6 +99,7 @@ public class EmitterBlockTileEntity extends TCTileEntity implements ITickable {
 	
 	@Override
 	public void update() {
+		super.update();
 		if(emitterData == null) return;
 		if(!worldObj.isRemote) return;
 		if(!state) return;

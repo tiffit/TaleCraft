@@ -7,23 +7,31 @@ import org.mozilla.javascript.Scriptable;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.invoke.IInvokeSource;
+import de.longor.talecraft.particles.BlockEffect;
+import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Barrier;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tiffit.talecraft.util.ConfigurationManager;
 
-public abstract class TCTileEntity extends TileEntity implements IInvokeSource, ICommandSender, TCIBlockCommandReceiver {
+public abstract class TCTileEntity extends TileEntity implements IInvokeSource, ICommandSender, TCIBlockCommandReceiver, ITickable  {
 	private boolean isTileEntityInitialized = false;
 	private Scriptable nativeObject;
 	
@@ -38,6 +46,14 @@ public abstract class TCTileEntity extends TileEntity implements IInvokeSource, 
 	}
 	
 	public void init() {
+		
+	}
+	
+	
+	public void update(){
+		if(this.worldObj.isRemote && ClientProxy.isInBuildMode()){
+			if(ConfigurationManager.USE_PARTICLE_RENDERING) Minecraft.getMinecraft().effectRenderer.addEffect(new BlockEffect(worldObj, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.getBlockType()));
+		}
 		
 	}
 	

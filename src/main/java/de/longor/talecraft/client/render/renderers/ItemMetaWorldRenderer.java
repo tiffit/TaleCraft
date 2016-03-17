@@ -7,10 +7,8 @@ import de.longor.talecraft.client.ClientResources;
 import de.longor.talecraft.clipboard.ClipboardItem;
 import de.longor.talecraft.clipboard.ClipboardTagNames;
 import de.longor.talecraft.items.PasteItem;
-import de.longor.talecraft.items.TeleporterItem;
 import de.longor.talecraft.items.VoxelBrushItem;
 import de.longor.talecraft.proxy.ClientProxy;
-import de.longor.talecraft.server.ServerMirror;
 import de.longor.talecraft.util.NBTHelper;
 import de.longor.talecraft.voxelbrush_old.IShape;
 import de.longor.talecraft.voxelbrush_old.ShapeFactory;
@@ -18,26 +16,18 @@ import de.longor.talecraft.voxelbrush_old.shapes.CylinderShape;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.GlStateManager.TexGen;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.Vec3;
 
 public class ItemMetaWorldRenderer {
 	// CLIENT
