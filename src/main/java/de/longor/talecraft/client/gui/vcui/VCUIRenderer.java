@@ -59,9 +59,6 @@ public class VCUIRenderer {
 		return uiHeight;
 	}
 
-
-
-
 	public void drawDefaultBackground() {
 		guiScreen.drawDefaultBackground();
 	}
@@ -310,7 +307,7 @@ public class VCUIRenderer {
 		GlStateManager.shadeModel(7425);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
 		worldrenderer.color(f1, f2, f3, f);
 		worldrenderer.pos((double)right, (double)top, (double)this.zLevel).endVertex();
 		worldrenderer.pos((double)left, (double)top, (double)this.zLevel).endVertex();
@@ -367,7 +364,7 @@ public class VCUIRenderer {
 
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 		worldrenderer.color(r, g, b, a);
 		//worldrenderer.setBrightness(0xFF); //TODO FIX
 		worldrenderer.pos(L, B, z).tex(u0, v1).endVertex();
@@ -383,7 +380,7 @@ public class VCUIRenderer {
 		float f3 = 0.00390625F;
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		worldrenderer.pos((double)(xCoord + 0.0F), (double)(yCoord + (float)maxV), (double)this.zLevel).tex((double)((float)(minU + 0) * f2), (double)((float)(minV + maxV) * f3)).endVertex();												
 		worldrenderer.pos((double)(xCoord + (float)maxU), (double)(yCoord + (float)maxV), (double)this.zLevel).tex((double)((float)(minU + maxU) * f2), (double)((float)(minV + maxV) * f3)).endVertex();
 		worldrenderer.pos((double)(xCoord + (float)maxU), (double)(yCoord + 0.0F), (double)this.zLevel).tex( (double)((float)(minU + maxU) * f2), (double)((float)(minV + 0) * f3)).endVertex();
@@ -395,7 +392,7 @@ public class VCUIRenderer {
 	{
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		worldrenderer.pos(xCoord + 0	, yCoord + height	, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMaxV()).endVertex();
 		worldrenderer.pos(xCoord + width, yCoord + height	, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMaxV()).endVertex();
 		worldrenderer.pos(xCoord + width, yCoord + 0		, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMinV()).endVertex();
@@ -409,7 +406,7 @@ public class VCUIRenderer {
 		float f5 = 1.0F / textureHeight;
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		//worldrenderer.setColorOpaque_I(0xFFFFFFFF); //TODO FIX
 		worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex( (double)(u * f4), (double)((v + (float)height) * f5)).endVertex();
 		worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex( (double)((u + (float)width) * f4), (double)((v + (float)height) * f5)).endVertex();
@@ -424,7 +421,7 @@ public class VCUIRenderer {
 		float f5 = 1.0F / tileHeight;
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex( (double)(u * f4), (double)((v + (float)vHeight) * f5)).endVertex();
 		worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex( (double)((u + (float)uWidth) * f4), (double)((v + (float)vHeight) * f5)).endVertex();
 		worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex( (double)((u + (float)uWidth) * f4), (double)(v * f5)).endVertex();
