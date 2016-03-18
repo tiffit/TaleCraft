@@ -5,7 +5,7 @@ import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
 public abstract class QADDrawable extends QADComponent {
 	int x;
 	int y;
-	
+
 	@Override
 	public int getX() {
 		return x;
@@ -25,7 +25,8 @@ public abstract class QADDrawable extends QADComponent {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
+	@Override
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -35,14 +36,14 @@ public abstract class QADDrawable extends QADComponent {
 	public QADEnumComponentClass getComponentClass() {
 		return QADEnumComponentClass.VISUAL;
 	}
-	
+
 	@Override
 	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
 		paint(localMouseX, localMouseY, partialTicks, renderer);
 	}
-	
+
 	public abstract void paint(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer);
-	
+
 	@Override
 	public void onMouseClicked(int localMouseX, int localMouseY, int mouseButton) {}
 
@@ -60,7 +61,7 @@ public abstract class QADDrawable extends QADComponent {
 
 	@Override
 	public boolean isPointInside(int mouseX, int mouseY) {return false;}
-	
+
 	@Override
 	public boolean transferFocus() {
 		return false;

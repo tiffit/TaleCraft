@@ -1,17 +1,15 @@
 package de.longor.talecraft.voxelbrush_old.shapes;
 
-import java.awt.image.Raster;
-
 import de.longor.talecraft.voxelbrush_old.IShape;
 
 public class CylinderShape implements IShape {
 	int sx;
 	int sy;
 	int sz;
-	
+
 	public int ey;
 	public double radius;
-	
+
 	public CylinderShape(int x, int y, int z, double rad, int height) {
 		sx = x;
 		sy = y;
@@ -19,7 +17,7 @@ public class CylinderShape implements IShape {
 		radius = rad;
 		ey = height;
 	}
-	
+
 	public CylinderShape() {
 		sx = 0;
 		sy = 0;
@@ -27,16 +25,17 @@ public class CylinderShape implements IShape {
 		radius = 0;
 		ey = 0;
 	}
-	
+
 	@Override
 	public String getName() {
 		return "cylinder";
 	}
-	
+
+	@Override
 	public String toString() {
 		return "Cylinder ["+ey+", "+radius+"]";
 	}
-	
+
 	@Override
 	public boolean isBlockInShape(int x, int y, int z) {
 		int dx = x - sx;
@@ -69,5 +68,5 @@ public class CylinderShape implements IShape {
 	public int getOffsetZ() {
 		return sz;
 	}
-	
+
 }

@@ -1,55 +1,48 @@
 package de.longor.talecraft.invoke;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
-
 import de.longor.talecraft.TaleCraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class FileScriptInvoke implements IInvoke, IScriptInvoke {
+public class FileScriptInvoke implements IScriptInvoke {
 	public static final String TYPE = "FileScriptInvoke";
 	String fileName;
 	String bufferedScript;
-	
+
 	public FileScriptInvoke() {
 		fileName = "";
 		bufferedScript = null;
 	}
-	
+
 	public FileScriptInvoke(String name) {
 		fileName = name;
 		bufferedScript = null;
 	}
-	
+
 	private void loadScript() {
-		MinecraftServer server = MinecraftServer.getServer();
+		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		World world = server.getEntityWorld();
 		bufferedScript = TaleCraft.globalScriptManager.loadScript(world, fileName);
 	}
-	
+
 	@Override
 	public void reloadScript() {
 		bufferedScript = null;
 		loadScript();
 	}
-	
+
 	@Override
 	public String getScript() {
 		if(bufferedScript == null) {
 			loadScript();
 		}
-		
+
 		if(bufferedScript == null) {
 			return "";
 		}
-		
+
 		return bufferedScript;
 	}
 
@@ -74,10 +67,10 @@ public class FileScriptInvoke implements IInvoke, IScriptInvoke {
 	public void writeToNBT(NBTTagCompound compound) {
 		compound.setString("scriptFileName", fileName.trim());
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		fileName = compound.getString("scriptFileName").trim();
 	}
-	
+
 }

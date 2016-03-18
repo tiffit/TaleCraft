@@ -2,18 +2,18 @@ package de.longor.talecraft.invoke;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public class EmbeddedScriptInvoke implements IInvoke, IScriptInvoke {
+public class EmbeddedScriptInvoke implements IScriptInvoke {
 	public static final String TYPE = "EmbeddedScriptInvoke";
 	public String script;
-	
+
 	public EmbeddedScriptInvoke() {
 		this.script = "out.println(\"Hello, World!\");";
 	}
-	
+
 	public EmbeddedScriptInvoke(String script) {
 		this.script = script;
 	}
-	
+
 	@Override
 	public String getType() {
 		return TYPE;
@@ -25,17 +25,17 @@ public class EmbeddedScriptInvoke implements IInvoke, IScriptInvoke {
 		color_out[1] = 0.0f;
 		color_out[2] = 0.25f;
 	}
-	
+
 	@Override
 	public void reloadScript() {
 		// Don't do anything. The script is always in memory.
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		compound.setString("embeddedScript", script);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		script = compound.getString("embeddedScript");
@@ -50,5 +50,5 @@ public class EmbeddedScriptInvoke implements IInvoke, IScriptInvoke {
 	public String getScriptName() {
 		return "<EMBEDDED>";
 	}
-	
+
 }

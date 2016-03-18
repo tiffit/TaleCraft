@@ -7,20 +7,19 @@ import org.lwjgl.opengl.GL11;
 
 import de.longor.talecraft.client.ClientResources;
 import de.longor.talecraft.client.render.renderers.EXTFontRenderer;
-import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 
 public class VCUIRenderer {
 	EXTFontRenderer fontRenderer = new EXTFontRenderer();
@@ -86,36 +85,36 @@ public class VCUIRenderer {
 
 	public void drawLineRectangle(int left, int top, int right, int bottom, int color) {
 		int swapvar;
-		
+
 		if (left < right) {
 			swapvar = left;
 			left = right;
 			right = swapvar;
 		}
-		
+
 		if (top < bottom) {
 			swapvar = top;
 			top = bottom;
 			bottom = swapvar;
 		}
-		
+
 		left += offsetX;
 		top += offsetY;
 		right += offsetX;
 		bottom += offsetY;
-		
+
 		do_drawRect(left, top, right, top+1, color);
 		do_drawRect(left, bottom, right, bottom-1, color);
 		do_drawRect(left, top, left-1, bottom, color);
 		do_drawRect(right, top, right+1, bottom, color);
-		
+
 		/*
 		float error = 0.375f;
 		float ix = left   + error;
 		float iy = top    + error;
 		float ax = right  - error;
 		float ay = bottom - error;
-		
+
 		float a = (float)(color >> 24 & 255) / 255.0F;
 		float r = (float)(color >> 16 & 255) / 255.0F;
 		float g = (float)(color >> 8 & 255) / 255.0F;
@@ -126,7 +125,7 @@ public class VCUIRenderer {
 		GlStateManager.disableTexture2D();
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		GlStateManager.color(r, g, b, a);
-		
+
 		GL11.glBegin(GL11.GL_LINES);
 		GL11.glVertex3f(ix, ay, zLevel);
 		GL11.glVertex3f(ax, ay, zLevel);
@@ -254,37 +253,35 @@ public class VCUIRenderer {
 
 	private void do_drawRect(int left, int top, int right, int bottom, int color)
 	{
-		int j1;
-
 		if (left < right)
 		{
-			j1 = left;
+			int i = left;
 			left = right;
-			right = j1;
+			right = i;
 		}
 
 		if (top < bottom)
 		{
-			j1 = top;
+			int j = top;
 			top = bottom;
-			bottom = j1;
+			bottom = j;
 		}
 
-		float f3 = (float)(color >> 24 & 255) / 255.0F;
-		float f = (float)(color >> 16 & 255) / 255.0F;
-		float f1 = (float)(color >> 8 & 255) / 255.0F;
-		float f2 = (float)(color & 255) / 255.0F;
+		float f3 = (color >> 24 & 255) / 255.0F;
+		float f = (color >> 16 & 255) / 255.0F;
+		float f1 = (color >> 8 & 255) / 255.0F;
+		float f2 = (color & 255) / 255.0F;
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		GlStateManager.enableBlend();
 		GlStateManager.disableTexture2D();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.color(f, f1, f2, f3);
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-		worldrenderer.pos((double)left, (double)bottom, 0.0D).endVertex();
-		worldrenderer.pos((double)right, (double)bottom, 0.0D).endVertex();
-		worldrenderer.pos((double)right, (double)top, 0.0D).endVertex();
-		worldrenderer.pos((double)left, (double)top, 0.0D).endVertex();
+		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		vertexbuffer.pos(left, bottom, 0.0D).endVertex();
+		vertexbuffer.pos(right, bottom, 0.0D).endVertex();
+		vertexbuffer.pos(right, top, 0.0D).endVertex();
+		vertexbuffer.pos(left, top, 0.0D).endVertex();
 		tessellator.draw();
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
@@ -292,28 +289,26 @@ public class VCUIRenderer {
 
 	private void do_drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor)
 	{
-		float f = (float)(startColor >> 24 & 255) / 255.0F;
-		float f1 = (float)(startColor >> 16 & 255) / 255.0F;
-		float f2 = (float)(startColor >> 8 & 255) / 255.0F;
-		float f3 = (float)(startColor & 255) / 255.0F;
-		float f4 = (float)(endColor >> 24 & 255) / 255.0F;
-		float f5 = (float)(endColor >> 16 & 255) / 255.0F;
-		float f6 = (float)(endColor >> 8 & 255) / 255.0F;
-		float f7 = (float)(endColor & 255) / 255.0F;
+		float f = (startColor >> 24 & 255) / 255.0F;
+		float f1 = (startColor >> 16 & 255) / 255.0F;
+		float f2 = (startColor >> 8 & 255) / 255.0F;
+		float f3 = (startColor & 255) / 255.0F;
+		float f4 = (endColor >> 24 & 255) / 255.0F;
+		float f5 = (endColor >> 16 & 255) / 255.0F;
+		float f6 = (endColor >> 8 & 255) / 255.0F;
+		float f7 = (endColor & 255) / 255.0F;
 		GlStateManager.disableTexture2D();
 		GlStateManager.enableBlend();
 		GlStateManager.disableAlpha();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.shadeModel(7425);
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
-		worldrenderer.color(f1, f2, f3, f);
-		worldrenderer.pos((double)right, (double)top, (double)this.zLevel).endVertex();
-		worldrenderer.pos((double)left, (double)top, (double)this.zLevel).endVertex();
-		worldrenderer.color(f5, f6, f7, f4);
-		worldrenderer.pos((double)left, (double)bottom, (double)this.zLevel).endVertex();
-		worldrenderer.pos((double)right, (double)bottom, (double)this.zLevel).endVertex();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+		vertexbuffer.pos(right, top, this.zLevel).color(f1, f2, f3, f).endVertex();
+		vertexbuffer.pos(left, top, this.zLevel).color(f1, f2, f3, f).endVertex();
+		vertexbuffer.pos(left, bottom, this.zLevel).color(f5, f6, f7, f4).endVertex();
+		vertexbuffer.pos(right, bottom, this.zLevel).color(f5, f6, f7, f4).endVertex();
 		tessellator.draw();
 		GlStateManager.shadeModel(7424);
 		GlStateManager.disableBlend();
@@ -326,10 +321,10 @@ public class VCUIRenderer {
 	}
 
 	private void do_drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, int color) {
-		float a = (float)(color >> 24 & 255) / 255.0F;
-		float r = (float)(color >> 16 & 255) / 255.0F;
-		float g = (float)(color >> 8 & 255) / 255.0F;
-		float b = (float)(color & 255) / 255.0F;
+		float a = (color >> 24 & 255) / 255.0F;
+		float r = (color >> 16 & 255) / 255.0F;
+		float g = (color >> 8 & 255) / 255.0F;
+		float b = (color & 255) / 255.0F;
 		do_drawTexturedModalRect(x, y, textureX, textureY, width, height, r, g, b, a);
 	}
 
@@ -363,14 +358,14 @@ public class VCUIRenderer {
 		float v1 = (textureY + height) * f;
 
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-		worldrenderer.color(r, g, b, a);
-		//worldrenderer.setBrightness(0xFF); //TODO FIX
-		worldrenderer.pos(L, B, z).tex(u0, v1).endVertex();
-		worldrenderer.pos(R, B, z).tex(u1, v1).endVertex();
-		worldrenderer.pos(R, T, z).tex(u1, v0).endVertex();
-		worldrenderer.pos(L, T, z).tex(u0, v0).endVertex();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+		vertexbuffer.color(r, g, b, a);
+		//vertexbuffer.setBrightness(0xFF); //TODO FIX
+		vertexbuffer.pos(L, B, z).tex(u0, v1).endVertex();
+		vertexbuffer.pos(R, B, z).tex(u1, v1).endVertex();
+		vertexbuffer.pos(R, T, z).tex(u1, v0).endVertex();
+		vertexbuffer.pos(L, T, z).tex(u0, v0).endVertex();
 		tessellator.draw();
 	}
 
@@ -379,24 +374,24 @@ public class VCUIRenderer {
 		float f2 = 0.00390625F;
 		float f3 = 0.00390625F;
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos((double)(xCoord + 0.0F), (double)(yCoord + (float)maxV), (double)this.zLevel).tex((double)((float)(minU + 0) * f2), (double)((float)(minV + maxV) * f3)).endVertex();												
-		worldrenderer.pos((double)(xCoord + (float)maxU), (double)(yCoord + (float)maxV), (double)this.zLevel).tex((double)((float)(minU + maxU) * f2), (double)((float)(minV + maxV) * f3)).endVertex();
-		worldrenderer.pos((double)(xCoord + (float)maxU), (double)(yCoord + 0.0F), (double)this.zLevel).tex( (double)((float)(minU + maxU) * f2), (double)((float)(minV + 0) * f3)).endVertex();
-		worldrenderer.pos((double)(xCoord + 0.0F), (double)(yCoord + 0.0F), (double)this.zLevel).tex((double)((float)(minU + 0) * f2), (double)((float)(minV + 0) * f3)).endVertex();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		vertexbuffer.pos(xCoord + 0.0F, yCoord + maxV, this.zLevel).tex((minU + 0) * f2, (minV + maxV) * f3).endVertex();												
+		vertexbuffer.pos(xCoord + maxU, yCoord + maxV, this.zLevel).tex((minU + maxU) * f2, (minV + maxV) * f3).endVertex();
+		vertexbuffer.pos(xCoord + maxU, yCoord + 0.0F, this.zLevel).tex( (minU + maxU) * f2, (minV + 0) * f3).endVertex();
+		vertexbuffer.pos(xCoord + 0.0F, yCoord + 0.0F, this.zLevel).tex((minU + 0) * f2, (minV + 0) * f3).endVertex();
 		tessellator.draw();
 	}
 
 	private void do_drawTexturedModalRect(int xCoord, int yCoord, TextureAtlasSprite textureSprite, int width, int height)
 	{
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos(xCoord + 0	, yCoord + height	, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMaxV()).endVertex();
-		worldrenderer.pos(xCoord + width, yCoord + height	, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMaxV()).endVertex();
-		worldrenderer.pos(xCoord + width, yCoord + 0		, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMinV()).endVertex();
-		worldrenderer.pos(xCoord + 0	, yCoord + 0		, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMinV()).endVertex();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		vertexbuffer.pos(xCoord + 0	, yCoord + height	, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMaxV()).endVertex();
+		vertexbuffer.pos(xCoord + width, yCoord + height, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMaxV()).endVertex();
+		vertexbuffer.pos(xCoord + width, yCoord + 0		, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMinV()).endVertex();
+		vertexbuffer.pos(xCoord + 0	, yCoord + 0		, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMinV()).endVertex();
 		tessellator.draw();
 	}
 
@@ -405,13 +400,13 @@ public class VCUIRenderer {
 		float f4 = 1.0F / textureWidth;
 		float f5 = 1.0F / textureHeight;
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		//worldrenderer.setColorOpaque_I(0xFFFFFFFF); //TODO FIX
-		worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex( (double)(u * f4), (double)((v + (float)height) * f5)).endVertex();
-		worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex( (double)((u + (float)width) * f4), (double)((v + (float)height) * f5)).endVertex();
-		worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex( (double)((u + (float)width) * f4), (double)(v * f5)).endVertex();
-		worldrenderer.pos((double)x, (double)y, 0.0D).tex( (double)(u * f4), (double)(v * f5)).endVertex();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		//vertexbuffer.setColorOpaque_I(0xFFFFFFFF); //TODO FIX
+		vertexbuffer.pos(x, y + height, 0.0D).tex( u * f4, (v + height) * f5).endVertex();
+		vertexbuffer.pos(x + width, y + height, 0.0D).tex( (u + width) * f4, (v + height) * f5).endVertex();
+		vertexbuffer.pos(x + width, y, 0.0D).tex( (u + width) * f4, v * f5).endVertex();
+		vertexbuffer.pos(x, y, 0.0D).tex( u * f4, v * f5).endVertex();
 		tessellator.draw();
 	}
 
@@ -420,12 +415,12 @@ public class VCUIRenderer {
 		float f4 = 1.0F / tileWidth;
 		float f5 = 1.0F / tileHeight;
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex( (double)(u * f4), (double)((v + (float)vHeight) * f5)).endVertex();
-		worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex( (double)((u + (float)uWidth) * f4), (double)((v + (float)vHeight) * f5)).endVertex();
-		worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex( (double)((u + (float)uWidth) * f4), (double)(v * f5)).endVertex();
-		worldrenderer.pos((double)x, (double)y, 0.0D).tex( (double)(u * f4), (double)(v * f5)).endVertex();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		vertexbuffer.pos(x, y + height, 0.0D).tex( u * f4, (v + vHeight) * f5).endVertex();
+		vertexbuffer.pos(x + width, y + height, 0.0D).tex( (u + uWidth) * f4, (v + vHeight) * f5).endVertex();
+		vertexbuffer.pos(x + width, y, 0.0D).tex( (u + uWidth) * f4, v * f5).endVertex();
+		vertexbuffer.pos(x, y, 0.0D).tex( u * f4, v * f5).endVertex();
 		tessellator.draw();
 	}
 
@@ -450,13 +445,13 @@ public class VCUIRenderer {
 		frame.w = (int) (width * factorX);
 		frame.h = (int) (height * factorY);
 		frame.use();
-		
+
 		scissorStack.push(frame);
 	}
 
 	public void popScissor() {
 		scissorStack.pop();
-		
+
 		if(scissorStack.isEmpty()) {
 			GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		} else {

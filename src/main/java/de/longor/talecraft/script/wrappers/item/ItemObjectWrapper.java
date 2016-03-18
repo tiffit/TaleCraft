@@ -8,22 +8,23 @@ import net.minecraft.item.Item;
 
 public class ItemObjectWrapper implements IObjectWrapper {
 	private Item item;
-	
+
 	public ItemObjectWrapper(Item item) {
 		this.item = item;
 	}
-	
+
+	@Override
 	public Item internal() {
 		return item;
 	}
-	
+
 	@Override
 	public List<String> getOwnPropertyNames() {
 		return TaleCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
-	
+
 	public String getInternalName() {
 		return item.getUnlocalizedName();
 	}
-	
+
 }

@@ -31,7 +31,6 @@ import de.longor.talecraft.client.render.RenderModeHelper;
 import de.longor.talecraft.client.render.entity.PointEntityRenderer;
 import de.longor.talecraft.client.render.renderables.SelectionBoxRenderer;
 import de.longor.talecraft.client.render.renderers.CustomSkyRenderer;
-import de.longor.talecraft.client.render.renderers.EXTFontRenderer;
 import de.longor.talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import de.longor.talecraft.client.render.tileentity.GenericTileEntityRenderer;
 import de.longor.talecraft.client.render.tileentity.ImageHologramBlockTileEntityEXTRenderer;
@@ -40,19 +39,20 @@ import de.longor.talecraft.client.render.tileentity.SummonBlockTileEntityEXTRend
 import de.longor.talecraft.entities.EntityPoint;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderWorldEvent.Pre;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -64,26 +64,24 @@ import tiffit.talecraft.util.ConfigurationManager;
 public class ClientRenderer {
 	private final ClientProxy proxy;
 	private final Minecraft mc;
-	
-	private EXTFontRenderer fontRenderer;
+
 	private int visualizationMode;
 	private float partialTicks;
-	
+
 	private final ConcurrentLinkedDeque<ITemporaryRenderable> temporaryRenderers;;
 	private final ConcurrentLinkedDeque<IRenderable> staticRenderers;
-	
+
 	public ClientRenderer(ClientProxy clientProxy) {
 		proxy = clientProxy;
 		mc = Minecraft.getMinecraft();
-		
-		fontRenderer = null;
+
 		visualizationMode = 0;
 		partialTicks = 1f;
-		
+
 		temporaryRenderers = new ConcurrentLinkedDeque<ITemporaryRenderable>();
 		staticRenderers = new ConcurrentLinkedDeque<IRenderable>();
 	}
-	
+
 	public void init() {
 		// Get the ModelMesher and register ALL item-models
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
@@ -93,68 +91,66 @@ public class ClientRenderer {
 
 		init_render_entity();
 		if(!ConfigurationManager.USE_PARTICLE_RENDERING) init_render_tilentity();
-		
-		fontRenderer = new EXTFontRenderer(mc.fontRendererObj);
 	}
-	
+
 	private void init_render_tilentity() {
 		ClientRegistry.bindTileEntitySpecialRenderer(ClockBlockTileEntity.class,
-		new GenericTileEntityRenderer<ClockBlockTileEntity>("talecraft:textures/blocks/util/timer.png"));
-		
+				new GenericTileEntityRenderer<ClockBlockTileEntity>("talecraft:textures/blocks/util/timer.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(RedstoneTriggerBlockTileEntity.class,
-		new GenericTileEntityRenderer<RedstoneTriggerBlockTileEntity>("talecraft:textures/blocks/util/redstoneTrigger.png"));
-		
+				new GenericTileEntityRenderer<RedstoneTriggerBlockTileEntity>("talecraft:textures/blocks/util/redstoneTrigger.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(RelayBlockTileEntity.class,
-		new GenericTileEntityRenderer<RelayBlockTileEntity>("talecraft:textures/blocks/util/relay.png"));
-		
+				new GenericTileEntityRenderer<RelayBlockTileEntity>("talecraft:textures/blocks/util/relay.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(ScriptBlockTileEntity.class,
-		new GenericTileEntityRenderer<ScriptBlockTileEntity>("talecraft:textures/blocks/util/script.png"));
-		
+				new GenericTileEntityRenderer<ScriptBlockTileEntity>("talecraft:textures/blocks/util/script.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(BlockUpdateDetectorTileEntity.class,
-		new GenericTileEntityRenderer<BlockUpdateDetectorTileEntity>("talecraft:textures/blocks/util/bud.png"));
-		
+				new GenericTileEntityRenderer<BlockUpdateDetectorTileEntity>("talecraft:textures/blocks/util/bud.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(StorageBlockTileEntity.class,
-		new GenericTileEntityRenderer<StorageBlockTileEntity>("talecraft:textures/blocks/util/storage.png",
-		new StorageBlockTileEntityEXTRenderer()));
-		
+				new GenericTileEntityRenderer<StorageBlockTileEntity>("talecraft:textures/blocks/util/storage.png",
+						new StorageBlockTileEntityEXTRenderer()));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(EmitterBlockTileEntity.class,
-		new GenericTileEntityRenderer<EmitterBlockTileEntity>("talecraft:textures/blocks/util/emitter.png"));
-		
+				new GenericTileEntityRenderer<EmitterBlockTileEntity>("talecraft:textures/blocks/util/emitter.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(ImageHologramBlockTileEntity.class,
-		new GenericTileEntityRenderer<ImageHologramBlockTileEntity>("talecraft:textures/blocks/util/texture.png",
-		new ImageHologramBlockTileEntityEXTRenderer()));
-		
+				new GenericTileEntityRenderer<ImageHologramBlockTileEntity>("talecraft:textures/blocks/util/texture.png",
+						new ImageHologramBlockTileEntityEXTRenderer()));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(CollisionTriggerBlockTileEntity.class,
-		new GenericTileEntityRenderer<CollisionTriggerBlockTileEntity>("talecraft:textures/blocks/util/trigger.png"));
-		
+				new GenericTileEntityRenderer<CollisionTriggerBlockTileEntity>("talecraft:textures/blocks/util/trigger.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(LightBlockTileEntity.class,
-		new GenericTileEntityRenderer<LightBlockTileEntity>("talecraft:textures/blocks/util/light.png"));
-		
+				new GenericTileEntityRenderer<LightBlockTileEntity>("talecraft:textures/blocks/util/light.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(MessageBlockTileEntity.class,
-		new GenericTileEntityRenderer<MessageBlockTileEntity>("talecraft:textures/blocks/util/message.png"));
-		
+				new GenericTileEntityRenderer<MessageBlockTileEntity>("talecraft:textures/blocks/util/message.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(InverterBlockTileEntity.class,
-		new GenericTileEntityRenderer<InverterBlockTileEntity>("talecraft:textures/blocks/util/inverter.png"));
-		
+				new GenericTileEntityRenderer<InverterBlockTileEntity>("talecraft:textures/blocks/util/inverter.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(MemoryBlockTileEntity.class,
-		new GenericTileEntityRenderer<MemoryBlockTileEntity>("talecraft:textures/blocks/util/memory.png"));
-		
+				new GenericTileEntityRenderer<MemoryBlockTileEntity>("talecraft:textures/blocks/util/memory.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(TriggerFilterBlockTileEntity.class,
-		new GenericTileEntityRenderer<TriggerFilterBlockTileEntity>("talecraft:textures/blocks/util/filter.png"));
-		
+				new GenericTileEntityRenderer<TriggerFilterBlockTileEntity>("talecraft:textures/blocks/util/filter.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(DelayBlockTileEntity.class,
-		new GenericTileEntityRenderer<DelayBlockTileEntity>("talecraft:textures/blocks/util/delay.png"));
-		
+				new GenericTileEntityRenderer<DelayBlockTileEntity>("talecraft:textures/blocks/util/delay.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(URLBlockTileEntity.class,
-		new GenericTileEntityRenderer<URLBlockTileEntity>("talecraft:textures/blocks/util/url.png"));
-		
+				new GenericTileEntityRenderer<URLBlockTileEntity>("talecraft:textures/blocks/util/url.png"));
+
 		ClientRegistry.bindTileEntitySpecialRenderer(SummonBlockTileEntity.class,
-		new GenericTileEntityRenderer<SummonBlockTileEntity>("talecraft:textures/blocks/util/spawner.png",
-		new SummonBlockTileEntityEXTRenderer()));
-		
+				new GenericTileEntityRenderer<SummonBlockTileEntity>("talecraft:textures/blocks/util/spawner.png",
+						new SummonBlockTileEntityEXTRenderer()));
+
 		//
 	}
-	
+
 	private void init_render_item(ItemModelMesher mesher) {
 		// items
 		mesher.register(TaleCraftItems.wand, 0, new ModelResourceLocation("talecraft:wand", "inventory"));
@@ -170,49 +166,49 @@ public class ClientRenderer {
 		mesher.register(TaleCraftItems.metaswapper, 0, new ModelResourceLocation("talecraft:metaswapper", "inventory"));
 		mesher.register(TaleCraftItems.spawnpoint, 0, new ModelResourceLocation("talecraft:spawnpoint", "inventory"));
 	}
-	
+
 	private void init_render_block(ItemModelMesher mesher) {
 		// killblock (why?!)
 		for(int i = 0; i < 7; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.killBlock), i, new ModelResourceLocation("talecraft:killblock", "inventory"));
-		
+
 		// decoration blocks
-			// blank block
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.blankBlock), i, new ModelResourceLocation("talecraft:blankblock", "inventory"));
-			
-			// stone block A
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), i, new ModelResourceLocation("talecraft:deco_stone/block"+i, "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), mkstrlfint("talecraft:deco_stone/block", 0));
-			// stone block B
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+16), "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), mkstrlfint("talecraft:deco_stone/block", 16));
-			// stone block C
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+32), "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), mkstrlfint("talecraft:deco_stone/block", 32));
-			// stone block D
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+48), "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), mkstrlfint("talecraft:deco_stone/block", 48));
-			// stone block E
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+64), "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), mkstrlfint("talecraft:deco_stone/block", 64));
-			// stone block E
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+80), "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), mkstrlfint("talecraft:deco_stone/block", 80));
-			
-			// wood block A
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), i, new ModelResourceLocation("talecraft:deco_wood/block"+i, "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), mkstrlfint("talecraft:deco_wood/block", 0));
-			
-			// glass block A
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), i, new ModelResourceLocation("talecraft:deco_glass/block"+i, "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), mkstrlfint("talecraft:deco_glass/block", 0));
-			
-			// cage block A
-			for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), i, new ModelResourceLocation("talecraft:deco_cage/block"+i, "inventory"));
-			ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), mkstrlfint("talecraft:deco_cage/block", 0));
-		
+		// blank block
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.blankBlock), i, new ModelResourceLocation("talecraft:blankblock", "inventory"));
+
+		// stone block A
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), i, new ModelResourceLocation("talecraft:deco_stone/block"+i, "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), mkstrlfint("talecraft:deco_stone/block", 0));
+		// stone block B
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+16), "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), mkstrlfint("talecraft:deco_stone/block", 16));
+		// stone block C
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+32), "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), mkstrlfint("talecraft:deco_stone/block", 32));
+		// stone block D
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+48), "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), mkstrlfint("talecraft:deco_stone/block", 48));
+		// stone block E
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+64), "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), mkstrlfint("talecraft:deco_stone/block", 64));
+		// stone block E
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+80), "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), mkstrlfint("talecraft:deco_stone/block", 80));
+
+		// wood block A
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), i, new ModelResourceLocation("talecraft:deco_wood/block"+i, "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), mkstrlfint("talecraft:deco_wood/block", 0));
+
+		// glass block A
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), i, new ModelResourceLocation("talecraft:deco_glass/block"+i, "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), mkstrlfint("talecraft:deco_glass/block", 0));
+
+		// cage block A
+		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), i, new ModelResourceLocation("talecraft:deco_cage/block"+i, "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), mkstrlfint("talecraft:deco_cage/block", 0));
+
 		// barrier-ext block
-//		for(int i = 0; i < 7; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.barrierEXTBlock), i, new ModelResourceLocation("talecraft:barrierextblock", "inventory"));
-		
+		//		for(int i = 0; i < 7; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.barrierEXTBlock), i, new ModelResourceLocation("talecraft:barrierextblock", "inventory"));
+
 		// blocks
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.clockBlock), 0, new ModelResourceLocation("talecraft:clockblock", "inventory"));
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.redstoneTrigger), 0, new ModelResourceLocation("talecraft:redstone_trigger", "inventory"));
@@ -234,10 +230,10 @@ public class ClientRenderer {
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.urlBlock), 0, new ModelResourceLocation("talecraft:urlblock", "inventory"));
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.summonBlock), 0, new ModelResourceLocation("talecraft:summonblock", "inventory"));
 	}
-	
+
 	private ResourceLocation[] mkstrlfint(String string, int j) {
 		String[] ary = new String[16];
-		
+
 		for(int i = 0; i < 16; i++)
 			ary[i] = string + (j+i);
 		ResourceLocation[] res = new ResourceLocation[16];
@@ -246,9 +242,9 @@ public class ClientRenderer {
 		}
 		return res;
 	}
-	
+
 	private void init_render_entity() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, new PointEntityRenderer(mc.getRenderManager()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, PointEntityRenderer.FACTORY);
 	}
 
 	public void addStaticRenderer(SelectionBoxRenderer selectionBoxRenderer) {
@@ -259,11 +255,11 @@ public class ClientRenderer {
 	public void addTemporaryRenderer(ITemporaryRenderable renderable) {
 		temporaryRenderers.offer(renderable);
 	}
-	
+
 	public void clearTemporaryRenderers() {
 		temporaryRenderers.clear();
 	}
-	
+
 	public int getVisualizationMode() {
 		return visualizationMode;
 	}
@@ -271,11 +267,11 @@ public class ClientRenderer {
 	/****/
 	public void setVisualizationMode(int mode) {
 		visualizationMode = mode;
-		
+
 		if(visualizationMode < 0) {
 			visualizationMode = 0;
 		}
-		
+
 		if(visualizationMode > 4) {
 			visualizationMode = 0;
 		}
@@ -295,21 +291,21 @@ public class ClientRenderer {
 	public float getLastPartialTicks() {
 		return partialTicks;
 	}
-	
-	
-	
-	
+
+
+
+
 	// some empty space here
-	
-	
-	
-	
-	
+
+
+
+
+
 
 	public void on_render_world_post(RenderWorldLastEvent event) {
 		RenderModeHelper.DISABLE();
-		partialTicks = (float) event.partialTicks;
-		
+		partialTicks = event.partialTicks;
+
 		// Iterate trough all ITemporaryRenderables and remove the ones that can be removed.
 		Iterator<ITemporaryRenderable> iterator = temporaryRenderers.iterator();
 		while(iterator.hasNext()) {
@@ -318,42 +314,42 @@ public class ClientRenderer {
 				iterator.remove();
 			}
 		}
-		
+
 		// If the world and the player exist, call the worldPostRender-method.
 		if(mc.theWorld != null && mc.thePlayer != null) {
 			GlStateManager.pushMatrix();
-			
+
 			Tessellator tessellator = Tessellator.getInstance();
-			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-			
-			on_render_world_post_sub(partialTicks, tessellator, worldrenderer);
-			
+			VertexBuffer vertexbuffer = tessellator.getBuffer();
+
+			on_render_world_post_sub(partialTicks, tessellator, vertexbuffer);
+
 			GlStateManager.popMatrix();
 		}
-		
+
 		// Enable textures again, since the GUI-prerender doesn't enable it again by itself.
 		GlStateManager.enableTexture2D();
 	}
-	
-	private void on_render_world_post_sub(double partialTicks, Tessellator tessellator, WorldRenderer worldrenderer) {
-		
+
+	private void on_render_world_post_sub(double partialTicks, Tessellator tessellator, VertexBuffer vertexbuffer) {
+
 		// Translate into World-Space
-		double px = mc.thePlayer.prevPosX + (mc.thePlayer.posX - mc.thePlayer.prevPosX) * (double)partialTicks;
-		double py = mc.thePlayer.prevPosY + (mc.thePlayer.posY - mc.thePlayer.prevPosY) * (double)partialTicks;
-		double pz = mc.thePlayer.prevPosZ + (mc.thePlayer.posZ - mc.thePlayer.prevPosZ) * (double)partialTicks;
+		double px = mc.thePlayer.prevPosX + (mc.thePlayer.posX - mc.thePlayer.prevPosX) * partialTicks;
+		double py = mc.thePlayer.prevPosY + (mc.thePlayer.posY - mc.thePlayer.prevPosY) * partialTicks;
+		double pz = mc.thePlayer.prevPosZ + (mc.thePlayer.posZ - mc.thePlayer.prevPosZ) * partialTicks;
 		GL11.glTranslated(-px, -py, -pz);
-		
+
 		GlStateManager.disableCull();
 		GlStateManager.enableLighting();
 		GlStateManager.enableTexture2D();
 		GlStateManager.color(1, 1, 1, 1);
 		RenderHelper.enableStandardItemLighting();
-		
+
 		// Render all the renderables
 		for(IRenderable renderable : staticRenderers) {
-			renderable.render(mc, proxy, tessellator, worldrenderer, partialTicks);
+			renderable.render(mc, proxy, tessellator, vertexbuffer, partialTicks);
 		}
-		
+
 		GlStateManager.disableCull();
 		GlStateManager.enableBlend();
 		GlStateManager.enableLighting();
@@ -361,12 +357,12 @@ public class ClientRenderer {
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.enableStandardItemLighting();
-		
+
 		// Render all the temporary renderables
 		for(ITemporaryRenderable renderable : temporaryRenderers) {
-			renderable.render(mc, proxy, tessellator, worldrenderer, partialTicks);
+			renderable.render(mc, proxy, tessellator, vertexbuffer, partialTicks);
 		}
-		
+
 		GlStateManager.disableCull();
 		GlStateManager.enableBlend();
 		GlStateManager.enableLighting();
@@ -374,30 +370,45 @@ public class ClientRenderer {
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.enableStandardItemLighting();
-		
+
 		// Render Item Meta Renderables
-		if(mc.thePlayer != null && mc.thePlayer.getCurrentEquippedItem() != null) {
-			ItemStack itemStack = mc.thePlayer.getCurrentEquippedItem();
-			Item itemType = itemStack.getItem();
-			
+		if(mc.thePlayer != null && mc.thePlayer.getHeldItemMainhand() != null) {
+			ItemStack stack = mc.thePlayer.getHeldItemMainhand();
+			Item item = stack.getItem();
+
 			ItemMetaWorldRenderer.tessellator = tessellator;
-			ItemMetaWorldRenderer.worldrenderer = worldrenderer;
+			ItemMetaWorldRenderer.vertexbuffer = vertexbuffer;
 			ItemMetaWorldRenderer.partialTicks = partialTicks;
 			ItemMetaWorldRenderer.partialTicksF = (float) partialTicks;
 			ItemMetaWorldRenderer.clientProxy = proxy;
 			ItemMetaWorldRenderer.world = mc.theWorld;
 			ItemMetaWorldRenderer.player = mc.thePlayer;
-			ItemMetaWorldRenderer.playerPosition = new Vec3(px, py, pz);
-			ItemMetaWorldRenderer.render(itemType, itemStack);
+			ItemMetaWorldRenderer.playerPosition = new Vec3d(px, py, pz);
+			ItemMetaWorldRenderer.render(item, stack);
 		}
-		
+
+		if(mc.thePlayer != null && mc.thePlayer.getHeldItemOffhand() != null) {
+			ItemStack stack = mc.thePlayer.getHeldItemOffhand();
+			Item item = stack.getItem();
+
+			ItemMetaWorldRenderer.tessellator = tessellator;
+			ItemMetaWorldRenderer.vertexbuffer = vertexbuffer;
+			ItemMetaWorldRenderer.partialTicks = partialTicks;
+			ItemMetaWorldRenderer.partialTicksF = (float) partialTicks;
+			ItemMetaWorldRenderer.clientProxy = proxy;
+			ItemMetaWorldRenderer.world = mc.theWorld;
+			ItemMetaWorldRenderer.player = mc.thePlayer;
+			ItemMetaWorldRenderer.playerPosition = new Vec3d(px, py, pz);
+			ItemMetaWorldRenderer.render(item, stack);
+		}
+
 		GlStateManager.enableCull();;
 		GlStateManager.enableLighting();
 		GlStateManager.enableTexture2D();
 		GlStateManager.color(1, 1, 1, 1);
 		RenderHelper.enableStandardItemLighting();
 	}
-	
+
 	public void on_world_unload() {
 		temporaryRenderers.clear();
 		visualizationMode = 0;
@@ -407,7 +418,7 @@ public class ClientRenderer {
 		// this takes care of the CUSTOM SKY RENDERING
 		if(mc.theWorld != null && mc.theWorld.provider != null) {
 			boolean wireframeModeActive = proxy.isBuildMode() ? (visualizationMode != 0) : false;
-			
+
 			if(wireframeModeActive) {
 				CustomSkyRenderer.instance.setDebugSky(true);
 				mc.theWorld.provider.setSkyRenderer(CustomSkyRenderer.instance);
@@ -416,27 +427,27 @@ public class ClientRenderer {
 				mc.theWorld.provider.setSkyRenderer(null);
 			}
 		}
-		
+
 		// this enables the WIREFRAME-MODE if we are ingame
 		if(mc.theWorld != null && mc.thePlayer != null) {
 			RenderModeHelper.ENABLE(mc.thePlayer.capabilities.isCreativeMode ? visualizationMode : 0);
-			
+
 			if(visualizationMode == 0) {
 				mc.gameSettings.clouds = 1;
 			} else {
 				mc.gameSettings.clouds = 0;
 			}
-			
+
 			// this is part of the LIGHTING visualization mode
 			if(visualizationMode == 3) {
 				GlStateManager.disableTexture2D();
 			}
-			
+
 			if(visualizationMode == 4) {
-		        GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-		        GlStateManager.disableTexture2D();
-		        GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
-		        GlStateManager.disableFog();
+				GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+				GlStateManager.disableTexture2D();
+				GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+				GlStateManager.disableFog();
 			}
 		}
 	}
@@ -444,14 +455,14 @@ public class ClientRenderer {
 	public void on_render_world_terrain_post(RenderTickEvent revt) {
 		if(mc.ingameGUI != null && mc.theWorld != null) {
 			if(proxy.getInfoBar().canDisplayInfoBar(mc, proxy)) {
-				proxy.getInfoBar().display(mc, mc.thePlayer, mc.theWorld, proxy);
-				
+				proxy.getInfoBar().display(mc, mc.theWorld, proxy);
+
 				// XXX: Move this to its own IF
-				proxy.getInvokeTracker().display(mc, mc.thePlayer, mc.theWorld, proxy);
+				proxy.getInvokeTracker().display(mc, proxy);
 			}
 		}
 	}
-	
+
 	public void on_render_world_hand_post(RenderHandEvent event) {
 		// XXX: UNUSED EXPERIMENTAL FEATURE
 		// If active, render a fade-effect (this makes the screen go dark).
@@ -465,26 +476,26 @@ public class ClientRenderer {
 			GLU.gluOrtho2D(0, 2, 2, 0);
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
-			
+
 			{
 				int alpha = MathHelper.clamp_int((int) (fade * 255), 0, 255);
 				int mixed = ((alpha & 0xFF) << 24) | (color);
-				mc.ingameGUI.drawRect(-1, -1, 4, 4, mixed);
+				Gui.drawRect(-1, -1, 4, 4, mixed);
 			}
-			
+
 			RenderHelper.disableStandardItemLighting();
-			
+
 			// Do NOT draw the hand!
 			event.setCanceled(true);
 		}
-		
+
 		// Enable for reasons stated in:
 		// ClientProxy..worldPass() -> Last line of code.
 		GlStateManager.enableTexture2D();
 	}
-	
+
 	public void on_render_world_pre(Pre event) {
 		// Nothing here yet!
 	}
-	
+
 }

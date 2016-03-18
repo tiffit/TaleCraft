@@ -5,9 +5,9 @@ import net.minecraft.block.material.Material;
 
 /**
  * This material defines a invisible, indestructible, immovable block.
- **/
+ */
 public class TCAdminiumMaterial extends Material {
-	/** The one and only instance of this material. **/
+
 	public static final Material instance = new TCAdminiumMaterial();
 
 	public TCAdminiumMaterial() {
@@ -15,44 +15,44 @@ public class TCAdminiumMaterial extends Material {
 		setImmovableMobility();
 	}
 
-    public boolean isLiquid()
-    {
-        return false;
-    }
+	@Override
+	public boolean isLiquid() {
+		return false;
+	}
 
-    public boolean isSolid()
-    {
-        return true;
-    }
+	@Override
+	public boolean isSolid() {
+		return true;
+	}
 
-    public boolean blocksLight()
-    {
-        return true;
-    }
+	@Override
+	public boolean blocksLight() {
+		return true;
+	}
 
-    public boolean blocksMovement()
-    {
-        return true;
-    }
+	@Override
+	public boolean blocksMovement() {
+		return true;
+	}
 
-    public boolean getCanBurn()
-    {
-        return false;
-    }
+	@Override
+	public boolean getCanBurn() {
+		return false;
+	}
 
-    public boolean isReplaceable()
-    {
-        return false;
-    }
+	@Override
+	public boolean isReplaceable() {
+		return false;
+	}
 
-    public boolean isOpaque()
-    {
-        return true;
-    }
+	@Override
+	public boolean isOpaque() {
+		return true;
+	}
 
-    public boolean isToolNotRequired()
-    {
-        return false;
-    }
-    
+	@Override
+	public boolean isToolNotRequired() {
+		return false;
+	}
+
 }

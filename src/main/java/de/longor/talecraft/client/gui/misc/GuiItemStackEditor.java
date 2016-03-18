@@ -1,33 +1,33 @@
 package de.longor.talecraft.client.gui.misc;
 
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.nbt.NBTTagCompound;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.client.gui.misc.GuiItemTypeSelection.ItemTypeDataLink;
+import de.longor.talecraft.client.gui.qad.QADButton;
 import de.longor.talecraft.client.gui.qad.QADFACTORY;
 import de.longor.talecraft.client.gui.qad.QADGuiScreen;
-import de.longor.talecraft.client.gui.qad.QADComponent;
-import de.longor.talecraft.client.gui.qad.QADButton;
-import de.longor.talecraft.client.gui.qad.QADPanel;
-import de.longor.talecraft.client.gui.qad.QADTextField;
 import de.longor.talecraft.client.gui.qad.QADNumberTextField;
 import de.longor.talecraft.client.gui.qad.QADNumberTextField.NumberType;
+import de.longor.talecraft.client.gui.qad.QADPanel;
+import de.longor.talecraft.client.gui.qad.QADTextField;
 import de.longor.talecraft.client.gui.qad.model.nbtcompound.NBTByteTextFieldModel;
 import de.longor.talecraft.client.gui.qad.model.nbtcompound.NBTShortTextFieldModel;
 import de.longor.talecraft.client.gui.qad.model.nbtcompound.NBTStringTextFieldModel;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class GuiItemStackEditor extends QADGuiScreen {
 	private NBTTagCompound stack;
-	
+
 	QADButton buttonDone;
 	QADTextField fieldType;
 	QADNumberTextField fieldCount;
 	QADNumberTextField fieldDamage;
-	
+
 	public GuiItemStackEditor(NBTTagCompound slot) {
 		this.stack = slot;
 	}
-	
+
+	@Override
 	public void buildGui() {
 		{
 			QADPanel panel = new QADPanel();
@@ -36,9 +36,9 @@ public class GuiItemStackEditor extends QADGuiScreen {
 			panel.setBackgroundColor(0);
 			addComponent(panel);
 		}
-		
+
 		addComponent(QADFACTORY.createLabel("Item(-stack) Editor", 2, 2));
-		
+
 		buttonDone = addComponent(QADFACTORY.createButton("Done", 0, 0, 40, new Runnable() {
 			@Override public void run() {
 				if(getBehind() != null && getBehind() instanceof QADGuiScreen) {
@@ -47,31 +47,32 @@ public class GuiItemStackEditor extends QADGuiScreen {
 				displayGuiScreen(getBehind());
 			}
 		}));
-		
+
 		// builder.append(slot.getString("id")).append("/");
 		// builder.append(slot.getShort("Damage")).append(" x");
 		// builder.append(slot.getByte("Count"));
-		
+
 		{
 			addComponent(QADFACTORY.createLabel("Type", 2, 24+24*0+6));
 			fieldType = new QADTextField(fontRendererObj, 80, 24+24*0, 140, 20);
 			fieldType.setText(stack.getString("id"));
 			fieldType.setModel(new NBTStringTextFieldModel("id", stack));
 			addComponent(fieldType);
-			
+
 			addComponent(QADFACTORY.createButton("?", 2+80+2+140+2, 24+24*0, 20, new Runnable() {
 				@Override public void run() {
 					final GuiScreen behindPre = GuiItemStackEditor.this.getBehind();
 					final GuiScreen returnScreen = GuiItemStackEditor.this.returnScreen;
 					GuiItemStackEditor.this.setBehind(null);
 					GuiItemStackEditor.this.returnScreen = null;
-					
+
 					displayGuiScreen(new GuiItemTypeSelection(GuiItemStackEditor.this, new ItemTypeDataLink() {
+						@Override
 						public void setType(String identifier) {
 							fieldType.setText(identifier);
 						}
 					}));
-					
+
 					TaleCraft.proxy.asClient().sheduleClientTickTask(new Runnable() {
 						@Override public void run() {
 							GuiItemStackEditor.this.setBehind(behindPre);
@@ -81,7 +82,7 @@ public class GuiItemStackEditor extends QADGuiScreen {
 				}
 			}));
 		}
-		
+
 		{
 			addComponent(QADFACTORY.createLabel("Count", 2, 24+24*1+6));
 			Number stackCount = stack.getByte("Count");
@@ -98,11 +99,12 @@ public class GuiItemStackEditor extends QADGuiScreen {
 			fieldDamage.setModel(new NBTShortTextFieldModel("Damage", stack));
 			addComponent(fieldDamage);
 		}
-		
+
 	}
-	
+
+	@Override
 	public void layoutGui() {
 		buttonDone.setX(width-40);
 	}
-	
+
 }

@@ -8,7 +8,7 @@ public class HollowSphereShape implements IShape {
 	int sz;
 	double radius;
 	double hollow;
-	
+
 	public HollowSphereShape(int x, int y, int z, double rad, double hol) {
 		sx = x;
 		sy = y;
@@ -16,7 +16,7 @@ public class HollowSphereShape implements IShape {
 		radius = rad;
 		hollow = hol;
 	}
-	
+
 	public HollowSphereShape() {
 		sx = 0;
 		sy = 0;
@@ -24,16 +24,17 @@ public class HollowSphereShape implements IShape {
 		radius = 0;
 		hollow = 0;
 	}
-	
+
 	@Override
 	public String getName() {
 		return "hollowsphere";
 	}
-	
+
+	@Override
 	public String toString() {
 		return "HollowSphere ["+radius+", "+hollow+"]";
 	}
-	
+
 	@Override
 	public boolean isBlockInShape(int x, int y, int z) {
 		int dx = x - sx;
@@ -42,7 +43,7 @@ public class HollowSphereShape implements IShape {
 		double dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
 		return  dist <= radius && dist > radius-hollow;
 	}
-	
+
 	@Override
 	public int[] getBounds() {
 		int r = (int) Math.ceil(radius);
@@ -66,5 +67,5 @@ public class HollowSphereShape implements IShape {
 	public int getOffsetZ() {
 		return sz;
 	}
-	
+
 }

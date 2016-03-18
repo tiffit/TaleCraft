@@ -1,16 +1,15 @@
 package de.longor.talecraft.client.gui.qad.model.nbtlist;
 
-import net.minecraft.nbt.NBTTagDouble;
+import de.longor.talecraft.client.gui.qad.QADTextField.TextFieldModel;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
-import de.longor.talecraft.client.gui.qad.QADTextField.TextFieldModel;
 
 public class NBTListFloatTextFieldModel implements TextFieldModel {
 	NBTTagList list;
 	int index;
 	String text;
 	boolean valid;
-	
+
 	public NBTListFloatTextFieldModel(NBTTagList li, int ix) {
 		this.list = li;
 		this.index = ix;
@@ -21,7 +20,7 @@ public class NBTListFloatTextFieldModel implements TextFieldModel {
 	@Override
 	public void setText(String text) {
 		this.text = text;
-		
+
 		try {
 			float value = Float.parseFloat(text);
 			list.set(index, new NBTTagFloat(value));
@@ -30,7 +29,7 @@ public class NBTListFloatTextFieldModel implements TextFieldModel {
 			valid = false;
 		}
 	}
-	
+
 	@Override
 	public String getText() {
 		return text;
@@ -50,7 +49,7 @@ public class NBTListFloatTextFieldModel implements TextFieldModel {
 	public void setTextColor(int color) {
 		// nope
 	}
-	
+
 	@Override
 	public int getTextColor() {
 		return valid ? 0xFFFFFFFF : 0xFFFF7070;

@@ -1,18 +1,14 @@
 package de.longor.talecraft.client.render;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-
 public class RenderModeHelper {
-	
+
 	/**
 	 * warning: this method will fuck up the rendering pipeline.
 	 * only use this in the terrain render phase.
@@ -40,12 +36,12 @@ public class RenderModeHelper {
 			GL11.glPointSize(8.0f);
 			GL11.glLineWidth(0.25f);
 			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-			Minecraft.getMinecraft().thePlayer.addPotionEffect(new PotionEffect(Potion.nightVision.id, Integer.MAX_VALUE));
+			Minecraft.getMinecraft().thePlayer.addPotionEffect(new PotionEffect(MobEffects.nightVision, Integer.MAX_VALUE));
 		}break;
 		case 0:default:break;
 		}
 	}
-	
+
 	/**
 	 * This method resets the states the wireframe-mode fucked up
 	 **/
@@ -56,8 +52,8 @@ public class RenderModeHelper {
 		GL11.glLineWidth(1.0f);
 		GL11.glPointSize(1.0f);
 		RenderHelper.enableStandardItemLighting();
-		
+
 		Minecraft.getMinecraft().thePlayer.getActivePotionEffects().clear();
 	}
-	
+
 }

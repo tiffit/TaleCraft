@@ -1,18 +1,16 @@
 package de.longor.talecraft.voxelbrush_old.shapes;
 
-import java.awt.image.Raster;
-
 import de.longor.talecraft.voxelbrush_old.IShape;
 
 public class HollowCylinderShape implements IShape {
 	int sx;
 	int sy;
 	int sz;
-	
+
 	public int ey;
 	public double radius;
 	public double hollow;
-	
+
 	public HollowCylinderShape(int x, int y, int z, double rad, double hol, int height) {
 		sx = x;
 		sy = y;
@@ -21,7 +19,7 @@ public class HollowCylinderShape implements IShape {
 		hollow = hol;
 		ey = height;
 	}
-	
+
 	public HollowCylinderShape() {
 		sx = 0;
 		sy = 0;
@@ -30,16 +28,17 @@ public class HollowCylinderShape implements IShape {
 		hollow = 0;
 		ey = 0;
 	}
-	
+
 	@Override
 	public String getName() {
 		return "hollowcylinder";
 	}
-	
+
+	@Override
 	public String toString() {
 		return "HollowCylinder ["+ey+", "+radius+", "+hollow+"]";
 	}
-	
+
 	@Override
 	public boolean isBlockInShape(int x, int y, int z) {
 		int dx = x - sx;
@@ -73,5 +72,5 @@ public class HollowCylinderShape implements IShape {
 	public int getOffsetZ() {
 		return sz;
 	}
-	
+
 }

@@ -9,21 +9,18 @@ import java.io.IOException;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IThreadListener;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PlayerNBTDataMergePacket implements IMessage {
-    
+
 	public NBTTagCompound data;
-	
+
 	public PlayerNBTDataMergePacket() {
 		data = new NBTTagCompound();
 	}
-	
+
 	public PlayerNBTDataMergePacket(NBTTagCompound in) {
 		data = in;
 	}
@@ -33,7 +30,7 @@ public class PlayerNBTDataMergePacket implements IMessage {
 		int binlen = buf.readShort();
 		byte[] bindata = new byte[binlen];
 		buf.readBytes(bindata);
-		
+
 		try {
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(bindata);
 			DataInputStream inputDataStream = new DataInputStream(inputStream);
@@ -44,7 +41,7 @@ public class PlayerNBTDataMergePacket implements IMessage {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void toBytes(ByteBuf buf) {
 		byte[] bindata = null;
@@ -58,17 +55,17 @@ public class PlayerNBTDataMergePacket implements IMessage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		buf.writeShort(bindata.length);
 		buf.writeBytes(bindata);
 	}
 
-public static class Handler implements IMessageHandler<PlayerNBTDataMergePacket, IMessage> {
+	public static class Handler implements IMessageHandler<PlayerNBTDataMergePacket, IMessage> {
 
-        @Override
-        public IMessage onMessage(PlayerNBTDataMergePacket message, MessageContext ctx) {
-           
-            return null;
-        }
-    }
+		@Override
+		public IMessage onMessage(PlayerNBTDataMergePacket message, MessageContext ctx) {
+
+			return null;
+		}
+	}
 }

@@ -7,30 +7,31 @@ public class SphereShape implements IShape {
 	int sy;
 	int sz;
 	double radius;
-	
+
 	public SphereShape(int x, int y, int z, double rad) {
 		sx = x;
 		sy = y;
 		sz = z;
 		radius = rad;
 	}
-	
+
 	public SphereShape() {
 		sx = 0;
 		sy = 0;
 		sz = 0;
 		radius = 0;
 	}
-	
+
 	@Override
 	public String getName() {
 		return "sphere";
 	}
-	
+
+	@Override
 	public String toString() {
 		return "Sphere ["+radius+"]";
 	}
-	
+
 	@Override
 	public boolean isBlockInShape(int x, int y, int z) {
 		int dx = x - sx;
@@ -38,7 +39,7 @@ public class SphereShape implements IShape {
 		int dz = z - sz;
 		return Math.sqrt(dx*dx + dy*dy + dz*dz) <= radius;
 	}
-	
+
 	@Override
 	public int[] getBounds() {
 		int r = (int) Math.ceil(radius);
@@ -62,5 +63,5 @@ public class SphereShape implements IShape {
 	public int getOffsetZ() {
 		return sz;
 	}
-	
+
 }

@@ -4,41 +4,37 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiPageButtonList;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.util.MathHelper;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.Lists;
 
 import de.longor.talecraft.client.gui.qad.model.DefaultTextFieldModel;
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.math.MathHelper;
 
 /**
- * This entire class si simply a full-on copy of GuiTextField from the decompiled Minecraft Sourcecode.
- * There is no other way to replicate the behaviour of the GuiTextField then to copy it.
- **/
+ * This entire class is simply a full-on copy of GuiTextField from the decompiled Minecraft Sourcecode.
+ * There is no other way to replicate the behavior of the GuiTextField then to copy it.
+ */
 public class QADTextField extends QADRectangularComponent {
 	public static interface TextFieldModel {
 		// get text
 		public String getText();
 		public int getTextLength();
-		
+
 		// specific get
 		public char getCharAt(int i);
-		
+
 		// set text
 		public void setText(String text);
-		
+
 		// color
 		public void setTextColor(int color);
 		public int getTextColor();
@@ -77,7 +73,7 @@ public class QADTextField extends QADRectangularComponent {
 		this.yPosition = yPos;
 		this.width = width;
 		this.height = height;
-		
+
 		// Tiny ugly bug fix
 		this.onMouseClicked(2, height/2, 0);
 		this.isFocused = false;
@@ -91,7 +87,7 @@ public class QADTextField extends QADRectangularComponent {
 		this.yPosition = yPos;
 		this.width = width;
 		this.height = height;
-		
+
 		// Tiny ugly bug fix
 		this.onMouseClicked(2, height/2, 0);
 		this.isFocused = false;
@@ -105,7 +101,7 @@ public class QADTextField extends QADRectangularComponent {
 		this.yPosition = 0;
 		this.width = 20;
 		this.height = 20;
-		
+
 		// Tiny ugly bug fix
 		this.onMouseClicked(2, height/2, 0);
 		this.isFocused = false;
@@ -119,7 +115,7 @@ public class QADTextField extends QADRectangularComponent {
 		this.yPosition = 0;
 		this.width = 20;
 		this.height = 20;
-		
+
 		// Tiny ugly bug fix
 		this.onMouseClicked(2, height/2, 0);
 		this.isFocused = false;
@@ -128,7 +124,7 @@ public class QADTextField extends QADRectangularComponent {
 	public void setModel(TextFieldModel newModel) {
 		if(newModel == null)
 			throw new IllegalArgumentException("'newModel' must not be null.");
-		
+
 		this.model = newModel;
 	}
 
@@ -170,57 +166,57 @@ public class QADTextField extends QADRectangularComponent {
 		} else if(renderer.getOffsetY()+yPosition+height < 0) {
 			return;
 		}
-		
+
 		if (this.getVisible())
 		{
 			final int left = xPosition;
 			final int right = xPosition + width;
 			final int top = yPosition - 1;
 			final int bottom = yPosition + height + 1;
-			
+
 			if (this.getEnableBackgroundDrawing()) {
 				renderer.drawRectangle(left, top, right, bottom, isFocused ? 0xFFFFF055 : -6250336);
 				renderer.drawRectangle(left+1, top+1, right-1, bottom-1, -16777216);
-				
-//				renderer.drawRectangle(this.xPosition, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, -6250336);
-//				renderer.drawRectangle(this.xPosition + 1, this.yPosition + 1, this.xPosition + this.width - 1, this.yPosition + this.height - 1, -16777216);
+
+				//				renderer.drawRectangle(this.xPosition, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, -6250336);
+				//				renderer.drawRectangle(this.xPosition + 1, this.yPosition + 1, this.xPosition + this.width - 1, this.yPosition + this.height - 1, -16777216);
 			}
-			
+
 			// renderer.pushScissor(left+1, top, right-left-1, bottom-top);
-			
+
 			int textColor = this.isEnabled ? this.model.getTextColor() : this.disabledColor;
 			int cursorOffset = this.cursorPosition - this.lineScrollOffset;
 			int selectionOffset = this.selectionEnd - this.lineScrollOffset;
-			
+
 			final String originalText = model.getText();
 			String s = fontRendererInstance.trimStringToWidth(originalText.substring(lineScrollOffset), getWidth());
-			
+
 			boolean cursorOffsetInText = cursorOffset >= 0 && cursorOffset <= s.length();
 			boolean cursorVisible = this.isFocused && this.cursorCounter / 6 % 2 == 0 && cursorOffsetInText;
 			int textDrawRegionLeft = this.enableBackgroundDrawing ? this.xPosition + 4 : this.xPosition;
 			int textDrawRegionRight = this.enableBackgroundDrawing ? this.yPosition + (this.height - 8) / 2 : this.yPosition;
 			int textDrawPos = textDrawRegionLeft;
-			
+
 			if (selectionOffset > s.length())
 			{
 				selectionOffset = s.length();
 			}
-			
+
 			if (s.length() > 0)
 			{
 				String leftOfCursorText = cursorOffsetInText ? s.substring(0, cursorOffset) : s;
 				textDrawPos = renderer.drawStringWithShadow(leftOfCursorText, textDrawRegionLeft, textDrawRegionRight, textColor);
 			}
-			
+
 			// XXX: Fix this stupid hack!
 			// cursorOffset -= renderer.getOffsetX()!=0 ? 4 : 0;
-			
+
 			boolean curserNotAtEnd = this.cursorPosition < originalText.length();
 			boolean textLongerThanMax = originalText.length() >= this.getMaxStringLength();
-			
+
 			boolean flag2 = curserNotAtEnd || textLongerThanMax;
 			int cursorPos = textDrawPos;
-			
+
 			if (!cursorOffsetInText) {
 				cursorPos = cursorOffset > 0 ? textDrawRegionLeft + this.width : 1;
 			} else if (flag2) {
@@ -229,13 +225,13 @@ public class QADTextField extends QADRectangularComponent {
 			} else {
 				cursorPos -= -1;
 			}
-			
+
 			if (s.length() > 0 && cursorOffsetInText && cursorOffset < s.length())
 			{
 				String rightOfCursor = s.substring(cursorOffset);
 				textDrawPos = renderer.drawStringWithShadow(rightOfCursor, textDrawPos, textDrawRegionRight, textColor);
 			}
-			
+
 			if (cursorVisible)
 			{
 				if (flag2)
@@ -281,7 +277,7 @@ public class QADTextField extends QADRectangularComponent {
 				}
 
 			}
-			
+
 			// renderer.popScissor();
 		}
 	}
@@ -555,9 +551,9 @@ public class QADTextField extends QADRectangularComponent {
 			this.moveCursorBy(i - this.selectionEnd + l);
 
 			//            if (this.field_175210_x != null)
-				//            {
-				//                this.field_175210_x.func_175319_a(this.ID, this.text);
-				//            }
+			//            {
+			//                this.field_175210_x.func_175319_a(this.ID, this.text);
+			//            }
 		}
 
 		if(textChangedListener != null)
@@ -612,9 +608,9 @@ public class QADTextField extends QADRectangularComponent {
 				}
 
 				//                if (this.field_175210_x != null)
-					//                {
-					//                    this.field_175210_x.func_175319_a(this.ID, this.text);
-					//                }
+				//                {
+				//                    this.field_175210_x.func_175319_a(this.ID, this.text);
+				//                }
 			}
 		}
 
@@ -786,19 +782,19 @@ public class QADTextField extends QADRectangularComponent {
 		}
 
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		GlStateManager.color(0.0F, 0.0F, 255.0F, 255.0F);
 		GlStateManager.disableTexture2D();
 		GlStateManager.enableColorLogic();
 		GlStateManager.colorLogicOp(5387);
-		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-		worldrenderer.setTranslation(renderer.getOffsetX(), renderer.getOffsetY(), renderer.getZLevel());
-		worldrenderer.pos((double)p_146188_1_, (double)p_146188_4_, 0.0D).endVertex();
-		worldrenderer.pos((double)p_146188_3_, (double)p_146188_4_, 0.0D).endVertex();
-		worldrenderer.pos((double)p_146188_3_, (double)p_146188_2_, 0.0D).endVertex();
-		worldrenderer.pos((double)p_146188_1_, (double)p_146188_2_, 0.0D).endVertex();
+		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		vertexbuffer.setTranslation(renderer.getOffsetX(), renderer.getOffsetY(), renderer.getZLevel());
+		vertexbuffer.pos(p_146188_1_, p_146188_4_, 0.0D).endVertex();
+		vertexbuffer.pos(p_146188_3_, p_146188_4_, 0.0D).endVertex();
+		vertexbuffer.pos(p_146188_3_, p_146188_2_, 0.0D).endVertex();
+		vertexbuffer.pos(p_146188_1_, p_146188_2_, 0.0D).endVertex();
 		tessellator.draw();
-		worldrenderer.setTranslation(0,0,0);
+		vertexbuffer.setTranslation(0,0,0);
 		GlStateManager.disableColorLogic();
 		GlStateManager.enableTexture2D();
 	}
@@ -852,6 +848,7 @@ public class QADTextField extends QADRectangularComponent {
 		this.isFocused = flag;
 	}
 
+	@Override
 	public boolean isFocused()
 	{
 		return this.isFocused;
@@ -867,6 +864,7 @@ public class QADTextField extends QADRectangularComponent {
 		return this.selectionEnd;
 	}
 
+	@Override
 	public int getWidth()
 	{
 		return this.width;
@@ -901,6 +899,7 @@ public class QADTextField extends QADRectangularComponent {
 		return localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width && localMouseY < this.height;
 	}
 
+	@Override
 	public List<String> getTooltip(int mouseX, int mouseY) {
 		return getTooltip();
 	}
@@ -909,7 +908,8 @@ public class QADTextField extends QADRectangularComponent {
 	public int getHeight() {
 		return height;
 	}
-	
+
+	@Override
 	public boolean canResize() {
 		return true;
 	}
@@ -934,7 +934,7 @@ public class QADTextField extends QADRectangularComponent {
 	public QADEnumComponentClass getComponentClass() {
 		return QADEnumComponentClass.INPUT;
 	}
-	
+
 	@Override
 	public boolean transferFocus() {
 		if(isFocused) {

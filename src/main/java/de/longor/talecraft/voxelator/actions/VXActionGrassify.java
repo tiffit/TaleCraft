@@ -1,10 +1,10 @@
 package de.longor.talecraft.voxelator.actions;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.voxelator.CachedWorldDiff;
 import de.longor.talecraft.voxelator.VXAction;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
 
 public class VXActionGrassify extends VXAction {
 

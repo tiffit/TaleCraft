@@ -1,14 +1,14 @@
 package de.longor.talecraft.voxelator.predicates;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.BlockPos;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.voxelator.CachedWorldDiff;
 import de.longor.talecraft.voxelator.VXPredicate;
+import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
 
 public final class VXPredicateTypeMatch extends VXPredicate {
 	private final Block type;
-	
+
 	public VXPredicateTypeMatch(Block type) {
 		this.type = type;
 	}

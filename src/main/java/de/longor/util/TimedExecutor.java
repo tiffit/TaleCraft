@@ -12,32 +12,32 @@ public class TimedExecutor implements Runnable {
 			run = call;
 		}
 	}
-	
+
 	private final ConcurrentLinkedDeque<TimedRunnable> runners;
 	private final Thread thread;
-	
+
 	public TimedExecutor() {
 		runners = new ConcurrentLinkedDeque<TimedExecutor.TimedRunnable>();
-		
+
 		thread = new Thread(this);
 		thread.setName("timed-executor");
 		thread.setDaemon(true);
 		thread.start();
 	}
-	
+
 	public void executeLater(Runnable runnable, int time) {
 		long current = System.currentTimeMillis();
 		long flashpoint = current + time;
 		runners.add(new TimedRunnable(runnable, flashpoint));
 	}
-	
+
 	@Override
 	public void run() {
 		ArrayList<TimedRunnable> tempL = new ArrayList<TimedRunnable>();
-		
+
 		while(!Thread.interrupted()) {
 			long current = System.currentTimeMillis();
-			
+
 			// check which runnables can be run
 			for(TimedRunnable r : runners) {
 				if(current > r.time) {
@@ -49,7 +49,7 @@ public class TimedExecutor implements Runnable {
 				runners.remove(r);
 				r.run.run();
 			}
-			
+
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -57,5 +57,5 @@ public class TimedExecutor implements Runnable {
 			}
 		}
 	}
-	
+
 }

@@ -8,21 +8,19 @@ import de.longor.talecraft.invoke.EnumTriggerState;
 import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.network.StringNBTCommand;
 import de.longor.talecraft.util.NBTHelper;
-import net.minecraft.command.PlayerSelector;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 
 public class URLBlockTileEntity extends TCTileEntity {
 	String url;
 	String selector;
-	
+
 	public URLBlockTileEntity() {
 		url = "https://www.reddit.com/r/talecraft/";
 		selector = "@a";
 	}
-	
+
 	@Override
 	public void getInvokes(List<IInvoke> invokes) {
 		// none
@@ -51,26 +49,26 @@ public class URLBlockTileEntity extends TCTileEntity {
 		comp.setString("url", url);
 		comp.setString("selector", selector);
 	}
-	
+
 	public String getURL() {
 		return url;
 	}
-	
+
 	public String getSelector() {
 		return selector;
 	}
-	
+
 	public void trigger(EnumTriggerState triggerState) {
 		if(triggerState.getBooleanValue()) {
-			List<EntityPlayerMP> players = PlayerSelector.matchEntities(this, selector, EntityPlayerMP.class);
+			List<EntityPlayerMP> players = EntitySelector.matchEntities(this, selector, EntityPlayerMP.class);
 			StringNBTCommand command = new StringNBTCommand();
 			command.command = "client.gui.openurl";
 			command.data = NBTHelper.newSingleStringCompound("url",url);
-			
+
 			for(EntityPlayerMP player : players) {
 				TaleCraft.network.sendTo(command, player);
 			}
 		}
 	}
-	
+
 }
