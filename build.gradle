@@ -18,9 +18,9 @@ group = "de.longor.talecraft"
 archivesBaseName = "TaleCraft"
 
 minecraft {
-    version = "1.9-12.16.0.1797-1.9"
+    version = "1.9-12.16.0.1811-1.9"
     runDir = "run"
-    mappings = "snapshot_20160322"
+    mappings = "snapshot_20160326"
 }
 
 processResources {

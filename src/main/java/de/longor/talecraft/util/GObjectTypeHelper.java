@@ -13,7 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class GObjectTypeHelper {
 
@@ -35,7 +34,7 @@ public class GObjectTypeHelper {
 			if(type.getParticleName().equalsIgnoreCase(name))
 				return type;
 
-		throw new IllegalArgumentException("Given name is not a prtaicle name.");
+		throw new IllegalArgumentException("Given name is not a particle name.");
 	}
 
 	public static final Item findItem(String fully_qualified_name) {
@@ -99,7 +98,7 @@ public class GObjectTypeHelper {
 		Block block = Block.blockRegistry.getObject(location);
 
 		if(block != null) {
-			if(!GameRegistry.findUniqueIdentifierFor(block).name.contains(typeID)) {
+			if(!Block.blockRegistry.containsKey(location)) {
 				System.err.println("Block type mismatch: " + typeString + " | " + typeMod + " " + typeID + " " + typeMeta + " GOT " + block.getUnlocalizedName());
 				return null; // This is the wrong block! D: (Probably minecraft:air)
 			}

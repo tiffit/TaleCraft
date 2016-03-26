@@ -18,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -95,11 +94,6 @@ public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public void worldPostRenderHand(RenderHandEvent event) {
 		clientRenderer.on_render_world_hand_post(event);
-	}
-
-	@SubscribeEvent
-	public void worldPassPre(RenderWorldEvent.Pre event) {
-		clientRenderer.on_render_world_pre(event);
 	}
 
 	/**

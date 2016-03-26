@@ -77,7 +77,7 @@ public class CachedWorldDiff implements IBlockAccess {
 		long time = System.currentTimeMillis();
 		int changeCount = 0;
 		for(BlockSnapshot snapshot : changes) {
-			previous.add(BlockSnapshot.getBlockSnapshot(world, snapshot.pos));
+			previous.add(BlockSnapshot.getBlockSnapshot(world, snapshot.getPos()));
 			snapshot.restore(true, physics);
 			changeCount++;
 		}

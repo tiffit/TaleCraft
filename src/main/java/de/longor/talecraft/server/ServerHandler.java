@@ -32,7 +32,7 @@ public class ServerHandler {
 
 	public static void handleSNBTCommand(NetHandlerPlayServer serverHandler, StringNBTCommandPacket message) {
 		EntityPlayerMP playerEntity = serverHandler.playerEntity;
-		WorldServer worldServer = playerEntity.getServerForPlayer();
+		WorldServer worldServer = playerEntity.getServerWorld();
 		handleSNBTCommand(playerEntity, worldServer, message);
 	}
 

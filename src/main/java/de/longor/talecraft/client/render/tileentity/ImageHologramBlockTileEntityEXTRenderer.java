@@ -80,17 +80,17 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 		} else {
 			// setup
 			GlStateManager.color(r, g, b, a);
-			vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+			vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 			vertexbuffer.setTranslation(0, 0, 0);
 			vertexbuffer.color(r, g, b, a);
 			// negative z | north
-			vertexbuffer.putNormal(0, 0, -1);
+			vertexbuffer.normal(0, 0, -1);
 			vertexbuffer.pos(-w, +h, 0).tex(u, 0).endVertex();
 			vertexbuffer.pos(+w, +h, 0).tex(0, 0).endVertex();
 			vertexbuffer.pos(+w, -h, 0).tex(0, v).endVertex();
 			vertexbuffer.pos(-w, -h, 0).tex(u, v).endVertex();
 			// positive z | south
-			vertexbuffer.putNormal(0, 0, 1);
+			vertexbuffer.normal(0, 0, 1);
 			vertexbuffer.pos(+w, +h, 0).tex(u, 0).endVertex();
 			vertexbuffer.pos(-w, +h, 0).tex(0, 0).endVertex();
 			vertexbuffer.pos(-w, -h, 0).tex(0, v).endVertex();

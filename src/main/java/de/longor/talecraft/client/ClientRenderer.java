@@ -54,7 +54,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderWorldEvent.Pre;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -304,7 +303,7 @@ public class ClientRenderer {
 
 	public void on_render_world_post(RenderWorldLastEvent event) {
 		RenderModeHelper.DISABLE();
-		partialTicks = event.partialTicks;
+		partialTicks = event.getPartialTicks();
 
 		// Iterate trough all ITemporaryRenderables and remove the ones that can be removed.
 		Iterator<ITemporaryRenderable> iterator = temporaryRenderers.iterator();
@@ -492,10 +491,6 @@ public class ClientRenderer {
 		// Enable for reasons stated in:
 		// ClientProxy..worldPass() -> Last line of code.
 		GlStateManager.enableTexture2D();
-	}
-
-	public void on_render_world_pre(Pre event) {
-		// Nothing here yet!
 	}
 
 }

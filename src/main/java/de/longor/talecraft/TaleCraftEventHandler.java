@@ -58,32 +58,32 @@ public class TaleCraftEventHandler {
 
 	@SubscribeEvent
 	public void worldLoad(WorldEvent.Load event) {
-		TaleCraft.worldsManager.registerWorld(event.world);
+		TaleCraft.worldsManager.registerWorld(event.getWorld());
 	}
 
 	@SubscribeEvent
 	public void worldUnload(WorldEvent.Unload event) {
-		TaleCraft.worldsManager.unregisterWorld(event.world);
+		TaleCraft.worldsManager.unregisterWorld(event.getWorld());
 	}
 
 	/*
 	@SubscribeEvent
 	public void guiRenderPre(GuiScreenEvent.DrawScreenEvent.Pre event) {
-		event.gui.drawString(event.gui.mc.fontRendererObj, "Hello, World!", 1, 1, 0xFFFFFF);
+		event.getGui().drawString(event.getGui().mc.fontRendererObj, "Hello, World!", 1, 1, 0xFFFFFF);
 	}
 	 */
 
 	@SubscribeEvent
 	public void entityJoinWorld(EntityJoinWorldEvent event) {
-		if(!event.world.isRemote) {
-			ServerHandler.handleEntityJoin(event.world, event.entity);
-			TaleCraft.worldsManager.fetchManager(event.world).joinWorld(event.entity);
+		if(!event.getWorld().isRemote) {
+			ServerHandler.handleEntityJoin(event.getWorld(), event.getEntity());
+			TaleCraft.worldsManager.fetchManager(event.getWorld()).joinWorld(event.getEntity());
 		}
 	}
 
 	@SubscribeEvent
 	public void onLivingAttacked(LivingAttackEvent event) {
-		World world = event.entity.worldObj;
+		World world = event.getEntity().worldObj;
 
 		if(world.isRemote) return;
 
@@ -92,32 +92,32 @@ public class TaleCraftEventHandler {
 			return;
 		}
 
-		if(event.source == DamageSource.fall && world.getGameRules().getBoolean("disable.damage.fall")) {
+		if(event.getSource() == DamageSource.fall && world.getGameRules().getBoolean("disable.damage.fall")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.source == DamageSource.drown && world.getGameRules().getBoolean("disable.damage.drown")) {
+		if(event.getSource() == DamageSource.drown && world.getGameRules().getBoolean("disable.damage.drown")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.source == DamageSource.lava && world.getGameRules().getBoolean("disable.damage.lava")) {
+		if(event.getSource() == DamageSource.lava && world.getGameRules().getBoolean("disable.damage.lava")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.source == DamageSource.magic && world.getGameRules().getBoolean("disable.damage.magic")) {
+		if(event.getSource() == DamageSource.magic && world.getGameRules().getBoolean("disable.damage.magic")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.source == DamageSource.inFire && world.getGameRules().getBoolean("disable.damage.fire")) {
+		if(event.getSource() == DamageSource.inFire && world.getGameRules().getBoolean("disable.damage.fire")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.source == DamageSource.inWall && world.getGameRules().getBoolean("disable.damage.suffocate")) {
+		if(event.getSource() == DamageSource.inWall && world.getGameRules().getBoolean("disable.damage.suffocate")) {
 			event.setCanceled(true);
 			return;
 		}
