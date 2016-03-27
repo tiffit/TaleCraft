@@ -1,16 +1,14 @@
 package de.longor.talecraft.client.gui.qad.model.nbtlist;
 
-import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagFloat;
+import de.longor.talecraft.client.gui.qad.QADTextField.TextFieldModel;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import de.longor.talecraft.client.gui.qad.QADTextField.TextFieldModel;
 
 public class NBTListStringTextFieldModel implements TextFieldModel {
 	NBTTagList list;
 	int index;
 	String text;
-	
+
 	public NBTListStringTextFieldModel(NBTTagList li, int ix) {
 		this.list = li;
 		this.index = ix;
@@ -22,7 +20,7 @@ public class NBTListStringTextFieldModel implements TextFieldModel {
 		this.text = text;
 		this.list.set(index, new NBTTagString(text));
 	}
-	
+
 	@Override
 	public String getText() {
 		return text;
@@ -42,10 +40,10 @@ public class NBTListStringTextFieldModel implements TextFieldModel {
 	public void setTextColor(int color) {
 		// nope
 	}
-	
+
 	@Override
 	public int getTextColor() {
 		return 0xFFFFFFFF;
 	}
-	
+
 }

@@ -18,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -35,7 +34,7 @@ public class ClientProxy extends CommonProxy {
 	public static final Minecraft mc = Minecraft.getMinecraft();
 	public static final ClientSettings settings = new ClientSettings();
 	public static ClientProxy proxy = (ClientProxy) TaleCraft.proxy;
-	
+
 	// tc internals
 	private ClipboardItem currentClipboardItem;
 	private InfoBar infoBarInstance;
@@ -44,45 +43,45 @@ public class ClientProxy extends CommonProxy {
 	private ClientKeyboardHandler clientKeyboardHandler;
 	private ClientRenderer clientRenderer;
 	private ConcurrentLinkedDeque<Runnable> clientTickQeue;
-	
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
-		
+
 		settings.init();
-		
+
 		MinecraftForge.EVENT_BUS.register(this);
-		
+
 		clientKeyboardHandler = new ClientKeyboardHandler(this);
-		
-    	TaleCraftClientCommands.init();
-    	
-    	clientTickQeue = new ConcurrentLinkedDeque<Runnable>();
+
+		TaleCraftClientCommands.init();
+
+		clientTickQeue = new ConcurrentLinkedDeque<Runnable>();
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		
+
 		// create client network'er
 		clientNetworkHandler = new ClientNetworkHandler(this);
 		clientNetworkHandler.init();
-		
+
 		// create client renderer
 		clientRenderer = new ClientRenderer(this);
-    	clientRenderer.init();
+		clientRenderer.init();
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());
-		
+
 	} // init(..){}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
-		
+
 		// Create the InfoBar Instance
 		infoBarInstance = new InfoBar();
-		
+
 		// Create the invoke tracker instance
 		invokeTracker = new InvokeTracker();
 	}
@@ -96,56 +95,54 @@ public class ClientProxy extends CommonProxy {
 	public void worldPostRenderHand(RenderHandEvent event) {
 		clientRenderer.on_render_world_hand_post(event);
 	}
-	
-	@SubscribeEvent
-	public void worldPassPre(RenderWorldEvent.Pre event) {
-		clientRenderer.on_render_world_pre(event);
-	}
-	
+
 	/**
 	 * This method is called when the world is unloaded.
 	 **/
+	@Override
 	public void unloadWorld(World world) {
 		if(world instanceof WorldClient) {
 			// the client is either changing dimensions or leaving the server.
 			// reset all temporary world related settings here
 			// delete all temporary world related objects here
-			
+
 			clientRenderer.on_world_unload();
-			
+
 			// This is stupid but,
 			// Save the TaleCraft settings on World unload.
 			// Just to be sure...
 			settings.save();
 		}
 	}
-	
+
 	/**
 	 * @return TRUE, if the client is in build-mode (aka: creative-mode), FALSE if not.
 	 **/
+	@Override
 	public boolean isBuildMode() {
 		return mc.playerController != null && mc.playerController.isInCreativeMode();
 	}
 
+	@Override
 	public void tick(TickEvent event) {
 		super.tick(event);
-		
+
 		if(event instanceof ClientTickEvent) {
 			while(!clientTickQeue.isEmpty())
 				clientTickQeue.poll().run();
 		}
-		
+
 		if(event instanceof RenderTickEvent) {
 			RenderTickEvent revt = (RenderTickEvent) event;
-			
+
 			// Pre-Scene Render
 			if(revt.phase == Phase.START) {
 				clientRenderer.on_render_world_terrain_pre(revt);
 			} else
-			// Post-World >> Pre-HUD Render
-			if(revt.phase == Phase.END) {
-				clientRenderer.on_render_world_terrain_post(revt);
-			}
+				// Post-World >> Pre-HUD Render
+				if(revt.phase == Phase.END) {
+					clientRenderer.on_render_world_terrain_post(revt);
+				}
 		}
 	}
 
@@ -156,6 +153,7 @@ public class ClientProxy extends CommonProxy {
 	/***********************************/
 
 	/****/
+	@Override
 	public NBTTagCompound getSettings(EntityPlayer playerIn) {
 		return getSettings().getNBT();
 	}
@@ -168,15 +166,15 @@ public class ClientProxy extends CommonProxy {
 	public InfoBar getInfoBar() {
 		return infoBarInstance;
 	}
-	
+
 	public InvokeTracker getInvokeTracker() {
 		return invokeTracker;
 	}
-	
+
 	public ClientNetworkHandler getNetworkHandler() {
 		return clientNetworkHandler;
 	}
-	
+
 	public ClientRenderer getRenderer() {
 		return clientRenderer;
 	}
@@ -195,7 +193,7 @@ public class ClientProxy extends CommonProxy {
 	public static final boolean isInBuildMode() {
 		if(proxy == null)
 			proxy = TaleCraft.proxy.asClient();
-		
+
 		return proxy.isBuildMode();
 	}
 
@@ -203,11 +201,11 @@ public class ClientProxy extends CommonProxy {
 	public void sendChatMessage(String message) {
 		mc.thePlayer.sendChatMessage(message);
 	}
-	
+
 	public void sheduleClientTickTask(Runnable runnable) {
 		this.clientTickQeue.push(runnable);
 	}
-	
+
 	public static void shedule(Runnable runnable) {
 		proxy.sheduleClientTickTask(runnable);
 	}
@@ -215,5 +213,5 @@ public class ClientProxy extends CommonProxy {
 	public ClientKeyboardHandler getKeyboardHandler() {
 		return clientKeyboardHandler;
 	}
-	
+
 }

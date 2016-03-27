@@ -1,18 +1,18 @@
 package de.longor.talecraft.voxelator.shapes;
 
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import de.longor.talecraft.util.BlockRegion;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.voxelator.CachedWorldDiff;
 import de.longor.talecraft.voxelator.VXShape;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 public class VXShapeBox extends VXShape {
 	private final BlockPos position;
 	private final int width;
 	private final int height;
 	private final int length;
-	
+
 	public VXShapeBox(BlockPos position, int width, int height, int length) {
 		this.position = position;
 		this.width = width;

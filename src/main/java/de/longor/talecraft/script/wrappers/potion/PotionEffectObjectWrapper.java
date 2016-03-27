@@ -8,18 +8,19 @@ import net.minecraft.potion.PotionEffect;
 
 public class PotionEffectObjectWrapper implements IObjectWrapper {
 	private PotionEffect potionEffect;
-	
+
 	public PotionEffectObjectWrapper(PotionEffect potionEffect) {
 		this.potionEffect = potionEffect;
 	}
-	
+
+	@Override
 	public PotionEffect internal() {
 		return potionEffect;
 	}
-	
+
 	@Override
 	public List<String> getOwnPropertyNames() {
 		return TaleCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
-	
+
 }

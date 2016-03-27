@@ -1,6 +1,5 @@
 package de.longor.talecraft.client.gui.qad.model;
 
-import de.longor.talecraft.client.gui.qad.QADTickBox;
 import de.longor.talecraft.client.gui.qad.QADTickBox.TickBoxModel;
 
 public class DefaultTickBoxModel implements TickBoxModel {

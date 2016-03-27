@@ -2,12 +2,7 @@ package de.longor.talecraft.util;
 
 import java.util.Iterator;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase.Height;
+import net.minecraft.util.math.BlockPos;
 
 public final class BlockRegion implements Iterable<BlockPos>{
 	private final int minX;
@@ -25,7 +20,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 	private final BlockPos center;
 	private final BlockPos min;
 	private final BlockPos max;
-	
+
 	public BlockRegion(int[] bounds) {
 		this.minX = Math.min(bounds[0], bounds[3]);
 		this.minY = Math.min(bounds[1], bounds[4]);
@@ -43,7 +38,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 		this.min = new BlockPos(minX, minY, minZ);
 		this.max = new BlockPos(maxX, maxY, maxZ);
 	}
-	
+
 	public BlockRegion(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
 		this.minX = minX;
 		this.minY = minY;
@@ -61,7 +56,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 		this.min = new BlockPos(minX, minY, minZ);
 		this.max = new BlockPos(maxX, maxY, maxZ);
 	}
-	
+
 	public BlockRegion(BlockPos center, int extent) {
 		this.center = center;
 		this.centerX = center.getX();
@@ -70,7 +65,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 		this.width  = extent*2+1;
 		this.height = extent*2+1;
 		this.length = extent*2+1;
-		
+
 		this.min = new BlockPos(centerX-extent, centerY-extent, centerZ-extent);
 		this.max = new BlockPos(centerX+extent, centerY+extent, centerZ+extent);
 		this.minX = min.getX();
@@ -89,7 +84,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 		this.width  = width/2;
 		this.height = height/2;
 		this.length = length/2;
-		
+
 		this.min = new BlockPos(centerX-width, centerY-height, centerZ-length);
 		this.max = new BlockPos(centerX+width, centerY+height, centerZ+length);
 		this.minX = min.getX();
@@ -127,7 +122,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 	public final BlockPos getMin() {
 		return min;
 	}
-	
+
 	public final BlockPos getMax() {
 		return max;
 	}
@@ -164,23 +159,23 @@ public final class BlockRegion implements Iterable<BlockPos>{
 	public Iterator<BlockPos> iterator() {
 		return new BlockRegionIterator(this);
 	}
-	
+
 	public final class BlockRegionIterator implements Iterator<BlockPos> {
 		private final MutableBlockPos XYZ;
 		private final BlockRegion region;
-		
+
 		private BlockRegionIterator(BlockRegion blockRegion) {
 			this.region = blockRegion;
 			this.XYZ = new MutableBlockPos(0,0,0);
 		}
-		
+
 		@Override
 		public boolean hasNext() {
 			// Get current position.
 			int x = this.XYZ.getX();
 			int y = this.XYZ.getY();
 			int z = this.XYZ.getZ();
-			
+
 			// Compute next step!
 			if (x < region.maxX) {
 				++x;
@@ -192,16 +187,16 @@ public final class BlockRegion implements Iterable<BlockPos>{
 				y = minY;
 				++z;
 			}
-			
+
 			// Mutate position.
 			XYZ.set(x, y, z);
 			return true;
 		}
-		
+
 		@Override
 		public BlockPos next() {
 			return XYZ;
 		}
 	}
-	
+
 }

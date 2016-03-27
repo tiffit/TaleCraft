@@ -2,31 +2,23 @@ package de.longor.talecraft.client.gui.qad;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-import com.mojang.realmsclient.dto.RealmsServer.McoServerComparator;
-
 import de.longor.talecraft.client.gui.qad.model.DefaultButtonModel;
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
 import de.longor.talecraft.client.render.renderers.EXTFontRenderer;
-import de.longor.talecraft.proxy.ClientProxy;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class QADButton extends QADRectangularComponent {
 	public static interface ButtonModel {
 		public void onClick();
-		
+
 		public String getText();
 		public ResourceLocation getIcon(); // Can be null.
-		
+
 		public void setText(String newText);
 		public void setIcon(ResourceLocation newIcon); // Can be null.
 	}
-	
+
 	protected static final ResourceLocation buttonTextures = new ResourceLocation("minecraft:textures/gui/widgets.png");
 
 	public static final ResourceLocation ICON_ADD = new ResourceLocation("talecraft:textures/gui/add.png");
@@ -37,12 +29,12 @@ public class QADButton extends QADRectangularComponent {
 	public static final ResourceLocation ICON_STOP = new ResourceLocation("talecraft:textures/gui/stop.png");
 	public static final ResourceLocation ICON_SAVE = new ResourceLocation("talecraft:textures/gui/save.png");
 	public static final ResourceLocation ICON_NEW = new ResourceLocation("talecraft:textures/gui/new.png");
-	
+
 	public static final ResourceLocation ICON_EDITOR_TXT = new ResourceLocation("talecraft:textures/gui/file/editors/txt.png");
 	public static final ResourceLocation ICON_EDITOR_NBT = new ResourceLocation("talecraft:textures/gui/file/editors/nbt.png");
 	public static final ResourceLocation ICON_EDITOR_BIN = new ResourceLocation("talecraft:textures/gui/file/editors/bin.png");
 	public static final ResourceLocation ICON_EDITOR_NIL = new ResourceLocation("talecraft:textures/gui/file/editors/none.png");
-	
+
 	Runnable clickRunnable = null;
 	ButtonModel model;
 	int x;
@@ -52,7 +44,7 @@ public class QADButton extends QADRectangularComponent {
 	boolean enabled = true;
 	boolean hovered = false;
 	boolean focused = false;
-	
+
 	// STYLE OPTIONS
 	/** 0 = Left, 1 = Center, 2 = Right **/
 	public int textAlignment = 1;
@@ -61,48 +53,48 @@ public class QADButton extends QADRectangularComponent {
 
 	public QADButton(String text) {
 		this.model = new DefaultButtonModel(text);
-		
+
 		this.x = 0;
 		this.y = 0;
 		this.width = 20;
 		this.height = 20;
-		
+
 		this.enabled = true;
 	}
 
 	public QADButton(ResourceLocation resourceLocation) {
 		this.model = new DefaultButtonModel(resourceLocation);
-		
+
 		this.x = 0;
 		this.y = 0;
 		this.width = 20;
 		this.height = 20;
-		
+
 		this.enabled = true;
 	}
 
 	public QADButton(int x, int y, ResourceLocation resourceLocation) {
 		this.model = new DefaultButtonModel(resourceLocation);
-		
+
 		this.x = x;
 		this.y = y;
 		this.width = 20;
 		this.height = 20;
-		
+
 		this.enabled = true;
 	}
 
 	public QADButton(String string, ResourceLocation resourceLocation) {
 		this.model = new DefaultButtonModel(string, resourceLocation);
-		
+
 		this.x = 0;
 		this.y = 0;
 		this.width = 20;
 		this.height = 20;
-		
+
 		this.enabled = true;
 	}
-	
+
 	public QADButton(int x, int y, int width, String text) {
 		this.model = new DefaultButtonModel(text);
 
@@ -113,7 +105,7 @@ public class QADButton extends QADRectangularComponent {
 
 		this.enabled = true;
 	}
-	
+
 	public QADButton(int x, int y, int width, ButtonModel model) {
 		this.model = model;
 
@@ -186,11 +178,13 @@ public class QADButton extends QADRectangularComponent {
 	public int getHeight() {
 		return this.height;
 	}
-	
+
+	@Override
 	public boolean canResize() {
 		return true;
 	}
 
+	@Override
 	public void setWidth(int width) {
 		this.width = width;
 	}
@@ -208,14 +202,14 @@ public class QADButton extends QADRectangularComponent {
 
 	@Override
 	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
-		
+
 		// Culling on the Y-Axis
 		if(renderer.getOffsetY()+y > renderer.getHeight()) {
 			return;
 		} else if(renderer.getOffsetY()+y+height < 0) {
 			return;
 		}
-		
+
 		// if (this.visible)
 		{
 			EXTFontRenderer fontrenderer = renderer.getFontRenderer();
@@ -226,30 +220,30 @@ public class QADButton extends QADRectangularComponent {
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
-			
+
 			if(simplified) {
 				int color = 0xFF101010;
-				
+
 				switch(k) {
 				case 0: color = 0x7F101010; break;
 				case 1: color = 0x7F505050; break;
 				case 2: color = 0x7F707060; break;
 				}
-				
+
 				renderer.drawRectangle(this.x, this.y, this.x+this.width, this.y+this.height, color);
-            	renderer.drawLineRectangle(this.x, this.y, this.x+this.width, this.y+this.height, 0x7FFFFFFF);
+				renderer.drawLineRectangle(this.x, this.y, this.x+this.width, this.y+this.height, 0x7FFFFFFF);
 			} else {
-	            if(width < 256) {
-	            	renderer.drawTexturedModalRectangle(this.x, this.y, 0, 46 + k * 20, this.width / 2, this.height);
-	            	renderer.drawTexturedModalRectangle(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
-	            } else {
-	            	renderer.drawRectangle(this.x, this.y, this.x+this.width, this.y+this.height, 0x7F5F5F5F);
-	            	renderer.drawLineRectangle(this.x, this.y, this.x+this.width, this.y+this.height, 0xFFFFFFFF);
-	            }
+				if(width < 256) {
+					renderer.drawTexturedModalRectangle(this.x, this.y, 0, 46 + k * 20, this.width / 2, this.height);
+					renderer.drawTexturedModalRectangle(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
+				} else {
+					renderer.drawRectangle(this.x, this.y, this.x+this.width, this.y+this.height, 0x7F5F5F5F);
+					renderer.drawLineRectangle(this.x, this.y, this.x+this.width, this.y+this.height, 0xFFFFFFFF);
+				}
 			}
-			
+
 			// this.mouseDragged(mc, mouseX, mouseY);
-			
+
 			int fontColor = 14737632;
 
 			if (!this.enabled)
@@ -262,39 +256,39 @@ public class QADButton extends QADRectangularComponent {
 			}
 
 			int bx = this.x;
-			
+
 			ResourceLocation iconTexture = model.getIcon();
-			
+
 			if(iconTexture != null) {
 				renderer.bindTexture(iconTexture);
 				renderer.drawModalRectangleWithCustomSizedTexture(bx + 2, y + 2, 0, 0, 16, 16, 16, 16);
-				
+
 				// ! MODIFY X !
 				bx += 2 + 16;
 			}
-			
+
 			String text = model.getText();
-			
+
 			if(text == null || text.isEmpty()) {
 				return;
 			}
-			
+
 			int txtY = y + (height - ((fontrenderer.fr.FONT_HEIGHT+7)/2)) / 2;
-			
-			
+
+
 			switch (textAlignment) {
-				case 0: {//left
-					int txtX = bx + 3;
-					renderer.drawString(text, txtX, txtY, fontColor, true);
-				} break;
-				case 1: {//center
-					int txtX = Math.min(bx + width / 2, this.x + width / 2);
-					renderer.drawCenteredString(text, txtX, txtY, fontColor, true);
-				} break;
-				case 2: {//right
-					int txtX = bx + width - 3;
-					renderer.drawString(text, txtX, txtY, fontColor, true);
-				} break;
+			case 0: {//left
+				int txtX = bx + 3;
+				renderer.drawString(text, txtX, txtY, fontColor, true);
+			} break;
+			case 1: {//center
+				int txtX = Math.min(bx + width / 2, this.x + width / 2);
+				renderer.drawCenteredString(text, txtX, txtY, fontColor, true);
+			} break;
+			case 2: {//right
+				int txtX = bx + width - 3;
+				renderer.drawString(text, txtX, txtY, fontColor, true);
+			} break;
 			}
 		}
 	}
@@ -312,9 +306,9 @@ public class QADButton extends QADRectangularComponent {
 			return;
 
 		playPressSound(enabled ? 1f : 0.5f);
-		
+
 		model.onClick();
-		
+
 		if(clickRunnable != null)
 			clickRunnable.run();
 	}
@@ -335,10 +329,11 @@ public class QADButton extends QADRectangularComponent {
 		return localMouseX >= 0 && localMouseY >= 0 && localMouseX < this.width && localMouseY < this.height;
 	}
 
+	@Override
 	public List<String> getTooltip(int mouseX, int mouseY) {
 		return isPointInside(mouseX, mouseY) ? getTooltip() : null;
 	}
-	
+
 	public QADButton setText(String newText) {
 		this.model.setText(newText);
 		return this;
@@ -348,16 +343,16 @@ public class QADButton extends QADRectangularComponent {
 		this.model.setIcon(newIcon);
 		return this;
 	}
-	
+
 	public QADButton setEnabled(boolean b) {
 		this.enabled = b;
 		return this;
 	}
-	
+
 	public ButtonModel getModel() {
 		return model;
 	}
-	
+
 	public QADButton setModel(ButtonModel newModel) {
 		this.model = newModel;
 		return this;
@@ -367,7 +362,7 @@ public class QADButton extends QADRectangularComponent {
 	public QADEnumComponentClass getComponentClass() {
 		return QADEnumComponentClass.ACTION;
 	}
-	
+
 	@Override
 	public boolean transferFocus() {
 		if(focused) {

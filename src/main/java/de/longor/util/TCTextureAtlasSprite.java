@@ -8,8 +8,8 @@ public class TCTextureAtlasSprite extends TextureAtlasSprite {
 	protected TCTextureAtlasSprite(String spriteName) {
 		super(spriteName);
 	}
-	
-	public static TextureAtlasSprite create(ResourceLocation spriteResourceLocation){
+
+	public static TextureAtlasSprite create(ResourceLocation spriteResourceLocation) {
 		return new TCTextureAtlasSprite(spriteResourceLocation.toString());
 	}
 

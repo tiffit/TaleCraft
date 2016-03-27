@@ -14,11 +14,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraftforge.common.util.Constants.NBT;
 
 public class NBTHelper {
-	
+
 	public static final NBTTagCompound getOrCreate(NBTTagCompound parent, String name) {
 		if(parent.hasKey(name, parent.getId())) {
 			return parent.getCompoundTag(name);
@@ -36,53 +35,53 @@ public class NBTHelper {
 			return null;
 		}
 	}
-	
+
 	public static String asJson(NBTTagCompound compound) {
 		StringBuilder builder = new StringBuilder(1024);
 		asJson(compound, builder);
 		return builder.toString();
 	}
-	
+
 	private static void asJson(NBTTagCompound compound, StringBuilder builder) {
 		builder.append('{');
-		
+
 		for(Object keyObject : compound.getKeySet()) {
 			String key = (String)keyObject;
-			
+
 			builder.append(key);
 			builder.append(':');
 			asJson(compound.getTag(key), builder);
 			builder.append(", ");
 		}
-		
+
 		// Remove ", " at the end of the string if it's there.
 		char last0 = builder.charAt(builder.length()-1);
 		char last1 = builder.charAt(builder.length()-2);
 		if(last0 == ' ' && last1 == ',') {
 			builder.setLength(builder.length()-2);
 		}
-		
+
 		builder.append('}');
 	}
-	
+
 	private static void asJson(NBTTagList tag, StringBuilder builder) {
 		builder.append('[');
-		
+
 		for(int i = 0; i < tag.tagCount(); i++) {
 			asJson(tag.get(i), builder);
 			builder.append(", ");
 		}
-		
+
 		// Remove ", " at the end of the string if it's there.
 		char last0 = builder.charAt(builder.length()-1);
 		char last1 = builder.charAt(builder.length()-2);
 		if(last0 == ' ' && last1 == ',') {
 			builder.setLength(builder.length()-2);
 		}
-		
+
 		builder.append(']');
 	}
-	
+
 	private static void asJson(NBTBase tag, StringBuilder builder) {
 		switch(tag.getId()) {
 		case NBT.TAG_BYTE: builder.append(((NBTTagByte)tag).getByte()).append('b'); break;
@@ -97,13 +96,13 @@ public class NBTHelper {
 		case NBT.TAG_COMPOUND: asJson((NBTTagCompound) tag, builder); break;
 		case NBT.TAG_LIST: asJson((NBTTagList) tag, builder); break;
 		}
-		
+
 	}
-	
+
 	public static NBTTagCompound newSingleStringCompound(String key, String value) {
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setString(key, value);
 		return compound;
 	}
-	
+
 }

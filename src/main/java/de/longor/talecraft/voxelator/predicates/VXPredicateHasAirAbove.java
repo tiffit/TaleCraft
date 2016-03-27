@@ -1,9 +1,9 @@
 package de.longor.talecraft.voxelator.predicates;
 
-import net.minecraft.util.BlockPos;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.voxelator.CachedWorldDiff;
 import de.longor.talecraft.voxelator.VXPredicate;
+import net.minecraft.util.math.BlockPos;
 
 public final class VXPredicateHasAirAbove extends VXPredicate {
 

@@ -1,20 +1,20 @@
 package de.longor.talecraft.client.gui.qad.model.nbtcompound;
 
-import net.minecraft.nbt.NBTTagCompound;
 import de.longor.talecraft.client.gui.qad.QADTextField.TextFieldModel;
+import net.minecraft.nbt.NBTTagCompound;
 
 public final class NBTByteTextFieldModel implements TextFieldModel {
 	String text;
 	String tagKey;
 	NBTTagCompound tagParent;
 	boolean valid = true;
-	
+
 	public NBTByteTextFieldModel(String tagKey, NBTTagCompound tagParent) {
 		this.tagKey = tagKey;
 		this.tagParent = tagParent;
 		this.text = Byte.toString(tagParent.getByte(tagKey));
 	}
-	
+
 	@Override public void setText(String newText) {
 		text = newText;
 		try {
@@ -25,7 +25,7 @@ public final class NBTByteTextFieldModel implements TextFieldModel {
 			valid = false; // :(
 		}
 	}
-	
+
 	@Override public int getTextLength() {
 		return text.length();
 	}
@@ -42,7 +42,7 @@ public final class NBTByteTextFieldModel implements TextFieldModel {
 	public void setTextColor(int color) {
 		// nope
 	}
-	
+
 	@Override
 	public int getTextColor() {
 		return valid ? 0xFFFFFFFF : 0xFFFF7070;

@@ -1,9 +1,5 @@
 package de.longor.talecraft.voxelator;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.voxelator.predicates.VXPredicateAND;
 import de.longor.talecraft.voxelator.predicates.VXPredicateAverageSmooth;
@@ -16,6 +12,9 @@ import de.longor.talecraft.voxelator.predicates.VXPredicateOR;
 import de.longor.talecraft.voxelator.predicates.VXPredicateRandom;
 import de.longor.talecraft.voxelator.predicates.VXPredicateStateMatch;
 import de.longor.talecraft.voxelator.predicates.VXPredicateTypeMatch;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
 
 public abstract class VXPredicate{
 	/** A predicate that always returns true. **/
@@ -26,18 +25,18 @@ public abstract class VXPredicate{
 				BlockPos center,
 				MutableBlockPos offset,
 				CachedWorldDiff fworld
-		) {
+				) {
 			return true;
 		}
 	};
-	
+
 	/** @return SEE IMPLEMENTATION. **/
 	public abstract boolean test(
 			BlockPos pos,
 			BlockPos center,
 			MutableBlockPos offset,
 			CachedWorldDiff fworld
-	);
+			);
 
 	public static VXPredicate newAND(VXPredicate...predicates) {
 		return new VXPredicateAND(predicates);
@@ -50,23 +49,23 @@ public abstract class VXPredicate{
 	public static VXPredicate newNOT(VXPredicate predicate) {
 		return new VXPredicateNOT(predicate);
 	}
-	
+
 	public static VXPredicate newTypeMatch(Block type) {
 		return new VXPredicateTypeMatch(type);
 	}
-	
+
 	public static VXPredicate newStateMatch(IBlockState state) {
 		return new VXPredicateStateMatch(state);
 	}
-	
+
 	public static VXPredicate newHeightLimit(int height) {
 		return new VXPredicateHeightLimit(height);
 	}
-	
+
 	public static VXPredicate newAverageSmooth(int size) {
 		return new VXPredicateAverageSmooth(size);
 	}
-	
+
 	public static VXPredicate newBoxSmooth(int size) {
 		return new VXPredicateBoxSmooth(size);
 	}
@@ -82,5 +81,5 @@ public abstract class VXPredicate{
 	public static VXPredicate newRandom(float chance) {
 		return new VXPredicateRandom(chance);
 	}
-	
+
 }

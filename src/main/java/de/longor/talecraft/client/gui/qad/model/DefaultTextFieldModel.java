@@ -1,22 +1,21 @@
 package de.longor.talecraft.client.gui.qad.model;
 
-import de.longor.talecraft.client.gui.qad.QADTextField;
 import de.longor.talecraft.client.gui.qad.QADTextField.TextFieldModel;
 
 public final class DefaultTextFieldModel implements TextFieldModel {
 	private String text;
 	private int color;
-	
+
 	public DefaultTextFieldModel(String text) {
 		this.text = text;
 		this.color = 0xFFFFFFFF;
 	}
-	
+
 	public DefaultTextFieldModel() {
 		this.text = "[null]";
 		this.color = 0xFFFFFFFF;
 	}
-	
+
 	@Override public void setText(String text) {
 		this.text = text;
 	}

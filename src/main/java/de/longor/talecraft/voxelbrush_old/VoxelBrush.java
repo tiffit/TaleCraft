@@ -5,23 +5,24 @@ import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.util.MutableBlockPos;
-import de.longor.talecraft.util.WorldHelper;
 import de.longor.talecraft.voxelator.VXAction;
 import de.longor.talecraft.voxelator.VXPredicate;
 import de.longor.talecraft.voxelator.VXShape;
 import de.longor.talecraft.voxelator.Voxelator;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class VoxelBrush {
 
+	//Enable to test voxelator (voxelbrush rewrite)
+	public static final boolean VOXELATOR_TESTING = false;
+
 	public static final void func(World world, NBTTagCompound vbData, BlockPos position) {
 
-		if(Boolean.TRUE.booleanValue()) {
+		if(VOXELATOR_TESTING) {
 			VXShape     shape     = VXShape.newBox(position, 16);
 			VXPredicate predicate = VXPredicate.newAND(VXPredicate.newIsSolid(), VXPredicate.newHasAirAbove());
 			// VXAction    action    = VXAction.newVariationReplaceAction(Blocks.grass.getStateFromMeta(0), Blocks.grass.getStateFromMeta(1));
@@ -85,22 +86,22 @@ public class VoxelBrush {
 		TaleCraft.logger.info("done painting!"
 				+ " changes: " + changes
 				+ ", time: " + ((double)System.currentTimeMillis()-(double)time)/1000D + "s"
-		);
+				);
 	}
 
-    @SideOnly(Side.CLIENT)
-	public static void func(NBTTagCompound vbData, List tooltip) {
+	@SideOnly(Side.CLIENT)
+	public static void func(NBTTagCompound vbData, List<String> tooltip) {
 		// TODO: Implement VoxelBrush Tooltip
 
-    	NBTTagCompound compShape = vbData.getCompoundTag("shape");
-    	NBTTagCompound compAction = vbData.getCompoundTag("action");
+		NBTTagCompound compShape = vbData.getCompoundTag("shape");
+		NBTTagCompound compAction = vbData.getCompoundTag("action");
 
-    	IShape shape = ShapeFactory.create(compShape.getString("type"), compShape, new BlockPos(0, 0, 0));
-    	IAction action = ActionFactory.create(compAction.getString("type"), compAction);
+		IShape shape = ShapeFactory.create(compShape.getString("type"), compShape, new BlockPos(0, 0, 0));
+		IAction action = ActionFactory.create(compAction.getString("type"), compAction);
 
-    	tooltip.add("Shape: " + shape);
-    	tooltip.add("Action: " + action);
-    	tooltip.add("");
+		tooltip.add("Shape: " + shape);
+		tooltip.add("Action: " + action);
+		tooltip.add("");
 
 	}
 
