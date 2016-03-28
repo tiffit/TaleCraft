@@ -36,7 +36,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.util.ConfigurationManager;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, guiFactory = Reference.GUI_FACTORY)
 public class TaleCraft {
 	@Mod.Instance(Reference.MOD_ID)
 	public static TaleCraft instance;
@@ -48,6 +48,7 @@ public class TaleCraft {
 	public static TimedExecutor timedExecutor;
 	public static Logger logger;
 	public static Random random;
+	public static Configuration config;
 
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY, modId = Reference.MOD_ID)
 	public static CommonProxy proxy;
@@ -60,9 +61,8 @@ public class TaleCraft {
 		logger.info("TaleCraft Version: " + Reference.MOD_VERSION);
 		logger.info("TaleCraft ModContainer: " + container);
 		logger.info("Creating/Reading configuration file!");
-		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config = new Configuration(event.getSuggestedConfigurationFile());
 		ConfigurationManager.init(config);
-		config.save();
 		logger.info("Configuration loaded!");
 		MinecraftForge.EVENT_BUS.register(this);
 

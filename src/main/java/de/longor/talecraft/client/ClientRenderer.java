@@ -89,7 +89,7 @@ public class ClientRenderer {
 		init_render_item(mesher);
 
 		init_render_entity();
-		if(!ConfigurationManager.USE_PARTICLE_RENDERING) init_render_tilentity();
+		if(!ConfigurationManager.useBarrierRendering) init_render_tilentity();
 	}
 
 	private void init_render_tilentity() {

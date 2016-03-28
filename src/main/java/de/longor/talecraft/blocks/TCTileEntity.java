@@ -51,7 +51,7 @@ public abstract class TCTileEntity extends TileEntity implements IInvokeSource, 
 	@Override
 	public void update(){
 		if(this.worldObj.isRemote && ClientProxy.isInBuildMode()){
-			if(ConfigurationManager.USE_PARTICLE_RENDERING) Minecraft.getMinecraft().effectRenderer.addEffect(new BlockEffect(worldObj, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.getBlockType()));
+			if(ConfigurationManager.useBarrierRendering) Minecraft.getMinecraft().effectRenderer.addEffect(new BlockEffect(worldObj, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.getBlockType()));
 		}
 
 	}
