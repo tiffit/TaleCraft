@@ -30,7 +30,7 @@ public class BlankBlock extends TCBlock {
 	public BlankBlock(SoundType sound) {
 		this.setCreativeTab(TaleCraftTabs.tab_TaleCraftDecorationTab);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(SUB, Integer.valueOf(0)));
-		this.setSoundType(sound);
+		this.setStepSound(sound);
 	}
 
 	@Override

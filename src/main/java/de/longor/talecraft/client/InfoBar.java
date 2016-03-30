@@ -259,8 +259,8 @@ public class InfoBar {
 			builder.append(' ');
 			builder.append((int)playerIn.rotationPitch);
 			builder.append(' ');
-			builder.append((int)MathHelper.wrapDegrees(playerIn.rotationYaw));
-
+			builder.append((int)MathHelper.wrapAngleTo180_float(playerIn.rotationYaw));
+			
 			builder.append(']');
 		}
 	}
