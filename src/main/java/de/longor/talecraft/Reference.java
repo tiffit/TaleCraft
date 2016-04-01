@@ -7,4 +7,6 @@ public class Reference {
 
 	public static final String CLIENT_PROXY = "de.longor.talecraft.proxy.ClientProxy";
 	public static final String SERVER_PROXY = "de.longor.talecraft.proxy.ServerProxy";
+
+	public static final String GUI_FACTORY = "de.longor.talecraft.util.GuiFactory";
 }

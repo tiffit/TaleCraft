@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tiffit.talecraft.util.ConfigurationManager;
 
 public class TaleCraftEventHandler {
 	public TaleCraftEventHandler() {}
@@ -130,5 +132,12 @@ public class TaleCraftEventHandler {
 		System.out.println("[TALECRAFT INFO] Player used item! " + event);
 	}
 	 */
+
+	@SubscribeEvent
+	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+		if(event.getModID().equals(Reference.MOD_ID)) {
+			ConfigurationManager.init(TaleCraft.config);
+		}
+	}
 
 }
