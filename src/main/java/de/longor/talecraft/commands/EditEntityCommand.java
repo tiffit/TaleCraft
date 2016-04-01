@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.EntitySelector;
@@ -83,7 +83,7 @@ public class EditEntityCommand extends CommandBase {
 		commandData.setTag("entityData", entityData);
 		commandData.setString("entityUUID", theEntity.getUniqueID().toString());
 
-		StringNBTCommand command = new StringNBTCommand("client.gui.editor.entity", commandData);
+		StringNBTCommandPacket command = new StringNBTCommandPacket("client.gui.editor.entity", commandData);
 
 		TaleCraft.logger.debug("Sending entity data for editing to player: " + player.getName());
 		TaleCraft.network.sendTo(command, player);

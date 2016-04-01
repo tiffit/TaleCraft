@@ -8,7 +8,7 @@ import de.longor.talecraft.invoke.CommandSenderInvokeSource;
 import de.longor.talecraft.invoke.EnumTriggerState;
 import de.longor.talecraft.invoke.FileScriptInvoke;
 import de.longor.talecraft.invoke.Invoke;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.util.PlayerHelper;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -75,7 +75,7 @@ public class ScriptCommand extends TCCommandBase {
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("scriptname", fileName);
 				nbt.setString("script", fileContent);
-				TaleCraft.network.sendTo(new StringNBTCommand("script_edit", nbt), player);
+				TaleCraft.network.sendTo(new StringNBTCommandPacket("script_edit", nbt), player);
 			} else {
 				throw new WrongUsageException("Wrong parameter count: /tc_script edit <scriptname>");
 			}

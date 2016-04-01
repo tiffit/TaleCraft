@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.server.ServerFileSystem;
 import de.longor.talecraft.server.ServerMirror;
 import de.longor.talecraft.util.Either;
@@ -61,10 +61,10 @@ public class FileCommand extends TCCommandBase {
 			String type = data.getString("type");
 
 			if(type.equalsIgnoreCase("file")) {
-				StringNBTCommand command = new StringNBTCommand("client.gui.file.edit", data);
+				StringNBTCommandPacket command = new StringNBTCommandPacket("client.gui.file.edit", data);
 				TaleCraft.network.sendTo(command, (EntityPlayerMP) sender);
 			} else if(type.equalsIgnoreCase("dir")) {
-				StringNBTCommand command = new StringNBTCommand("client.gui.file.browse", data);
+				StringNBTCommandPacket command = new StringNBTCommandPacket("client.gui.file.browse", data);
 				TaleCraft.network.sendTo(command, (EntityPlayerMP) sender);
 			} else {
 				// ...?

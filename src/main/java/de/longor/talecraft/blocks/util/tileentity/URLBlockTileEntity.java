@@ -6,7 +6,7 @@ import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.blocks.TCTileEntity;
 import de.longor.talecraft.invoke.EnumTriggerState;
 import de.longor.talecraft.invoke.IInvoke;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.util.NBTHelper;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -61,7 +61,7 @@ public class URLBlockTileEntity extends TCTileEntity {
 	public void trigger(EnumTriggerState triggerState) {
 		if(triggerState.getBooleanValue()) {
 			List<EntityPlayerMP> players = EntitySelector.matchEntities(this, selector, EntityPlayerMP.class);
-			StringNBTCommand command = new StringNBTCommand();
+			StringNBTCommandPacket command = new StringNBTCommandPacket();
 			command.command = "client.gui.openurl";
 			command.data = NBTHelper.newSingleStringCompound("url",url);
 

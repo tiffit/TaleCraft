@@ -2,36 +2,53 @@ package de.longor.talecraft.client;
 
 import org.lwjgl.input.Keyboard;
 
+import de.longor.talecraft.Reference;
 import de.longor.talecraft.TaleCraft;
+import de.longor.talecraft.client.gui.nbt.GuiNBTEditor;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 
 public class ClientKeyboardHandler {
 	private final ClientProxy proxy;
 	private final Minecraft mc;
-
+	private static final String category = "key.categories." + Reference.MOD_ID;
+	
 	private KeyBinding mapSettingsBinding;
 	private KeyBinding buildModeBinding;
 	private KeyBinding visualizationBinding;
+	private KeyBinding nbt;
 
 	public ClientKeyboardHandler(ClientProxy clientProxy) {
 		proxy = clientProxy;
 		mc = Minecraft.getMinecraft();
 
-		mapSettingsBinding = new KeyBinding("key.mapSettings", Keyboard.KEY_M, "key.categories.misc");
-		buildModeBinding = new KeyBinding("key.toggleBuildMode", Keyboard.KEY_B, "key.categories.misc");
-		visualizationBinding = new KeyBinding("key.toggleWireframe", Keyboard.KEY_PERIOD, "key.categories.misc");
+		mapSettingsBinding = new KeyBinding("key.mapSettings", Keyboard.KEY_M, category);
+		buildModeBinding = new KeyBinding("key.toggleBuildMode", Keyboard.KEY_B, category);
+		visualizationBinding = new KeyBinding("key.toggleWireframe", Keyboard.KEY_PERIOD, category);
+		nbt = new KeyBinding("key.nbt", Keyboard.KEY_N, category);
 
 		// register all keybindings
 		ClientRegistry.registerKeyBinding(mapSettingsBinding);
 		ClientRegistry.registerKeyBinding(buildModeBinding);
 		ClientRegistry.registerKeyBinding(visualizationBinding);
+		ClientRegistry.registerKeyBinding(nbt);
 	}
 
 	public void on_key(KeyInputEvent event) {
+		//opens the NBT editor
+		if(nbt.isPressed() && nbt.isKeyDown() && mc.theWorld != null && mc.thePlayer != null && !mc.isGamePaused()){
+			NBTTagCompound tag = new NBTTagCompound();
+			tag.setInteger("test", 1);
+			tag.setBoolean("boolean", true);
+			FMLCommonHandler.instance().showGuiScreen(new GuiNBTEditor(tag));
+			return;
+		}
+		
 		// this toggles between the various visualization modes
 		if(visualizationBinding.isPressed() && visualizationBinding.isKeyDown()) {
 			proxy.getRenderer().setVisualizationMode(proxy.getRenderer().getVisualizationMode()+1);

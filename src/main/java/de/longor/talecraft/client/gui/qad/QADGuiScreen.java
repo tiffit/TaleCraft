@@ -28,6 +28,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	private boolean shouldRelayout;
 	private boolean shouldDebugRender;
 	protected GuiScreen returnScreen;
+	private boolean paused = false;
 
 	public QADGuiScreen() {
 		super.allowUserInput = false;
@@ -43,11 +44,14 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	}
 
 	public void layoutGui() {
-
 	}
 
 	public void updateGui() {
 
+	}
+	
+	protected void setPaused(boolean pause){
+		paused = pause;
 	}
 
 	/** ********************************* **/
@@ -203,6 +207,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		drawCustom(mouseX, mouseY, partialTicks, instance);
 
 		// Check for tooltips, and draw them if necessary.
+		if(paused) return;
 		for(QADComponent component : components) {
 			if(component.isPointInside(mouseX, mouseY)) {
 				List<String> text = component.getTooltip(mouseX, mouseY);
@@ -325,6 +330,14 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		components.clear();
 	}
 
+	public void removeComponent(int index){
+		components.remove(index);
+	}
+	
+	public void removeAll(ArrayList<QADComponent> comps){
+		components.removeAll(comps);
+	}
+	
 	public void resetGuiScreen() {
 		components = null;
 	}

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -99,7 +99,7 @@ public class ClientSettings {
 		String tccommand = "server.client.settings.update";
 		NBTTagCompound settingsForServer = new NBTTagCompound();
 		getSettingsForServer(settingsForServer);
-		TaleCraft.network.sendToServer(new StringNBTCommand(tccommand, settingsForServer));
+		TaleCraft.network.sendToServer(new StringNBTCommandPacket(tccommand, settingsForServer));
 	}
 
 }

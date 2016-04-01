@@ -3,7 +3,7 @@ package de.longor.talecraft.items;
 import java.util.Arrays;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.network.PlayerNBTDataMerge;
+import de.longor.talecraft.network.PlayerNBTDataMergePacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -26,7 +26,7 @@ public class WandItem extends TCItem {
 		// System.out.println("ITEM WAND : Block Click -> " + pos);
 
 		NBTTagCompound compound = player.getEntityData();
-
+		System.out.println("test");
 		NBTTagCompound tcWand = null;
 
 		if(!compound.hasKey("tcWand")) {
@@ -55,7 +55,7 @@ public class WandItem extends TCItem {
 
 		// System.out.println("comp = " + tcWand);
 
-		TaleCraft.network.sendTo(new PlayerNBTDataMerge(compound), (EntityPlayerMP) player);
+		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
 
 		return EnumActionResult.SUCCESS;
 	}
@@ -119,7 +119,7 @@ public class WandItem extends TCItem {
 		wandData.setIntArray("boundsA", new int[]{_ix,_iy,_iz});
 		wandData.setIntArray("boundsB", new int[]{_ax,_ay,_az});
 
-		TaleCraft.network.sendTo(new PlayerNBTDataMerge(playerData), (EntityPlayerMP) player);
+		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(playerData), (EntityPlayerMP) player);
 	}
 
 	public static long getBoundsVolume(int[] bounds) {

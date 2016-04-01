@@ -3,9 +3,23 @@ package de.longor.talecraft.items;
 import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
+import de.longor.talecraft.voxelator.VXAction;
+import de.longor.talecraft.voxelator.VXAction.VXActions;
+import de.longor.talecraft.voxelator.VXShape;
+import de.longor.talecraft.voxelator.Voxelator;
+import de.longor.talecraft.voxelator.actions.VXActionGrassify;
+import de.longor.talecraft.voxelator.actions.VXActionReplace;
+import de.longor.talecraft.voxelator.actions.VXActionVariationsReplace;
+import de.longor.talecraft.voxelator.predicates.VXPredicateHeightLimit;
+import de.longor.talecraft.voxelator.predicates.VXPredicateIsSolid;
+import de.longor.talecraft.voxelator.shapes.VXShapeBox;
+import de.longor.talecraft.voxelator.shapes.VXShapeSphere;
 import de.longor.talecraft.voxelbrush_old.VoxelBrush;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -14,8 +28,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tiffit.talecraft.packet.VoxelatorGuiPacket;
 
 public class VoxelBrushItem extends TCItem {
 
@@ -39,47 +55,21 @@ public class VoxelBrushItem extends TCItem {
 			stackCompound = new NBTTagCompound();
 			stack.setTagCompound(stackCompound);
 		}
-
-		// Automatic initialization of the VoxelBrush.
-		if(!stackCompound.hasKey("vbData")) {
-			TaleCraft.logger.info("Auto-Initializing VoxelBrush: " + stack);
-
-			NBTTagCompound vbData = new NBTTagCompound();
-			stackCompound.setTag("vbData", vbData);
-
-			NBTTagCompound shapeTag = new NBTTagCompound();
-			shapeTag.setString("type", "sphere");
-			shapeTag.setDouble("radius", 3.5);
-			vbData.setTag("shape", shapeTag);
-
-			NBTTagCompound action = new NBTTagCompound();
-			action.setString("type", "replace");
-			action.setString("blockID", "minecraft:stone");
-			action.setString("blockMeta", "0");
-			vbData.setTag("action", action);
-		}
-
 	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-
 		if(!player.capabilities.isCreativeMode)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-
-		if(!player.capabilities.allowEdit)
+		if(!player.capabilities.allowEdit){
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-
-		if(!stack.hasTagCompound())
+		}
+		if(!stack.hasTagCompound()){
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-
-		NBTTagCompound vbData = stack.getTagCompound().getCompoundTag("vbData");
-
-		if(vbData.hasNoTags())
-			return ActionResult.newResult(EnumActionResult.PASS, stack);
-
+		}
+		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush");
 		float lerp = 1F;
 		float dist = 256;
 
@@ -90,10 +80,30 @@ public class VoxelBrushItem extends TCItem {
 		RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
 
 		if(result == null)
-			return ActionResult.newResult(EnumActionResult.PASS, stack);;
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
-			VoxelBrush.func(world, vbData, result.getBlockPos());
-
+			if(player.isSneaking()){
+				TaleCraft.network.sendTo(new VoxelatorGuiPacket(), (EntityPlayerMP) player);
+				return ActionResult.newResult(EnumActionResult.PASS, stack);
+			}else{
+				if(data.hasNoTags())
+					return ActionResult.newResult(EnumActionResult.PASS, stack);
+			}
+			VXAction action = null; int action_id = data.getInteger("action");
+			if(action_id == 0) action = new VXActionGrassify();
+			if(action_id == 1) action = new VXActionReplace(Block.getBlockById(data.getInteger("block_id_0")).getDefaultState());
+			
+			if(action_id == 2){
+				IBlockState[] blockstates = new IBlockState[data.getInteger("block_size")];
+				for(int i = 0; i < blockstates.length; i++){
+					blockstates[i] = Block.getBlockById(data.getInteger("block_id_" + i)).getDefaultState();
+				}
+				action = new VXActionVariationsReplace(blockstates);
+			}
+			VXShape shape = null; int shape_id = data.getInteger("shape");
+			if(shape_id == 0) shape = new VXShapeSphere(result.getBlockPos(), data.getFloat("radius"));
+			if(shape_id == 1) shape = new VXShapeBox(result.getBlockPos(), data.getInteger("width"), data.getInteger("height"), data.getInteger("lenght"));
+			Voxelator.apply(shape, new VXPredicateIsSolid(), action, world);
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 	}
 
@@ -105,13 +115,8 @@ public class VoxelBrushItem extends TCItem {
 			return;
 		}
 
-		NBTTagCompound vbData = stack.getTagCompound().getCompoundTag("vbData");
-
-		if(vbData.hasNoTags())
-			return;
-
-		VoxelBrush.func(vbData, tooltip);
-
+		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush");
+		VoxelBrush.addDesc(data, tooltip);
 		super.addInformation(stack, player, tooltip, advanced);
 	}
 

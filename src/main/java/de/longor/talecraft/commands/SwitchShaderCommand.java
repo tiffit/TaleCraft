@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.command.ICommandSender;
@@ -40,7 +40,7 @@ public class SwitchShaderCommand extends TCCommandBase {
 
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setString("shaderName", shaderName);
-		StringNBTCommand pkt = new StringNBTCommand("switchShader", nbt);
+		StringNBTCommandPacket pkt = new StringNBTCommandPacket("switchShader", nbt);
 
 		for(EntityPlayerMP entityPlayerMP : players) {
 			TaleCraft.network.sendTo(pkt, entityPlayerMP);

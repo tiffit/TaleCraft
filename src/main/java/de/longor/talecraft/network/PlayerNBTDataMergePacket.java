@@ -6,7 +6,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import de.longor.talecraft.TaleCraft;
+import de.longor.talecraft.proxy.ClientProxy;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -64,7 +67,16 @@ public class PlayerNBTDataMergePacket implements IMessage {
 
 		@Override
 		public IMessage onMessage(PlayerNBTDataMergePacket message, MessageContext ctx) {
-
+			final ClientProxy cproxy = TaleCraft.proxy.asClient();
+			final PlayerNBTDataMergePacket mpakDataMerge = message;
+			cproxy.sheduleClientTickTask(new Runnable(){
+				Minecraft micr = cproxy.mc;
+				@Override public void run() {
+					if(micr.thePlayer != null) {
+						micr.thePlayer.getEntityData().merge((mpakDataMerge.data));
+					}
+				}
+			});
 			return null;
 		}
 	}
