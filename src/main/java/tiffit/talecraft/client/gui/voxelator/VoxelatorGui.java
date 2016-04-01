@@ -290,7 +290,7 @@ public class VoxelatorGui extends QADGuiScreen {
 
 				@Override
 				public String getValueAsText() {
-					return "Lenght: " + (int) (VoxelatorGui.this.lenght*10);
+					return "Length: " + (int) (VoxelatorGui.this.lenght*10);
 				}
 
 				@Override

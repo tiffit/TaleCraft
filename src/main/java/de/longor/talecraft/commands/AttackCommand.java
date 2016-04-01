@@ -130,13 +130,13 @@ public class AttackCommand extends TCCommandBase {
 
 	@Override
 	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-		if(args.length == 0) {
+		if(args.length == 1) {
 			return getListOfStringsMatchingLastWord(args, new String[]{"@e","@a","@p","@r"});
 		}
-		if(args.length == 1) {
+		if(args.length == 2) {
 			return getListOfStringsMatchingLastWord(args, new String[]{"magic","anvil","cactus","drown","fall","fallingblock","generic","fire","wall","lava","lightingbolt","onfire","out_of_world","starve","wither"}); // type
 		}
-		if(args.length == 2) {
+		if(args.length == 3) {
 			return getListOfStringsMatchingLastWord(args, new String[]{"1","0.5","2","2.5"});
 		}
 
