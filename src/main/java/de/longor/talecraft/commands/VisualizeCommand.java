@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.util.CommandArgumentParser;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -33,7 +33,7 @@ public class VisualizeCommand extends TCCommandBase {
 
 		// CLEAR ALL TEMPORABLES
 		if(action.equals("clear")) {
-			TaleCraft.network.sendToAll(new StringNBTCommand("client.render.renderable.clear"));
+			TaleCraft.network.sendToAll(new StringNBTCommandPacket("client.render.renderable.clear"));
 			return;
 		}
 
@@ -78,7 +78,7 @@ public class VisualizeCommand extends TCCommandBase {
 				pktdata.setString("type", "box");
 				pktdata.setIntArray("box", box);
 				pktdata.setInteger("color", parseColor(color));
-				TaleCraft.network.sendToAll(new StringNBTCommand("client.render.renderable.push", pktdata));
+				TaleCraft.network.sendToAll(new StringNBTCommandPacket("client.render.renderable.push", pktdata));
 			}
 
 
@@ -124,7 +124,7 @@ public class VisualizeCommand extends TCCommandBase {
 			pktdata.setString("type", "box");
 			pktdata.setIntArray("box", box);
 			pktdata.setInteger("color", parseColor(color));
-			TaleCraft.network.sendToAll(new StringNBTCommand("client.render.renderable.push", pktdata));
+			TaleCraft.network.sendToAll(new StringNBTCommandPacket("client.render.renderable.push", pktdata));
 		}
 
 	}
@@ -142,7 +142,7 @@ public class VisualizeCommand extends TCCommandBase {
 		pktdata.setInteger("positionY", sender.getPosition().getY());
 		pktdata.setInteger("positionZ", sender.getPosition().getZ());
 		pktdata.setInteger("color", parseColor(color));
-		TaleCraft.network.sendToAll(new StringNBTCommand("client.render.renderable.push", pktdata));
+		TaleCraft.network.sendToAll(new StringNBTCommandPacket("client.render.renderable.push", pktdata));
 	}
 
 	@Override

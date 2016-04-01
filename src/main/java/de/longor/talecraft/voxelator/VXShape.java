@@ -7,6 +7,30 @@ import de.longor.talecraft.voxelator.shapes.VXShapeSphere;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class VXShape {
+	
+	public static enum VXShapes{
+		Sphere("Sphere"), Box("Box");
+		
+		String name;
+		
+		VXShapes(String name){
+			this.name = name;
+		}
+	
+		public String toString(){
+			return name;
+		}
+		
+		public int getID(){
+			return ordinal();
+		}
+		
+		public static VXShapes get(int id){
+			return VXShapes.values()[id];
+		}
+		
+	}
+	
 	public abstract BlockPos getCenter();
 	public abstract BlockRegion getRegion();
 

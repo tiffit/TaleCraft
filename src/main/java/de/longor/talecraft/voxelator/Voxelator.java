@@ -26,6 +26,12 @@ import net.minecraftforge.common.util.BlockSnapshot;
  **/
 public class Voxelator {
 
+	public static final String AC_GRASSIFY = "Grassify";
+	public static final String AC_REPLACE = "Replace";
+	public static final String AC_VARREPLACE = "Variation Replace";
+	public static final String SH_BOX = "Box";
+	public static final String SH_SPHERE = "Sphere";
+	
 	public static void apply(VXShape shape, VXPredicate predicate, VXAction action, World world) {
 
 		final BlockPos center = shape.getCenter();

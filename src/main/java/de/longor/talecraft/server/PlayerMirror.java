@@ -3,7 +3,7 @@ package de.longor.talecraft.server;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.invoke.IInvokeSource;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -43,7 +43,7 @@ public class PlayerMirror {
 		tagCompound.setFloat("itr", colorT[0]);
 		tagCompound.setFloat("itg", colorT[1]);
 		tagCompound.setFloat("itb", colorT[2]);
-		TaleCraft.network.sendTo(new StringNBTCommand("client.debug.track.invoke", tagCompound), player);
+		TaleCraft.network.sendTo(new StringNBTCommandPacket("client.debug.track.invoke", tagCompound), player);
 	}
 
 }

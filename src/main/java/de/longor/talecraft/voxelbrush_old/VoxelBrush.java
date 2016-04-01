@@ -6,11 +6,14 @@ import java.util.List;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.voxelator.VXAction;
+import de.longor.talecraft.voxelator.VXAction.VXActions;
 import de.longor.talecraft.voxelator.VXPredicate;
 import de.longor.talecraft.voxelator.VXShape;
+import de.longor.talecraft.voxelator.VXShape.VXShapes;
 import de.longor.talecraft.voxelator.Voxelator;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -90,17 +93,19 @@ public class VoxelBrush {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static void func(NBTTagCompound vbData, List<String> tooltip) {
-		// TODO: Implement VoxelBrush Tooltip
-
-		NBTTagCompound compShape = vbData.getCompoundTag("shape");
-		NBTTagCompound compAction = vbData.getCompoundTag("action");
-
-		IShape shape = ShapeFactory.create(compShape.getString("type"), compShape, new BlockPos(0, 0, 0));
-		IAction action = ActionFactory.create(compAction.getString("type"), compAction);
-
-		tooltip.add("Shape: " + shape);
-		tooltip.add("Action: " + action);
+	public static void addDesc(NBTTagCompound data, List<String> tooltip) {
+		if(data.hasNoTags()){
+			tooltip.add(TextFormatting.RED + "Not Defined Yet");
+			return;
+		}
+		//IShape shape = ShapeFactory.create(compShape.getString("type"), compShape, new BlockPos(0, 0, 0));
+		VXActions action = VXActions.get(data.getInteger("action"));
+		VXShapes shape = VXShapes.get(data.getInteger("shape"));
+		String shapeData = "";
+		if(shape == VXShapes.Sphere) shapeData = "[r=" + data.getFloat("radius") + "]";
+		if(shape == VXShapes.Box) shapeData  = "[w=" + data.getInteger("width") + ",h=" + data.getInteger("height") + ",l="+ data.getInteger("lenght") + "]";
+		tooltip.add("Shape: " + shape.toString() + shapeData);
+		tooltip.add("Action: " + action.toString());
 		tooltip.add("");
 
 	}

@@ -65,7 +65,6 @@ public class ClientProxy extends CommonProxy {
 
 		// create client network'er
 		clientNetworkHandler = new ClientNetworkHandler(this);
-		clientNetworkHandler.init();
 
 		// create client renderer
 		clientRenderer = new ClientRenderer(this);

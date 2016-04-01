@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.util.CommandArgumentParser;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.CommandException;
@@ -66,7 +66,7 @@ public class HighlightCommand extends TCCommandBase {
 			pktdata.setInteger("pos.y", blockPos.getY());
 			pktdata.setInteger("pos.z", blockPos.getZ());
 			pktdata.setDouble("duration", duration);
-			TaleCraft.network.sendToAll(new StringNBTCommand("client.render.renderable.push", pktdata));
+			TaleCraft.network.sendToAll(new StringNBTCommandPacket("client.render.renderable.push", pktdata));
 			return;
 		}
 

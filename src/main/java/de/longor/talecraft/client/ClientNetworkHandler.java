@@ -8,13 +8,10 @@ import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.TaleCraftItems;
 import de.longor.talecraft.client.gui.misc.GuiEntityEditor;
 import de.longor.talecraft.client.gui.misc.GuiEntityEditor.RemoteEntityDataLink;
-import de.longor.talecraft.client.network.PlayerDataMergeMessageHandler;
-import de.longor.talecraft.client.network.StringNBTCommandMessageHandler;
 import de.longor.talecraft.client.render.ITemporaryRenderable;
 import de.longor.talecraft.client.render.PushRenderableFactory;
 import de.longor.talecraft.items.CopyItem;
-import de.longor.talecraft.network.PlayerNBTDataMerge;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiYesNoCallback;
@@ -22,20 +19,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class ClientNetworkHandler {
 	private final ClientProxy proxy;
 
 	public ClientNetworkHandler(ClientProxy clientProxy) {
 		proxy = clientProxy;
-	}
-
-	public void init() {
-		SimpleNetworkWrapper net = TaleCraft.network;
-		net.registerMessage(new StringNBTCommandMessageHandler(), StringNBTCommand.class, 0x01, Side.CLIENT);
-		net.registerMessage(new PlayerDataMergeMessageHandler(), PlayerNBTDataMerge.class, 0x02, Side.CLIENT);
 	}
 
 	public void handleClientCommand(final String command, final NBTTagCompound data) {
@@ -45,7 +34,7 @@ public class ClientNetworkHandler {
 
 			String tccommand = "join acknowledged";
 			NBTTagCompound tcdata = new NBTTagCompound();
-			TaleCraft.network.sendToServer(new StringNBTCommand(tccommand, tcdata));
+			TaleCraft.network.sendToServer(new StringNBTCommandPacket(tccommand, tcdata));
 
 			ClientProxy.settings.send();
 			return;
@@ -71,7 +60,7 @@ public class ClientNetworkHandler {
 							compound.setTag("entityData", entityData);
 
 							String cmd = "server.data.entity.merge";
-							StringNBTCommand command = new StringNBTCommand(cmd, compound);
+							StringNBTCommandPacket command = new StringNBTCommandPacket(cmd, compound);
 							TaleCraft.network.sendToServer(command);
 						}
 					};

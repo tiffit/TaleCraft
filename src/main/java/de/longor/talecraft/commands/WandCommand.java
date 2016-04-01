@@ -11,7 +11,7 @@ import de.longor.talecraft.invoke.EnumTriggerState;
 import de.longor.talecraft.invoke.Invoke;
 import de.longor.talecraft.items.CopyItem;
 import de.longor.talecraft.items.WandItem;
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.server.ServerMirror;
 import de.longor.talecraft.util.GObjectTypeHelper;
 import de.longor.talecraft.util.WorldHelper;
@@ -435,7 +435,7 @@ public class WandCommand extends TCCommandBase {
 			CopyItem copy = TaleCraftItems.copy;
 			ItemStack stack = new ItemStack(copy);
 			copy.onItemRightClick(stack, player.worldObj, player, EnumHand.MAIN_HAND);
-			TaleCraft.network.sendTo(new StringNBTCommand("item.copy.trigger"), player);
+			TaleCraft.network.sendTo(new StringNBTCommandPacket("item.copy.trigger"), player);
 		}
 	}
 

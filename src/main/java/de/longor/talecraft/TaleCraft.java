@@ -5,6 +5,7 @@ import java.util.Random;
 import org.apache.logging.log4j.Logger;
 
 import de.longor.talecraft.managers.TCWorldsManager;
+import de.longor.talecraft.network.PlayerNBTDataMergePacket;
 import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.proxy.ClientProxy;
 import de.longor.talecraft.proxy.CommonProxy;
@@ -34,6 +35,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tiffit.talecraft.packet.VoxelatorGuiPacket;
+import tiffit.talecraft.packet.VoxelatorPacket;
 import tiffit.talecraft.util.ConfigurationManager;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
@@ -76,7 +79,9 @@ public class TaleCraft {
 
 		// Register the handler for server-side StringNBT-commands.
 		network.registerMessage(StringNBTCommandPacket.Handler.class, StringNBTCommandPacket.class, 0, Side.SERVER);
-
+		network.registerMessage(PlayerNBTDataMergePacket.Handler.class, PlayerNBTDataMergePacket.class, 1, Side.CLIENT);
+		network.registerMessage(VoxelatorGuiPacket.Handler.class, VoxelatorGuiPacket.class, 2, Side.CLIENT);
+		network.registerMessage(VoxelatorPacket.Handler.class, VoxelatorPacket.class, 3, Side.SERVER);
 		// Print debug information
 		logger.info("TaleCraft CoreManager @" + worldsManager.hashCode());
 		logger.info("TaleCraft TimedExecutor @" + timedExecutor.hashCode());

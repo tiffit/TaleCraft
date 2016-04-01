@@ -1,6 +1,6 @@
 package de.longor.talecraft;
 
-import de.longor.talecraft.network.StringNBTCommand;
+import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.server.ServerHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
@@ -45,7 +45,7 @@ public class TaleCraftEventHandler {
 	public void playerLoggedIn(PlayerLoggedInEvent event) {
 		if(event.player instanceof EntityPlayerMP) {
 			ServerHandler.getServerMirror(null).playerList().playerJoin((EntityPlayerMP) event.player);
-			TaleCraft.network.sendTo(new StringNBTCommand("client.network.join"), (EntityPlayerMP) event.player);
+			TaleCraft.network.sendTo(new StringNBTCommandPacket("client.network.join"), (EntityPlayerMP) event.player);
 		}
 	}
 
