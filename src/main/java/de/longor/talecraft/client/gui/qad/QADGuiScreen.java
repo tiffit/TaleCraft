@@ -192,12 +192,14 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		}
 
 		// ...
-		instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
+		if(this.fontRendererObj != null) instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
 		instance.drawDefaultBackground();
 
 		// Draw all components.
-		for(QADComponent component : components) {
-			component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
+		if(!paused){
+			for(QADComponent component : components) {
+				component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
+			}
 		}
 
 		if(shouldDebugRender) {

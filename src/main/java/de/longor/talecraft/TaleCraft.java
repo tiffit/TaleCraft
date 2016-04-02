@@ -38,8 +38,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.packet.VoxelatorGuiPacket;
 import tiffit.talecraft.packet.VoxelatorPacket;
 import tiffit.talecraft.util.ConfigurationManager;
+import tiffit.talecraft.versionchecker.SendMessage;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, guiFactory = Reference.GUI_FACTORY)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
 public class TaleCraft {
 	@Mod.Instance(Reference.MOD_ID)
 	public static TaleCraft instance;
@@ -51,7 +52,6 @@ public class TaleCraft {
 	public static TimedExecutor timedExecutor;
 	public static Logger logger;
 	public static Random random;
-	public static Configuration config;
 
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY, modId = Reference.MOD_ID)
 	public static CommonProxy proxy;
@@ -64,8 +64,9 @@ public class TaleCraft {
 		logger.info("TaleCraft Version: " + Reference.MOD_VERSION);
 		logger.info("TaleCraft ModContainer: " + container);
 		logger.info("Creating/Reading configuration file!");
-		config = new Configuration(event.getSuggestedConfigurationFile());
+		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		ConfigurationManager.init(config);
+		config.save();
 		logger.info("Configuration loaded!");
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -90,6 +91,7 @@ public class TaleCraft {
 		// Create and register the event handler
 		eventHandler = new TaleCraftEventHandler();
 		MinecraftForge.EVENT_BUS.register(eventHandler);
+		MinecraftForge.EVENT_BUS.register(new SendMessage());
 		logger.info("TaleCraft Event Handler @" + eventHandler.hashCode());
 
 		// Initialize all the Tabs/Blocks/Items/Commands etc.

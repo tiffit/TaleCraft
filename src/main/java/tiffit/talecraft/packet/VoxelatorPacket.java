@@ -21,29 +21,25 @@ public class VoxelatorPacket implements IMessage {
 
 	NBTTagCompound data;
 	UUID uuid;
-	int slot;
 
 	public VoxelatorPacket() {
 	}
 
-	public VoxelatorPacket(UUID uuid, int slot, NBTTagCompound tag) {
+	public VoxelatorPacket(UUID uuid, NBTTagCompound tag) {
 		data = tag;
 		this.uuid = uuid;
-		this.slot = slot;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		data = ByteBufUtils.readTag(buf);
 		uuid = UUID.fromString(ByteBufUtils.readUTF8String(buf));
-		slot = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeTag(buf, data);
 		ByteBufUtils.writeUTF8String(buf, uuid.toString());
-		buf.writeInt(slot);
 	}
 
 	public static class Handler implements IMessageHandler<VoxelatorPacket, IMessage> {

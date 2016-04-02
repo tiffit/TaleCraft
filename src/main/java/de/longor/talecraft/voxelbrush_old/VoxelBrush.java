@@ -98,12 +98,12 @@ public class VoxelBrush {
 			tooltip.add(TextFormatting.RED + "Not Defined Yet");
 			return;
 		}
-		//IShape shape = ShapeFactory.create(compShape.getString("type"), compShape, new BlockPos(0, 0, 0));
 		VXActions action = VXActions.get(data.getInteger("action"));
 		VXShapes shape = VXShapes.get(data.getInteger("shape"));
 		String shapeData = "";
 		if(shape == VXShapes.Sphere) shapeData = "[r=" + data.getFloat("radius") + "]";
-		if(shape == VXShapes.Box) shapeData  = "[w=" + data.getInteger("width") + ",h=" + data.getInteger("height") + ",l="+ data.getInteger("lenght") + "]";
+		if(shape == VXShapes.Box) shapeData  = "[w=" + data.getInteger("width") + ",h=" + data.getInteger("height") + ",l="+ data.getInteger("length") + "]";
+		if(shape == VXShapes.Cylinder) shapeData = "[r=" + data.getFloat("radius") + ",h=" + data.getInteger("height") + "]";	
 		tooltip.add("Shape: " + shape.toString() + shapeData);
 		tooltip.add("Action: " + action.toString());
 		tooltip.add("");

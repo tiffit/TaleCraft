@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 public abstract class VXShape {
 	
 	public static enum VXShapes{
-		Sphere("Sphere"), Box("Box");
+		Sphere("Sphere"), Box("Box"), Cylinder("Cylinder");
 		
 		String name;
 		

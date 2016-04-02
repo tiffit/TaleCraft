@@ -5,6 +5,7 @@ import java.util.List;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.voxelator.VXAction;
 import de.longor.talecraft.voxelator.VXAction.VXActions;
+import de.longor.talecraft.voxelator.VXPredicate;
 import de.longor.talecraft.voxelator.VXShape;
 import de.longor.talecraft.voxelator.Voxelator;
 import de.longor.talecraft.voxelator.actions.VXActionGrassify;
@@ -13,6 +14,7 @@ import de.longor.talecraft.voxelator.actions.VXActionVariationsReplace;
 import de.longor.talecraft.voxelator.predicates.VXPredicateHeightLimit;
 import de.longor.talecraft.voxelator.predicates.VXPredicateIsSolid;
 import de.longor.talecraft.voxelator.shapes.VXShapeBox;
+import de.longor.talecraft.voxelator.shapes.VXShapeCylinder;
 import de.longor.talecraft.voxelator.shapes.VXShapeSphere;
 import de.longor.talecraft.voxelbrush_old.VoxelBrush;
 import net.minecraft.block.Block;
@@ -83,7 +85,7 @@ public class VoxelBrushItem extends TCItem {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
 			if(player.isSneaking()){
-				TaleCraft.network.sendTo(new VoxelatorGuiPacket(), (EntityPlayerMP) player);
+				TaleCraft.network.sendTo(new VoxelatorGuiPacket(stack.getTagCompound()), (EntityPlayerMP) player);
 				return ActionResult.newResult(EnumActionResult.PASS, stack);
 			}else{
 				if(data.hasNoTags())
@@ -102,8 +104,9 @@ public class VoxelBrushItem extends TCItem {
 			}
 			VXShape shape = null; int shape_id = data.getInteger("shape");
 			if(shape_id == 0) shape = new VXShapeSphere(result.getBlockPos(), data.getFloat("radius"));
-			if(shape_id == 1) shape = new VXShapeBox(result.getBlockPos(), data.getInteger("width"), data.getInteger("height"), data.getInteger("lenght"));
-			Voxelator.apply(shape, new VXPredicateIsSolid(), action, world);
+			if(shape_id == 1) shape = new VXShapeBox(result.getBlockPos(), data.getInteger("width"), data.getInteger("height"), data.getInteger("length"));
+			if(shape_id == 2) shape = new VXShapeCylinder(result.getBlockPos(), data.getFloat("radius"), data.getInteger("height"));
+			Voxelator.apply(shape, action_id == 0 ? VXPredicate.newIsSolid() : new VXPredicateHeightLimit(256), action, world);
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 	}
 

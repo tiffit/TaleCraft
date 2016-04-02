@@ -24,22 +24,33 @@ import tiffit.talecraft.packet.VoxelatorPacket;
 
 public class VoxelatorGui extends QADGuiScreen {
 
-	int slot;
 	NBTTagCompound tag;
 	int currentAction = 0;
 	int currentShape = 0;
 	float radius = 0.35f;
 	float width = 0.3f;
 	float height = 0.3f;
-	float lenght = 0.3f;
+	float length = 0.3f;
 	ArrayList<Block> blocks;
 	ArrayList<QADComponent> params;
 	
-	public VoxelatorGui(int slot, NBTTagCompound compound){
-		this.slot = slot;
+	public VoxelatorGui(NBTTagCompound compound){
 		tag = compound;
 		blocks = Lists.newArrayList();
 		params = Lists.newArrayList();
+		if(tag.hasKey("brush")){
+			NBTTagCompound tag = this.tag.getCompoundTag("brush");
+			currentAction = tag.getInteger("action");
+			currentShape = tag.getInteger("shape");
+			radius = tag.getFloat("radius")/10f;
+			length = tag.getInteger("length")/10f;
+			width = tag.getInteger("width")/10f;
+			height = tag.getInteger("height")/10f;
+			int block_size = tag.getInteger("block_size");
+			for(int i = 0; i < block_size; i++){
+				blocks.add(Block.getBlockById(tag.getInteger("block_id_" + i)));
+			}
+		}
 	}
 	
 	public void buildGui() {
@@ -108,7 +119,7 @@ public class VoxelatorGui extends QADGuiScreen {
 				tag.setInteger("action", currentAction);
 				tag.setInteger("shape", currentShape);
 				tag.setFloat("radius", getRadius());
-				tag.setInteger("lenght", (int) (VoxelatorGui.this.lenght*10));
+				tag.setInteger("length", (int) (VoxelatorGui.this.length*10));
 				tag.setInteger("width", (int) (VoxelatorGui.this.width*10));
 				tag.setInteger("height", (int) (VoxelatorGui.this.height*10));
 				tag.setInteger("block_size", blocks.size());
@@ -116,8 +127,7 @@ public class VoxelatorGui extends QADGuiScreen {
 					tag.setInteger("block_id_" + i, Block.getIdFromBlock(blocks.get(i)));
 				}
 				EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-				p.inventory.getCurrentItem().getTagCompound().setTag("data", tag);
-				TaleCraft.network.sendToServer(new VoxelatorPacket(p.getUniqueID(), p.inventory.currentItem, tag));
+				TaleCraft.network.sendToServer(new VoxelatorPacket(p.getUniqueID(), tag));
 				VoxelatorGui.this.mc.displayGuiScreen(null);
 			}
 
@@ -242,65 +252,34 @@ public class VoxelatorGui extends QADGuiScreen {
 			params.add(param);
 		}
 		if(currentShape == VXShapes.Sphere.getID()){
-			QADSlider radius = new QADSlider(new SliderModel<Float>(){
-
-				@Override
-				public void setValue(Float value) {
-					VoxelatorGui.this.radius = value;
-				}
-
-				@Override
-				public Float getValue() {
-					return VoxelatorGui.this.radius;
-				}
-
-				@Override
-				public String getValueAsText() {
-					return "Radius: " + getRadius();
-				}
-
-				@Override
-				public void setSliderValue(float sliderValue){
-					VoxelatorGui.this.radius = sliderValue;
-				}
-
-				@Override
-				public float getSliderValue() {
-					return VoxelatorGui.this.radius;
-				}
-				
-			});
-			radius.setPosition(250, 50);
-			radius.setWidth(200);
-			addComponent(radius);
-			params.add(radius);
+			addRadiusSlider(250, 50);
 		}
 		if(currentShape == VXShapes.Box.getID()){
-			QADSlider lenght = new QADSlider(new SliderModel<Float>(){
+			QADSlider length = new QADSlider(new SliderModel<Float>(){
 
 				@Override
 				public void setValue(Float value) {
-					VoxelatorGui.this.lenght = value;
+					VoxelatorGui.this.length = value;
 				}
 
 				@Override
 				public Float getValue() {
-					return VoxelatorGui.this.lenght;
+					return VoxelatorGui.this.length;
 				}
 
 				@Override
 				public String getValueAsText() {
-					return "Lenght: " + (int) (VoxelatorGui.this.lenght*10);
+					return "Length: " + (int) (VoxelatorGui.this.length*10);
 				}
 
 				@Override
 				public void setSliderValue(float sliderValue){
-					VoxelatorGui.this.lenght = sliderValue;
+					VoxelatorGui.this.length = sliderValue;
 				}
 
 				@Override
 				public float getSliderValue() {
-					return VoxelatorGui.this.lenght;
+					return VoxelatorGui.this.length;
 				}
 				
 			});
@@ -330,48 +309,20 @@ public class VoxelatorGui extends QADGuiScreen {
 				public float getSliderValue() {
 					return VoxelatorGui.this.width;
 				}
-				
 			});
-			QADSlider height = new QADSlider(new SliderModel<Float>(){
-
-				@Override
-				public void setValue(Float value) {
-					VoxelatorGui.this.height = value;
-				}
-
-				@Override
-				public Float getValue() {
-					return VoxelatorGui.this.height;
-				}
-
-				@Override
-				public String getValueAsText() {
-					return "Height: " + (int) (VoxelatorGui.this.height*10);
-				}
-
-				@Override
-				public void setSliderValue(float sliderValue){
-					VoxelatorGui.this.height = sliderValue;
-				}
-
-				@Override
-				public float getSliderValue() {
-					return VoxelatorGui.this.height;
-				}
-				
-			});
-			lenght.setPosition(250, 50);
-			lenght.setWidth(200);
-			addComponent(lenght);
-			params.add(lenght);
+			addHeightSlider(250, 130);
+			length.setPosition(250, 50);
+			length.setWidth(200);
+			addComponent(length);
+			params.add(length);
 			width.setPosition(250, 90);
 			width.setWidth(200);
 			addComponent(width);
 			params.add(width);
-			height.setPosition(250, 130);
-			height.setWidth(200);
-			addComponent(height);
-			params.add(height);
+		}
+		if(currentShape == VXShapes.Cylinder.getID()){
+			addHeightSlider(250, 50);
+			addRadiusSlider(250, 80);
 		}
 		setPaused(false);
 	}
@@ -379,6 +330,77 @@ public class VoxelatorGui extends QADGuiScreen {
 	private float getRadius(){
 		int rounded = (int) (this.radius*100);
 		return rounded/10f == 0.0 ? 0.1f : rounded/10f;
+	}
+	
+	private void addHeightSlider(int x, int y){
+		QADSlider height = new QADSlider(new SliderModel<Float>(){
+
+			@Override
+			public void setValue(Float value) {
+				VoxelatorGui.this.height = value;
+			}
+
+			@Override
+			public Float getValue() {
+				return VoxelatorGui.this.height;
+			}
+
+			@Override
+			public String getValueAsText() {
+				return "Height: " + (int) (VoxelatorGui.this.height*10);
+			}
+
+			@Override
+			public void setSliderValue(float sliderValue){
+				VoxelatorGui.this.height = sliderValue;
+			}
+
+			@Override
+			public float getSliderValue() {
+				return VoxelatorGui.this.height;
+			}
+			
+		});
+		
+		height.setPosition(x, y);
+		height.setWidth(200);
+		addComponent(height);
+		params.add(height);
+	}
+	
+	private void addRadiusSlider(int x, int y){
+		QADSlider radius = new QADSlider(new SliderModel<Float>(){
+
+			@Override
+			public void setValue(Float value) {
+				VoxelatorGui.this.radius = value;
+			}
+
+			@Override
+			public Float getValue() {
+				return VoxelatorGui.this.radius;
+			}
+
+			@Override
+			public String getValueAsText() {
+				return "Radius: " + getRadius();
+			}
+
+			@Override
+			public void setSliderValue(float sliderValue){
+				VoxelatorGui.this.radius = sliderValue;
+			}
+
+			@Override
+			public float getSliderValue() {
+				return VoxelatorGui.this.radius;
+			}
+			
+		});
+		radius.setPosition(x, y);
+		radius.setWidth(200);
+		addComponent(radius);
+		params.add(radius);
 	}
 	
 }
