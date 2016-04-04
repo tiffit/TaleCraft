@@ -15,7 +15,6 @@ public class SendMessage {
 
 	@SubscribeEvent
 	public void onClientConnection(ClientConnectedToServerEvent event){
-		TaleCraft.logger.info("Checking version...");
 		final TCVersion latest = VersionParser.getLatestVersion();
 		final String current = Reference.MOD_VERSION; //to be easily changeable for debugging
 		if(latest.isGreaterVersion(current)){

@@ -35,6 +35,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tiffit.talecraft.client.gui.worlddesc.WorldSelectorInjector;
 import tiffit.talecraft.packet.VoxelatorGuiPacket;
 import tiffit.talecraft.packet.VoxelatorPacket;
 import tiffit.talecraft.util.ConfigurationManager;
@@ -92,6 +93,7 @@ public class TaleCraft {
 		eventHandler = new TaleCraftEventHandler();
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(new SendMessage());
+		MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
 		logger.info("TaleCraft Event Handler @" + eventHandler.hashCode());
 
 		// Initialize all the Tabs/Blocks/Items/Commands etc.
