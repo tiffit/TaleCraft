@@ -5,6 +5,7 @@ import java.util.Random;
 import org.apache.logging.log4j.Logger;
 
 import de.longor.talecraft.managers.TCWorldsManager;
+import de.longor.talecraft.network.DoorPacket;
 import de.longor.talecraft.network.PlayerNBTDataMergePacket;
 import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.proxy.ClientProxy;
@@ -12,6 +13,8 @@ import de.longor.talecraft.proxy.CommonProxy;
 import de.longor.talecraft.script.GlobalScriptManager;
 import de.longor.talecraft.server.ServerHandler;
 import de.longor.talecraft.util.TimedExecutor;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -20,6 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModContainer;
@@ -33,9 +37,11 @@ import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.client.gui.worlddesc.WorldSelectorInjector;
+import tiffit.talecraft.entity.throwable.EntityBomb;
 import tiffit.talecraft.packet.VoxelatorGuiPacket;
 import tiffit.talecraft.packet.VoxelatorPacket;
 import tiffit.talecraft.util.ConfigurationManager;
@@ -56,6 +62,7 @@ public class TaleCraft {
 
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY, modId = Reference.MOD_ID)
 	public static CommonProxy proxy;
+
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -83,7 +90,8 @@ public class TaleCraft {
 		network.registerMessage(StringNBTCommandPacket.Handler.class, StringNBTCommandPacket.class, 0, Side.SERVER);
 		network.registerMessage(PlayerNBTDataMergePacket.Handler.class, PlayerNBTDataMergePacket.class, 1, Side.CLIENT);
 		network.registerMessage(VoxelatorGuiPacket.Handler.class, VoxelatorGuiPacket.class, 2, Side.CLIENT);
-		network.registerMessage(VoxelatorPacket.Handler.class, VoxelatorPacket.class, 3, Side.SERVER);
+		network.registerMessage(DoorPacket.Handler.class, DoorPacket.class, 3, Side.CLIENT);
+		network.registerMessage(VoxelatorPacket.Handler.class, VoxelatorPacket.class, 4, Side.SERVER);
 		// Print debug information
 		logger.info("TaleCraft CoreManager @" + worldsManager.hashCode());
 		logger.info("TaleCraft TimedExecutor @" + timedExecutor.hashCode());
@@ -95,12 +103,11 @@ public class TaleCraft {
 		MinecraftForge.EVENT_BUS.register(new SendMessage());
 		MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
 		logger.info("TaleCraft Event Handler @" + eventHandler.hashCode());
-
 		// Initialize all the Tabs/Blocks/Items/Commands etc.
 		logger.info("Loading Tabs, Blocks, Items, Entities and Commands (In that order)");
 		TaleCraftTabs.init();
-		TaleCraftBlocks.init();
 		TaleCraftItems.init();
+		TaleCraftBlocks.init();
 		TaleCraftEntities.init();
 		TaleCraftCommands.init();
 
@@ -108,6 +115,8 @@ public class TaleCraft {
 		logger.info("Initializing Proxy...");
 		proxy.taleCraft = this;
 		proxy.preInit(event);
+		
+		EntityRegistry.registerModEntity(EntityBomb.class, "tc_bomb", 0, this, 128, 1, true);
 	}
 
 	@Mod.EventHandler

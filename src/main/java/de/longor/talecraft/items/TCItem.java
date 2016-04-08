@@ -19,21 +19,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCItem extends Item {
 
-	public enum ItemState {
-		BROKEN, USELESS, BUGGY, UNFINISHED, STABLE, UNKNOWN
-	}
-
 	public TCItem() {
 		this.setCreativeTab(TaleCraftTabs.tab_TaleCraftTab);
-	}
-
-	public ItemState getItemState() {
-		return ItemState.UNKNOWN;
-	}
-
-	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced){
-		list.add("STATE: " + getItemState().toString());
 	}
 
 	@Override

@@ -58,10 +58,11 @@ public class NewWorldSelector extends GuiWorldSelection {
         			}catch(Exception e){
         				e.printStackTrace();
         			}
-    				break;
+    				return;
         		}
         	}
         }
+        readDescription.enabled = false;
     }
     
     public void actionPerformed(GuiButton button) throws IOException{

@@ -1,5 +1,6 @@
 package tiffit.talecraft.client.gui.worlddesc;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -31,6 +32,12 @@ public class WorldDescGui extends GuiScreen {
     			fontRendererObj.drawStringWithShadow(cstring.str, cstring.x, cstring.y, cstring.color);
     		}
     	}
+    }
+    
+    protected void keyTyped(char typedChar, int keyCode) throws IOException{
+        if (keyCode == 1){
+            this.mc.displayGuiScreen(new NewWorldSelector());
+        }
     }
     
     private ColoredString[] getColoredStrings(String normal, int yLenght){

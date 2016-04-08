@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import tiffit.talecraft.entity.throwable.EntityBomb;
 
 public class ClientProxy extends CommonProxy {
 	// All the singletons!
@@ -57,6 +59,8 @@ public class ClientProxy extends CommonProxy {
 		TaleCraftClientCommands.init();
 
 		clientTickQeue = new ConcurrentLinkedDeque<Runnable>();
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new EntityBomb.EntityBombRenderFactory());
 	}
 
 	@Override
@@ -71,7 +75,7 @@ public class ClientProxy extends CommonProxy {
 		clientRenderer.init();
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());
-
+		
 	} // init(..){}
 
 	@Override

@@ -21,9 +21,4 @@ public class InstaKillItem extends TCItem {
 		return false;
 	}
 
-	@Override
-	public ItemState getItemState() {
-		return ItemState.STABLE;
-	}
-
 }

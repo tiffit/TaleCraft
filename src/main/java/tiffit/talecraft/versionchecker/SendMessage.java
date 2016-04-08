@@ -15,20 +15,23 @@ public class SendMessage {
 
 	@SubscribeEvent
 	public void onClientConnection(ClientConnectedToServerEvent event){
-		final TCVersion latest = VersionParser.getLatestVersion();
-		final String current = Reference.MOD_VERSION; //to be easily changeable for debugging
-		if(latest.isGreaterVersion(current)){
-			final ClientProxy cproxy = TaleCraft.proxy.asClient();
-			cproxy.sheduleClientTickTask(new Runnable(){
-				Minecraft mc = cproxy.mc;
-				@Override 
-				public void run() {
-					while(mc.thePlayer == null){}
-					String message = TextFormatting.YELLOW + "TaleCraft version is outdated! Your version is " + TextFormatting.GOLD + current + TextFormatting.YELLOW + ". The latest is " + TextFormatting.GOLD + latest.getVersion() + TextFormatting.YELLOW + ".";
-					mc.thePlayer.addChatMessage(new TextComponentString(message));
-					TaleCraft.logger.warn(TextFormatting.getTextWithoutFormattingCodes(message));
-				}
-			});
+		try{
+			final TCVersion latest = VersionParser.getLatestVersion();
+			final String current = Reference.MOD_VERSION; //to be easily changeable for debugging
+			if(latest.isGreaterVersion(current)){
+				final ClientProxy cproxy = TaleCraft.proxy.asClient();
+				cproxy.sheduleClientTickTask(new Runnable(){
+					Minecraft mc = cproxy.mc;
+					@Override 
+					public void run() {
+						while(mc.thePlayer == null){}
+						String message = TextFormatting.YELLOW + "TaleCraft version is outdated! Your version is " + TextFormatting.GOLD + current + TextFormatting.YELLOW + ". The latest is " + TextFormatting.GOLD + latest.getVersion() + TextFormatting.YELLOW + ".";
+						mc.thePlayer.addChatMessage(new TextComponentString(message));
+						TaleCraft.logger.warn(TextFormatting.getTextWithoutFormattingCodes(message));
+					}
+				});
+			}
+		}catch(Exception e){
 			
 		}
 	}

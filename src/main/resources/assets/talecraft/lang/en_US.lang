@@ -2,8 +2,9 @@ key.toggleBuildMode=Toggle Buildmode
 key.toggleWireframe=Toggle Rendermode
 key.mapSettings=Open Map Settings
 
-itemGroup.talecraftTab=TaleCraft [Main]
+itemGroup.talecraftTab=TaleCraft [Util]
 itemGroup.talecraftDecoTab=TaleCraft [Decoration]
+itemGroup.talecraftWorldTab=TaleCraft [World]
 
 entity.talecraft.tc_point.name=Point Entity
 
@@ -18,8 +19,12 @@ item.spawnpoint.name=Spawn Point-Entity
 item.metaswapper.name=Meta Swapper
 item.teleporter.name=Teleporter
 item.instakill.name=Instakill
-item.voxelbrush.name=Voxel-Brush
+item.voxelbrush.name=Voxelator (Voxel-Brush)
 item.terrainbrush.name=Terrain-Brush
+
+item.silverkey.name=Silver Key
+item.goldkey.name=Gold Key
+item.bomb.name=Throwable Bomb
 
 tile.talecraft:clockblock.name=Clock Block
 tile.talecraft:redstone_trigger.name=Redstone Trigger Block
@@ -40,6 +45,9 @@ tile.talecraft:triggerfilterblock.name=Trigger Filter Block
 tile.talecraft:delayblock.name=Delay Block
 tile.talecraft:urlblock.name=URL Block
 tile.talecraft:summonblock.name=Summon Block
+
+tile.talecraft:spikeblock.name=Spike
+tile.talecraft:lockeddoorblock.name=Locked Door
 
 tile.talecraft:killblock.name=Killblock
 tile.talecraft:killblock.all.name=Killblock (ALL)

@@ -58,6 +58,10 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import tiffit.talecraft.tileentity.LockedDoorTileEntity;
+import tiffit.talecraft.tileentity.SpikeBlockTileEntity;
+import tiffit.talecraft.tileentity.specialrender.LockedDoorEntityRenderer;
+import tiffit.talecraft.tileentity.specialrender.SpikeBlockEntityRenderer;
 import tiffit.talecraft.util.ConfigurationManager;
 
 public class ClientRenderer {
@@ -146,7 +150,13 @@ public class ClientRenderer {
 		ClientRegistry.bindTileEntitySpecialRenderer(SummonBlockTileEntity.class,
 				new GenericTileEntityRenderer<SummonBlockTileEntity>("talecraft:textures/blocks/util/spawner.png",
 						new SummonBlockTileEntityEXTRenderer()));
-
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(SpikeBlockTileEntity.class, new SpikeBlockEntityRenderer());
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(LockedDoorTileEntity.class, new LockedDoorEntityRenderer());
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(URLBlockTileEntity.class,
+				new GenericTileEntityRenderer<URLBlockTileEntity>("talecraft:textures/blocks/util/url.png"));
 		//
 	}
 
@@ -164,6 +174,9 @@ public class ClientRenderer {
 		mesher.register(TaleCraftItems.cut, 0, new ModelResourceLocation("talecraft:cut", "inventory"));
 		mesher.register(TaleCraftItems.metaswapper, 0, new ModelResourceLocation("talecraft:metaswapper", "inventory"));
 		mesher.register(TaleCraftItems.spawnpoint, 0, new ModelResourceLocation("talecraft:spawnpoint", "inventory"));
+		mesher.register(TaleCraftItems.silverKey, 0, new ModelResourceLocation("talecraft:silverkey", "inventory"));
+		mesher.register(TaleCraftItems.goldKey, 0, new ModelResourceLocation("talecraft:goldkey", "inventory"));
+		mesher.register(TaleCraftItems.bomb, 0, new ModelResourceLocation("talecraft:bomb", "inventory"));
 	}
 
 	private void init_render_block(ItemModelMesher mesher) {
@@ -204,8 +217,12 @@ public class ClientRenderer {
 		// cage block A
 		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), i, new ModelResourceLocation("talecraft:deco_cage/block"+i, "inventory"));
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), mkstrlfint("talecraft:deco_cage/block", 0));
-
-		// barrier-ext block
+		
+		//Locked Door Block
+		for(int i = 0; i < 8; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.lockedDoorBlock), i, new ModelResourceLocation("talecraft:lockeddoorblock", "inventory"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.lockedDoorBlock), new ResourceLocation("talecraft:lockeddoorblock"));
+		
+	    // barrier-ext block
 		//		for(int i = 0; i < 7; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.barrierEXTBlock), i, new ModelResourceLocation("talecraft:barrierextblock", "inventory"));
 
 		// blocks
@@ -228,6 +245,7 @@ public class ClientRenderer {
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.delayBlock), 0, new ModelResourceLocation("talecraft:delayblock", "inventory"));
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.urlBlock), 0, new ModelResourceLocation("talecraft:urlblock", "inventory"));
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.summonBlock), 0, new ModelResourceLocation("talecraft:summonblock", "inventory"));
+
 	}
 
 	private ResourceLocation[] mkstrlfint(String string, int j) {

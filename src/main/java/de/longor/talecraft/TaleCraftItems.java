@@ -18,6 +18,8 @@ import de.longor.talecraft.items.VoxelBrushItem;
 import de.longor.talecraft.items.WandItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import tiffit.talecraft.items.world.BombItem;
+import tiffit.talecraft.items.world.KeyItem;
 
 public class TaleCraftItems {
 	public static final List<Item> ALL_TC_ITEMS = Lists.newArrayList();
@@ -34,6 +36,10 @@ public class TaleCraftItems {
 	public static CutItem cut;
 	public static MetaSwapperItem metaswapper;
 	public static SpawnPointItem spawnpoint;
+	
+	public static KeyItem silverKey;
+	public static KeyItem goldKey;
+	public static BombItem bomb;
 
 	public static void init() {
 		wand = register(new WandItem(), "wand");
@@ -48,6 +54,10 @@ public class TaleCraftItems {
 		cut = register(new CutItem(), "cut");
 		metaswapper = register(new MetaSwapperItem(), "metaswapper");
 		spawnpoint = register(new SpawnPointItem(), "spawnpoint");
+		
+		silverKey = register(new KeyItem(), "silverkey");
+		goldKey = register(new KeyItem(), "goldkey");
+		bomb = register(new BombItem(), "bomb");
 	}
 
 	private static <T extends Item> T register(T item, String name) {

@@ -38,11 +38,6 @@ import tiffit.talecraft.packet.VoxelatorGuiPacket;
 public class VoxelBrushItem extends TCItem {
 
 	@Override
-	public ItemState getItemState() {
-		return ItemState.UNFINISHED;
-	}
-
-	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 		if(world.isRemote)
 			return;

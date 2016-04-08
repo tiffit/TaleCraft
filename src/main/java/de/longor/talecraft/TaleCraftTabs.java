@@ -52,5 +52,12 @@ public class TaleCraftTabs {
 			return new ItemStack(this.getTabIconItem(), 1, this.getIconItemDamage());
 		}
 	};
+	
+	public static CreativeTabs tab_TaleCraftWorldTab = new CreativeTabs("talecraftWorldTab") {
+		@Override
+		public Item getTabIconItem() {
+			return TaleCraftItems.goldKey;
+		}
+	};
 
 }

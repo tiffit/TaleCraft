@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "corner=bottomleftx": { "model":"talecraft:lockeddoorblock" },
+        "corner=bottomleftz": { "model":"talecraft:lockeddoorblock" },
+        "corner=bottomrightx": { "model":"talecraft:lockeddoorblock" },
+        "corner=bottomrightz": { "model":"talecraft:lockeddoorblock" },
+        "corner=topleftx": { "model":"talecraft:lockeddoorblock" },
+        "corner=topleftz": { "model":"talecraft:lockeddoorblock" },
+        "corner=toprightx": { "model":"talecraft:lockeddoorblock" },
+        "corner=toprightz": { "model":"talecraft:lockeddoorblock" }
+    }
+}

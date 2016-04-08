@@ -20,11 +20,6 @@ import net.minecraft.world.World;
 public class TeleporterItem extends TCItem {
 
 	@Override
-	public ItemState getItemState(){
-		return ItemState.STABLE;
-	}
-
-	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;

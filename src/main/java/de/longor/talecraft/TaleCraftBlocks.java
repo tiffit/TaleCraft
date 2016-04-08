@@ -49,6 +49,10 @@ import net.minecraft.block.SoundType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import tiffit.talecraft.blocks.world.LockedDoorBlock;
+import tiffit.talecraft.blocks.world.SpikeBlock;
+import tiffit.talecraft.tileentity.LockedDoorTileEntity;
+import tiffit.talecraft.tileentity.SpikeBlockTileEntity;
 
 public class TaleCraftBlocks {
 	public static HashMap<String, Block> blocksMap = Maps.newHashMap();
@@ -77,6 +81,11 @@ public class TaleCraftBlocks {
 	public static URLBlock urlBlock;
 	public static SummonBlock summonBlock;
 
+	
+	//WORLD
+	public static SpikeBlock spikeBlock;
+	public static LockedDoorBlock lockedDoorBlock;
+	
 	// DECORATION
 	public static BlankBlock blankBlock;
 	public static BlankBlock deco_stone_a;
@@ -97,8 +106,16 @@ public class TaleCraftBlocks {
 
 		init_utility();
 		init_decoration();
+		init_world();
 	}
 
+	private static void init_world(){
+//		spikeBlock = register("spikeblock", new SpikeBlock());
+//		GameRegistry.registerTileEntity(SpikeBlockTileEntity.class, "tc_spikeblock");
+		lockedDoorBlock = register("lockeddoorblock", new LockedDoorBlock());
+		GameRegistry.registerTileEntity(LockedDoorTileEntity.class, "tc_lockeddoorblock");
+	}
+	
 	private static void init_utility() {
 		killBlock = register("killblock", new KillBlock(), new BlockRegisterFunc() {
 			@Override public void call(Block block, String name) {
