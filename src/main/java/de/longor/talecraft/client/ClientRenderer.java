@@ -177,6 +177,7 @@ public class ClientRenderer {
 		mesher.register(TaleCraftItems.silverKey, 0, new ModelResourceLocation("talecraft:silverkey", "inventory"));
 		mesher.register(TaleCraftItems.goldKey, 0, new ModelResourceLocation("talecraft:goldkey", "inventory"));
 		mesher.register(TaleCraftItems.bomb, 0, new ModelResourceLocation("talecraft:bomb", "inventory"));
+		mesher.register(TaleCraftItems.npceditor, 0, new ModelResourceLocation("minecraft:stick", "inventory"));
 	}
 
 	private void init_render_block(ItemModelMesher mesher) {

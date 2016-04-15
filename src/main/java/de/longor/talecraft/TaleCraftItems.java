@@ -18,6 +18,7 @@ import de.longor.talecraft.items.VoxelBrushItem;
 import de.longor.talecraft.items.WandItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import tiffit.talecraft.items.NPCEditorItem;
 import tiffit.talecraft.items.world.BombItem;
 import tiffit.talecraft.items.world.KeyItem;
 
@@ -36,6 +37,7 @@ public class TaleCraftItems {
 	public static CutItem cut;
 	public static MetaSwapperItem metaswapper;
 	public static SpawnPointItem spawnpoint;
+	public static NPCEditorItem npceditor;
 	
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
@@ -54,6 +56,7 @@ public class TaleCraftItems {
 		cut = register(new CutItem(), "cut");
 		metaswapper = register(new MetaSwapperItem(), "metaswapper");
 		spawnpoint = register(new SpawnPointItem(), "spawnpoint");
+		npceditor = register(new NPCEditorItem(), "npceditor");
 		
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");

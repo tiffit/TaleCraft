@@ -25,6 +25,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tiffit.talecraft.entity.NPC.EntityNPC;
 
 public class KillBlock extends TCBlock {
 	public static final PropertyInteger KILLTYPE = PropertyInteger.create("ktype", 0, 6);
@@ -59,7 +60,7 @@ public class KillBlock extends TCBlock {
 		 */
 
 		switch(type) {
-		case 1: if(entity instanceof EntityVillager) {
+		case 1: if(entity instanceof EntityNPC) {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
 			entity.attackEntityFrom(DamageSource.outOfWorld, 999999999F);
 		} break;

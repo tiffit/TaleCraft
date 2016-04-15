@@ -29,6 +29,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import tiffit.talecraft.entity.NPC.EntityNPC;
+import tiffit.talecraft.entity.NPC.RenderNPC;
 import tiffit.talecraft.entity.throwable.EntityBomb;
 
 public class ClientProxy extends CommonProxy {
@@ -61,6 +63,7 @@ public class ClientProxy extends CommonProxy {
 		clientTickQeue = new ConcurrentLinkedDeque<Runnable>();
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new EntityBomb.EntityBombRenderFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityNPC.class, new RenderNPC.NPCRenderFactory());
 	}
 
 	@Override

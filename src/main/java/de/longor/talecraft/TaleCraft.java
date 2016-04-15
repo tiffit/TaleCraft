@@ -41,7 +41,9 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.client.gui.worlddesc.WorldSelectorInjector;
+import tiffit.talecraft.entity.NPC.EntityNPC;
 import tiffit.talecraft.entity.throwable.EntityBomb;
+import tiffit.talecraft.packet.NPCDataPacket;
 import tiffit.talecraft.packet.VoxelatorGuiPacket;
 import tiffit.talecraft.packet.VoxelatorPacket;
 import tiffit.talecraft.util.ConfigurationManager;
@@ -92,6 +94,7 @@ public class TaleCraft {
 		network.registerMessage(VoxelatorGuiPacket.Handler.class, VoxelatorGuiPacket.class, 2, Side.CLIENT);
 		network.registerMessage(DoorPacket.Handler.class, DoorPacket.class, 3, Side.CLIENT);
 		network.registerMessage(VoxelatorPacket.Handler.class, VoxelatorPacket.class, 4, Side.SERVER);
+		network.registerMessage(NPCDataPacket.Handler.class, NPCDataPacket.class, 5, Side.SERVER);
 		// Print debug information
 		logger.info("TaleCraft CoreManager @" + worldsManager.hashCode());
 		logger.info("TaleCraft TimedExecutor @" + timedExecutor.hashCode());
@@ -101,7 +104,7 @@ public class TaleCraft {
 		eventHandler = new TaleCraftEventHandler();
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(new SendMessage());
-		MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
+		if(ConfigurationManager.USE_VERSION_CHECKER)MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
 		logger.info("TaleCraft Event Handler @" + eventHandler.hashCode());
 		// Initialize all the Tabs/Blocks/Items/Commands etc.
 		logger.info("Loading Tabs, Blocks, Items, Entities and Commands (In that order)");
@@ -116,7 +119,7 @@ public class TaleCraft {
 		proxy.taleCraft = this;
 		proxy.preInit(event);
 		
-		EntityRegistry.registerModEntity(EntityBomb.class, "tc_bomb", 0, this, 128, 1, true);
+
 	}
 
 	@Mod.EventHandler

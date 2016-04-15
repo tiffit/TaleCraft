@@ -7,6 +7,7 @@ itemGroup.talecraftDecoTab=TaleCraft [Decoration]
 itemGroup.talecraftWorldTab=TaleCraft [World]
 
 entity.talecraft.tc_point.name=Point Entity
+entity.talecraft.tc_NPC.name=NPC
 
 item.wand.name=Wand
 item.filler.name=Filler
@@ -21,6 +22,7 @@ item.teleporter.name=Teleporter
 item.instakill.name=Instakill
 item.voxelbrush.name=Voxelator (Voxel-Brush)
 item.terrainbrush.name=Terrain-Brush
+item.npceditor.name=NPC Editor
 
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key
