@@ -4,7 +4,6 @@ import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.TaleCraftItems;
 import de.longor.talecraft.TaleCraftTabs;
 import de.longor.talecraft.blocks.TCBlock;
-import de.longor.talecraft.network.DoorPacket;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -24,6 +23,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import tiffit.talecraft.items.world.KeyItem;
+import tiffit.talecraft.packet.DoorPacket;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity.DoorCorner;
 

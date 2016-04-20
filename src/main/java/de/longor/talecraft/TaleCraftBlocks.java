@@ -110,8 +110,8 @@ public class TaleCraftBlocks {
 	}
 
 	private static void init_world(){
-//		spikeBlock = register("spikeblock", new SpikeBlock());
-//		GameRegistry.registerTileEntity(SpikeBlockTileEntity.class, "tc_spikeblock");
+		spikeBlock = register("spikeblock", new SpikeBlock());
+		GameRegistry.registerTileEntity(SpikeBlockTileEntity.class, "tc_spikeblock");
 		lockedDoorBlock = register("lockeddoorblock", new LockedDoorBlock());
 		GameRegistry.registerTileEntity(LockedDoorTileEntity.class, "tc_lockeddoorblock");
 	}

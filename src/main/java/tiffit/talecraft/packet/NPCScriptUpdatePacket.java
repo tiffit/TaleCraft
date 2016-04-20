@@ -18,39 +18,41 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.server.FMLServerHandler;
 import tiffit.talecraft.entity.NPC.EntityNPC;
+import tiffit.talecraft.entity.NPC.NPCEditorGui;
 
-public class NPCClientUpdatePacket implements IMessage {
+public class NPCScriptUpdatePacket implements IMessage {
 
-	NBTTagCompound data;
-	int entID;
+	String script;
+	int id;
+	
 
-	public NPCClientUpdatePacket() {
+	public NPCScriptUpdatePacket() {
 	}
 
-	public NPCClientUpdatePacket(int id, NBTTagCompound tag) {
-		data = tag;
-		entID = id;
+	public NPCScriptUpdatePacket(int id, String script) {
+		this.script = script;
+		this.id = id;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		data = ByteBufUtils.readTag(buf);
-		entID = buf.readInt();
+		script = ByteBufUtils.readUTF8String(buf);
+		id = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		ByteBufUtils.writeTag(buf, data);
-		buf.writeInt(entID);
+		ByteBufUtils.writeUTF8String(buf, script);
+		buf.writeInt(id);
 	}
 
-	public static class Handler implements IMessageHandler<NPCClientUpdatePacket, IMessage> {
+	public static class Handler implements IMessageHandler<NPCScriptUpdatePacket, IMessage> {
 
 		@Override
-		public IMessage onMessage(NPCClientUpdatePacket message, MessageContext ctx) {
-			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-			EntityNPC npc = (EntityNPC) Minecraft.getMinecraft().theWorld.getEntityByID(message.entID);
-			npc.setNPCData(message.data);
+		public IMessage onMessage(NPCScriptUpdatePacket message, MessageContext ctx) {
+			Minecraft mc = Minecraft.getMinecraft();
+			EntityNPC npc = (EntityNPC) mc.theWorld.getEntityByID(message.id);
+			mc.displayGuiScreen(new NPCEditorGui(npc.getNPCData(), npc.getUniqueID(), message.script));
 			return null;
 		}
 	}

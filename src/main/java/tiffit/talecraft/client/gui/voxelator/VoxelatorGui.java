@@ -163,7 +163,6 @@ public class VoxelatorGui extends QADGuiScreen {
 	}
 	
 	public void updateGui() {
-		setPaused(true);
 		removeAll(params);
 		if(currentAction == VXActions.Replace.getID()){
 			QADButton param = (QADButton) QADFACTORY.createButton("", 2, 50, 200).setModel(new ButtonModel(){
@@ -324,7 +323,6 @@ public class VoxelatorGui extends QADGuiScreen {
 			addHeightSlider(250, 50);
 			addRadiusSlider(250, 80);
 		}
-		setPaused(false);
 	}
 	
 	private float getRadius(){

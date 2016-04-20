@@ -3,13 +3,25 @@ package tiffit.talecraft.entity.NPC;
 import java.util.Arrays;
 import java.util.List;
 
+import org.mozilla.javascript.Scriptable;
+
 import com.google.common.base.Predicates;
 
+import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.TaleCraftItems;
+import de.longor.talecraft.invoke.EnumTriggerState;
+import de.longor.talecraft.invoke.FileScriptInvoke;
+import de.longor.talecraft.invoke.IInvoke;
+import de.longor.talecraft.invoke.IInvokeSource;
+import de.longor.talecraft.invoke.IScriptInvoke;
+import de.longor.talecraft.invoke.Invoke;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.EntityAIMoveToBlock;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -21,24 +33,44 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import tiffit.talecraft.packet.NPCScriptUpdatePacket;
 
-public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnData{
+public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnData, IInvokeSource{
 
 	private NPCData data;
+	private NBTTagCompound scriptdata;
+	private IScriptInvoke scriptInvoke;
+	private Scriptable scope;
 	
 	public EntityNPC(World world) {
 		super(world);
+		scriptInvoke = new FileScriptInvoke();
+		scriptdata = new NBTTagCompound();
+	}
+	
+	public boolean moveToPos(double x, double y, double z, float speed){
+		return getNavigator().tryMoveToXYZ(x, y, z, speed);
 	}
 	
 	@Override
 	public void entityInit(){
 		super.entityInit();
 		data = new NPCData();
+		enablePersistence();
+	}
+	
+	public NBTTagCompound getScriptData(){
+		return scriptdata;
+	}
+	
+	public void setScriptData(NBTTagCompound tag){
+		scriptdata = tag;
 	}
 
 	@Override
@@ -53,6 +85,11 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	
 	public NPCData getNPCData(){
 		return data;
+	}
+	
+	public void setScriptName(String name){
+		System.out.println(name);
+		scriptInvoke = new FileScriptInvoke(name);
 	}
 	
 	public void setNPCData(NBTTagCompound tag){
@@ -77,16 +114,23 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	private void handleRegularInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
 		this.collideWithEntity(null);
 		if(server){
+			if(!scriptInvoke.getScriptName().isEmpty()){
+				
+				scope = TaleCraft.globalScriptManager.createNewNPCScope(this, stack, player);
+				Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
+			}
 			String message = data.getMessage();
-			message = message.replace("%player%", player.getName());
-			if(data.shouldIncludeNameInMessage()) message = data.getName() + ": " + message;
-			player.addChatMessage(new TextComponentString(message));
+			if(!message.isEmpty()){
+				message = message.replace("%player%", player.getName());
+				if(data.shouldIncludeNameInMessage()) message = data.getName() + ": " + message;
+				player.addChatMessage(new TextComponentString(message));
+			}
 		}
 	}
 	
 	private void handleEditorInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
-		if(!server){
-			Minecraft.getMinecraft().displayGuiScreen(new NPCEditorGui(data, getUniqueID()));
+		if(server){
+			TaleCraft.network.sendToDimension(new NPCScriptUpdatePacket(this.getEntityId(), scriptInvoke.getScriptName()), this.getEntityWorld().provider.getDimension());
 		}
 	}
 	
@@ -125,14 +169,15 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	public void readEntityFromNBT(NBTTagCompound tag){
 		super.readEntityFromNBT(tag);
 		data = NPCData.fromNBT(tag.getCompoundTag("npcdata"));
+		scriptdata = tag.getCompoundTag("scriptdata");
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tag){
 		super.writeEntityToNBT(tag);
 		tag.setTag("npcdata", data.toNBT());
+		tag.setTag("scriptdata", scriptdata);
 	}
-	
 	
 	@Override
 	public void onUpdate(){
@@ -168,6 +213,38 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	public void readSpawnData(ByteBuf buf) {
 		NBTTagCompound tag = ByteBufUtils.readTag(buf);
 		readEntityFromNBT(tag);
+	}
+
+	@Override
+	public Scriptable getInvokeScriptScope() {
+		return scope;
+	}
+
+	@Override
+	public ICommandSender getInvokeAsCommandSender() {
+		return this;
+	}
+
+	@Override
+	public BlockPos getInvokePosition() {
+		return this.getPosition();
+	}
+
+	@Override
+	public World getInvokeWorld() {
+		return this.getEntityWorld();
+	}
+
+	@Override
+	public void getInvokes(List<IInvoke> invokes) {
+		invokes.add(scriptInvoke);
+	}
+
+	@Override
+	public void getInvokeColor(float[] color) {
+		color[0] = 1.0f;
+		color[1] = 0.5f;
+		color[2] = 0.0f;
 	}
 
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.script.wrappers.IObjectWrapper;
 import de.longor.talecraft.script.wrappers.nbt.CompoundTagWrapper;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -25,8 +27,10 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 		return TaleCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
 
-
-
+	
+	public ItemObjectWrapper getItem(){
+		return new ItemObjectWrapper(stack.getItem());
+	}
 
 	public String getInternalName() {
 		return stack.getUnlocalizedName();
@@ -40,9 +44,6 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 		stack.setStackDisplayName(name);
 	}
 
-
-
-
 	public int getMaxStackSize() {
 		return stack.getMaxStackSize();
 	}
@@ -53,6 +54,10 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 
 	public void setStackSize(int size) {
 		stack.stackSize = size;
+	}
+	
+	public void incStackSize(int amount){
+		setStackSize(getStackSize() + amount);
 	}
 
 	public boolean isStackable() {

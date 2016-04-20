@@ -157,7 +157,6 @@ public class ClientRenderer {
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(URLBlockTileEntity.class,
 				new GenericTileEntityRenderer<URLBlockTileEntity>("talecraft:textures/blocks/util/url.png"));
-		//
 	}
 
 	private void init_render_item(ItemModelMesher mesher) {
@@ -178,6 +177,8 @@ public class ClientRenderer {
 		mesher.register(TaleCraftItems.goldKey, 0, new ModelResourceLocation("talecraft:goldkey", "inventory"));
 		mesher.register(TaleCraftItems.bomb, 0, new ModelResourceLocation("talecraft:bomb", "inventory"));
 		mesher.register(TaleCraftItems.npceditor, 0, new ModelResourceLocation("minecraft:stick", "inventory"));
+		
+		mesher.register(TaleCraftItems.bladeSalt, 0, new ModelResourceLocation("talecraft:bladeSalt", "inventory"));
 	}
 
 	private void init_render_block(ItemModelMesher mesher) {

@@ -21,6 +21,7 @@ public class SpikeBlockEntityRenderer extends TileEntitySpecialRenderer<SpikeBlo
 
 	@Override
 	public void renderTileEntityAt(SpikeBlockTileEntity te, double posX, double posY, double posZ, float partialTicks, int destroyStage) {
+		if(!te.getActive()) return;
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.disableBlend();
 		GlStateManager.enableCull();

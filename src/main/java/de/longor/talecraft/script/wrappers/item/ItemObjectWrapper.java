@@ -23,8 +23,12 @@ public class ItemObjectWrapper implements IObjectWrapper {
 		return TaleCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
 
-	public String getInternalName() {
+	public String getUnlocalizedName() {
 		return item.getUnlocalizedName();
+	}
+	
+	public String getRegistryName() {
+		return item.getRegistryName();
 	}
 
 }

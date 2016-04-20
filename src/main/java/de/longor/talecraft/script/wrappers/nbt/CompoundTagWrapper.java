@@ -36,6 +36,10 @@ public class CompoundTagWrapper implements IObjectWrapper {
 	public CompoundTagWrapper clone() {
 		return new CompoundTagWrapper(this);
 	}
+	
+	public boolean hasKey(String key){
+		return comp.hasKey(key);
+	}
 
 	public void setByte(String name, byte value) {
 		comp.setByte(name, value);

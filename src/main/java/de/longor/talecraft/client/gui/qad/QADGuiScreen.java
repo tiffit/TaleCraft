@@ -2,6 +2,7 @@ package de.longor.talecraft.client.gui.qad;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +29,6 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	private boolean shouldRelayout;
 	private boolean shouldDebugRender;
 	protected GuiScreen returnScreen;
-	private boolean paused = false;
 
 	public QADGuiScreen() {
 		super.allowUserInput = false;
@@ -48,10 +48,6 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 
 	public void updateGui() {
 
-	}
-	
-	protected void setPaused(boolean pause){
-		paused = pause;
 	}
 
 	/** ********************************* **/
@@ -195,11 +191,13 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		if(this.fontRendererObj != null) instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
 		instance.drawDefaultBackground();
 
-		// Draw all components.
-		if(!paused){
+		// Draw all components
+		try{
 			for(QADComponent component : components) {
-				component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
+				if(component != null) component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
 			}
+		}catch(ConcurrentModificationException e){
+			//Do nothing, this happens alot
 		}
 
 		if(shouldDebugRender) {
@@ -209,24 +207,27 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		drawCustom(mouseX, mouseY, partialTicks, instance);
 
 		// Check for tooltips, and draw them if necessary.
-		if(paused) return;
-		for(QADComponent component : components) {
-			if(component.isPointInside(mouseX, mouseY)) {
-				List<String> text = component.getTooltip(mouseX, mouseY);
+		try{
+			for(QADComponent component : components) {
+				if(component.isPointInside(mouseX, mouseY)) {
+					List<String> text = component.getTooltip(mouseX, mouseY);
+					
+					if(text != null) {
+						int yPos = mouseY;
 
-				if(text != null) {
-					int yPos = mouseY;
-
-					if(text.get(0).equalsIgnoreCase("ylock")) {
-						int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
-						yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
-						text = text.subList(1, text.size()-1);
+						if(text.get(0).equalsIgnoreCase("ylock")) {
+							int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
+							yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
+							text = text.subList(1, text.size()-1);
+						}
+						
+						this.drawHoveringText(text, mouseX, yPos);
+						break;
 					}
-
-					this.drawHoveringText(text, mouseX, yPos);
-					break;
 				}
 			}
+		}catch(ConcurrentModificationException e){
+			//Do nothing, this happens alot
 		}
 
 		// Debug: Draw cursor position marker.

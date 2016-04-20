@@ -58,9 +58,10 @@ public class NPCSkinSelector extends QADGuiScreen {
 
 		int yOff = 1;
 		for(final NPCSkin skin : skins) {
-			QADButton component = QADFACTORY.createButton(skin.name(), 2, yOff, 200 - 8, null);
+			QADButton component = new QADSkinButton(skin.name(), 2, yOff, 200 - 8, skin);
 			component.simplified = true;
 			component.textAlignment = 0;
+			component.getModel().setIcon(skin.getResourceLocation());
 			component.setAction( new Runnable() {
 				@Override public void run() {
 					npcGui.skin = skin;
