@@ -24,6 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	public static final VCUIRenderer instance = new VCUIRenderer();
 	private ArrayList<QADComponent> components;
+	private QADLayoutManager layout;
 	private GuiScreen behindScreen;
 	private boolean shouldPauseGame;
 	private boolean shouldRelayout;
@@ -35,6 +36,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		shouldPauseGame = true;
 		shouldRelayout = true;
 		shouldDebugRender = false;
+		layout = null;
 		components = null;
 		behindScreen = null;
 	}
@@ -44,6 +46,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	}
 
 	public void layoutGui() {
+		// setup component sizes and layout parameters here.
 	}
 
 	public void updateGui() {
@@ -82,14 +85,21 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 			}
 		}
 
-		// XXX: Untested. Might lead to crash. Leaving it in for now.
+		// XXX-WARNING: Untested. Might lead to crash. Leaving it in for now.
 		if(this.behindScreen != null) {
 			this.behindScreen.width = this.width;
 			this.behindScreen.height = this.height;
 			this.behindScreen.initGui();
 		}
 
+		onLayout();
+	}
+	
+	private final void onLayout() {
 		layoutGui();
+		if(layout != null) {
+			layout.layout( this, components );
+		}
 	}
 
 	@Override
@@ -169,7 +179,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		}
 
 		if(shouldRelayout) {
-			layoutGui();
+			onLayout();
 			shouldRelayout = false;
 		}
 
@@ -227,7 +237,8 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 				}
 			}
 		}catch(ConcurrentModificationException e){
-			//Do nothing, this happens alot
+			// Do nothing, this happens alot.
+			// XXX: This is not supposed to happen; Investigate if possible.
 		}
 
 		// Debug: Draw cursor position marker.
@@ -271,6 +282,10 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		return height / 2;
 	}
 
+	/*
+		If this method is called, the QADGuiScreen
+		will rebuild its layout in the next tick.
+	*/
 	public final void relayout() {
 		this.shouldRelayout = true;
 	}
@@ -343,6 +358,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	
 	public void resetGuiScreen() {
 		components = null;
+		
 	}
 
 	@Override
@@ -353,7 +369,26 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		}
 		return null;
 	}
+	
+	public void forceRebuildLayout() {
+		onLayout();
+	}
+	
+	public boolean isLayoutDirty() {
+		// GuiScreen layout is never dirty.
+		return false;
+	}
+	
+	public QADLayoutManager getLayout() {
+		return layout;
+	}
+	
+	public void setLayout(QADLayoutManager newLayout) {
+		layout = newLayout;
+		onLayout();
+	}
 
+	// Note: This method currently doesn't work correctly.
 	public void transferFocus() {
 		Iterator<QADComponent> iterator = components.iterator();
 		boolean unfocusRest = false;
