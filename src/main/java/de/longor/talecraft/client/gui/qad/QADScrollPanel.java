@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
+import de.longor.talecraft.util.Vec2i;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
@@ -17,7 +18,9 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 	private int width;
 	private int height;
 	private List<QADComponent> components;
-
+	private QADLayoutManager layout;
+	private boolean shouldRebuildLayout;
+	
 	private int viewportPosition; // position of the view
 	private int viewportHeight; // height of the content
 
@@ -30,6 +33,9 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 
 	public QADScrollPanel() {
 		components = Lists.newArrayList();
+		layout = null;
+		shouldRebuildLayout = true;
+		
 		enabled = true;
 		visible = true;
 
@@ -112,6 +118,7 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 	@Override
 	public <T extends QADComponent> T addComponent(T component) {
 		components.add(component);
+		shouldRebuildLayout = true;
 		return component;
 	}
 
@@ -277,8 +284,19 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 	public void onTickUpdate() {
 		if(!enabled) return;
 
-		if(height > viewportHeight) {
+		if(isLayoutDirty()) {
+			relayout();
+		}
+
+		if(height >= viewportHeight) {
+			// (content height is smaller than view height)
 			viewportPosition = 0;
+		} else {
+			// (content height is larger than view height)
+			// slowly scroll up!
+			if(viewportPosition + height > viewportHeight) {
+				viewportPosition -= 1;
+			}
 		}
 
 		for(QADComponent component : components) {
@@ -322,11 +340,38 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 	@Override
 	public void removeAllComponents() {
 		components.clear();
+		shouldRebuildLayout = true;
 	}
 
 	@Override
 	public QADEnumComponentClass getComponentClass() {
 		return QADEnumComponentClass.CONTAINER;
+	}
+	
+	private void relayout() {
+		if(layout != null) {
+			Vec2i newSize = new Vec2i();
+			layout.layout( this, components, newSize);
+			viewportHeight = newSize.y;
+			shouldRebuildLayout = false;
+		}
+	}
+	
+	public void forceRebuildLayout() {
+		relayout();
+	}
+	
+	public boolean isLayoutDirty() {
+		return shouldRebuildLayout;
+	}
+	
+	public QADLayoutManager getLayout() {
+		return layout;
+	}
+	
+	public void setLayout(QADLayoutManager newLayout) {
+		layout = newLayout;
+		shouldRebuildLayout = true;
 	}
 
 	@Override

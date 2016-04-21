@@ -16,6 +16,8 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	private int height;
 	private int backgroundColor;
 	private List<QADComponent> components;
+	private QADLayoutManager layout;
+	private boolean shouldRebuildLayout;
 
 	public boolean enabled;
 	public boolean visible;
@@ -24,6 +26,9 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 
 	public QADPanel() {
 		components = Lists.newArrayList();
+		layout = null;
+		shouldRebuildLayout = true;
+		
 		enabled = true;
 		visible = true;
 		ignoreOuterEvents = false;
@@ -94,6 +99,7 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	@Override
 	public <T extends QADComponent> T addComponent(T c) {
 		components.add(c);
+		shouldRebuildLayout = true;
 		return c;
 	}
 
@@ -196,6 +202,11 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	public void onTickUpdate() {
 		if(!enabled) return;
 
+		if(layout != null && isLayoutDirty()) {
+			layout.layout( this, components, new Vec2i() );
+			shouldRebuildLayout = false;
+		}
+
 		for(QADComponent component : components) {
 			component.onTickUpdate();
 		}
@@ -237,12 +248,35 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	@Override
 	public void removeAllComponents() {
 		components.clear();
+		shouldRebuildLayout = true;
 	}
 
 	@Override
 	public QADEnumComponentClass getComponentClass() {
 		return QADEnumComponentClass.CONTAINER;
 	}
+	
+	public void forceRebuildLayout() {
+		if(layout != null) {
+			layout.layout( this, components, new Vec2i() );
+			shouldRebuildLayout = false;
+		}
+	}
+	
+	public boolean isLayoutDirty() {
+		return shouldRebuildLayout;
+	}
+	
+	public QADLayoutManager getLayout() {
+		return layout;
+	}
+	
+	public void setLayout(QADLayoutManager newLayout) {
+		layout = newLayout;
+		shouldRebuildLayout = true;
+	}
+
+
 
 	@Override
 	public boolean transferFocus() {
