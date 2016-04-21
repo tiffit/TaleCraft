@@ -4,26 +4,19 @@ import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.script.wrappers.IObjectWrapper;
+import de.longor.talecraft.script.wrappers.entity.EntityLivingObjectWrapper;
 import de.longor.talecraft.script.wrappers.entity.EntityObjectWrapper;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
-public class PlayerObjectWrapper implements IObjectWrapper {
+public class PlayerObjectWrapper extends EntityObjectWrapper{
 
 	private EntityPlayer player;
 	
 	public PlayerObjectWrapper(EntityPlayer player){
+		super(player);
 		this.player = player;
-	}
-	
-	@Override
-	public Object internal() {
-		return player;
-	}
-
-	@Override
-	public List<String> getOwnPropertyNames() {
-		return TaleCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
 	
 	public void sendMessage(String message){

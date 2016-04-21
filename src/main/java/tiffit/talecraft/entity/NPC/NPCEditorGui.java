@@ -32,9 +32,10 @@ public class NPCEditorGui extends QADGuiScreen {
 	boolean eyesfollow;
 	UUID uuid;
 	NPCSkin skin;
-	String script;
+	String interactScript;
+	protected String updateScript;
 	
-	public NPCEditorGui(NPCData data, UUID uuid, String script){
+	public NPCEditorGui(NPCData data, UUID uuid, String interactScript, String updateScript){
 		this.data = data;
 		this.name = data.getName();
 		this.message = data.getMessage();
@@ -47,7 +48,8 @@ public class NPCEditorGui extends QADGuiScreen {
 		this.eyesfollow = data.doEyesFollow();
 		this.uuid = uuid;
 		this.skin = data.getSkin();
-		this.script = script;
+		this.interactScript = interactScript;
+		this.updateScript = updateScript;
 	}
 	
 	public void buildGui() {
@@ -202,7 +204,7 @@ public class NPCEditorGui extends QADGuiScreen {
 				data.setYaw(yaw);
 				data.setEyesFollow(eyesfollow);
 				data.setSkin(skin);
-				TaleCraft.network.sendToServer(new NPCDataPacket(uuid, data.toNBT(), script));
+				TaleCraft.network.sendToServer(new NPCDataPacket(uuid, data.toNBT(), interactScript, updateScript));
 				NPCEditorGui.this.mc.displayGuiScreen(null);
 			}
 
@@ -274,27 +276,27 @@ public class NPCEditorGui extends QADGuiScreen {
 		});
 		addComponent(skinselector);
 		
-		QADTextField scriptbox = new QADTextField(fontRendererObj, this.width - 300, 50, 200, 20);
-		scriptbox.setModel(new TextFieldModel(){
+		QADTextField updatescriptbox = new QADTextField(fontRendererObj, this.width - 300, 3, 200, 20);
+		updatescriptbox.setModel(new TextFieldModel(){
 			private int color = 0xFFFFFFFF;;
 			@Override
 			public String getText() {
-				return script;
+				return updateScript;
 			}
 
 			@Override
 			public int getTextLength() {
-				return script.length();
+				return updateScript.length();
 			}
 
 			@Override
 			public char getCharAt(int i) {
-				return script.charAt(i);
+				return updateScript.charAt(i);
 			}
 
 			@Override
 			public void setText(String text) {
-				script = text;
+				updateScript = text;
 			}
 
 			@Override
@@ -308,8 +310,45 @@ public class NPCEditorGui extends QADGuiScreen {
 			}
 			
 		});
-		scriptbox.setTooltip("The script to be run on interaction.", "Leave blank if there is not script.");
-		addComponent(scriptbox);
+		updatescriptbox.setTooltip("The script to be run every tick.", "Leave blank if there is not script.");
+		addComponent(updatescriptbox);
+		
+		QADTextField interactscriptbox = new QADTextField(fontRendererObj, this.width - 300, 50, 200, 20);
+		interactscriptbox.setModel(new TextFieldModel(){
+			private int color = 0xFFFFFFFF;;
+			@Override
+			public String getText() {
+				return interactScript;
+			}
+
+			@Override
+			public int getTextLength() {
+				return interactScript.length();
+			}
+
+			@Override
+			public char getCharAt(int i) {
+				return interactScript.charAt(i);
+			}
+
+			@Override
+			public void setText(String text) {
+				interactScript = text;
+			}
+
+			@Override
+			public void setTextColor(int color) {
+				this.color = color;
+			}
+
+			@Override
+			public int getTextColor() {
+				return color;
+			}
+			
+		});
+		interactscriptbox.setTooltip("The script to be run on interaction.", "Leave blank if there is not script.");
+		addComponent(interactscriptbox);
 		
 		QADSlider yawSlider = new QADSlider(new SliderModel<Float>(){
 			float sliderValue;

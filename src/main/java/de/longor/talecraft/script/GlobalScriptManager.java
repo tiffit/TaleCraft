@@ -114,6 +114,20 @@ public class GlobalScriptManager {
 
 		return newScope;
 	}
+	
+	public Scriptable createNewNPCScope(EntityNPC entity) {
+		Context cx = Context.enter();
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
+		newScope.setParentScope(null);
+
+		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));
+		Context.exit();
+
+		return newScope;
+	}
 
 	public Scriptable createNewWorldScope(World world) {
 		Context cx = Context.enter();
@@ -176,8 +190,6 @@ public class GlobalScriptManager {
 			TaleCraft.logger.error(message);
 			return "/*Failed to load script: "+fileName+". Reason: "+message+"*/";
 		}
-
-		TaleCraft.logger.info("Loading script: " + scriptFile);
 
 		try {
 			String script = FileUtils.readFileToString(scriptFile);

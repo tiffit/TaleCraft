@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import tiffit.talecraft.script.wrappers.PlayerObjectWrapper;
 
 public class EntityObjectWrapper implements IObjectWrapper {
 	private Entity entity;
@@ -159,6 +160,10 @@ public class EntityObjectWrapper implements IObjectWrapper {
 		}
 
 		return new EntityObjectWrapper(entity);
+	}
+	
+	public PlayerObjectWrapper getClosestPlayer(double distance){
+		return new PlayerObjectWrapper(entity.worldObj.getClosestPlayerToEntity(entity, distance));
 	}
 
 }

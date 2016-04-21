@@ -22,27 +22,31 @@ import tiffit.talecraft.entity.NPC.NPCEditorGui;
 
 public class NPCScriptUpdatePacket implements IMessage {
 
-	String script;
+	String interact;
+	String update;
 	int id;
 	
 
 	public NPCScriptUpdatePacket() {
 	}
 
-	public NPCScriptUpdatePacket(int id, String script) {
-		this.script = script;
+	public NPCScriptUpdatePacket(int id, String interact, String update) {
+		this.interact = interact;
+		this.update = update;
 		this.id = id;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		script = ByteBufUtils.readUTF8String(buf);
+		interact = ByteBufUtils.readUTF8String(buf);
+		update = ByteBufUtils.readUTF8String(buf);
 		id = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		ByteBufUtils.writeUTF8String(buf, script);
+		ByteBufUtils.writeUTF8String(buf, interact);
+		ByteBufUtils.writeUTF8String(buf, update);
 		buf.writeInt(id);
 	}
 
@@ -52,7 +56,7 @@ public class NPCScriptUpdatePacket implements IMessage {
 		public IMessage onMessage(NPCScriptUpdatePacket message, MessageContext ctx) {
 			Minecraft mc = Minecraft.getMinecraft();
 			EntityNPC npc = (EntityNPC) mc.theWorld.getEntityByID(message.id);
-			mc.displayGuiScreen(new NPCEditorGui(npc.getNPCData(), npc.getUniqueID(), message.script));
+			mc.displayGuiScreen(new NPCEditorGui(npc.getNPCData(), npc.getUniqueID(), message.interact, message.update));
 			return null;
 		}
 	}

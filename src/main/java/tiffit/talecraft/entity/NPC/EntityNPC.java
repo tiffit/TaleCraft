@@ -45,12 +45,14 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 
 	private NPCData data;
 	private NBTTagCompound scriptdata;
-	private IScriptInvoke scriptInvoke;
+	private String interactInvoke;
+	private String updateInvoke;
 	private Scriptable scope;
 	
 	public EntityNPC(World world) {
 		super(world);
-		scriptInvoke = new FileScriptInvoke();
+		interactInvoke = "";
+		updateInvoke = "";
 		scriptdata = new NBTTagCompound();
 	}
 	
@@ -87,9 +89,12 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 		return data;
 	}
 	
-	public void setScriptName(String name){
-		System.out.println(name);
-		scriptInvoke = new FileScriptInvoke(name);
+	public void setScriptInteractName(String name){
+		interactInvoke = name;
+	}
+	
+	public void setScriptUpdateName(String name){
+		updateInvoke = name;
 	}
 	
 	public void setNPCData(NBTTagCompound tag){
@@ -114,8 +119,8 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	private void handleRegularInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
 		this.collideWithEntity(null);
 		if(server){
+			FileScriptInvoke scriptInvoke = new FileScriptInvoke(interactInvoke);
 			if(!scriptInvoke.getScriptName().isEmpty()){
-				
 				scope = TaleCraft.globalScriptManager.createNewNPCScope(this, stack, player);
 				Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
 			}
@@ -130,7 +135,7 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	
 	private void handleEditorInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
 		if(server){
-			TaleCraft.network.sendToDimension(new NPCScriptUpdatePacket(this.getEntityId(), scriptInvoke.getScriptName()), this.getEntityWorld().provider.getDimension());
+			TaleCraft.network.sendToDimension(new NPCScriptUpdatePacket(this.getEntityId(), interactInvoke, updateInvoke), this.getEntityWorld().provider.getDimension());
 		}
 	}
 	
@@ -182,6 +187,13 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
+		if(!this.worldObj.isRemote){
+			FileScriptInvoke scriptInvoke = new FileScriptInvoke(updateInvoke);
+			if(!scriptInvoke.getScriptName().isEmpty()){
+				scope = TaleCraft.globalScriptManager.createNewNPCScope(this);
+				Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
+			}
+		}
 		EntityPlayer lookPlayer = lookAtPlayer();
 		if(data.doEyesFollow() && lookPlayer != null){
 			this.getLookHelper().setLookPositionWithEntity(lookPlayer, 30.0F, 30.0F);
@@ -237,7 +249,8 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 
 	@Override
 	public void getInvokes(List<IInvoke> invokes) {
-		invokes.add(scriptInvoke);
+		invokes.add(new FileScriptInvoke(interactInvoke));
+		invokes.add(new FileScriptInvoke(updateInvoke));
 	}
 
 	@Override

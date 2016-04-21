@@ -113,8 +113,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 			for(QADComponent component : components) {
 				component.onMouseClicked(mouseX-component.getX(), mouseY-component.getY(), mouseButton);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ConcurrentModificationException e) {
 		}
 	}
 
@@ -124,8 +123,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 			for(QADComponent component : components) {
 				component.onMouseReleased(mouseX-component.getX(), mouseY-component.getY(), state);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ConcurrentModificationException e) {
 		}
 	}
 

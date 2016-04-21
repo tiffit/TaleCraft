@@ -11,25 +11,12 @@ import net.minecraft.util.math.BlockPos;
 import tiffit.talecraft.entity.NPC.EntityNPC;
 import tiffit.talecraft.entity.NPC.NPCData;
 
-public class NPCObjectWrapper implements IObjectWrapper {
+public class NPCObjectWrapper extends EntityObjectWrapper{
 	private EntityNPC npc;
 
 	public NPCObjectWrapper(EntityNPC npc) {
+		super(npc);
 		this.npc = npc;
-	}
-
-	@Override
-	public EntityNPC internal() {
-		return npc;
-	}
-
-	@Override
-	public List<String> getOwnPropertyNames() {
-		return TaleCraft.globalScriptManager.getOwnPropertyNames(this);
-	}
-
-	public String getName(){
-		return npc.getName();
 	}
 	
 	public void setName(String name){
@@ -70,10 +57,6 @@ public class NPCObjectWrapper implements IObjectWrapper {
 	
 	public boolean moveToBlock(double x, double y, double z, float speed){
 		return npc.moveToPos(x, y, z, speed);
-	}
-	
-	public EntityObjectWrapper getAsEntity(){
-		return new EntityObjectWrapper(npc);
 	}
 
 }

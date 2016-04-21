@@ -1,6 +1,7 @@
 package de.longor.talecraft.client.gui.qad;
 
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -204,13 +205,16 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 		if(!enabled) return;
 
 		localMouseY += viewportPosition;
+		try{
+			for(QADComponent component : components) {
+				component.onMouseReleased(localMouseX-component.getX(), localMouseY-component.getY(), state);
 
-		for(QADComponent component : components) {
-			component.onMouseReleased(localMouseX-component.getX(), localMouseY-component.getY(), state);
-
-			if(component.isFocused()) {
-				focused = true;
+				if(component.isFocused()) {
+					focused = true;
+				}
 			}
+		}catch(ConcurrentModificationException e){
+			
 		}
 	}
 
