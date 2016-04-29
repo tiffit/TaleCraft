@@ -61,6 +61,8 @@ public abstract class QADComponent {
 	}
 
 	public void playPressSound(float pitch) {
+		// TODO: Extract the playing of sounds from this class into a QADSoundHandler class.
+		//       That should be done so in the future custom gui screens can have custom sound.
 		SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
 		soundHandler.playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, pitch));
 	}

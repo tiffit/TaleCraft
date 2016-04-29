@@ -42,7 +42,7 @@ public class QADButton extends QADRectangularComponent {
 	int width;
 	int height;
 	boolean enabled = true;
-	boolean hovered = false;
+	protected boolean hovered = false;
 	boolean focused = false;
 
 	// STYLE OPTIONS

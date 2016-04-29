@@ -59,7 +59,7 @@ public class VCUIRenderer {
 	}
 
 	public void drawDefaultBackground() {
-		guiScreen.drawDefaultBackground();
+		if(guiScreen != null) guiScreen.drawDefaultBackground();
 	}
 
 	public void offset(int offX, int offY) {

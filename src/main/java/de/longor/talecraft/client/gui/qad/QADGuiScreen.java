@@ -2,6 +2,7 @@ package de.longor.talecraft.client.gui.qad;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,18 +24,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	public static final VCUIRenderer instance = new VCUIRenderer();
 	private ArrayList<QADComponent> components;
+	private QADLayoutManager layout;
 	private GuiScreen behindScreen;
 	private boolean shouldPauseGame;
 	private boolean shouldRelayout;
 	private boolean shouldDebugRender;
 	protected GuiScreen returnScreen;
-	private boolean paused = false;
 
 	public QADGuiScreen() {
 		super.allowUserInput = false;
 		shouldPauseGame = true;
 		shouldRelayout = true;
 		shouldDebugRender = false;
+		layout = null;
 		components = null;
 		behindScreen = null;
 	}
@@ -44,14 +46,11 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	}
 
 	public void layoutGui() {
+		// setup component sizes and layout parameters here.
 	}
 
 	public void updateGui() {
 
-	}
-	
-	protected void setPaused(boolean pause){
-		paused = pause;
 	}
 
 	/** ********************************* **/
@@ -86,14 +85,21 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 			}
 		}
 
-		// XXX: Untested. Might lead to crash. Leaving it in for now.
+		// XXX-WARNING: Untested. Might lead to crash. Leaving it in for now.
 		if(this.behindScreen != null) {
 			this.behindScreen.width = this.width;
 			this.behindScreen.height = this.height;
 			this.behindScreen.initGui();
 		}
 
+		onLayout();
+	}
+	
+	private final void onLayout() {
 		layoutGui();
+		if(layout != null) {
+			layout.layout( this, components );
+		}
 	}
 
 	@Override
@@ -117,8 +123,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 			for(QADComponent component : components) {
 				component.onMouseClicked(mouseX-component.getX(), mouseY-component.getY(), mouseButton);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ConcurrentModificationException e) {
 		}
 	}
 
@@ -128,8 +133,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 			for(QADComponent component : components) {
 				component.onMouseReleased(mouseX-component.getX(), mouseY-component.getY(), state);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ConcurrentModificationException e) {
 		}
 	}
 
@@ -173,7 +177,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		}
 
 		if(shouldRelayout) {
-			layoutGui();
+			onLayout();
 			shouldRelayout = false;
 		}
 
@@ -195,11 +199,13 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		if(this.fontRendererObj != null) instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
 		instance.drawDefaultBackground();
 
-		// Draw all components.
-		if(!paused){
+		// Draw all components
+		try{
 			for(QADComponent component : components) {
-				component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
+				if(component != null) component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
 			}
+		}catch(ConcurrentModificationException e){
+			//Do nothing, this happens alot
 		}
 
 		if(shouldDebugRender) {
@@ -209,24 +215,28 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		drawCustom(mouseX, mouseY, partialTicks, instance);
 
 		// Check for tooltips, and draw them if necessary.
-		if(paused) return;
-		for(QADComponent component : components) {
-			if(component.isPointInside(mouseX, mouseY)) {
-				List<String> text = component.getTooltip(mouseX, mouseY);
+		try{
+			for(QADComponent component : components) {
+				if(component.isPointInside(mouseX, mouseY)) {
+					List<String> text = component.getTooltip(mouseX, mouseY);
+					
+					if(text != null) {
+						int yPos = mouseY;
 
-				if(text != null) {
-					int yPos = mouseY;
-
-					if(text.get(0).equalsIgnoreCase("ylock")) {
-						int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
-						yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
-						text = text.subList(1, text.size()-1);
+						if(text.get(0).equalsIgnoreCase("ylock")) {
+							int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
+							yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
+							text = text.subList(1, text.size()-1);
+						}
+						
+						this.drawHoveringText(text, mouseX, yPos);
+						break;
 					}
-
-					this.drawHoveringText(text, mouseX, yPos);
-					break;
 				}
 			}
+		}catch(ConcurrentModificationException e){
+			// Do nothing, this happens alot.
+			// XXX: This is not supposed to happen; Investigate if possible.
 		}
 
 		// Debug: Draw cursor position marker.
@@ -270,6 +280,10 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		return height / 2;
 	}
 
+	/*
+		If this method is called, the QADGuiScreen
+		will rebuild its layout in the next tick.
+	*/
 	public final void relayout() {
 		this.shouldRelayout = true;
 	}
@@ -342,6 +356,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	
 	public void resetGuiScreen() {
 		components = null;
+		
 	}
 
 	@Override
@@ -352,7 +367,26 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		}
 		return null;
 	}
+	
+	public void forceRebuildLayout() {
+		onLayout();
+	}
+	
+	public boolean isLayoutDirty() {
+		// GuiScreen layout is never dirty.
+		return false;
+	}
+	
+	public QADLayoutManager getLayout() {
+		return layout;
+	}
+	
+	public void setLayout(QADLayoutManager newLayout) {
+		layout = newLayout;
+		onLayout();
+	}
 
+	// Note: This method currently doesn't work correctly.
 	public void transferFocus() {
 		Iterator<QADComponent> iterator = components.iterator();
 		boolean unfocusRest = false;

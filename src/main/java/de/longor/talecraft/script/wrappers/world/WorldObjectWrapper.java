@@ -23,6 +23,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import tiffit.talecraft.script.wrappers.PlayerObjectWrapper;
 
 public class WorldObjectWrapper implements IObjectWrapper {
 	private World world;
@@ -128,7 +129,7 @@ public class WorldObjectWrapper implements IObjectWrapper {
 
 		return EntityObjectWrapper.transform(entities);
 	}
-
+	
 	public EntityObjectWrapper getEntityByName(final String name) {
 		for(Object ent : world.loadedEntityList) {
 			Entity entity = (Entity) ent;

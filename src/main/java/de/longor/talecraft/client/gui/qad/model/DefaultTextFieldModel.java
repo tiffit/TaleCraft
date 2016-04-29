@@ -2,7 +2,7 @@ package de.longor.talecraft.client.gui.qad.model;
 
 import de.longor.talecraft.client.gui.qad.QADTextField.TextFieldModel;
 
-public final class DefaultTextFieldModel implements TextFieldModel {
+public class DefaultTextFieldModel implements TextFieldModel {
 	private String text;
 	private int color;
 

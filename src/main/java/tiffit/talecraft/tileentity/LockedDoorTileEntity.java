@@ -1,7 +1,6 @@
 package tiffit.talecraft.tileentity;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.network.DoorPacket;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -10,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import tiffit.talecraft.packet.DoorPacket;
 
 public class LockedDoorTileEntity extends TileEntity{
 

@@ -24,6 +24,8 @@ item.voxelbrush.name=Voxelator (Voxel-Brush)
 item.terrainbrush.name=Terrain-Brush
 item.npceditor.name=NPC Editor
 
+item.bladeSalt.name=Salt
+
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key
 item.bomb.name=Throwable Bomb

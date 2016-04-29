@@ -1,4 +1,4 @@
-package de.longor.talecraft.network;
+package tiffit.talecraft.packet;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -8,21 +8,23 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
+import tiffit.talecraft.tileentity.SpikeBlockTileEntity;
 
-public class DoorPacket implements IMessage {
+public class SpikePacket implements IMessage {
 
 	int x;
 	int y;
 	int z;
-	boolean type;
+	boolean active;
 
-	public DoorPacket() {}
+	public SpikePacket() {}
 
-	public DoorPacket(BlockPos pos, boolean type) {
+	public SpikePacket(BlockPos pos, boolean active) {
+		System.out.println("Changing to: " + active);
 		x = pos.getX();
 		y = pos.getY();
 		z = pos.getZ();
-		this.type = type;
+		this.active = active;
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class DoorPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		type = buf.readBoolean();
+		active = buf.readBoolean();
 	}
 
 	@Override
@@ -38,16 +40,16 @@ public class DoorPacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-		buf.writeBoolean(type);
+		buf.writeBoolean(active);
 	}
 
-	public static class Handler implements IMessageHandler<DoorPacket, IMessage> {
+	public static class Handler implements IMessageHandler<SpikePacket, IMessage> {
 
 		@Override
-		public IMessage onMessage(DoorPacket message, MessageContext ctx) {
+		public IMessage onMessage(SpikePacket message, MessageContext ctx) {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if(te == null) return null;
-			((LockedDoorTileEntity) te).useSilverKey = message.type;
+			((SpikeBlockTileEntity) te).setActive(message.active);
 			return null;
 		}
 	}

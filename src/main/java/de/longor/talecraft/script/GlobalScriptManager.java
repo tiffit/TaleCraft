@@ -20,12 +20,18 @@ import com.google.common.collect.Lists;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.proxy.CommonProxy;
 import de.longor.talecraft.script.wrappers.IObjectWrapper;
+import de.longor.talecraft.script.wrappers.item.ItemStackObjectWrapper;
 import de.longor.talecraft.script.wrappers.world.WorldObjectWrapper;
 import de.longor.talecraft.util.MutableBlockPos;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import tiffit.talecraft.entity.NPC.EntityNPC;
+import tiffit.talecraft.script.wrappers.NPCObjectWrapper;
+import tiffit.talecraft.script.wrappers.PlayerObjectWrapper;
 
 public class GlobalScriptManager {
 	private NativeObject globalScope;
@@ -92,6 +98,36 @@ public class GlobalScriptManager {
 
 		return newScope;
 	}
+	
+	public Scriptable createNewNPCScope(EntityNPC entity, ItemStack stack, EntityPlayer player) {
+		Context cx = Context.enter();
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
+		newScope.setParentScope(null);
+
+		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));
+		ScriptableObject.putProperty(newScope, "itemstack", Context.javaToJS(new ItemStackObjectWrapper(stack), newScope));
+		ScriptableObject.putProperty(newScope, "player", Context.javaToJS(new PlayerObjectWrapper(player), newScope));
+		Context.exit();
+
+		return newScope;
+	}
+	
+	public Scriptable createNewNPCScope(EntityNPC entity) {
+		Context cx = Context.enter();
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
+		newScope.setParentScope(null);
+
+		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));
+		Context.exit();
+
+		return newScope;
+	}
 
 	public Scriptable createNewWorldScope(World world) {
 		Context cx = Context.enter();
@@ -154,8 +190,6 @@ public class GlobalScriptManager {
 			TaleCraft.logger.error(message);
 			return "/*Failed to load script: "+fileName+". Reason: "+message+"*/";
 		}
-
-		TaleCraft.logger.info("Loading script: " + scriptFile);
 
 		try {
 			String script = FileUtils.readFileToString(scriptFile);
