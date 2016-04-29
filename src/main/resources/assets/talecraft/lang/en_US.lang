@@ -1,6 +1,9 @@
+key.categories.talecraft=TaleCraft
 key.toggleBuildMode=Toggle Buildmode
 key.toggleWireframe=Toggle Rendermode
 key.mapSettings=Open Map Settings
+key.nbt=NBT Editor
+key.scriptEditor=Script Editor
 
 itemGroup.talecraftTab=TaleCraft [Util]
 itemGroup.talecraftDecoTab=TaleCraft [Decoration]
