@@ -13,6 +13,9 @@ import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADLabel;
 import de.longor.talecraft.client.gui.qad.QADSlider;
 import de.longor.talecraft.client.gui.qad.QADSlider.SliderModel;
+import de.longor.talecraft.client.gui.qad.QADTickBox;
+import de.longor.talecraft.client.gui.qad.QADTickBox.TickBoxModel;
+import de.longor.talecraft.client.gui.qad.model.DefaultTickBoxModel;
 import de.longor.talecraft.voxelator.VXAction.VXActions;
 import de.longor.talecraft.voxelator.VXShape.VXShapes;
 import net.minecraft.block.Block;
@@ -31,6 +34,7 @@ public class VoxelatorGui extends QADGuiScreen {
 	float width = 0.3f;
 	float height = 0.3f;
 	float length = 0.3f;
+	boolean hollow = false;
 	ArrayList<Block> blocks;
 	ArrayList<QADComponent> params;
 	
@@ -46,6 +50,7 @@ public class VoxelatorGui extends QADGuiScreen {
 			length = tag.getInteger("length")/10f;
 			width = tag.getInteger("width")/10f;
 			height = tag.getInteger("height")/10f;
+			hollow = tag.getBoolean("hollow");
 			int block_size = tag.getInteger("block_size");
 			for(int i = 0; i < block_size; i++){
 				blocks.add(Block.getBlockById(tag.getInteger("block_id_" + i)));
@@ -123,6 +128,7 @@ public class VoxelatorGui extends QADGuiScreen {
 				tag.setInteger("width", (int) (VoxelatorGui.this.width*10));
 				tag.setInteger("height", (int) (VoxelatorGui.this.height*10));
 				tag.setInteger("block_size", blocks.size());
+				tag.setBoolean("hollow", hollow);
 				for(int i = 0; i < blocks.size(); i++){
 					tag.setInteger("block_id_" + i, Block.getIdFromBlock(blocks.get(i)));
 				}
@@ -150,6 +156,25 @@ public class VoxelatorGui extends QADGuiScreen {
 			}
 		}).setTooltip("Apply Changes").setName("replace_param");
 		addComponent(save);
+		
+		QADTickBox hollow = new QADTickBox(475, 10, new TickBoxModel(){
+			@Override
+			public void setState(boolean newState) {
+				VoxelatorGui.this.hollow = newState;
+			}
+
+			@Override
+			public boolean getState() {
+				return VoxelatorGui.this.hollow;
+			}
+
+			@Override
+			public void toggleState() {
+				setState(!getState());
+			}
+			
+		});
+		addComponent(hollow.setTooltip("Is this hollow?"));
 	}
 	
 	private void incAction(){
@@ -169,12 +194,16 @@ public class VoxelatorGui extends QADGuiScreen {
 
 				@Override
 				public void onClick() {
-					displayGuiScreen(new BlockStateSelector(VoxelatorGui.this));
+					if(blocks.size() > 0){
+						displayGuiScreen(new BlockStateSelector(VoxelatorGui.this, false, 0));
+					}else{
+						displayGuiScreen(new BlockStateSelector(VoxelatorGui.this));
+					}
 				}
 
 				@Override
 				public String getText() {
-					return blocks.size() > 0 ? blocks.get(0).getRegistryName() : "Set Replace Block";
+					return blocks.size() > 0 ? blocks.get(0).getLocalizedName() : "Set Replace Block";
 				}
 
 				@Override
@@ -204,7 +233,7 @@ public class VoxelatorGui extends QADGuiScreen {
 
 					@Override
 					public String getText() {
-						return blocks.get(index).getRegistryName();
+						return blocks.get(index).getLocalizedName();
 					}
 
 					@Override

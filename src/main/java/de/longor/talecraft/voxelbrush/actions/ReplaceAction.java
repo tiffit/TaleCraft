@@ -18,7 +18,7 @@ public class ReplaceAction implements IAction{
 
 	@Override
 	public String toString() {
-		ResourceLocation ID = new ResourceLocation(block.getRegistryName());
+		ResourceLocation ID = block.getRegistryName();
 		return "Replace ["+ID.getResourceDomain()+":"+ID.getResourcePath()+"/"+block.getMetaFromState(blockState)+"]";
 	}
 

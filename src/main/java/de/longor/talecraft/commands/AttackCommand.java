@@ -1,8 +1,8 @@
 package de.longor.talecraft.commands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.EntitySelector;
@@ -13,9 +13,36 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
+import java.lang.reflect.Field;
 
 public class AttackCommand extends TCCommandBase {
-
+	
+	private static List<String> getDamageSourceNames(){
+		Field[] fields = DamageSource.class.getFields();
+		List<String> names = new ArrayList<String>();
+		for(Field field : fields){
+			if(field.getType().isAssignableFrom(DamageSource.class)){
+				names.add(field.getName());
+			}
+		}
+		return names;
+	}
+	
+	private static DamageSource getDamageSource(String name){
+		try{
+			Field field = DamageSource.class.getField(name);
+			return (DamageSource) field.get(null);
+		}catch (NoSuchFieldException e){
+			return null;
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	@Override
 	public String getCommandName() {
 		return "tc_attack";
@@ -41,7 +68,7 @@ public class AttackCommand extends TCCommandBase {
 
 		// parse all parameters
 		List<EntityLivingBase> entities = EntitySelector.matchEntities(sender, str_selector, EntityLivingBase.class);
-		DamageSource damage_type = AttackCommand.parseDamageType(str_dmgtype);
+		DamageSource damage_type = AttackCommand.getDamageSource(str_dmgtype);//AttackCommand.parseDamageType(str_dmgtype);
 		double damage_amount = CommandBase.parseDouble(str_dmgamount, 0, 1000);
 
 		// check entities
@@ -134,7 +161,7 @@ public class AttackCommand extends TCCommandBase {
 			return getListOfStringsMatchingLastWord(args, new String[]{"@e","@a","@p","@r"});
 		}
 		if(args.length == 2) {
-			return getListOfStringsMatchingLastWord(args, new String[]{"magic","anvil","cactus","drown","fall","fallingblock","generic","fire","wall","lava","lightingbolt","onfire","out_of_world","starve","wither"}); // type
+			return getListOfStringsMatchingLastWord(args, AttackCommand.getDamageSourceNames());
 		}
 		if(args.length == 3) {
 			return getListOfStringsMatchingLastWord(args, new String[]{"1","0.5","2","2.5"});

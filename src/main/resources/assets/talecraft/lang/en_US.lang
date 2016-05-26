@@ -23,7 +23,7 @@ item.spawnpoint.name=Spawn Point-Entity
 item.metaswapper.name=Meta Swapper
 item.teleporter.name=Teleporter
 item.instakill.name=Instakill
-item.voxelbrush.name=Voxelator (Voxel-Brush)
+item.voxelbrush.name=Voxelator
 item.terrainbrush.name=Terrain-Brush
 item.npceditor.name=NPC Editor
 
@@ -32,6 +32,9 @@ item.bladeSalt.name=Salt
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key
 item.bomb.name=Throwable Bomb
+item.goldcoin.name=Gold Coin
+item.silvercoin.name=Silver Coin
+item.emeraldcoin.name=Emerald Coin
 
 tile.talecraft:clockblock.name=Clock Block
 tile.talecraft:redstone_trigger.name=Redstone Trigger Block
@@ -52,6 +55,7 @@ tile.talecraft:triggerfilterblock.name=Trigger Filter Block
 tile.talecraft:delayblock.name=Delay Block
 tile.talecraft:urlblock.name=URL Block
 tile.talecraft:summonblock.name=Summon Block
+tile.talecraft:musicblock.name=Music Block
 
 tile.talecraft:spikeblock.name=Spike
 tile.talecraft:lockeddoorblock.name=Locked Door

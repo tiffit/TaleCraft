@@ -37,16 +37,4 @@ public abstract class VXAction {
 	 **/
 	public abstract void apply(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld);
 
-	public static VXAction newReplaceAction(IBlockState state) {
-		return new VXActionReplace(state);
-	}
-
-	public static VXAction newGrassifyAction() {
-		return new VXActionGrassify();
-	}
-
-	public static VXAction newVariationReplaceAction(IBlockState... states) {
-		return new VXActionVariationsReplace(states);
-	}
-
 }

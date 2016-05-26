@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
+import de.longor.talecraft.util.Vec2i;
 import net.minecraft.util.ResourceLocation;
 
 public class QADPanel extends QADRectangularComponent implements QADComponentContainer {
@@ -330,6 +331,16 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		for(QADComponent component : components) {
 			component.removeFocus();
 		}
+	}
+
+	@Override
+	public int getContainerWidth() {
+		return width;
+	}
+
+	@Override
+	public int getContainerHeight() {
+		return height;
 	}
 
 }

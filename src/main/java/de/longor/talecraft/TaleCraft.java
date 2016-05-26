@@ -5,8 +5,6 @@ import java.util.Random;
 import org.apache.logging.log4j.Logger;
 
 import de.longor.talecraft.managers.TCWorldsManager;
-import de.longor.talecraft.network.PlayerNBTDataMergePacket;
-import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.proxy.ClientProxy;
 import de.longor.talecraft.proxy.CommonProxy;
 import de.longor.talecraft.script.GlobalScriptManager;
@@ -31,19 +29,10 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.client.gui.worlddesc.WorldSelectorInjector;
-import tiffit.talecraft.packet.DoorPacket;
-import tiffit.talecraft.packet.InGameScripterRequestPacket;
-import tiffit.talecraft.packet.InGameScripterRequestResponsePacket;
-import tiffit.talecraft.packet.NPCDataPacket;
-import tiffit.talecraft.packet.NPCScriptUpdatePacket;
-import tiffit.talecraft.packet.SpikePacket;
-import tiffit.talecraft.packet.VoxelatorGuiPacket;
-import tiffit.talecraft.packet.VoxelatorPacket;
 import tiffit.talecraft.util.ConfigurationManager;
 import tiffit.talecraft.versionchecker.SendMessage;
 
@@ -77,24 +66,15 @@ public class TaleCraft {
 		config.save();
 		logger.info("Configuration loaded!");
 		MinecraftForge.EVENT_BUS.register(this);
-
+		
+		TaleCraftNetwork.preInit();
 		random = new Random(42);
 
 		worldsManager = new TCWorldsManager(this);
 		timedExecutor = new TimedExecutor();
 		globalScriptManager = new GlobalScriptManager();
 		globalScriptManager.init(this, proxy);
-		network = NetworkRegistry.INSTANCE.newSimpleChannel("TaleCraftNet");
 
-		// Register the handler for server-side StringNBT-commands.
-		network.registerMessage(StringNBTCommandPacket.Handler.class, StringNBTCommandPacket.class, 0, Side.SERVER);
-		network.registerMessage(PlayerNBTDataMergePacket.Handler.class, PlayerNBTDataMergePacket.class, 1, Side.CLIENT);
-		network.registerMessage(VoxelatorGuiPacket.Handler.class, VoxelatorGuiPacket.class, 2, Side.CLIENT);
-		network.registerMessage(DoorPacket.Handler.class, DoorPacket.class, 3, Side.CLIENT);
-		network.registerMessage(VoxelatorPacket.Handler.class, VoxelatorPacket.class, 4, Side.SERVER);
-		network.registerMessage(NPCDataPacket.Handler.class, NPCDataPacket.class, 5, Side.SERVER);
-		network.registerMessage(SpikePacket.Handler.class, SpikePacket.class, 6, Side.CLIENT);
-		network.registerMessage(NPCScriptUpdatePacket.Handler.class, NPCScriptUpdatePacket.class, 7, Side.CLIENT);
 		// Print debug information
 		logger.info("TaleCraft CoreManager @" + worldsManager.hashCode());
 		logger.info("TaleCraft TimedExecutor @" + timedExecutor.hashCode());
@@ -125,6 +105,7 @@ public class TaleCraft {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init(event);
+		TCSoundHandler.init();
 	}
 
 	@Mod.EventHandler

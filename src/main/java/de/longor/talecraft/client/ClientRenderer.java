@@ -34,6 +34,7 @@ import de.longor.talecraft.client.render.renderers.CustomSkyRenderer;
 import de.longor.talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import de.longor.talecraft.client.render.tileentity.GenericTileEntityRenderer;
 import de.longor.talecraft.client.render.tileentity.ImageHologramBlockTileEntityEXTRenderer;
+import de.longor.talecraft.client.render.tileentity.SpikeTileEntityRenderer;
 import de.longor.talecraft.client.render.tileentity.StorageBlockTileEntityEXTRenderer;
 import de.longor.talecraft.client.render.tileentity.SummonBlockTileEntityEXTRenderer;
 import de.longor.talecraft.entities.EntityPoint;
@@ -59,9 +60,9 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
+import tiffit.talecraft.tileentity.MusicBlockTileEntity;
 import tiffit.talecraft.tileentity.SpikeBlockTileEntity;
 import tiffit.talecraft.tileentity.specialrender.LockedDoorEntityRenderer;
-import tiffit.talecraft.tileentity.specialrender.SpikeBlockEntityRenderer;
 import tiffit.talecraft.util.ConfigurationManager;
 
 public class ClientRenderer {
@@ -151,12 +152,16 @@ public class ClientRenderer {
 				new GenericTileEntityRenderer<SummonBlockTileEntity>("talecraft:textures/blocks/util/spawner.png",
 						new SummonBlockTileEntityEXTRenderer()));
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(SpikeBlockTileEntity.class, new SpikeBlockEntityRenderer());
-		
 		ClientRegistry.bindTileEntitySpecialRenderer(LockedDoorTileEntity.class, new LockedDoorEntityRenderer());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(URLBlockTileEntity.class,
 				new GenericTileEntityRenderer<URLBlockTileEntity>("talecraft:textures/blocks/util/url.png"));
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(MusicBlockTileEntity.class,
+				new GenericTileEntityRenderer<MusicBlockTileEntity>("talecraft:textures/blocks/util/music.png"));
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(SpikeBlockTileEntity.class,
+				new SpikeTileEntityRenderer());
 	}
 
 	private void init_render_item(ItemModelMesher mesher) {
@@ -176,7 +181,10 @@ public class ClientRenderer {
 		mesher.register(TaleCraftItems.silverKey, 0, new ModelResourceLocation("talecraft:silverkey", "inventory"));
 		mesher.register(TaleCraftItems.goldKey, 0, new ModelResourceLocation("talecraft:goldkey", "inventory"));
 		mesher.register(TaleCraftItems.bomb, 0, new ModelResourceLocation("talecraft:bomb", "inventory"));
-		mesher.register(TaleCraftItems.npceditor, 0, new ModelResourceLocation("minecraft:stick", "inventory"));
+		mesher.register(TaleCraftItems.npceditor, 0, new ModelResourceLocation("talecraft:npceditor", "inventory"));
+		mesher.register(TaleCraftItems.goldCoin, 0, new ModelResourceLocation("talecraft:goldcoin", "inventory"));
+		mesher.register(TaleCraftItems.silverCoin, 0, new ModelResourceLocation("talecraft:silvercoin", "inventory"));
+		mesher.register(TaleCraftItems.emeraldCoin, 0, new ModelResourceLocation("talecraft:emeraldcoin", "inventory"));
 		
 		mesher.register(TaleCraftItems.bladeSalt, 0, new ModelResourceLocation("talecraft:bladeSalt", "inventory"));
 	}
@@ -247,7 +255,7 @@ public class ClientRenderer {
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.delayBlock), 0, new ModelResourceLocation("talecraft:delayblock", "inventory"));
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.urlBlock), 0, new ModelResourceLocation("talecraft:urlblock", "inventory"));
 		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.summonBlock), 0, new ModelResourceLocation("talecraft:summonblock", "inventory"));
-
+		mesher.register(Item.getItemFromBlock(TaleCraftBlocks.musicBlock), 0, new ModelResourceLocation("talecraft:musicblock", "inventory"));
 	}
 
 	private ResourceLocation[] mkstrlfint(String string, int j) {

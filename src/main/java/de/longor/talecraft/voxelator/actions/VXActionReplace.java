@@ -8,7 +8,6 @@ import net.minecraft.util.math.BlockPos;
 
 public class VXActionReplace extends VXAction {
 	private final IBlockState state;
-
 	public VXActionReplace(IBlockState state) {
 		this.state = state;
 	}

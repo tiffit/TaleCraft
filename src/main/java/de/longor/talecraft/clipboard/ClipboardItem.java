@@ -174,7 +174,7 @@ public class ClipboardItem {
 		for(int ix = 0; ix < blocksRaw.length; ix++) {
 			IBlockState state = blocksRaw[ix];
 			Block block = state.getBlock();
-			ResourceLocation identifier = new ResourceLocation(block.getRegistryName());
+			ResourceLocation identifier = block.getRegistryName();
 			String typeName = identifier.getResourceDomain() + ":" + identifier.getResourcePath();
 			int typeMeta = block.getMetaFromState(state);
 

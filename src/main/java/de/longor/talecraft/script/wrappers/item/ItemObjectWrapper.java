@@ -26,9 +26,5 @@ public class ItemObjectWrapper implements IObjectWrapper {
 	public String getUnlocalizedName() {
 		return item.getUnlocalizedName();
 	}
-	
-	public String getRegistryName() {
-		return item.getRegistryName();
-	}
 
 }

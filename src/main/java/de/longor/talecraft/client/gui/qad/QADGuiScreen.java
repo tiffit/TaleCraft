@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
+import de.longor.talecraft.util.Vec2i;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -98,7 +99,8 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	private final void onLayout() {
 		layoutGui();
 		if(layout != null) {
-			layout.layout( this, components );
+			Vec2i newSize = new Vec2i();
+			layout.layout(this, components, newSize);
 		}
 	}
 
@@ -414,6 +416,16 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 				unfocusRest = true;
 			}
 		}
+	}
+
+	@Override
+	public int getContainerWidth() {
+		return this.width;
+	}
+
+	@Override
+	public int getContainerHeight() {
+		return this.height;
 	}
 
 }

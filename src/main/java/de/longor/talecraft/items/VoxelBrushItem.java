@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.voxelator.VXAction;
-import de.longor.talecraft.voxelator.VXAction.VXActions;
 import de.longor.talecraft.voxelator.VXPredicate;
 import de.longor.talecraft.voxelator.VXShape;
 import de.longor.talecraft.voxelator.Voxelator;
@@ -12,16 +11,16 @@ import de.longor.talecraft.voxelator.actions.VXActionGrassify;
 import de.longor.talecraft.voxelator.actions.VXActionReplace;
 import de.longor.talecraft.voxelator.actions.VXActionVariationsReplace;
 import de.longor.talecraft.voxelator.predicates.VXPredicateHeightLimit;
-import de.longor.talecraft.voxelator.predicates.VXPredicateIsSolid;
 import de.longor.talecraft.voxelator.shapes.VXShapeBox;
 import de.longor.talecraft.voxelator.shapes.VXShapeCylinder;
 import de.longor.talecraft.voxelator.shapes.VXShapeSphere;
-import de.longor.talecraft.voxelbrush_old.VoxelBrush;
+import de.longor.talecraft.voxelbrush.VoxelBrush;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -30,7 +29,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.packet.VoxelatorGuiPacket;
@@ -89,7 +87,6 @@ public class VoxelBrushItem extends TCItem {
 			VXAction action = null; int action_id = data.getInteger("action");
 			if(action_id == 0) action = new VXActionGrassify();
 			if(action_id == 1) action = new VXActionReplace(Block.getBlockById(data.getInteger("block_id_0")).getDefaultState());
-			
 			if(action_id == 2){
 				IBlockState[] blockstates = new IBlockState[data.getInteger("block_size")];
 				for(int i = 0; i < blockstates.length; i++){
@@ -97,10 +94,12 @@ public class VoxelBrushItem extends TCItem {
 				}
 				action = new VXActionVariationsReplace(blockstates);
 			}
+			
+			boolean hollow = data.getBoolean("hollow");
 			VXShape shape = null; int shape_id = data.getInteger("shape");
-			if(shape_id == 0) shape = new VXShapeSphere(result.getBlockPos(), data.getFloat("radius"));
-			if(shape_id == 1) shape = new VXShapeBox(result.getBlockPos(), data.getInteger("width"), data.getInteger("height"), data.getInteger("length"));
-			if(shape_id == 2) shape = new VXShapeCylinder(result.getBlockPos(), data.getFloat("radius"), data.getInteger("height"));
+			if(shape_id == 0) shape = new VXShapeSphere(result.getBlockPos(), data.getFloat("radius"), hollow);
+			if(shape_id == 1) shape = new VXShapeBox(result.getBlockPos(), data.getInteger("width"), data.getInteger("height"), data.getInteger("length"), hollow);
+			if(shape_id == 2) shape = new VXShapeCylinder(result.getBlockPos(), data.getFloat("radius"), data.getInteger("height"), hollow);
 			Voxelator.apply(shape, action_id == 0 ? VXPredicate.newIsSolid() : new VXPredicateHeightLimit(256), action, world);
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 	}

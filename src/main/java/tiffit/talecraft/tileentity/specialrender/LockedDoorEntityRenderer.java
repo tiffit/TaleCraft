@@ -2,21 +2,14 @@ package tiffit.talecraft.tileentity.specialrender;
 
 import org.lwjgl.opengl.GL11;
 
-import de.longor.talecraft.client.render.renderers.BoxRenderer;
-import de.longor.talecraft.invoke.BlockTriggerInvoke;
-import de.longor.talecraft.invoke.IInvoke;
-import de.longor.talecraft.invoke.IInvokeSource;
-import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
-import tiffit.talecraft.tileentity.SpikeBlockTileEntity;
 
 public class LockedDoorEntityRenderer extends TileEntitySpecialRenderer<LockedDoorTileEntity> {
 

@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import tiffit.talecraft.items.NPCEditorItem;
 import tiffit.talecraft.items.world.BladeSaltItem;
 import tiffit.talecraft.items.world.BombItem;
+import tiffit.talecraft.items.world.CoinItem;
 import tiffit.talecraft.items.world.KeyItem;
 
 public class TaleCraftItems {
@@ -44,6 +45,10 @@ public class TaleCraftItems {
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
 	public static BombItem bomb;
+	
+	public static CoinItem goldCoin;
+	public static CoinItem silverCoin;
+	public static CoinItem emeraldCoin;
 
 	public static void init() {
 		wand = register(new WandItem(), "wand");
@@ -65,11 +70,15 @@ public class TaleCraftItems {
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");
 		bomb = register(new BombItem(), "bomb");
+		goldCoin = register(new CoinItem(), "goldcoin");
+		silverCoin = register(new CoinItem(), "silvercoin");
+		emeraldCoin = register(new CoinItem(), "emeraldcoin");
 	}
 
 	private static <T extends Item> T register(T item, String name) {
 		item.setUnlocalizedName(name);
-		GameRegistry.registerItem(item, name);
+		//GameRegistry.registerItem(item, name);
+		GameRegistry.register(item.getRegistryName() == null ? item.setRegistryName(name) : item);
 		ALL_TC_ITEMS.add(item);
 		return item;
 	}

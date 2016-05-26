@@ -20,10 +20,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.SPacketSpawnGlobalEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import tiffit.talecraft.script.wrappers.PlayerObjectWrapper;
+import tiffit.talecraft.util.CustomWorldData;
 
 public class WorldObjectWrapper implements IObjectWrapper {
 	private World world;
@@ -51,10 +55,9 @@ public class WorldObjectWrapper implements IObjectWrapper {
 			return null;
 
 		Entity entity = EntityList.createEntityByName(identifier, world);
-
+		this.world.spawnEntityInWorld(entity);
 		if(entity == null)
 			return null;
-
 		return EntityObjectWrapper.transform(entity);
 	}
 
@@ -240,6 +243,10 @@ public class WorldObjectWrapper implements IObjectWrapper {
 
 	public WorldBorderObjectWrapper getWorldBorder() {
 		return new WorldBorderObjectWrapper(world.getWorldBorder());
+	}
+	
+	public CompoundTagWrapper getData(){
+		return new CompoundTagWrapper(CustomWorldData.forWorld(world).customdata);
 	}
 
 }

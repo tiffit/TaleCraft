@@ -326,53 +326,53 @@ public class BoxRenderer {
 			float maxX, float maxY, float maxZ,
 			float r, float g, float b, float a
 			) {
-		VertexBufferHelper vertexbuffer = new VertexBufferHelper(ren);
-		GlStateManager.color(r, g, b, a);
-
-		vertexbuffer.startDrawingQuads();
-
-		vertexbuffer.setTranslation(0, 0, 0);
-		vertexbuffer.color(r, g, b, a);
-		vertexbuffer.setBrightness(0xEE);
-
-		// top
-		vertexbuffer.normal(0, 1, 0);
-		vertexbuffer.pos(minX, maxY, maxZ).tex(0, 0).endVertex();
-		vertexbuffer.pos(maxX, maxY, maxZ).tex(1, 0).endVertex();
-		vertexbuffer.pos(maxX, maxY, minZ).tex(1, 1).endVertex();
-		vertexbuffer.pos(minX, maxY, minZ).tex(0, 1).endVertex();
-		// bottom
-		vertexbuffer.normal(0, -1, 0);
-		vertexbuffer.addVertexWithUV(minX, minY, minZ, 0, 0);
-		vertexbuffer.addVertexWithUV(maxX, minY, minZ, 1, 0);
-		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, 1, 1);
-		vertexbuffer.addVertexWithUV(minX, minY, maxZ, 0, 1);
-		// negative z | north
-		vertexbuffer.normal(0, 0, -1);
-		vertexbuffer.addVertexWithUV(minX, maxY, minZ, 1, 0);
-		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, 0, 0);
-		vertexbuffer.addVertexWithUV(maxX, minY, minZ, 0, 1);
-		vertexbuffer.addVertexWithUV(minX, minY, minZ, 1, 1);
-		// positive z | south
-		vertexbuffer.normal(0, 0, 1);
-		vertexbuffer.pos(maxX, maxY, maxZ).tex(1, 0).endVertex();
-		vertexbuffer.pos(minX, maxY, maxZ).tex(0, 0).endVertex();
-		vertexbuffer.addVertexWithUV(minX, minY, maxZ, 0, 1);
-		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, 1, 1);
-		// positive x | east
-		vertexbuffer.normal(1, 0, 0);
-		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, 1, 0);
-		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, 0, 0);
-		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, 0, 1);
-		vertexbuffer.addVertexWithUV(maxX, minY, minZ, 1, 1);
-		// negative x | west
-		vertexbuffer.normal(-1, 0, 0);
-		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, 1, 0);
-		vertexbuffer.addVertexWithUV(minX, maxY, minZ, 0, 0);
-		vertexbuffer.addVertexWithUV(minX, minY, minZ, 0, 1);
-		vertexbuffer.addVertexWithUV(minX, minY, maxZ, 1, 1);
-
-		tessellator.draw();
+//		VertexBufferHelper vertexbuffer = new VertexBufferHelper(ren);
+//		GlStateManager.color(r, g, b, a);
+//
+//		vertexbuffer.startDrawingQuads();
+//
+//		vertexbuffer.setTranslation(0, 0, 0);
+//		vertexbuffer.color(r, g, b, a);
+//		vertexbuffer.setBrightness(0xEE);
+//
+//		// top
+//		vertexbuffer.normal(0, 1, 0);
+//		vertexbuffer.pos(minX, maxY, maxZ).tex(0, 0).endVertex();
+//		vertexbuffer.pos(maxX, maxY, maxZ).tex(1, 0).endVertex();
+//		vertexbuffer.pos(maxX, maxY, minZ).tex(1, 1).endVertex();
+//		vertexbuffer.pos(minX, maxY, minZ).tex(0, 1).endVertex();
+//		// bottom
+//		vertexbuffer.normal(0, -1, 0);
+//		vertexbuffer.addVertexWithUV(minX, minY, minZ, 0, 0);
+//		vertexbuffer.addVertexWithUV(maxX, minY, minZ, 1, 0);
+//		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, 1, 1);
+//		vertexbuffer.addVertexWithUV(minX, minY, maxZ, 0, 1);
+//		// negative z | north
+//		vertexbuffer.normal(0, 0, -1);
+//		vertexbuffer.addVertexWithUV(minX, maxY, minZ, 1, 0);
+//		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, 0, 0);
+//		vertexbuffer.addVertexWithUV(maxX, minY, minZ, 0, 1);
+//		vertexbuffer.addVertexWithUV(minX, minY, minZ, 1, 1);
+//		// positive z | south
+//		vertexbuffer.normal(0, 0, 1);
+//		vertexbuffer.pos(maxX, maxY, maxZ).tex(1, 0).endVertex();
+//		vertexbuffer.pos(minX, maxY, maxZ).tex(0, 0).endVertex();
+//		vertexbuffer.addVertexWithUV(minX, minY, maxZ, 0, 1);
+//		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, 1, 1);
+//		// positive x | east
+//		vertexbuffer.normal(1, 0, 0);
+//		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, 1, 0);
+//		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, 0, 0);
+//		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, 0, 1);
+//		vertexbuffer.addVertexWithUV(maxX, minY, minZ, 1, 1);
+//		// negative x | west
+//		vertexbuffer.normal(-1, 0, 0);
+//		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, 1, 0);
+//		vertexbuffer.addVertexWithUV(minX, maxY, minZ, 0, 0);
+//		vertexbuffer.addVertexWithUV(minX, minY, minZ, 0, 1);
+//		vertexbuffer.addVertexWithUV(minX, minY, maxZ, 1, 1);
+//
+//		tessellator.draw();
 	}
 
 	public static final void renderBox(
@@ -511,6 +511,11 @@ public class BoxRenderer {
 		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, u1, w0);
 		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, u1, w1);
 		vertexbuffer.addVertexWithUV(minX, maxY, minZ, u0, w1);
+		vertexbuffer.normal(0, 1, 0);
+		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, u0, w0);
+		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, u1, w0);
+		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, u1, w1);
+		vertexbuffer.addVertexWithUV(minX, maxY, minZ, u0, w1);
 		// bottom
 		vertexbuffer.normal(0, -1, 0);
 		vertexbuffer.addVertexWithUV(minX, minY, minZ, u0, w0);
@@ -529,13 +534,13 @@ public class BoxRenderer {
 		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, u1, v0);
 		vertexbuffer.addVertexWithUV(minX, minY, maxZ, u1, v1);
 		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, u0, v1);
-		// positive x | east
+		 //positive x | east
 		vertexbuffer.normal(1, 0, 0);
 		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, w0, v0);
 		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, w1, v0);
 		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, w1, v1);
 		vertexbuffer.addVertexWithUV(maxX, minY, minZ, w0, v1);
-		// negative x | west
+		 //negative x | west
 		vertexbuffer.normal(-1, 0, 0);
 		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, w0, v0);
 		vertexbuffer.addVertexWithUV(minX, maxY, minZ, w1, v0);
@@ -558,17 +563,14 @@ public class BoxRenderer {
 		public VertexBuffer pos(double x, double y, double z) {
 			return rend.pos(x, y, z);
 		}
-
-		public VertexBuffer pos(float x, float y, float z) {
-			return rend.pos(x, y, z);
-		}
-
+		
 		public void setTranslation(int x, int y, int z) {
 			rend.setTranslation(x, y, z);
 		}
 
 		public void addVertexWithUV(double x, double y, double z, float u, float v) {
 			rend.pos(x, y, z).tex(u, v).endVertex();
+			
 		}
 
 		public void normal(float x, float y, float z) {

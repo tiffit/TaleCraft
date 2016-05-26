@@ -1,6 +1,11 @@
 package de.longor.talecraft.client.gui.qad.layout;
 
+import java.util.List;
+
+import de.longor.talecraft.client.gui.qad.QADComponent;
+import de.longor.talecraft.client.gui.qad.QADComponentContainer;
 import de.longor.talecraft.client.gui.qad.QADLayoutManager;
+import de.longor.talecraft.client.gui.qad.QADRectangularComponent;
 import de.longor.talecraft.util.Vec2i;
 
 /*
@@ -45,7 +50,7 @@ class QADListLayout implements QADLayoutManager {
 			
 			// Is this a rectangular component/a component with size?
 			if(component instanceof QADRectangularComponent) {
-				QADRectangularComponent rectComp = component;
+				QADRectangularComponent rectComp = (QADRectangularComponent) component;
 				
 				int maxW = Math.max(width , rectComp.getWidth ());
 				int maxH = Math.max(height, rectComp.getHeight());
@@ -72,9 +77,9 @@ class QADListLayout implements QADLayoutManager {
 			
 			// In the small case that the layout of a sub-container got dirty,
 			// go and rebuild its layout (if needed!).
-			if(component instanceof QADContainerComponent) {
-				if(((QADContainerComponent)component).isLayoutDirty())
-					((QADContainerComponent)component).forceRebuildLayout();
+			if(component instanceof QADComponentContainer) {
+				if(((QADComponentContainer)component).isLayoutDirty())
+					((QADComponentContainer)component).forceRebuildLayout();
 			}
 			
 			currentY += Math.max(yIncrement, yIncrementAlt);

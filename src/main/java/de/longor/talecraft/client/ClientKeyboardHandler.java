@@ -8,11 +8,11 @@ import de.longor.talecraft.client.gui.nbt.GuiNBTEditor;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import tiffit.talecraft.packet.InGameScripterRequestPacket;
 
 public class ClientKeyboardHandler {
 	private final ClientProxy proxy;
@@ -23,7 +23,6 @@ public class ClientKeyboardHandler {
 	private KeyBinding buildModeBinding;
 	private KeyBinding visualizationBinding;
 	private KeyBinding nbt;
-	private KeyBinding scriptEditor;
 
 	public ClientKeyboardHandler(ClientProxy clientProxy) {
 		proxy = clientProxy;
@@ -33,33 +32,27 @@ public class ClientKeyboardHandler {
 		buildModeBinding = new KeyBinding("key.toggleBuildMode", Keyboard.KEY_B, category);
 		visualizationBinding = new KeyBinding("key.toggleWireframe", Keyboard.KEY_PERIOD, category);
 		nbt = new KeyBinding("key.nbt", Keyboard.KEY_N, category);
-		scriptEditor = new KeyBinding("key.scriptEditor", Keyboard.KEY_P, category);
 
 		// register all keybindings
 		ClientRegistry.registerKeyBinding(mapSettingsBinding);
 		ClientRegistry.registerKeyBinding(buildModeBinding);
 		ClientRegistry.registerKeyBinding(visualizationBinding);
 		ClientRegistry.registerKeyBinding(nbt);
-		ClientRegistry.registerKeyBinding(scriptEditor);
+		
 	}
 
 	public void on_key(KeyInputEvent event) {
 		//opens the NBT editor
 		if(nbt.isPressed() && nbt.isKeyDown() && mc.theWorld != null && mc.thePlayer != null && !mc.isGamePaused()){
-			NBTTagCompound tag = new NBTTagCompound();
-			tag.setInteger("test", 1);
-			tag.setBoolean("boolean", true);
-			FMLCommonHandler.instance().showGuiScreen(new GuiNBTEditor(tag));
+			InventoryPlayer player = mc.thePlayer.inventory;
+			if(player.getCurrentItem() != null) FMLCommonHandler.instance().showGuiScreen(new GuiNBTEditor(player.getCurrentItem().getTagCompound()));
+			else mc.thePlayer.sendChatMessage(TextFormatting.RED + "You must be holding something to use the NBT Editor");
 			return;
 		}
 		
 		// this toggles between the various visualization modes
 		if(visualizationBinding.isPressed() && visualizationBinding.isKeyDown()) {
 			proxy.getRenderer().setVisualizationMode(proxy.getRenderer().getVisualizationMode()+1);
-		}
-		
-		if(scriptEditor.isPressed() && scriptEditor.isKeyDown() && proxy.isBuildMode()) {
-			TaleCraft.network.sendToServer(new InGameScripterRequestPacket());
 		}
 
 		// this toggles between buildmode and adventuremode

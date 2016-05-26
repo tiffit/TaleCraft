@@ -10,6 +10,7 @@ import de.longor.talecraft.invoke.FileScriptInvoke;
 import de.longor.talecraft.invoke.Invoke;
 import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.util.PlayerHelper;
+import net.minecraft.block.BlockCommandBlock;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
@@ -39,15 +40,17 @@ public class ScriptCommand extends TCCommandBase {
 		if(sender.getCommandSenderEntity() == null) {
 			throw new WrongUsageException("ICommandSender does not have a entity assigned! Bug?");
 		}
-
-		if(!(sender.getCommandSenderEntity() instanceof EntityPlayerMP)) {
-			throw new WrongUsageException("This command can only be executed by a opped player.");
+		boolean cmd = sender instanceof BlockCommandBlock;
+		if(!(sender.getCommandSenderEntity() instanceof EntityPlayerMP || cmd)) {
+			throw new WrongUsageException("This command can only be executed by a opped player or command block.");
 		}
+		EntityPlayerMP player = null;
+		if(!cmd){
+			player = (EntityPlayerMP) sender.getCommandSenderEntity();
 
-		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity();
-
-		if(!PlayerHelper.isOp(player)) {
-			throw new WrongUsageException("This command can only be executed by a opped player.");
+			if(!PlayerHelper.isOp(player)) {
+				throw new WrongUsageException("This command can only be executed by a opped player.");
+			}
 		}
 
 		if(args[0].equals("run")) {
@@ -64,6 +67,7 @@ public class ScriptCommand extends TCCommandBase {
 		}
 
 		if(args[0].equals("edit")) {
+			if(cmd) throw new WrongUsageException("Edit can only be run by a player.");
 			if(args.length == 2) {
 				// Get Script name
 				String fileName = args[1];

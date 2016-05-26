@@ -22,8 +22,8 @@ public class MaskReplaceAction implements IAction{
 
 	@Override
 	public String toString() {
-		ResourceLocation IDr = new ResourceLocation(block.getRegistryName());
-		ResourceLocation IDm = new ResourceLocation(maskblock.getRegistryName());
+		ResourceLocation IDr = block.getRegistryName();
+		ResourceLocation IDm = maskblock.getRegistryName();
 		return
 				"Masked Replace ["+
 				IDr.getResourceDomain()+":"+IDr.getResourcePath()+"/"+block.getMetaFromState(blockState)+

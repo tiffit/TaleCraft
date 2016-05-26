@@ -1,10 +1,9 @@
-package tiffit.talecraft.blocks.world;
+package tiffit.talecraft.blocks;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.blocks.TCBlockContainer;
 import de.longor.talecraft.blocks.TCITriggerableBlock;
-import de.longor.talecraft.blocks.util.tileentity.ScriptBlockTileEntity;
-import de.longor.talecraft.client.gui.blocks.GuiScriptBlock;
+import de.longor.talecraft.blocks.util.tileentity.URLBlockTileEntity;
 import de.longor.talecraft.invoke.EnumTriggerState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -17,13 +16,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import tiffit.talecraft.tileentity.SpikeBlockTileEntity;
+import tiffit.talecraft.client.gui.GuiMusicBlock;
+import tiffit.talecraft.tileentity.MusicBlockTileEntity;
 
-public class SpikeBlock extends TCBlockContainer implements TCITriggerableBlock {
+public class MusicBlock extends TCBlockContainer implements TCITriggerableBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new SpikeBlockTileEntity();
+		return new MusicBlockTileEntity();
 	}
 
 	@Override
@@ -37,13 +37,21 @@ public class SpikeBlock extends TCBlockContainer implements TCITriggerableBlock 
 			return true;
 
 		Minecraft mc = Minecraft.getMinecraft();
+		mc.displayGuiScreen(new GuiMusicBlock((MusicBlockTileEntity)worldIn.getTileEntity(pos)));
 
 		return true;
 	}
 
 	@Override
 	public void trigger(World world, BlockPos position, EnumTriggerState triggerState) {
-		ScriptBlockTileEntity tEntity = (ScriptBlockTileEntity)world.getTileEntity(position);
+		if (world.isRemote)
+			return;
+
+		TileEntity tileentity = world.getTileEntity(position);
+
+		if (tileentity instanceof MusicBlockTileEntity) {
+			((MusicBlockTileEntity)tileentity).trigger(triggerState);
+		}
 	}
 
 }

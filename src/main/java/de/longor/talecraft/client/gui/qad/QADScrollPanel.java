@@ -351,7 +351,7 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 	private void relayout() {
 		if(layout != null) {
 			Vec2i newSize = new Vec2i();
-			layout.layout( this, components, newSize);
+			layout.layout(this, components, newSize);
 			viewportHeight = newSize.y;
 			shouldRebuildLayout = false;
 		}
@@ -430,6 +430,16 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 
 	public void setBackground(int background) {
 		this.backgroundColor = background;
+	}
+
+	@Override
+	public int getContainerWidth() {
+		return width;
+	}
+
+	@Override
+	public int getContainerHeight() {
+		return height;
 	}
 
 }

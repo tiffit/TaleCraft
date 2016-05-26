@@ -12,12 +12,14 @@ public class VXShapeCylinder extends VXShape {
 	private final float radius;
 	private final float radiusSquared;
 	private final int height;
+	private final boolean hollow;
 
-	public VXShapeCylinder(BlockPos position, float radius, int height) {
+	public VXShapeCylinder(BlockPos position, float radius, int height, boolean hollow) {
 		this.position = position;
 		this.radius = radius;
 		this.radiusSquared = radius*radius;
 		this.height = height;
+		this.hollow = hollow;
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class VXShapeCylinder extends VXShape {
 		int dy = y - sy;
 		int dz = z - sz;
 		dy = dy < 0 ? -dy : dy;
-		return dy < height && Math.sqrt(dx*dx + dz*dz) <= radius;
+		return dy < height && Math.sqrt(dx*dx + dz*dz) <= radius && (hollow ? !(new VXShapeCylinder(position, radius-1, height-1, false).test(pos, center, offset, fworld)) : true);
 	}
 
 }

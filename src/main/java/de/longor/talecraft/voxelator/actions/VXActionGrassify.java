@@ -8,6 +8,10 @@ import net.minecraft.util.math.BlockPos;
 
 public class VXActionGrassify extends VXAction {
 
+	
+	public VXActionGrassify() {
+	}
+
 	@Override
 	public void apply(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld) {
 		fworld.setBlockState(pos, Blocks.grass.getDefaultState());

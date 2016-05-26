@@ -49,9 +49,11 @@ import net.minecraft.block.SoundType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import tiffit.talecraft.blocks.MusicBlock;
 import tiffit.talecraft.blocks.world.LockedDoorBlock;
 import tiffit.talecraft.blocks.world.SpikeBlock;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
+import tiffit.talecraft.tileentity.MusicBlockTileEntity;
 import tiffit.talecraft.tileentity.SpikeBlockTileEntity;
 
 public class TaleCraftBlocks {
@@ -80,11 +82,11 @@ public class TaleCraftBlocks {
 	public static DelayBlock delayBlock;
 	public static URLBlock urlBlock;
 	public static SummonBlock summonBlock;
-
+	public static MusicBlock musicBlock;
 	
 	//WORLD
-	public static SpikeBlock spikeBlock;
 	public static LockedDoorBlock lockedDoorBlock;
+	public static SpikeBlock spikeBlock;
 	
 	// DECORATION
 	public static BlankBlock blankBlock;
@@ -110,8 +112,6 @@ public class TaleCraftBlocks {
 	}
 
 	private static void init_world(){
-		spikeBlock = register("spikeblock", new SpikeBlock());
-		GameRegistry.registerTileEntity(SpikeBlockTileEntity.class, "tc_spikeblock");
 		lockedDoorBlock = register("lockeddoorblock", new LockedDoorBlock());
 		GameRegistry.registerTileEntity(LockedDoorTileEntity.class, "tc_lockeddoorblock");
 	}
@@ -119,7 +119,7 @@ public class TaleCraftBlocks {
 	private static void init_utility() {
 		killBlock = register("killblock", new KillBlock(), new BlockRegisterFunc() {
 			@Override public void call(Block block, String name) {
-				GameRegistry.registerBlock(block, ItemBlockKillBlock.class, name);
+				GameRegistry.registerBlock(block, name);
 			}
 		});
 
@@ -177,6 +177,12 @@ public class TaleCraftBlocks {
 
 		summonBlock = register("summonblock", new SummonBlock());
 		GameRegistry.registerTileEntity(SummonBlockTileEntity.class, "tc_summonblock");
+		
+		musicBlock = register("musicblock", new MusicBlock());
+		GameRegistry.registerTileEntity(MusicBlockTileEntity.class, "tc_musicblock");
+		
+		//spikeBlock = register("spikeblock", new SpikeBlock());
+		//GameRegistry.registerTileEntity(SpikeBlockTileEntity.class, "tc_spikeblock");
 
 		// Can't implement because custom renderers are currently only possible with tileentities
 		//		barrierEXTBlock = register("barrierextblock", new BarrierEXTBlock(), new BlockRegisterFunc() {
@@ -250,6 +256,7 @@ public class TaleCraftBlocks {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private static <T extends Block> T register(String name, T block) {
 		block.setUnlocalizedName("talecraft:"+name);
 		GameRegistry.registerBlock(block, name);

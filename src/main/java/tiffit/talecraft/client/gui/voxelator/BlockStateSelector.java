@@ -10,6 +10,8 @@ import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
 import de.longor.talecraft.util.GObjectTypeHelper;
 import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -43,13 +45,13 @@ public class BlockStateSelector extends QADGuiScreen {
 
 		final int rowHeight = 20;
 
-		FMLControlledNamespacedRegistry<Block> blocks = GameData.getBlockRegistry();
+		RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blocks = Block.blockRegistry;
 		panel.setViewportHeight(blocks.getKeys().size() * rowHeight + 2);
 		panel.allowLeftMouseButtonScrolling = true;
 
 		int yOff = 1;
 		for(final Block block : blocks) {
-			QADButton component = QADFACTORY.createButton(block.getRegistryName(), 2, yOff, 200 - 8, null);
+			QADButton component = QADFACTORY.createButton(block.getLocalizedName(), 2, yOff, 200 - 8, null);
 			component.simplified = true;
 			component.textAlignment = 0;
 			component.setAction( new Runnable() {

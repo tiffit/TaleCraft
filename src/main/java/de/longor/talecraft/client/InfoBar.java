@@ -170,7 +170,7 @@ public class InfoBar {
 				IBlockState state = mc.theWorld.getBlockState(lookAt);
 
 				if(b && state.getBlock().getRegistryName() != null) {
-					ResourceLocation identifier = new ResourceLocation(state.getBlock().getRegistryName());
+					ResourceLocation identifier = state.getBlock().getRegistryName();
 					builder.append(identifier.getResourceDomain()).append(":").append(identifier.getResourcePath()).append("/").append(state.getBlock().getMetaFromState(state));
 				} else {
 					if(state == null) {

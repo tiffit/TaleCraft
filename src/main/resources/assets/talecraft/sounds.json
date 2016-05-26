@@ -1,0 +1,24 @@
+{
+    "SONG1": { "category": "block", "sounds":[{"name":"talecraft:SONG1", "stream": true}] },
+    "SONG2": { "category": "block", "sounds":[{"name":"talecraft:SONG2", "stream": true}] },
+    "SONG3": { "category": "block", "sounds":[{"name":"talecraft:SONG3", "stream": true}] },
+    "SONG4": { "category": "block", "sounds":[{"name":"talecraft:SONG4", "stream": true}] },
+    "SONG5": { "category": "block", "sounds":[{"name":"talecraft:SONG5", "stream": true}] },
+    "SONG6": { "category": "block", "sounds":[{"name":"talecraft:SONG6", "stream": true}] },
+    "SONG7": { "category": "block", "sounds":[{"name":"talecraft:SONG7", "stream": true}] },
+    "SONG8": { "category": "block", "sounds":[{"name":"talecraft:SONG8", "stream": true}] },
+    
+    "EFFECT1": { "category": "block", "sounds":[{"name":"talecraft:EFFECT1", "stream": true}] },
+    "EFFECT2": { "category": "block", "sounds":[{"name":"talecraft:EFFECT2", "stream": true}] },
+    "EFFECT3": { "category": "block", "sounds":[{"name":"talecraft:EFFECT3", "stream": true}] },
+    "EFFECT4": { "category": "block", "sounds":[{"name":"talecraft:EFFECT4", "stream": true}] },
+    "EFFECT5": { "category": "block", "sounds":[{"name":"talecraft:EFFECT5", "stream": true}] },
+    "EFFECT6": { "category": "block", "sounds":[{"name":"talecraft:EFFECT6", "stream": true}] },
+    "EFFECT7": { "category": "block", "sounds":[{"name":"talecraft:EFFECT7", "stream": true}] },
+    "EFFECT8": { "category": "block", "sounds":[{"name":"talecraft:EFFECT8", "stream": true}] },
+    
+    "EXTRA1": { "category": "block", "sounds":[{"name":"talecraft:EXTRA1", "stream": true}] },
+    "EXTRA2": { "category": "block", "sounds":[{"name":"talecraft:EXTRA2", "stream": true}] },
+    "EXTRA3": { "category": "block", "sounds":[{"name":"talecraft:EXTRA3", "stream": true}] },
+    "EXTRA4": { "category": "block", "sounds":[{"name":"talecraft:EXTRA4", "stream": true}] }
+}

@@ -12,6 +12,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -30,37 +31,12 @@ public class PlayerNBTDataMergePacket implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		int binlen = buf.readShort();
-		byte[] bindata = new byte[binlen];
-		buf.readBytes(bindata);
-
-		try {
-			ByteArrayInputStream inputStream = new ByteArrayInputStream(bindata);
-			DataInputStream inputDataStream = new DataInputStream(inputStream);
-			data = CompressedStreamTools.read(inputDataStream);
-			inputDataStream.close();
-			inputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data = ByteBufUtils.readTag(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		byte[] bindata = null;
-		try {
-			ByteArrayOutputStream oStream = new ByteArrayOutputStream(1024);
-			DataOutputStream o2 = new DataOutputStream(oStream);
-			CompressedStreamTools.write(data, o2);
-			o2.close();
-			oStream.close();
-			bindata = oStream.toByteArray();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		buf.writeShort(bindata.length);
-		buf.writeBytes(bindata);
+		ByteBufUtils.writeTag(buf, data);
 	}
 
 	public static class Handler implements IMessageHandler<PlayerNBTDataMergePacket, IMessage> {

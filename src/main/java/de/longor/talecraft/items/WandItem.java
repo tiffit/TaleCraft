@@ -26,7 +26,6 @@ public class WandItem extends TCItem {
 		// System.out.println("ITEM WAND : Block Click -> " + pos);
 
 		NBTTagCompound compound = player.getEntityData();
-		System.out.println("test");
 		NBTTagCompound tcWand = null;
 
 		if(!compound.hasKey("tcWand")) {

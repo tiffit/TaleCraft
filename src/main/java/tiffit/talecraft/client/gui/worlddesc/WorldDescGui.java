@@ -56,7 +56,7 @@ public class WorldDescGui extends GuiScreen {
     			String[] endSplit = colorsStart[i].split(">");
     			try{
     				int color = Integer.parseInt(endSplit[0]);
-    				coloredStrings.add(new ColoredString(offset, 3 + 10*yLenght, color, endSplit[1]));
+    				if(endSplit.length > 1) coloredStrings.add(new ColoredString(offset, 3 + 10*yLenght, color, endSplit[1]));
     			}catch(NumberFormatException e){
     				coloredStrings.clear();
     				coloredStrings.add(new ColoredString(0, 3 + 10*yLenght, 16711680, "Error: \"" + endSplit[0] + "\" is not a number!"));

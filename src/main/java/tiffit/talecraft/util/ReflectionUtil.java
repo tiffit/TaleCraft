@@ -2,11 +2,14 @@ package tiffit.talecraft.util;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListWorldSelectionEntry;
 import net.minecraft.util.Timer;
+import net.minecraft.world.World;
 import net.minecraft.world.storage.SaveFormatComparator;
+import net.minecraftforge.fml.common.eventhandler.IEventListener;
 
 public class ReflectionUtil {
 
@@ -33,8 +36,7 @@ public class ReflectionUtil {
 			world.setAccessible(true);
 			File image = (File) world.get(entry);
 			if(image == null) return null;
-			File parent = image.getParentFile();
-			return parent;
+			return image.getParentFile();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -45,8 +47,18 @@ public class ReflectionUtil {
 		try{
 			Field world = GuiListWorldSelectionEntry.class.getDeclaredField("field_186786_g");
 			world.setAccessible(true);
-			SaveFormatComparator sfc = (SaveFormatComparator) world.get(entry);
-			return sfc;
+			return (SaveFormatComparator) world.get(entry);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<IEventListener> getEventListeners(World world){
+		try{
+			Field eventListeners = World.class.getDeclaredField("eventListeners");
+			eventListeners.setAccessible(true);
+			return (List<IEventListener>) eventListeners.get(world);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
