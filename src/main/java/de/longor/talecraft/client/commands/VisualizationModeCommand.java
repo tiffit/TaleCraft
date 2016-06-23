@@ -1,5 +1,6 @@
 package de.longor.talecraft.client.commands;
 
+import de.longor.talecraft.client.ClientRenderer.VisualMode;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -24,7 +25,7 @@ public final class VisualizationModeCommand extends CommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		final int mode = args.length > 0 ? super.parseInt(args[0]) : 0;
+		final VisualMode mode = VisualMode.valueOf(args[0].toUpperCase());
 
 		ClientProxy.shedule(new Runnable() {
 			@Override

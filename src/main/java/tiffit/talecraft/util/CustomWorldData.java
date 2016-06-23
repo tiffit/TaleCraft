@@ -11,14 +11,13 @@ public class CustomWorldData extends WorldSavedData {
 		super("TCMapData");
 	}
 
-	final static String key = "my.unique.string";
+	final static String key = "talecraft.world.customdata";
 
 	public NBTTagCompound customdata;
 	
 	public static CustomWorldData forWorld(World world) {
-                // Retrieves the MyWorldData instance for the given world, creating it if necessary
 		MapStorage storage = world.getPerWorldStorage();
-		CustomWorldData result = (CustomWorldData)storage.loadData(CustomWorldData.class, key);
+		CustomWorldData result = (CustomWorldData)storage.getOrLoadData(CustomWorldData.class, key);
 		if (result == null) {
 			result = new CustomWorldData();
 			storage.setData(key, result);
@@ -32,8 +31,9 @@ public class CustomWorldData extends WorldSavedData {
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt){
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt){
 		nbt.setTag("tc_world_data", customdata);
+		return nbt;
 	}
 
 }

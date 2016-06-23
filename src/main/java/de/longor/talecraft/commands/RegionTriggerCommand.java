@@ -38,12 +38,12 @@ public class RegionTriggerCommand extends TCCommandBase {
 		CoordinateArg maxY = CommandBase.parseCoordinate(originPos.getY(), args[4], false);
 		CoordinateArg maxZ = CommandBase.parseCoordinate(originPos.getZ(), args[5], false);
 
-		int ix = Math.min((int)minX.func_179628_a(), (int)maxX.func_179628_a());
-		int iy = Math.min((int)minY.func_179628_a(), (int)maxY.func_179628_a());
-		int iz = Math.min((int)minZ.func_179628_a(), (int)maxZ.func_179628_a());
-		int ax = Math.max((int)minX.func_179628_a(), (int)maxX.func_179628_a());
-		int ay = Math.max((int)minY.func_179628_a(), (int)maxY.func_179628_a());
-		int az = Math.max((int)minZ.func_179628_a(), (int)maxZ.func_179628_a());
+		int ix = Math.min((int)minX.getAmount(), (int)maxX.getAmount());
+		int iy = Math.min((int)minY.getAmount(), (int)maxY.getAmount());
+		int iz = Math.min((int)minZ.getAmount(), (int)maxZ.getAmount());
+		int ax = Math.max((int)minX.getAmount(), (int)maxX.getAmount());
+		int ay = Math.max((int)minY.getAmount(), (int)maxY.getAmount());
+		int az = Math.max((int)minZ.getAmount(), (int)maxZ.getAmount());
 
 		Invoke.trigger(new CommandSenderInvokeSource(sender), ix, iy, iz, ax, ay, az, EnumTriggerState.ON);
 	}

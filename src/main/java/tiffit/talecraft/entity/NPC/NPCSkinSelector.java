@@ -4,6 +4,7 @@ import de.longor.talecraft.client.gui.qad.QADButton;
 import de.longor.talecraft.client.gui.qad.QADFACTORY;
 import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
+import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
 import net.minecraft.util.text.TextFormatting;
 import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
 import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkinType;
@@ -24,17 +25,10 @@ public class NPCSkinSelector extends QADGuiScreen {
 		panel = new QADScrollPanel();
 		panel.setPosition(0, 0);
 		panel.setSize(200, 200);
-		this.addComponent(panel);
-
-		final int rowHeight = 20;
 
 		NPCSkinType[] skins = NPCSkinType.values();
-		panel.setViewportHeight(skins.length * rowHeight + 2);
-		panel.allowLeftMouseButtonScrolling = true;
-
-		int yOff = 1;
 		for(final NPCSkinType skin : skins) {
-			QADButton component = QADFACTORY.createButton(skin.name(), 2, yOff, 200 - 8, null);
+			QADButton component = new QADButton(skin.name());
 			component.simplified = true;
 			component.textAlignment = 0;
 			component.setAction( new Runnable() {
@@ -45,20 +39,15 @@ public class NPCSkinSelector extends QADGuiScreen {
 				}
 			});
 			panel.addComponent(component);
-			yOff += rowHeight;
 		}
+		panel.setLayout(new QADListLayout(0.25, 20));
+		addComponent(panel);
 	}
 	
 	private void loadSkins(){
-		final int rowHeight = 20;
-
 		NPCSkin[] skins = NPCSkin.getSkinsWithType(skinType);
-		panel.setViewportHeight(skins.length * rowHeight + 2);
-		panel.allowLeftMouseButtonScrolling = true;
-
-		int yOff = 1;
 		for(final NPCSkin skin : skins) {
-			QADButton component = new QADSkinButton(skin.name(), 2, yOff, 200 - 8, skin);
+			QADButton component = new QADSkinButton(skin.name(), skin);
 			component.simplified = true;
 			component.textAlignment = 0;
 			component.getModel().setIcon(skin.getResourceLocation());
@@ -70,8 +59,8 @@ public class NPCSkinSelector extends QADGuiScreen {
 			});
 			if(skin.hasAuthor()) component.setTooltip(TextFormatting.WHITE + "Author:", TextFormatting.GRAY + skin.getAuthor());
 			panel.addComponent(component);
-			yOff += rowHeight;
 		}
+		panel.setLayout(new QADListLayout(0.25, 20));
 		addComponent(panel);
 	}
 

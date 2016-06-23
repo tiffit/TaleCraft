@@ -39,7 +39,7 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 	}
 
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (!worldIn.isRemote) {
 			boolean flag = worldIn.isBlockPowered(pos);
 			boolean flag1 = state.getValue(TRIGGERED).booleanValue();

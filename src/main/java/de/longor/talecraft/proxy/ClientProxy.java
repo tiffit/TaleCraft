@@ -3,6 +3,7 @@ package de.longor.talecraft.proxy;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import de.longor.talecraft.TaleCraft;
+import de.longor.talecraft.TaleCraftItems;
 import de.longor.talecraft.client.ClientKeyboardHandler;
 import de.longor.talecraft.client.ClientNetworkHandler;
 import de.longor.talecraft.client.ClientRenderer;
@@ -11,6 +12,7 @@ import de.longor.talecraft.client.InfoBar;
 import de.longor.talecraft.client.InvokeTracker;
 import de.longor.talecraft.client.commands.TaleCraftClientCommands;
 import de.longor.talecraft.client.render.renderables.SelectionBoxRenderer;
+import de.longor.talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import de.longor.talecraft.clipboard.ClipboardItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -29,6 +31,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import tiffit.talecraft.client.render.metaworld.PasteItemRender;
 import tiffit.talecraft.entity.NPC.EntityNPC;
 import tiffit.talecraft.entity.NPC.RenderNPC;
 import tiffit.talecraft.entity.throwable.EntityBomb;
@@ -90,6 +93,8 @@ public class ClientProxy extends CommonProxy {
 
 		// Create the invoke tracker instance
 		invokeTracker = new InvokeTracker();
+		
+		ItemMetaWorldRenderer.ITEM_RENDERS.put(TaleCraftItems.paste, new PasteItemRender());
 	}
 
 	@SubscribeEvent

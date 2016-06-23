@@ -19,7 +19,6 @@ import de.longor.talecraft.items.WandItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import tiffit.talecraft.items.NPCEditorItem;
-import tiffit.talecraft.items.world.BladeSaltItem;
 import tiffit.talecraft.items.world.BombItem;
 import tiffit.talecraft.items.world.CoinItem;
 import tiffit.talecraft.items.world.KeyItem;
@@ -40,7 +39,6 @@ public class TaleCraftItems {
 	public static MetaSwapperItem metaswapper;
 	public static SpawnPointItem spawnpoint;
 	public static NPCEditorItem npceditor;
-	public static BladeSaltItem bladeSalt;
 	
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
@@ -65,8 +63,6 @@ public class TaleCraftItems {
 		spawnpoint = register(new SpawnPointItem(), "spawnpoint");
 		npceditor = register(new NPCEditorItem(), "npceditor");
 		
-		bladeSalt = register(new BladeSaltItem(), "bladeSalt");
-		
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");
 		bomb = register(new BombItem(), "bomb");
@@ -77,7 +73,6 @@ public class TaleCraftItems {
 
 	private static <T extends Item> T register(T item, String name) {
 		item.setUnlocalizedName(name);
-		//GameRegistry.registerItem(item, name);
 		GameRegistry.register(item.getRegistryName() == null ? item.setRegistryName(name) : item);
 		ALL_TC_ITEMS.add(item);
 		return item;

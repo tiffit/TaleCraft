@@ -1,24 +1,22 @@
 package tiffit.talecraft.client.gui.voxelator;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import de.longor.talecraft.client.gui.blocks.GuiEmitterBlock;
-import de.longor.talecraft.client.gui.blocks.GuiEmitterBlock.GuiEmitterBlockParticleTypes;
 import de.longor.talecraft.client.gui.qad.QADButton;
+import de.longor.talecraft.client.gui.qad.QADComponent;
 import de.longor.talecraft.client.gui.qad.QADFACTORY;
 import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
-import de.longor.talecraft.util.GObjectTypeHelper;
+import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
+import de.longor.talecraft.util.Vec2i;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
-import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
-import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockStateSelector extends QADGuiScreen {
-	private QADScrollPanel panel;
 	private VoxelatorGui voxGui;
+	private QADScrollPanel panel;
 	private boolean add = true;
 	private int index = 0;
 	
@@ -41,17 +39,9 @@ public class BlockStateSelector extends QADGuiScreen {
 		panel = new QADScrollPanel();
 		panel.setPosition(0, 0);
 		panel.setSize(200, 200);
-		this.addComponent(panel);
-
-		final int rowHeight = 20;
-
-		RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blocks = Block.blockRegistry;
-		panel.setViewportHeight(blocks.getKeys().size() * rowHeight + 2);
-		panel.allowLeftMouseButtonScrolling = true;
-
-		int yOff = 1;
+		RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blocks = Block.REGISTRY;
 		for(final Block block : blocks) {
-			QADButton component = QADFACTORY.createButton(block.getLocalizedName(), 2, yOff, 200 - 8, null);
+			QADButton component = new QADButton(block.getLocalizedName());
 			component.simplified = true;
 			component.textAlignment = 0;
 			component.setAction( new Runnable() {
@@ -61,14 +51,13 @@ public class BlockStateSelector extends QADGuiScreen {
 					displayGuiScreen(getBehind());
 				}
 			});
-
 			panel.addComponent(component);
-			yOff += rowHeight;
 		}
+		panel.setLayout(new QADListLayout());
+		addComponent(panel);
 	}
-
 	@Override
-	public void layoutGui() {
+	public void layoutGui(){
 		panel.setSize(this.width, this.height);
 	}
 

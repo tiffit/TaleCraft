@@ -3,6 +3,7 @@ package de.longor.talecraft.client.render.renderers;
 import org.lwjgl.opengl.GL11;
 
 import de.longor.talecraft.TaleCraft;
+import de.longor.talecraft.client.ClientRenderer.VisualMode;
 import de.longor.talecraft.client.render.RenderModeHelper;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
@@ -19,17 +20,17 @@ public class CustomSkyRenderer extends IRenderHandler {
 
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
-		int visualizationMode = ((ClientProxy)TaleCraft.proxy).getRenderer().getVisualizationMode();
+		VisualMode visualizationMode = ((ClientProxy)TaleCraft.proxy).getRenderer().getVisualizationMode();
 
 		if(useDebugSky) {
 			renderDebugSky(partialTicks, world, mc);
-			if(visualizationMode != 0) {
+			if(visualizationMode != VisualMode.Default) {
 				RenderModeHelper.ENABLE(visualizationMode);
 			}
 			return;
 		}
 
-		if(visualizationMode != 0) {
+		if(visualizationMode != VisualMode.Default) {
 			RenderModeHelper.ENABLE(visualizationMode);
 		}
 	}

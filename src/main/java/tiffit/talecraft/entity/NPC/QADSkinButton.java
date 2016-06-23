@@ -16,8 +16,8 @@ public class QADSkinButton extends QADButton {
 	NPCSkin skin;
 	int entityRotation = 0;
 	
-	public QADSkinButton(String text, int x, int y, int width, NPCSkin skin) {
-		super(x, y, width, text);
+	public QADSkinButton(String text, NPCSkin skin) {
+		super(text);
 		this.skin = skin;
 	}
 	

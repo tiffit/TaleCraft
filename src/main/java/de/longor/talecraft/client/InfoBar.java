@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.lwjgl.input.Keyboard;
 
 import de.longor.talecraft.Reference;
+import de.longor.talecraft.client.ClientRenderer.VisualMode;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -50,7 +51,7 @@ public class InfoBar {
 		}
 
 		if(ClientProxy.settings.getBoolean("client.infobar.visualizationMode")) {
-			if(clientProxy.getRenderer().getVisualizationMode() != 0) {
+			if(clientProxy.getRenderer().getVisualizationMode() != VisualMode.Default) {
 				writeVisualizationModeInfo(clientProxy.getRenderer().getVisualizationMode());
 			}
 		}
@@ -134,15 +135,15 @@ public class InfoBar {
 		builder.append(TextFormatting.RESET);
 	}
 
-	private void writeVisualizationModeInfo(int visualizationMode) {
+	private void writeVisualizationModeInfo(VisualMode visualMode) {
 		builder.append(' ');
 		builder.append(TextFormatting.BLUE);
 
-		switch(visualizationMode) {
-		case 1: builder.append("[1:wireframe mode]"); break;
-		case 2: builder.append("[2:backface mode]"); break;
-		case 3: builder.append("[3:lighting mode]"); break;
-		case 4: builder.append("[4:nightvision mode]"); break;
+		switch(visualMode) {
+		case Wireframe: builder.append("[1:wireframe mode]"); break;
+		case Backface: builder.append("[2:backface mode]"); break;
+		case Lighting: builder.append("[3:lighting mode]"); break;
+		case Nightvision: builder.append("[4:nightvision mode]"); break;
 		default: builder.append("[?:funny display mode]"); break;
 		}
 
@@ -259,7 +260,7 @@ public class InfoBar {
 			builder.append(' ');
 			builder.append((int)playerIn.rotationPitch);
 			builder.append(' ');
-			builder.append((int)MathHelper.wrapAngleTo180_float(playerIn.rotationYaw));
+			builder.append((int)MathHelper.wrapDegrees(playerIn.rotationYaw));
 			
 			builder.append(']');
 		}

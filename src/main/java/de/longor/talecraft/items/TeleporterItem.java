@@ -42,7 +42,7 @@ public class TeleporterItem extends TCItem {
 			// Its a MP player
 
 			if(player.getRidingEntity() == null) {
-				((EntityPlayerMP) player).playerNetServerHandler.setPlayerLocation(nX,nY,nZ, rY, rP);
+				((EntityPlayerMP) player).connection.setPlayerLocation(nX,nY,nZ, rY, rP);
 
 				if(player.isSprinting()) {
 					player.motionX *= 5;
@@ -61,7 +61,7 @@ public class TeleporterItem extends TCItem {
 				riding.velocityChanged = true;
 			}
 
-			player.worldObj.playSound(player, pos, SoundEvents.entity_endermen_teleport, SoundCategory.NEUTRAL, 1.5f, (float) (1f + Math.random()*0.1));
+			player.worldObj.playSound(player, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1.5f, (float) (1f + Math.random()*0.1));
 		}
 
 		return EnumActionResult.SUCCESS;
@@ -114,7 +114,7 @@ public class TeleporterItem extends TCItem {
 				// Its a MP player
 
 				if(player.getRidingEntity() == null) {
-					((EntityPlayerMP) player).playerNetServerHandler.setPlayerLocation(nX,nY,nZ, rY, rP);
+					((EntityPlayerMP) player).connection.setPlayerLocation(nX,nY,nZ, rY, rP);
 
 					if(player.isSprinting()) {
 						player.motionX *= 5;
@@ -133,7 +133,7 @@ public class TeleporterItem extends TCItem {
 					riding.velocityChanged = true;
 				}
 
-				player.worldObj.playSound(player, player.getPosition(), SoundEvents.entity_endermen_teleport, SoundCategory.NEUTRAL, 1.5f, (float) (1f + Math.random()*0.1));
+				player.worldObj.playSound(player, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1.5f, (float) (1f + Math.random()*0.1));
 			}
 		}
 

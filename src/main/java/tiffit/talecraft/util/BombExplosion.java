@@ -106,7 +106,7 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
 
                         if (entity instanceof EntityLivingBase)
                         {
-                            d11 = EnchantmentProtection.func_92092_a((EntityLivingBase)entity, d10);
+                            d11 = EnchantmentProtection.getBlastDamageReduction((EntityLivingBase)entity, d10);
                         }
 
                         entity.motionX += d5 * d11;
@@ -133,7 +133,7 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
      */
     public void doExplosionB(boolean spawnParticles)
     {
-        this.worldObj.playSound((EntityPlayer)null, this.explosionX, this.explosionY, this.explosionZ, SoundEvents.entity_generic_explode, SoundCategory.AMBIENT, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.worldObj.playSound((EntityPlayer)null, this.explosionX, this.explosionY, this.explosionZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.AMBIENT, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
         if (this.explosionSize >= 2.0F && this.isSmoking)
         {
@@ -172,7 +172,7 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
                     this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, d3, d4, d5, new int[0]);
                 }
 
-                if (iblockstate.getMaterial() != Material.air)
+                if (iblockstate.getMaterial() != Material.AIR)
                 {
                     if (block.canDropFromExplosion(explosion))
                     {
@@ -188,9 +188,9 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
         {
             for (BlockPos blockpos1 : this.affectedBlockPositions)
             {
-                if (this.worldObj.getBlockState(blockpos1).getMaterial() == Material.air && this.worldObj.getBlockState(blockpos1.down()).isFullBlock() && this.explosionRNG.nextInt(3) == 0)
+                if (this.worldObj.getBlockState(blockpos1).getMaterial() == Material.AIR && this.worldObj.getBlockState(blockpos1.down()).isFullBlock() && this.explosionRNG.nextInt(3) == 0)
                 {
-                    this.worldObj.setBlockState(blockpos1, Blocks.fire.getDefaultState());
+                    this.worldObj.setBlockState(blockpos1, Blocks.FIRE.getDefaultState());
                 }
             }
         }

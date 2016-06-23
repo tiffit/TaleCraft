@@ -25,8 +25,8 @@ public class NewWorldSelector extends GuiWorldSelection {
 		super(new GuiMainMenu());
 	}
 	
-    public void func_184862_a(){ //Used to add buttons
-    	super.func_184862_a();
+    public void postInit(){ //Used to add buttons
+    	super.postInit();
         this.buttonList.add(this.readDescription = new GuiButton(6, this.width - 110, 2, 100, 20, "World Description"));
         this.readDescription.enabled = false;
     }
@@ -68,7 +68,7 @@ public class NewWorldSelector extends GuiWorldSelection {
     public void actionPerformed(GuiButton button) throws IOException{
     	super.actionPerformed(button);
     	if(button.id == 6){
-    		Minecraft.getMinecraft().displayGuiScreen(new WorldDescGui(desc_lines, ReflectionUtil.getSFC(currently_selected_world).getDisplayName()));
+    		Minecraft.getMinecraft().displayGuiScreen(new WorldDescGui(desc_lines, ReflectionUtil.getWorldSummary(currently_selected_world).getDisplayName()));
     	}
     }
 

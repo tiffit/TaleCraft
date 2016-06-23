@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import de.longor.talecraft.commands.AttackCommand;
 import de.longor.talecraft.commands.ButcherCommand;
 import de.longor.talecraft.commands.EditEntityCommand;
+import de.longor.talecraft.commands.FadeCommand;
 import de.longor.talecraft.commands.FileCommand;
 import de.longor.talecraft.commands.HighlightCommand;
 import de.longor.talecraft.commands.MountCommand;
@@ -47,6 +48,7 @@ public class TaleCraftCommands {
 		commands.add(new TargetedTeleportCommand());
 		commands.add(new HighlightCommand());
 		commands.add(new FileCommand());
+		commands.add(new FadeCommand());
 	}
 
 	public static void register(CommandHandler registry) {

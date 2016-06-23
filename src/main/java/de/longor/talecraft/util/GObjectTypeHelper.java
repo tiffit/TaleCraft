@@ -95,10 +95,10 @@ public class GObjectTypeHelper {
 		}
 
 		ResourceLocation location = new ResourceLocation(typeMod+":"+typeID);
-		Block block = Block.blockRegistry.getObject(location);
+		Block block = Block.REGISTRY.getObject(location);
 
 		if(block != null) {
-			if(!Block.blockRegistry.containsKey(location)) {
+			if(!Block.REGISTRY.containsKey(location)) {
 				System.err.println("Block type mismatch: " + typeString + " | " + typeMod + " " + typeID + " " + typeMeta + " GOT " + block.getUnlocalizedName());
 				return null; // This is the wrong block! D: (Probably minecraft:air)
 			}
@@ -183,7 +183,7 @@ public class GObjectTypeHelper {
 		}
 
 		ResourceLocation location = new ResourceLocation(typeMod+":"+typeID);
-		Block block = Block.blockRegistry.getObject(location);
+		Block block = Block.REGISTRY.getObject(location);
 
 		if(block != null) {
 			if(block.getUnlocalizedName().equals("tile.air") && !typeID.contains("air")){
@@ -225,7 +225,7 @@ public class GObjectTypeHelper {
 		}
 
 		ResourceLocation location = new ResourceLocation(typeMod+":"+typeID);
-		Block block = Block.blockRegistry.getObject(location);
+		Block block = Block.REGISTRY.getObject(location);
 
 		if(block != null) {
 			if(block.getUnlocalizedName().equals("tile.air") && !typeID.contains("air")){
@@ -244,7 +244,7 @@ public class GObjectTypeHelper {
 	}
 
 	public static Set<ResourceLocation> getItemNameList() {
-		return Item.itemRegistry.getKeys();
+		return Item.REGISTRY.getKeys();
 	}
 
 	public static Collection<String> getEntityNameList() {

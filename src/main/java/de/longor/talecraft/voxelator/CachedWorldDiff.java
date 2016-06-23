@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.util.BlockSnapshot;
 
 public class CachedWorldDiff implements IBlockAccess {
@@ -49,7 +49,7 @@ public class CachedWorldDiff implements IBlockAccess {
 	}
 
 	@Override
-	public BiomeGenBase getBiomeGenForCoords(BlockPos pos) {
+	public Biome getBiomeGenForCoords(BlockPos pos) {
 		return world.getBiomeGenForCoords(pos);
 	}
 

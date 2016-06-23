@@ -18,16 +18,16 @@ public class TaleCraftTabs {
 	public static CreativeTabs tab_TaleCraftTab = new CreativeTabs("talecraftTab") {
 		@Override
 		public Item getTabIconItem() {
-			return Items.book;
+			return Items.BOOK;
 		}
 
 		@Override
 		@SideOnly(Side.CLIENT)
 		public void displayAllRelevantItems(List<ItemStack> items) {
 			// Add useful items from 'Vanilla'
-			items.add(new ItemStack(Blocks.command_block));
-			items.add(new ItemStack(Blocks.mob_spawner));
-			items.add(new ItemStack(Blocks.barrier));
+			items.add(new ItemStack(Blocks.COMMAND_BLOCK));
+			items.add(new ItemStack(Blocks.MOB_SPAWNER));
+			items.add(new ItemStack(Blocks.BARRIER));
 
 			super.displayAllRelevantItems(items);
 		}
@@ -36,7 +36,7 @@ public class TaleCraftTabs {
 	public static CreativeTabs tab_TaleCraftDecorationTab = new CreativeTabs("talecraftDecoTab") {
 		@Override
 		public Item getTabIconItem() {
-			return Items.dye;
+			return Items.DYE;
 		}
 
 		@Override

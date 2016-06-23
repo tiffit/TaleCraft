@@ -53,7 +53,7 @@ public class EntityBomb extends EntityThrowable{
 	public void onUpdate(){
 		super.onUpdate();
 		if(should_play_sound){
-			worldObj.playSound(posX, posY, posZ, SoundEvents.entity_tnt_primed, SoundCategory.AMBIENT, 100f, 1f, false);
+			worldObj.playSound(posX, posY, posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.AMBIENT, 100f, 1f, false);
 			should_play_sound = false;
 		}
 		explosion_delay--;

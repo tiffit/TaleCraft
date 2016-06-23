@@ -278,15 +278,15 @@ public class VoxelBrushCommand extends CommandBase {
 			}
 
 			if(args.length >= 2 && args[0].equals("action") && args[1].equals("replace")) {
-				return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
+				return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 			}
 
 			if(args.length >= 2 && args[0].equals("action") && args[1].equals("maskreplace")) {
-				return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
+				return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 			}
 
 			if(args.length >= 5 && args[0].equals("action") && args[1].equals("maskreplace")) {
-				return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
+				return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 			}
 		}
 

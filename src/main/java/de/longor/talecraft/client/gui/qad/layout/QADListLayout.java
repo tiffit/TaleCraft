@@ -11,30 +11,35 @@ import de.longor.talecraft.util.Vec2i;
 /*
 	QADLayoutManager that arranges components in a list.
 */
-class QADListLayout implements QADLayoutManager {
+public class QADListLayout implements QADLayoutManager {
 	private int rowHeight;
-	
+	private int vgap;
+	private int hgap;
+	private double widthMultiplier;
 	/*
 		No row-height given, using '20'.
 	*/
 	public QADListLayout() {
-		this.rowHeight = 20;
+		this(20);
 	}
 	
 	public QADListLayout(int rowHeight) {
+		this(1D, 20);
+	}
+	
+	public QADListLayout(double widthMultiplier, int rowHeight){
+		this(rowHeight, 2, 1, widthMultiplier);
+	}
+	
+	public QADListLayout(int rowHeight, int vgap, int hgap, double widthMultiplier){
 		this.rowHeight = rowHeight;
+		this.vgap = vgap;
+		this.hgap = hgap;
+		this.widthMultiplier = widthMultiplier;
 	}
 	
 	@Override
-	public void layout(
-		QADComponentContainer container,
-		List<QADComponent> components,
-		Vec2i newContainerSize
-	) {
-		
-		// TODO: make this a parameter
-		int vgap = 2;
-		int hgap = 1;
+	public void layout(QADComponentContainer container, List<QADComponent> components, Vec2i newContainerSize) {
 		
 		int width = container.getContainerWidth() - (hgap*2);
 		int height = rowHeight;
@@ -47,11 +52,9 @@ class QADListLayout implements QADLayoutManager {
 		int currentY = 0 + vgap;
 		for(QADComponent component : components) {
 			int yIncrementAlt = 0;
-			
 			// Is this a rectangular component/a component with size?
 			if(component instanceof QADRectangularComponent) {
 				QADRectangularComponent rectComp = (QADRectangularComponent) component;
-				
 				int maxW = Math.max(width , rectComp.getWidth ());
 				int maxH = Math.max(height, rectComp.getHeight());
 				yIncrementAlt = maxH + vgap;
@@ -61,7 +64,7 @@ class QADListLayout implements QADLayoutManager {
 					// so we do that!
 					component.setX(hgap);
 					component.setY(currentY);
-					rectComp.setSize(maxW, maxH);
+					rectComp.setSize((int) (maxW*widthMultiplier), maxH);
 				} else {
 					// can't resize, center it in the row.
 					// XXX: Add feature to let row height vary per component?

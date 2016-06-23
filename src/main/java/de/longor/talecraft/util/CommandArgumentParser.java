@@ -277,7 +277,7 @@ public class CommandArgumentParser {
 		}
 
 		ResourceLocation location = new ResourceLocation(typeStr);
-		Block type = Block.blockRegistry.getObject(location);
+		Block type = Block.REGISTRY.getObject(location);
 
 		if(type == null) {
 			throw new CommandException("Block type '"+location+"' does not exist.", typeStr);
@@ -306,7 +306,7 @@ public class CommandArgumentParser {
 		}
 
 		ResourceLocation location = new ResourceLocation(typeStr);
-		Block type = Block.blockRegistry.getObject(location);
+		Block type = Block.REGISTRY.getObject(location);
 
 		if(type == null) {
 			throw new CommandException("Block type '"+location+"' does not exist.", typeStr);

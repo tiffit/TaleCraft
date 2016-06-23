@@ -1,8 +1,12 @@
 package de.longor.talecraft.commands;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.EntitySelector;
@@ -13,31 +17,32 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
-import java.lang.reflect.Field;
 
 public class AttackCommand extends TCCommandBase {
 	
+	private static List<String> damageSourceNames;
+	private static Map<String, DamageSource> damageSources = new HashMap<String, DamageSource>();
+	
 	private static List<String> getDamageSourceNames(){
+		if(damageSourceNames != null) return damageSourceNames;
 		Field[] fields = DamageSource.class.getFields();
-		List<String> names = new ArrayList<String>();
+		damageSourceNames = new ArrayList<String>();
 		for(Field field : fields){
 			if(field.getType().isAssignableFrom(DamageSource.class)){
-				names.add(field.getName());
+				damageSourceNames.add(field.getName());
 			}
 		}
-		return names;
+		return damageSourceNames;
 	}
 	
 	private static DamageSource getDamageSource(String name){
+		if(damageSources.containsKey(name)) return damageSources.get(name);
 		try{
 			Field field = DamageSource.class.getField(name);
-			return (DamageSource) field.get(null);
-		}catch (NoSuchFieldException e){
-			return null;
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IllegalAccessException e) {
+			DamageSource dmgsc = (DamageSource) field.get(null);
+			damageSources.put(name, dmgsc);
+			return dmgsc;
+		}catch (Exception e){
 			e.printStackTrace();
 			return null;
 		}

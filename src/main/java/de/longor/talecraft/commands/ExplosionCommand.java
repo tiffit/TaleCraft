@@ -38,7 +38,7 @@ public class ExplosionCommand extends TCCommandBase {
 			CoordinateArg posX = CommandBase.parseCoordinate(originPos.getX(), args[0], false);
 			CoordinateArg posY = CommandBase.parseCoordinate(originPos.getY(), args[1], false);
 			CoordinateArg posZ = CommandBase.parseCoordinate(originPos.getZ(), args[2], false);
-			BlockPos triggerPos = new BlockPos(posX.func_179628_a(), posY.func_179628_a(), posZ.func_179628_a());
+			BlockPos triggerPos = new BlockPos(posX.getAmount(), posY.getAmount(), posZ.getAmount());
 		}
 	}
 

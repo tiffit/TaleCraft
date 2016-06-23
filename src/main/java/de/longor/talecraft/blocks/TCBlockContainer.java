@@ -24,7 +24,7 @@ public abstract class TCBlockContainer extends BlockContainer {
 		setCreativeTab(TaleCraftTabs.tab_TaleCraftTab);
 		setBlockUnbreakable();
 		setResistance(6000001.0F);
-		setStepSound(SoundType.STONE);
+		setSoundType(SoundType.STONE);
 		setTickRandomly(false);
 		setLightOpacity(0);
 		disableStats();

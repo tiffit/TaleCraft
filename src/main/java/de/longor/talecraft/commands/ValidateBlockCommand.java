@@ -42,7 +42,7 @@ public class ValidateBlockCommand extends TCCommandBase {
 	@Override
 	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length == 0) {
-			return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
+			return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 		}
 
 		return Collections.emptyList();

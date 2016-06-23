@@ -98,7 +98,7 @@ public class LockedDoorBlock extends TCBlock implements ITileEntityProvider{ //N
 		}
 		if(world.isRemote){
 			if(heldItem != null && heldItem.getItem() instanceof KeyItem){
-				if((heldItem.getItem() == TaleCraftItems.silverKey && te.useSilverKey) || (heldItem.getItem() == TaleCraftItems.goldKey && !te.useSilverKey))world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.block_chest_open, SoundCategory.BLOCKS, 100f, 1f, false);
+				if((heldItem.getItem() == TaleCraftItems.silverKey && te.useSilverKey) || (heldItem.getItem() == TaleCraftItems.goldKey && !te.useSilverKey))world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 100f, 1f, false);
 			}
 			return true;
 		}

@@ -1,0 +1,17 @@
+{
+    "variants": {
+        "active=true,facing=up": { "model": "talecraft:spikeblock", "x": 180 },
+        "active=true,facing=down": { "model": "talecraft:spikeblock"},
+        "active=true,facing=south": { "model": "talecraft:spikeblock", "x": 90 },
+        "active=true,facing=north": { "model": "talecraft:spikeblock", "x": 270 },
+        "active=true,facing=east": { "model": "talecraft:spikeblock", "x": -90, "y": 90},
+        "active=true,facing=west": { "model": "talecraft:spikeblock", "x": 90, "y": 90},
+        
+        "active=false,facing=up": { "model": "talecraft:spikeblock_inactive", "x": 180  },
+        "active=false,facing=down": { "model": "talecraft:spikeblock_inactive"},
+        "active=false,facing=south": { "model": "talecraft:spikeblock_inactive", "x": 90 },
+        "active=false,facing=north": { "model": "talecraft:spikeblock_inactive", "x": 270 },
+        "active=false,facing=east": { "model": "talecraft:spikeblock_inactive", "x": -90, "y": 90},
+        "active=false,facing=west": { "model": "talecraft:spikeblock_inactive", "x": 90, "y": 90}
+    }
+}

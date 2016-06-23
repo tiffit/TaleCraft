@@ -412,7 +412,7 @@ public class WandCommand extends TCCommandBase {
 			throw new WrongUsageException("You didn't select a region with your wand.");
 		}
 
-		WorldHelper.fill(player.worldObj, bounds, Blocks.air.getDefaultState());
+		WorldHelper.fill(player.worldObj, bounds, Blocks.AIR.getDefaultState());
 	}
 
 	/****/
@@ -713,13 +713,13 @@ public class WandCommand extends TCCommandBase {
 				return getListOfStringsMatchingLastWord(args, new String[] {"erase", "fill", "replace","room","repeat","copy","paste","trigger","butcher"});
 			}
 			if(args.length == 3 && args[1].equals("fill")) {
-				return CommandBase.getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
+				return CommandBase.getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 			}
 			if(args.length >= 3 && args[1].equals("replace")) {
-				return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
+				return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 			}
 			if(args.length >= 4 && args[1].equals("room")) {
-				return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
+				return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 			}
 		}
 

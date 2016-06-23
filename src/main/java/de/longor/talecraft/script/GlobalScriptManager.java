@@ -39,12 +39,13 @@ public class GlobalScriptManager {
 	private ContextFactory globalContextFactory;
 	private GlobalScriptObject globalScriptObject;
 	private ConsoleOutput consoleOutput;
+	private WrapperClassCache cache;
 
 	public void init(TaleCraft taleCraft, CommonProxy proxy) {
 		TaleCraft.logger.info("Initializing Rhino Script Engine...");
 		globalScope = new NativeObject();
 		globalClassShutter = new GlobalClassShutter();
-
+		cache = new WrapperClassCache();
 		globalContextFactory = new GlobalContextFactory();
 		ContextFactory.initGlobal(globalContextFactory);
 
@@ -217,23 +218,7 @@ public class GlobalScriptManager {
 	}
 
 	public List<String> getOwnPropertyNames(IObjectWrapper wrapper) {
-		Class<?> clazz = wrapper.getClass();
-
-		Field[] fields = clazz.getDeclaredFields();
-		Method[] methods = clazz.getDeclaredMethods();
-
-		String[] props = new String[fields.length+methods.length];
-		int ix = 0;
-
-		for(Field field : fields) {
-			props[ix++] = field.getName();
-		}
-
-		for(Method method : methods) {
-			props[ix++] = method.getName();
-		}
-
-		return Lists.newArrayList(props);
+		return cache.getCache(wrapper).getProps();
 	}
 
 	public NativeObject getGlobalScope() {

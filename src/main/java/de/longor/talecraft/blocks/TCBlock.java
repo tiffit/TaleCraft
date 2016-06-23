@@ -12,7 +12,7 @@ public abstract class TCBlock extends Block {
 		setResistance(6000001.0F);
 		setBlockUnbreakable();
 		setTickRandomly(false);
-		setStepSound(SoundType.STONE);
+		setSoundType(SoundType.STONE);
 		setCreativeTab(TaleCraftTabs.tab_TaleCraftTab);
 	}
 

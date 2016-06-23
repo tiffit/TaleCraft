@@ -84,5 +84,9 @@ public class TCItem extends Item {
 	public int getItemStackLimit(ItemStack stack) {
 		return 1;
 	}
+	
+	public String getTrueUnlocalizedName(){
+		return getUnlocalizedName().replace("item.", "");
+	}
 
 }

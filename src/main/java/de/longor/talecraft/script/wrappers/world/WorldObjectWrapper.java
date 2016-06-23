@@ -20,10 +20,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketSpawnGlobalEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -134,11 +130,9 @@ public class WorldObjectWrapper implements IObjectWrapper {
 	}
 	
 	public EntityObjectWrapper getEntityByName(final String name) {
-		for(Object ent : world.loadedEntityList) {
-			Entity entity = (Entity) ent;
-
-			if(entity.getName().equals(name)) {
-				return EntityObjectWrapper.transform(entity);
+		for(Entity ent : world.loadedEntityList) {
+			if(ent.getName().equals(name)) {
+				return EntityObjectWrapper.transform(ent);
 			}
 		}
 

@@ -14,7 +14,7 @@ public final class TCSoundHandler {
 	private static int index = 0;
 	
 	public static void init() {
-		index = SoundEvent.soundEventRegistry.getKeys().size();
+		index = SoundEvent.REGISTRY.getKeys().size();
 		
 		SONG1 = register("SONG1");
 		SONG2 = register("SONG2");
@@ -44,7 +44,7 @@ public final class TCSoundHandler {
 	private static SoundEvent register(String name) {
 		ResourceLocation loc = new ResourceLocation(Reference.MOD_ID + ":" + name);
 		SoundEvent e = new SoundEvent(loc);
-		SoundEvent.soundEventRegistry.register(index, loc, e);
+		SoundEvent.REGISTRY.register(index, loc, e);
 		index++;
 		return e;
 	}
@@ -54,11 +54,15 @@ public final class TCSoundHandler {
 		EFFECT1, EFFECT2, EFFECT3, EFFECT4, EFFECT5, EFFECT6, EFFECT7, EFFECT8,
 		EXTRA1, EXTRA2, EXTRA3, EXTRA4;
 		
+		private SoundEvent se;
+		
 		public SoundEvent getSoundEvent(){
+			if(se != null) return se;
 			Class<TCSoundHandler> tcsh = TCSoundHandler.class;
 			try {
 				Field field = tcsh.getField(name());
-				return (SoundEvent) field.get(null);
+				se = (SoundEvent) field.get(null);
+				return se;
 			} catch (Exception e){
 				e.printStackTrace();
 				return null;

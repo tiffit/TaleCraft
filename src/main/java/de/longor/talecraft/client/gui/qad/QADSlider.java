@@ -173,7 +173,7 @@ public class QADSlider extends QADRectangularComponent {
 	public void playPressSound() {
 		SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
 		float pitch = enabled ? 1f : 0.5f;
-		soundHandler.playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, pitch));
+		soundHandler.playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, pitch));
 	}
 
 	@Override

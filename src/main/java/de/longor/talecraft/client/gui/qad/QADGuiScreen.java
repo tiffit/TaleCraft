@@ -202,12 +202,14 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		instance.drawDefaultBackground();
 
 		// Draw all components
-		try{
-			for(QADComponent component : components) {
-				if(component != null) component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
-			}
-		}catch(ConcurrentModificationException e){
-			//Do nothing, this happens alot
+		if(components != null){
+			try{
+				for(QADComponent component : components) {
+					if(component != null) component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
+				}
+			}catch(ConcurrentModificationException e){
+				//Do nothing, this happens alot
+			}	
 		}
 
 		if(shouldDebugRender) {
@@ -217,28 +219,27 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		drawCustom(mouseX, mouseY, partialTicks, instance);
 
 		// Check for tooltips, and draw them if necessary.
-		try{
-			for(QADComponent component : components) {
-				if(component.isPointInside(mouseX, mouseY)) {
-					List<String> text = component.getTooltip(mouseX, mouseY);
-					
-					if(text != null) {
-						int yPos = mouseY;
-
-						if(text.get(0).equalsIgnoreCase("ylock")) {
-							int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
-							yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
-							text = text.subList(1, text.size()-1);
+		if(components != null){
+			try{
+				for(QADComponent component : components) {
+					if(component.isPointInside(mouseX, mouseY)) {
+						List<String> text = component.getTooltip(mouseX, mouseY);		
+						if(text != null) {
+							int yPos = mouseY;
+							if(text.get(0).equalsIgnoreCase("ylock")) {
+								int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
+								yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
+								text = text.subList(1, text.size()-1);
+							}
+							this.drawHoveringText(text, mouseX, yPos);
+							break;
 						}
-						
-						this.drawHoveringText(text, mouseX, yPos);
-						break;
 					}
 				}
+			}catch(ConcurrentModificationException e){
+				// Do nothing, this happens alot.
+				// XXX: This is not supposed to happen; Investigate if possible.
 			}
-		}catch(ConcurrentModificationException e){
-			// Do nothing, this happens alot.
-			// XXX: This is not supposed to happen; Investigate if possible.
 		}
 
 		// Debug: Draw cursor position marker.

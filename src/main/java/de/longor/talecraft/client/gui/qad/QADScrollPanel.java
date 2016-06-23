@@ -372,6 +372,7 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 	public void setLayout(QADLayoutManager newLayout) {
 		layout = newLayout;
 		shouldRebuildLayout = true;
+		newLayout.layout(this, components, new Vec2i());
 	}
 
 	@Override

@@ -93,7 +93,7 @@ public class ClockBlockTileEntity extends TCTileEntity  {
 	}
 
 	@Override
-	public Packet<?> getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		this.writeToNBT(nbttagcompound);
 		return new SPacketUpdateTileEntity(this.pos, 3, nbttagcompound);

@@ -186,7 +186,7 @@ public class TargetedTeleportCommand extends TCCommandBase {
 			float f1 = entity.rotationYaw;
 
 			entity.startRiding((Entity)null);
-			((EntityPlayerMP)entity).playerNetServerHandler.setPlayerLocation(target.xCoord, target.yCoord, target.zCoord, f, f1, enumset);
+			((EntityPlayerMP)entity).connection.setPlayerLocation(target.xCoord, target.yCoord, target.zCoord, f, f1, enumset);
 			entity.velocityChanged = true;
 			return;
 		}

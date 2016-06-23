@@ -29,7 +29,7 @@ public class EraserItem extends TCItem {
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
-		IBlockState state = Blocks.air.getDefaultState();
+		IBlockState state = Blocks.AIR.getDefaultState();
 
 		// Note: the bounds are already sorted
 		int[] bounds = WandItem.getBoundsFromPlayerOrNull(player);

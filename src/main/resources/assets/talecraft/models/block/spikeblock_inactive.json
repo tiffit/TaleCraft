@@ -1,0 +1,63 @@
+{   "parent": "block/block",
+    "display": {
+        "fixed": {
+            "rotation": [ 0, 90, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.5, 0.5, 0.5 ]
+        }
+    },
+    "textures": {
+        "particle": "talecraft:blocks/world/spikeblock",
+        "body": "talecraft:blocks/world/spikeblock"
+    },
+    "elements": [
+        {
+            "from": [ 2, 0.1, 2 ],
+            "to": [ 6, 0.1, 6 ],
+            "faces": {
+                "down":  { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "up":    { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "north": { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "south": { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "west":  { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "east":  { "uv": [4, 0, 10, 6], "texture": "#body"}
+            }
+        },
+        {
+            "from": [ 14, 0.1, 14 ],
+            "to": [ 10, 0.1, 10 ],
+            "faces": {
+                "down":  { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "up":    { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "north": { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "south": { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "west":  { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "east":  { "uv": [4, 0, 10, 6], "texture": "#body"}
+            }
+        },
+        {
+            "from": [ 14, 0.1, 2 ],
+            "to": [ 10, 0.1, 6 ],
+            "faces": {
+                "down":  { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "up":    { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "north": { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "south": { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "west":  { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "east":  { "uv": [4, 0, 10, 6], "texture": "#body"}
+            }
+        },
+        {
+            "from": [ 2, 0.1, 14 ],
+            "to": [ 6, 0.1, 10 ],
+            "faces": {
+                "down":  { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "up":    { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "north": { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "south": { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "west":  { "uv": [4, 0, 10, 6], "texture": "#body"},
+                "east":  { "uv": [4, 0, 10, 6], "texture": "#body"}
+            }
+        }
+    ]
+}

@@ -102,7 +102,7 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 		data = NPCData.fromNBT(tag);
 		for(Entity ent : this.worldObj.getEntities(EntityPlayerMP.class, Predicates.notNull())){
 			EntityPlayerMP player = (EntityPlayerMP) ent;
-			player.playerNetServerHandler.sendPacket(new S16PacketEntityLook(this.getEntityId(), (byte) this.rotationYaw, (byte) this.rotationPitch, this.onGround));
+			player.connection.sendPacket(new S16PacketEntityLook(this.getEntityId(), (byte) this.rotationYaw, (byte) this.rotationPitch, this.onGround));
 		}
 	}
 

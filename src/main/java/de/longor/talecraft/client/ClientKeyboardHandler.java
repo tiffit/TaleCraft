@@ -52,7 +52,7 @@ public class ClientKeyboardHandler {
 		
 		// this toggles between the various visualization modes
 		if(visualizationBinding.isPressed() && visualizationBinding.isKeyDown()) {
-			proxy.getRenderer().setVisualizationMode(proxy.getRenderer().getVisualizationMode()+1);
+			proxy.getRenderer().setVisualizationMode(proxy.getRenderer().getVisualizationMode().next());
 		}
 
 		// this toggles between buildmode and adventuremode

@@ -66,7 +66,7 @@ public class TCWorldManager {
 		@Override public void onEntityAdded(Entity entity) {}
 		@Override public void onEntityRemoved(Entity entity) {}
 		@Override public void broadcastSound(int soundID, BlockPos pos, int data) {}
-		@Override public void playAuxSFX(EntityPlayer player, int sfxType, BlockPos pos, int data) {}
+		@Override public void playEvent(EntityPlayer player, int type, BlockPos pos, int data) {}
 		@Override public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {}
 	}
 

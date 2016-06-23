@@ -24,7 +24,7 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 		String locationStr = tileentity.getTextureLocation();
 
 		if(locationStr.equalsIgnoreCase("#atlas")) {
-			ClientProxy.mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+			ClientProxy.mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		} else {
 			ResourceLocation location = new ResourceLocation(locationStr);
 

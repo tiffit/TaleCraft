@@ -51,15 +51,16 @@ public class LockedDoorTileEntity extends TileEntity{
 		useSilverKey = tag.getBoolean("useSilverKey");
 	}
 	@Override
-	public void writeToNBT(NBTTagCompound tag){
+	public NBTTagCompound writeToNBT(NBTTagCompound tag){
 		super.writeToNBT(tag);
 		tag.setInteger("corner", corner.ordinal());
 		tag.setBoolean("isCorner", isCorner);
 		tag.setBoolean("useSilverKey", useSilverKey);
+		return tag;
 	}
 	
 	@Override
-	public Packet getDescriptionPacket(){
+	public SPacketUpdateTileEntity getUpdatePacket(){
 		NBTTagCompound tag = new NBTTagCompound();
 		this.writeToNBT(tag);
 		return new SPacketUpdateTileEntity(pos, 1, tag);

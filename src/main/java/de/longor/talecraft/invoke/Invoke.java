@@ -195,7 +195,7 @@ public class Invoke {
 		if(block instanceof BlockLever) {
 			state = state.cycleProperty(BlockLever.POWERED);
 			world.setBlockState(position, state, 3);
-			world.playSound(position.getX() + 0.5D, position.getY() + 0.5D, position.getZ() + 0.5D, SoundEvents.block_lever_click, SoundCategory.BLOCKS, 0.3F, state.getValue(BlockLever.POWERED).booleanValue() ? 0.6F : 0.5F, false);
+			world.playSound(position.getX() + 0.5D, position.getY() + 0.5D, position.getZ() + 0.5D, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, state.getValue(BlockLever.POWERED).booleanValue() ? 0.6F : 0.5F, false);
 			world.notifyNeighborsOfStateChange(position, block);
 			EnumFacing enumfacing1 = state.getValue(BlockLever.FACING).getFacing();
 			world.notifyNeighborsOfStateChange(position.offset(enumfacing1.getOpposite()), block);
@@ -206,7 +206,7 @@ public class Invoke {
 		if(block instanceof BlockButton) {
 			world.setBlockState(position, state.withProperty(BlockButton.POWERED, Boolean.valueOf(true)), 3);
 			world.markBlockRangeForRenderUpdate(position, position);
-			world.playSound(position.getX() + 0.5D, position.getY() + 0.5D, position.getZ() + 0.5D, SoundEvents.block_stone_button_click_on, SoundCategory.BLOCKS, 0.3F, 0.6F, false); //TODO There are multiple button click sounds
+			world.playSound(position.getX() + 0.5D, position.getY() + 0.5D, position.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.6F, false); //TODO There are multiple button click sounds
 			world.notifyNeighborsOfStateChange(position, block);
 			world.notifyNeighborsOfStateChange(position.offset(state.getValue(BlockDirectional.FACING).getOpposite()), block);
 			world.scheduleUpdate(position, block, block.tickRate(world));

@@ -55,7 +55,7 @@ public class CutItem extends TCItem {
 
 		if(item != null) {
 			clipboard.put(keyString, item);
-			WorldHelper.fill(world, bounds, Blocks.air.getDefaultState());
+			WorldHelper.fill(world, bounds, Blocks.AIR.getDefaultState());
 		}
 	}
 

@@ -54,7 +54,6 @@ import tiffit.talecraft.blocks.world.LockedDoorBlock;
 import tiffit.talecraft.blocks.world.SpikeBlock;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
 import tiffit.talecraft.tileentity.MusicBlockTileEntity;
-import tiffit.talecraft.tileentity.SpikeBlockTileEntity;
 
 public class TaleCraftBlocks {
 	public static HashMap<String, Block> blocksMap = Maps.newHashMap();
@@ -180,6 +179,8 @@ public class TaleCraftBlocks {
 		
 		musicBlock = register("musicblock", new MusicBlock());
 		GameRegistry.registerTileEntity(MusicBlockTileEntity.class, "tc_musicblock");
+		
+		spikeBlock = register("spikeblock", new SpikeBlock());
 		
 		//spikeBlock = register("spikeblock", new SpikeBlock());
 		//GameRegistry.registerTileEntity(SpikeBlockTileEntity.class, "tc_spikeblock");

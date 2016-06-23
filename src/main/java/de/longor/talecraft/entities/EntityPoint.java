@@ -70,7 +70,7 @@ public class EntityPoint extends Entity {
 		if(stack == null)
 			return false;
 
-		if(stack.getItem() == Items.name_tag) {
+		if(stack.getItem() == Items.NAME_TAG) {
 			this.setCustomNameTag(stack.getDisplayName());
 			return true;
 		}

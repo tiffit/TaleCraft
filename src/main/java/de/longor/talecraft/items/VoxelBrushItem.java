@@ -4,8 +4,10 @@ import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.voxelator.VXAction;
+import de.longor.talecraft.voxelator.VXAction.VXActions;
 import de.longor.talecraft.voxelator.VXPredicate;
 import de.longor.talecraft.voxelator.VXShape;
+import de.longor.talecraft.voxelator.VXShape.VXShapes;
 import de.longor.talecraft.voxelator.Voxelator;
 import de.longor.talecraft.voxelator.actions.VXActionGrassify;
 import de.longor.talecraft.voxelator.actions.VXActionReplace;
@@ -14,13 +16,11 @@ import de.longor.talecraft.voxelator.predicates.VXPredicateHeightLimit;
 import de.longor.talecraft.voxelator.shapes.VXShapeBox;
 import de.longor.talecraft.voxelator.shapes.VXShapeCylinder;
 import de.longor.talecraft.voxelator.shapes.VXShapeSphere;
-import de.longor.talecraft.voxelbrush.VoxelBrush;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -28,6 +28,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -113,7 +114,7 @@ public class VoxelBrushItem extends TCItem {
 		}
 
 		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush");
-		VoxelBrush.addDesc(data, tooltip);
+		addDesc(data, tooltip);
 		super.addInformation(stack, player, tooltip, advanced);
 	}
 
@@ -126,6 +127,24 @@ public class VoxelBrushItem extends TCItem {
 			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
 			return new Vec3d(d0, d1, d2);
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private static void addDesc(NBTTagCompound data, List<String> tooltip) {
+		if(data.hasNoTags()){
+			tooltip.add(TextFormatting.RED + "Not Defined Yet");
+			return;
+		}
+		VXActions action = VXActions.get(data.getInteger("action"));
+		VXShapes shape = VXShapes.get(data.getInteger("shape"));
+		String shapeData = "";
+		if(shape == VXShapes.Sphere) shapeData = "[r=" + data.getFloat("radius") + "]";
+		if(shape == VXShapes.Box) shapeData  = "[w=" + data.getInteger("width") + ",h=" + data.getInteger("height") + ",l="+ data.getInteger("length") + "]";
+		if(shape == VXShapes.Cylinder) shapeData = "[r=" + data.getFloat("radius") + ",h=" + data.getInteger("height") + "]";	
+		tooltip.add("Shape: " + shape.toString() + shapeData);
+		tooltip.add("Action: " + action.toString());
+		tooltip.add("");
+
 	}
 
 }

@@ -14,9 +14,9 @@ public class VXActionGrassify extends VXAction {
 
 	@Override
 	public void apply(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld) {
-		fworld.setBlockState(pos, Blocks.grass.getDefaultState());
-		fworld.setBlockState(pos.down(1), Blocks.dirt.getDefaultState());
-		fworld.setBlockState(pos.down(2), Blocks.dirt.getDefaultState());
+		fworld.setBlockState(pos, Blocks.GRASS.getDefaultState());
+		fworld.setBlockState(pos.down(1), Blocks.DIRT.getDefaultState());
+		fworld.setBlockState(pos.down(2), Blocks.DIRT.getDefaultState());
 	}
 
 }

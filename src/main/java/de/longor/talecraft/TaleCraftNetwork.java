@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import tiffit.talecraft.packet.DoorPacket;
+import tiffit.talecraft.packet.FadePacket;
 import tiffit.talecraft.packet.NPCDataPacket;
 import tiffit.talecraft.packet.NPCScriptUpdatePacket;
 import tiffit.talecraft.packet.SoundsMutePacket;
@@ -22,7 +23,7 @@ public class TaleCraftNetwork {
 	private static int discriminator = 0;
 	
 	public static void preInit(){
-		network = NetworkRegistry.INSTANCE.newSimpleChannel("TaleCraftNet");
+		network = NetworkRegistry.INSTANCE.newSimpleChannel("TalecraftNet");
 
 		register(StringNBTCommandPacket.Handler.class, StringNBTCommandPacket.class, SERVER);
 		register(PlayerNBTDataMergePacket.Handler.class, PlayerNBTDataMergePacket.class, CLIENT);
@@ -32,6 +33,7 @@ public class TaleCraftNetwork {
 		register(NPCDataPacket.Handler.class, NPCDataPacket.class, SERVER);
 		register(NPCScriptUpdatePacket.Handler.class, NPCScriptUpdatePacket.class, CLIENT);
 		register(SoundsMutePacket.Handler.class, SoundsMutePacket.class, CLIENT);
+		register(FadePacket.Handler.class, FadePacket.class, CLIENT);
 	}
 	
 	private static <REQ extends IMessage, REPLY extends IMessage> void register(Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side){

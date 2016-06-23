@@ -11,7 +11,7 @@ public class TCAdminiumMaterial extends Material {
 	public static final Material instance = new TCAdminiumMaterial();
 
 	public TCAdminiumMaterial() {
-		super(MapColor.airColor);
+		super(MapColor.AIR);
 		setImmovableMobility();
 	}
 
