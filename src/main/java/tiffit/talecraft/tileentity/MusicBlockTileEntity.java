@@ -56,9 +56,10 @@ public class MusicBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setInteger("sound", sound.ordinal());
 		comp.setBoolean("mute", mute);
+		return comp;
 	}
 
 	public SoundEnum getSound() {

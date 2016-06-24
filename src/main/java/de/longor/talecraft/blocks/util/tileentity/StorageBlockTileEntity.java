@@ -98,11 +98,12 @@ public class StorageBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		if(item != null && item.getData() != null) {
 			comp.setTag("clipboard", item.getData());
 			comp.setIntArray("bounds", bounds);
 		}
+		return comp;
 	}
 
 }

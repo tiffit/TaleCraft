@@ -82,7 +82,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setInteger("summonCount", summonCount);
 		comp.setIntArray("summonRegionBounds", summonRegionBounds);
 		comp.setBoolean("useWeightAsCount", useWeightAsCount);
@@ -98,6 +98,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 		}
 
 		comp.setTag("summonOptions", list);
+		return comp;
 	}
 
 	@Override

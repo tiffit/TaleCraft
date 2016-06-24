@@ -13,15 +13,11 @@ import de.longor.talecraft.invoke.EnumTriggerState;
 import de.longor.talecraft.invoke.FileScriptInvoke;
 import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.invoke.IInvokeSource;
-import de.longor.talecraft.invoke.IScriptInvoke;
 import de.longor.talecraft.invoke.Invoke;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIMoveToBlock;
-import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -175,6 +171,8 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 		super.readEntityFromNBT(tag);
 		data = NPCData.fromNBT(tag.getCompoundTag("npcdata"));
 		scriptdata = tag.getCompoundTag("scriptdata");
+		updateInvoke = tag.getString("updateInvokeStr");
+		interactInvoke = tag.getString("interactInvokeStr");
 	}
 	
 	@Override
@@ -182,6 +180,8 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 		super.writeEntityToNBT(tag);
 		tag.setTag("npcdata", data.toNBT());
 		tag.setTag("scriptdata", scriptdata);
+		tag.setString("updateInvokeStr", updateInvoke);
+		tag.setString("interactInvokeStr", interactInvoke);
 	}
 	
 	@Override

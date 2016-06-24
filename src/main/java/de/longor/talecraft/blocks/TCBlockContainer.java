@@ -73,7 +73,7 @@ public abstract class TCBlockContainer extends BlockContainer {
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
+		return null;//new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override

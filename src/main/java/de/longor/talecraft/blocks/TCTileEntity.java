@@ -64,13 +64,12 @@ public abstract class TCTileEntity extends TileEntity implements IInvokeSource, 
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		writeToNBT_do(compound);
-		return compound;
+		compound = super.writeToNBT(compound);
+		return writeToNBT_do(compound);
 	}
 
 	public abstract void readFromNBT_do(NBTTagCompound comp);
-	public abstract void writeToNBT_do(NBTTagCompound comp);
+	public abstract NBTTagCompound writeToNBT_do(NBTTagCompound comp);
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
@@ -168,15 +167,22 @@ public abstract class TCTileEntity extends TileEntity implements IInvokeSource, 
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		NBTTagCompound comp = pkt.getNbtCompound();
-		readFromNBT_do(comp);
+		readFromNBT_do(pkt.getNbtCompound());
 	}
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound comp = new NBTTagCompound();
-		this.writeToNBT(comp);
-		return new SPacketUpdateTileEntity(this.pos, 3, comp);
+		return new SPacketUpdateTileEntity(this.pos, 3, writeToNBT(new NBTTagCompound()));
+	}
+	
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
+	
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		readFromNBT(tag);
 	}
 
 	@Override

@@ -46,8 +46,9 @@ public class BlockUpdateDetectorTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound compound) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound compound) {
 		compound.setTag("detectorInvoke", IInvoke.Serializer.write(detectorInvoke));
+		return compound;
 	}
 
 	public void triggerUpdateInvoke(EnumTriggerState triggerState) {

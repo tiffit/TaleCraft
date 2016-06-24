@@ -55,12 +55,13 @@ public class TriggerFilterBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setTag("triggerInvoke", IInvoke.Serializer.write(triggerInvoke));
 		comp.setBoolean("filter_on", filter_on);
 		comp.setBoolean("filter_off", filter_off);
 		comp.setBoolean("filter_invert", filter_invert);
 		comp.setBoolean("filter_ignore", filter_ignore);
+		return comp;
 	}
 
 	@Override

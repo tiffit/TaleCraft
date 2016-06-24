@@ -54,7 +54,7 @@ public class ClockBlockTileEntity extends TCTileEntity  {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound compound)
+	public NBTTagCompound writeToNBT_do(NBTTagCompound compound)
 	{
 		compound.setBoolean("active", active);
 		compound.setInteger("repeat", repeat);
@@ -68,6 +68,7 @@ public class ClockBlockTileEntity extends TCTileEntity  {
 		compound.setTag("clockInvoke", IInvoke.Serializer.write(clockInvoke));
 		compound.setTag("clockStartInvoke", IInvoke.Serializer.write(clockStartInvoke));
 		compound.setTag("clockStopInvoke", IInvoke.Serializer.write(clockStopInvoke));
+		return compound;
 	}
 
 	@Override

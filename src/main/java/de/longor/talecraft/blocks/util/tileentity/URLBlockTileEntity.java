@@ -45,9 +45,10 @@ public class URLBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setString("url", url);
 		comp.setString("selector", selector);
+		return comp;
 	}
 
 	public String getURL() {

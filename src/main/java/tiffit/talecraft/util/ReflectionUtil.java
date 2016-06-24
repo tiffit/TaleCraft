@@ -14,13 +14,15 @@ import net.minecraftforge.fml.common.eventhandler.IEventListener;
 
 public class ReflectionUtil {
 	
-	private static Map<GuiListWorldSelectionEntry, File> worldfolder = new HashMap<GuiListWorldSelectionEntry, File>();
+	private static HashMap<GuiListWorldSelectionEntry, File> worldfolder = new HashMap<GuiListWorldSelectionEntry, File>();
 	
 	public static File getWorldFolderFromSelection(GuiListWorldSelectionEntry entry){
-		if(worldfolder.containsKey(entry)) return worldfolder.get(entry);
+		if(worldfolder.containsKey(entry)){
+			return worldfolder.get(entry);
+		}
 		try{
 			File image = null;
-			for(Field field : GuiListWorldSelectionEntry.class.getFields()){
+			for(Field field : GuiListWorldSelectionEntry.class.getDeclaredFields()){
 				if(field.getType() == File.class){
 					field.setAccessible(true);
 					image = (File) field.get(entry);

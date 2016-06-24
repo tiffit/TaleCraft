@@ -90,9 +90,10 @@ public class LightBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setInteger("lightValue", lightValue);
 		comp.setBoolean("lightActive", lightActive);
+		return comp;
 	}
 
 	@Override

@@ -15,7 +15,7 @@ IEXTTileEntityRenderer<SummonBlockTileEntity> {
 
 		int[] bounds = tileentity.getSummonRegionBounds();
 
-		if(bounds != null) {
+		if(bounds != null && bounds.length >=4) {
 
 			ClientProxy.mc.renderEngine.bindTexture(ClientResources.texColorWhite);
 			GlStateManager.disableCull();

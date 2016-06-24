@@ -28,8 +28,9 @@ public class RedstoneTriggerBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound compound) {
-		compound.setTag("triggerInvoke", IInvoke.Serializer.write(triggerInvoke));
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
+		comp.setTag("triggerInvoke", IInvoke.Serializer.write(triggerInvoke));
+		return comp;
 	}
 
 	public void invokeFromUpdateTick(EnumTriggerState triggerState) {

@@ -83,9 +83,10 @@ public class ImageHologramBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setTag("holodata", holodata);
 		comp.setBoolean("state", state);
+		return comp;
 	}
 
 	public void toggleActive() {

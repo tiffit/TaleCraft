@@ -46,9 +46,10 @@ public class MemoryBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setTag("triggerInvoke", IInvoke.Serializer.write(triggerInvoke));
 		comp.setBoolean("triggered", triggered);
+		return comp;
 	}
 
 	@Override

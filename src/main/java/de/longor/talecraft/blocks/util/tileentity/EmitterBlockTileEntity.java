@@ -65,11 +65,12 @@ public class EmitterBlockTileEntity extends TCTileEntity{
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		if(emitterData != null)
 			comp.setTag("emitter", emitterData);
 
 		comp.setBoolean("active", state);
+		return comp;
 	}
 
 	@Override

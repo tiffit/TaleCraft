@@ -119,7 +119,7 @@ public class SpikeBlock extends TCBlock implements TCITriggerableBlock{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		return null;
+		return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1D, 0.3D, 1D);
 	}
 
 	@Override

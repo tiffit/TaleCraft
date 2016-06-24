@@ -42,9 +42,10 @@ public class DelayBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setTag("triggerInvoke", IInvoke.Serializer.write(triggerInvoke));
 		comp.setInteger("delay", delay);
+		return comp;
 	}
 
 	public void trigger(EnumTriggerState triggerState) {

@@ -117,10 +117,11 @@ public class MessageBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setString("playerSelector", playerSelector);
 		comp.setString("message", message);
 		comp.setBoolean("tellraw", tellraw);
+		return comp;
 	}
 
 	public String getPlayerSelector() {

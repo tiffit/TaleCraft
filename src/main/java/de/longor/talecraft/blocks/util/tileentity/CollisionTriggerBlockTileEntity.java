@@ -191,10 +191,11 @@ public class CollisionTriggerBlockTileEntity extends TCTileEntity{
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setTag("collisionStartTrigger", IInvoke.Serializer.write(collisionStartTrigger));
 		comp.setTag("collisionStopTrigger", IInvoke.Serializer.write(collisionStopTrigger));
 		comp.setInteger("filter", entityFilter);
+		return comp;
 	}
 
 	public int getEntityFilter() {

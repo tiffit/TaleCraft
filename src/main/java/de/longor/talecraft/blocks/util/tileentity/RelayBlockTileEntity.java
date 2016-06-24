@@ -86,12 +86,13 @@ public class RelayBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound comp) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		int ID = 0;
 		for(Entry<String, IInvoke> entry : invokes.entrySet()) {
 			comp.setTag(entry.getKey(),IInvoke.Serializer.write(entry.getValue()));
 			ID++;
 		}
+		return comp;
 	}
 
 	public Map<String, IInvoke> getInvokes() {

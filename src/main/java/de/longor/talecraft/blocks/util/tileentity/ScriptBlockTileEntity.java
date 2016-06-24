@@ -74,8 +74,9 @@ public class ScriptBlockTileEntity extends TCTileEntity {
 	}
 
 	@Override
-	public void writeToNBT_do(NBTTagCompound compound) {
+	public NBTTagCompound writeToNBT_do(NBTTagCompound compound) {
 		compound.setTag("scriptInvoke", IInvoke.Serializer.write(scriptInvoke));
+		return compound;
 	}
 
 	public String getScriptName() {
