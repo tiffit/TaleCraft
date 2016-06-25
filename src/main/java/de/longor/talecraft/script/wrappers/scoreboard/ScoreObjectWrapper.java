@@ -45,4 +45,8 @@ public class ScoreObjectWrapper implements IObjectWrapper {
 		if(!score.getObjective().getCriteria().isReadOnly())
 			score.decreaseScore(amount);
 	}
+	
+	public boolean isReadOnly(){
+		return score.getObjective().getCriteria().isReadOnly();
+	}
 }

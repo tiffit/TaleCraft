@@ -64,9 +64,6 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 		return stack.isStackable();
 	}
 
-
-
-
 	public int getDamage() {
 		return stack.getItemDamage();
 	}
@@ -90,4 +87,16 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 		stack.readFromNBT(tagCompound);
 	}
 
+	public CompoundTagWrapper getNBT(){
+		return new CompoundTagWrapper(stack.getTagCompound());
+	}
+	
+	public boolean hasNBT(){
+		return stack.hasTagCompound();
+	}
+	
+	public void setNBT(CompoundTagWrapper nbt){
+		stack.setTagCompound(nbt.internal());
+	}
+	
 }

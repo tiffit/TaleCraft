@@ -100,6 +100,14 @@ public class CompoundTagWrapper implements IObjectWrapper {
 	public double getDouble(String name) {
 		return comp.getDouble(name);
 	}
+	
+	public String getString(String name) {
+		return comp.getString(name);
+	}
+	
+	public CompoundTagWrapper copy(){
+		return new CompoundTagWrapper(comp.copy());
+	}
 
 	public CompoundTagWrapper getCompound(String name) {
 		return new CompoundTagWrapper(comp.getCompoundTag(name));

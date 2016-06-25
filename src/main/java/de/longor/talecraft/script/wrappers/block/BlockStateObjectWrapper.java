@@ -35,6 +35,26 @@ public class BlockStateObjectWrapper implements IObjectWrapper {
 	public int hashCode() {
 		return state.hashCode();
 	}
+	
+	public BlockObjectWrapper getBlock(){
+		return new BlockObjectWrapper(state.getBlock());
+	}
+	
+	public boolean isFullCube(){
+		return state.isFullCube();
+	}
+	
+	public boolean isFullBlock(){
+		return state.isFullBlock();
+	}
+	
+	public boolean isOpaqueCube(){
+		return state.isOpaqueCube();
+	}
+	
+	public boolean isNormalCube(){
+		return state.isNormalCube();
+	}
 
 	@Override
 	public List<String> getOwnPropertyNames() {

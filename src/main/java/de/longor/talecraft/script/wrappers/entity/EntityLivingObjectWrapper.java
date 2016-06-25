@@ -36,13 +36,27 @@ public class EntityLivingObjectWrapper extends EntityObjectWrapper {
 		entity.setHealth(health);;
 	}
 
-	public float setHealth() {
+	public float getHealth() {
 		return entity.getHealth();
 	}
 
 	public void addPotionEffect(PotionEffectObjectWrapper potionEffect) {
 		entity.addPotionEffect(potionEffect.internal());
 	}
+	
+	public void clearActivePotions(){
+		entity.clearActivePotions();
+	}
+	
+	public boolean canBeHitWithPotion(){
+		return entity.canBeHitWithPotion();
+	}
+	
+	public boolean canBePushed(){
+		return entity.canBePushed();
+	}
+	
+	
 
 
 

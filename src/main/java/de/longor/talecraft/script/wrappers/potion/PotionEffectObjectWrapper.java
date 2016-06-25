@@ -17,6 +17,26 @@ public class PotionEffectObjectWrapper implements IObjectWrapper {
 	public PotionEffect internal() {
 		return potionEffect;
 	}
+	
+	public int getDuration(){
+		return potionEffect.getDuration();
+	}
+	
+	public int getAmplifier(){
+		return potionEffect.getAmplifier();
+	}
+	
+	public boolean isDurationMax(){
+		return potionEffect.getIsPotionDurationMax();
+	}
+	
+	public boolean fromBeacon(){
+		return potionEffect.getIsAmbient();
+	}
+	
+	public PotionObjectWrapper getPotion(){
+		return new PotionObjectWrapper(potionEffect.getPotion());
+	}
 
 	@Override
 	public List<String> getOwnPropertyNames() {

@@ -1,22 +1,11 @@
 package tiffit.talecraft.entity.NPC;
 
-import org.apache.commons.codec.digest.Md5Crypt;
-
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.client.resources.SkinManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import sun.security.provider.MD5;
 
 public class RenderNPC extends RenderLivingBase<EntityNPC>{
 
