@@ -72,8 +72,9 @@ public class LightBlock extends TCBlockContainer implements TCITriggerableBlock 
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
-		worldIn.checkLight(pos);
+	public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState state) {
+		super.onBlockDestroyedByPlayer(world, pos, state);
+		world.checkLight(pos);
 	}
 
 }

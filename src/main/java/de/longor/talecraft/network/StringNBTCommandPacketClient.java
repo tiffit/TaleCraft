@@ -10,22 +10,22 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class StringNBTCommandPacket implements IMessage {
+public class StringNBTCommandPacketClient implements IMessage {
 
 	public NBTTagCompound data;
 	public String command;
 
-	public StringNBTCommandPacket() {
+	public StringNBTCommandPacketClient() {
 		data = new NBTTagCompound();
 		command = "";
 	}
 
-	public StringNBTCommandPacket(String cmdIN, NBTTagCompound dataIN) {
+	public StringNBTCommandPacketClient(String cmdIN, NBTTagCompound dataIN) {
 		this.data = dataIN != null ? dataIN : new NBTTagCompound();
 		this.command = cmdIN;
 	}
 
-	public StringNBTCommandPacket(String cmd) {
+	public StringNBTCommandPacketClient(String cmd) {
 		data = new NBTTagCompound();
 		command = cmd;
 	}
@@ -45,14 +45,11 @@ public class StringNBTCommandPacket implements IMessage {
 		ByteBufUtils.writeTag(buf, data);
 	}
 
-	public static class Handler implements IMessageHandler<StringNBTCommandPacket, IMessage> {
+	public static class Handler implements IMessageHandler<StringNBTCommandPacketClient, IMessage> {
 
 		@Override
-		public IMessage onMessage(StringNBTCommandPacket message, MessageContext ctx) {
-			if(message.data != null){
-				ServerHandler.handleSNBTCommand(ctx.getServerHandler(), message);
-				TaleCraft.asClient().getNetworkHandler().handleClientCommand(message.command, message.data);
-			}
+		public IMessage onMessage(StringNBTCommandPacketClient message, MessageContext ctx) {
+			TaleCraft.asClient().getNetworkHandler().handleClientCommand(message.command, message.data);
 			return null;
 		}
 	}

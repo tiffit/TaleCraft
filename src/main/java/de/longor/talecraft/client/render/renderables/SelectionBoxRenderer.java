@@ -63,7 +63,7 @@ public class SelectionBoxRenderer implements IRenderable {
 				final float E = 1f / 32f;
 
 				// Prepare state
-				GlStateManager.disableNormalize();
+				GlStateManager.enableNormalize();
 				GlStateManager.enableTexture2D();
 				RenderHelper.disableStandardItemLighting();
 				GlStateManager.glLineWidth(2.5f);
@@ -84,7 +84,6 @@ public class SelectionBoxRenderer implements IRenderable {
 
 				// Render secondary (no-depth) box
 				GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-				GlStateManager.disableDepth();
 				mc.getTextureManager().bindTexture(ClientResources.texColorWhite);
 				BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, -1);
 				GlStateManager.enableDepth();

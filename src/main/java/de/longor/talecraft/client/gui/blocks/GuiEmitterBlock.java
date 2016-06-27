@@ -11,6 +11,7 @@ import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADLabel;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
 import de.longor.talecraft.client.gui.qad.QADTextField;
+import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
 import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.util.GObjectTypeHelper;
 import net.minecraft.nbt.NBTTagCompound;
@@ -185,20 +186,12 @@ public class GuiEmitterBlock extends QADGuiScreen {
 			panel = new QADScrollPanel();
 			panel.setPosition(0, 0);
 			panel.setSize(200, 200);
-			this.addComponent(panel);
-
-			final int rowHeight = 20;
-
 			List<String> names = GObjectTypeHelper.getParticleNameList();
 			names.sort(String.CASE_INSENSITIVE_ORDER);
-			panel.setViewportHeight(names.size() * rowHeight + 2);
-			panel.allowLeftMouseButtonScrolling = true;
-
-			int yOff = 1;
 			for(final String string : names) {
 				QADButton component = null;
 
-				component = QADFACTORY.createButton(string, 2, yOff, 200 - 8, null);
+				component = new QADButton(string);
 				component.simplified = true;
 				component.textAlignment = 0;
 
@@ -215,8 +208,9 @@ public class GuiEmitterBlock extends QADGuiScreen {
 				}
 
 				panel.addComponent(component);
-				yOff += rowHeight;
 			}
+			panel.setLayout(new QADListLayout());
+			this.addComponent(panel);
 		}
 
 		@Override

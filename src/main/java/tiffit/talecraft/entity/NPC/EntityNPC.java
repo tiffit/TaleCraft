@@ -113,7 +113,6 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	}
 
 	private void handleRegularInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
-		this.collideWithEntity(null);
 		if(server){
 			FileScriptInvoke scriptInvoke = new FileScriptInvoke(interactInvoke);
 			if(!scriptInvoke.getScriptName().isEmpty()){
@@ -131,7 +130,7 @@ public class EntityNPC extends EntityLiving implements IEntityAdditionalSpawnDat
 	
 	private void handleEditorInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
 		if(server){
-			TaleCraft.network.sendToDimension(new NPCScriptUpdatePacket(this.getEntityId(), interactInvoke, updateInvoke), this.getEntityWorld().provider.getDimension());
+			TaleCraft.network.sendTo(new NPCScriptUpdatePacket(this.getEntityId(), interactInvoke, updateInvoke), (EntityPlayerMP) player);
 		}
 	}
 	

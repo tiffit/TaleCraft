@@ -6,6 +6,7 @@ import static net.minecraftforge.fml.relauncher.Side.SERVER;
 
 import de.longor.talecraft.network.PlayerNBTDataMergePacket;
 import de.longor.talecraft.network.StringNBTCommandPacket;
+import de.longor.talecraft.network.StringNBTCommandPacketClient;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -34,6 +35,7 @@ public class TaleCraftNetwork {
 		register(NPCScriptUpdatePacket.Handler.class, NPCScriptUpdatePacket.class, CLIENT);
 		register(SoundsMutePacket.Handler.class, SoundsMutePacket.class, CLIENT);
 		register(FadePacket.Handler.class, FadePacket.class, CLIENT);
+		register(StringNBTCommandPacketClient.Handler.class, StringNBTCommandPacketClient.class, CLIENT);
 	}
 	
 	private static <REQ extends IMessage, REPLY extends IMessage> void register(Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side){

@@ -71,5 +71,15 @@ public class LockedDoorTileEntity extends TileEntity{
 		this.readFromNBT(pkt.getNbtCompound());
 	}
 	
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
+	
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		readFromNBT(tag);
+	}
+	
 
 }

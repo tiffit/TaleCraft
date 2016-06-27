@@ -511,17 +511,12 @@ public class BoxRenderer {
 		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, u1, w0);
 		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, u1, w1);
 		vertexbuffer.addVertexWithUV(minX, maxY, minZ, u0, w1);
-		vertexbuffer.normal(0, 1, 0);
-		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, u0, w0);
-		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, u1, w0);
-		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, u1, w1);
-		vertexbuffer.addVertexWithUV(minX, maxY, minZ, u0, w1);
 		// bottom
 		vertexbuffer.normal(0, -1, 0);
-		vertexbuffer.addVertexWithUV(minX, minY, minZ, u0, w0);
-		vertexbuffer.addVertexWithUV(maxX, minY, minZ, u1, w0);
-		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, u1, w1);
-		vertexbuffer.addVertexWithUV(minX, minY, maxZ, u0, w1);
+		vertexbuffer.addVertexWithUV(minX, minY, maxZ, u0, w0);
+		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, u1, w0);
+		vertexbuffer.addVertexWithUV(maxX, minY, minZ, u1, w1);
+		vertexbuffer.addVertexWithUV(minX, minY, minZ, u0, w1);
 		// negative z | north
 		vertexbuffer.normal(0, 0, -1);
 		vertexbuffer.addVertexWithUV(minX, maxY, minZ, u0, v0);
