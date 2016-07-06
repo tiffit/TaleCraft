@@ -9,10 +9,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -39,9 +41,10 @@ public class WandItem extends TCItem {
 
 		tcWand.setIntArray("cursor", Arrays.copyOf(pos$$, 3));
 
-		if(!tcWand.hasKey("boundsA")) {
+		if(!tcWand.hasKey("boundsA") || !tcWand.getBoolean("enabled")) {
 			tcWand.setIntArray("boundsA", Arrays.copyOf(pos$$, 3));
 			tcWand.setIntArray("boundsB", Arrays.copyOf(pos$$, 3));
+			tcWand.setBoolean("enabled", true);
 		} else {
 			boolean flip = tcWand.getBoolean("flip");
 			if(flip) {
@@ -55,8 +58,21 @@ public class WandItem extends TCItem {
 		// System.out.println("comp = " + tcWand);
 
 		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
-
 		return EnumActionResult.SUCCESS;
+	}
+	
+	@Override //Clears the wand selection
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+		if(world.isRemote)
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		if(!player.isSneaking()) return ActionResult.newResult(EnumActionResult.PASS, stack);
+		NBTTagCompound compound = player.getEntityData();
+		compound.getCompoundTag("tcWand").setBoolean("enabled", false);
+		compound.getCompoundTag("tcWand").setIntArray("boundsA", new int[]{0, 0, 0});
+		compound.getCompoundTag("tcWand").setIntArray("boundsB", new int[]{0, 0, 0});
+		player.addChatMessage(new TextComponentString("Wand selection has been cleared!"));
+		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
+		return super.onItemRightClick(stack, world, player, hand);
 	}
 
 	@Override

@@ -13,12 +13,13 @@ import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
 
 public class QADSkinButton extends QADButton {
 
-	NPCSkin skin;
+	EntityNPC npc;
 	int entityRotation = 0;
 	
 	public QADSkinButton(String text, NPCSkin skin) {
 		super(text);
-		this.skin = skin;
+		npc = new EntityNPC(Minecraft.getMinecraft().theWorld);
+		npc.getNPCData().setSkin(skin);
 	}
 	
 	@Override
@@ -27,8 +28,6 @@ public class QADSkinButton extends QADButton {
 		entityRotation++;
 		if(entityRotation >= 360) entityRotation = 0;
 		GlStateManager.color(1, 1, 1);
-		EntityNPC npc = new EntityNPC(Minecraft.getMinecraft().theWorld);
-		npc.getNPCData().setSkin(skin);
 		if(hovered)drawEntityOnScreen(400, 200, 60, npc);
 	}
 	

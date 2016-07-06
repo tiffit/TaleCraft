@@ -17,8 +17,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.server.FMLServerHandler;
+import tiffit.talecraft.client.gui.npc.NPCEditorGui;
 import tiffit.talecraft.entity.NPC.EntityNPC;
-import tiffit.talecraft.entity.NPC.NPCEditorGui;
 
 public class SoundsMutePacket implements IMessage {
 

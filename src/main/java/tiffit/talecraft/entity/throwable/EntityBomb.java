@@ -24,8 +24,9 @@ import tiffit.talecraft.util.BombExplosion;
 
 public class EntityBomb extends EntityThrowable{
 
-	int explosion_delay = 60;
-	boolean should_play_sound = true;
+	private int explosion_delay = 60;
+	private boolean should_play_sound = true;
+	private boolean updateMovementLogic = true;
 	
     public EntityBomb(World world){
         super(world);
@@ -42,28 +43,27 @@ public class EntityBomb extends EntityThrowable{
 	@Override
     protected void onImpact(RayTraceResult result){
         if (result.entityHit != null){
+    		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posX, posY, posZ, 0, 0, 0, null);
             explode(); //explode on impact
         }
-        if(!worldObj.isRemote){
-        	this.setVelocity(0, 0, 0);
-        }
+        updateMovementLogic = false;
+        this.setVelocity(0, 0, 0);
     }
 	
 	@Override
 	public void onUpdate(){
-		super.onUpdate();
+		if(updateMovementLogic) super.onUpdate();
 		if(should_play_sound){
 			worldObj.playSound(posX, posY, posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.AMBIENT, 100f, 1f, false);
 			should_play_sound = false;
 		}
 		explosion_delay--;
-		this.createRunningParticles();
 		if(explosion_delay <= 0){
 			if(!worldObj.isRemote) explode();
 			else worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posX, posY, posZ, 0, 0, 0, null);
 		}
-		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY + 1, posZ, 0, 0, 0, null);
-		if(explosion_delay <= 20) worldObj.spawnParticle(EnumParticleTypes.FLAME, posX, posY + 1, posZ, 0, 0, 0, null);
+		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY + .3, posZ, 0, 0, 0, null);
+		if(explosion_delay <= 20) worldObj.spawnParticle(EnumParticleTypes.FLAME, posX, posY+.3, posZ, 0, 0, 0, null);
 	}
 	
 	private void explode(){

@@ -103,7 +103,7 @@ public class QADSlider extends QADRectangularComponent {
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		GlStateManager.blendFunc(770, 771);
 
-		if(width < 200) {
+		if(width < 50) {
 			renderer.drawTexturedModalRectangle(this.xPos, this.yPos, 0, 46 + k * 20, this.width / 2, this.height);
 			renderer.drawTexturedModalRectangle(this.xPos + this.width / 2, this.yPos, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
 		} else {

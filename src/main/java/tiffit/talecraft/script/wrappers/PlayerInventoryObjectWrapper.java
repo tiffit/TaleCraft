@@ -29,11 +29,33 @@ public class PlayerInventoryObjectWrapper implements IObjectWrapper{
 	}
 	
 	public ItemStackObjectWrapper getItemAt(int index){
-		return new ItemStackObjectWrapper(inv.armorInventory[index]);
+		return new ItemStackObjectWrapper(inv.getStackInSlot(index));
+	}
+	
+	public ItemStackObjectWrapper[] getOffHandInventory(){
+		return ItemStackObjectWrapper.createArray(inv.offHandInventory);
+	}
+	
+	public ItemStackObjectWrapper[] getMainInventory(){
+		return ItemStackObjectWrapper.createArray(inv.mainInventory);
+	}
+	
+	public ItemStackObjectWrapper[] getArmorInventory(){
+		return ItemStackObjectWrapper.createArray(inv.armorInventory);
+	}
+	
+	public void setCurrentItem(int slot){
+		inv.currentItem = slot;
 	}
 	
 	public int getHeldSlot(){
 		return inv.currentItem;
+	}
+	
+	public int getFirstEmptySlot(){
+
+		inv.getHotbarSize();
+		return inv.getFirstEmptyStack();
 	}
 
 	@Override

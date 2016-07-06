@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class NPCSkinEnum {
 
 	public static enum NPCSkinType{
-		Villager, Other, Blank;
+		Villager, Modern, Other, Blank;
 	}
 	
 	public static enum NPCSkin{
@@ -36,9 +36,14 @@ public class NPCSkinEnum {
 		Tiffit(new ResourceLocation("talecraft:textures/entity/NPC/other/tiffit.png"), NPCSkinType.Other),
 		Longor1996(new ResourceLocation("talecraft:textures/entity/NPC/other/longor1996.png"), NPCSkinType.Other),
 		Invisible(null, NPCSkinType.Other),
-		Male(new ResourceLocation("talecraft:textures/entity/NPC/villager/male.png"), NPCSkinType.Villager, "NicoKing60"),
-		Female(new ResourceLocation("talecraft:textures/entity/NPC/villager/female.png"), NPCSkinType.Villager, "NicoKing60");
-	
+		Villager(new ResourceLocation("talecraft:textures/entity/NPC/villager/male.png"), NPCSkinType.Villager, "NicoKing60"),
+		Female(new ResourceLocation("talecraft:textures/entity/NPC/villager/female.png"), NPCSkinType.Modern, "NicoKing60"),
+		Knight(new ResourceLocation("talecraft:textures/entity/NPC/villager/male2.png"), NPCSkinType.Villager, "WinterWolfee"),
+		Knight2(new ResourceLocation("talecraft:textures/entity/NPC/villager/female3.png"), NPCSkinType.Villager, "WinterWolfee"),
+		Huntress(new ResourceLocation("talecraft:textures/entity/NPC/villager/female2.png"), NPCSkinType.Villager, "WinterWolfee"),
+		Farmer(new ResourceLocation("talecraft:textures/entity/NPC/villager/male3.png"), NPCSkinType.Villager, "WinterWolfee"),
+		Priest(new ResourceLocation("talecraft:textures/entity/NPC/villager/female4.png"), NPCSkinType.Villager, "WinterWolfee");
+		
 		private ResourceLocation resloc;
 		private NPCSkinType type;
 		private String author;

@@ -105,7 +105,6 @@ public class GlobalScriptManager {
 		Scriptable newScope = cx.newObject(globalScope);
 		newScope.setPrototype(globalScope);
 		newScope.setParentScope(null);
-
 		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
 		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
 		ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));

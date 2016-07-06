@@ -18,7 +18,7 @@ public class TaleCraftTabs {
 	public static CreativeTabs tab_TaleCraftTab = new CreativeTabs("talecraftTab") {
 		@Override
 		public Item getTabIconItem() {
-			return Items.BOOK;
+			return TaleCraftItems.filler;
 		}
 
 		@Override
@@ -28,6 +28,7 @@ public class TaleCraftTabs {
 			items.add(new ItemStack(Blocks.COMMAND_BLOCK));
 			items.add(new ItemStack(Blocks.MOB_SPAWNER));
 			items.add(new ItemStack(Blocks.BARRIER));
+			items.add(new ItemStack(Blocks.STRUCTURE_BLOCK));
 
 			super.displayAllRelevantItems(items);
 		}

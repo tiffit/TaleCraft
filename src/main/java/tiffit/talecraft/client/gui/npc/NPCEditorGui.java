@@ -1,5 +1,7 @@
-package tiffit.talecraft.entity.NPC;
+package tiffit.talecraft.client.gui.npc;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 import de.longor.talecraft.TaleCraft;
@@ -15,6 +17,8 @@ import de.longor.talecraft.client.gui.qad.QADTextField.TextFieldModel;
 import de.longor.talecraft.client.gui.qad.QADTickBox;
 import de.longor.talecraft.client.gui.qad.QADTickBox.TickBoxModel;
 import net.minecraft.util.ResourceLocation;
+import tiffit.talecraft.entity.NPC.EntityNPC.NPCType;
+import tiffit.talecraft.entity.NPC.NPCData;
 import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
 import tiffit.talecraft.packet.NPCDataPacket;
 
@@ -29,13 +33,17 @@ public class NPCEditorGui extends QADGuiScreen {
 	boolean invulnerable;
 	float pitch;
 	float yaw;
+	float damage;
+	double speed;
 	boolean eyesfollow;
 	UUID uuid;
 	NPCSkin skin;
+	NPCType type;
 	String interactScript;
-	protected String updateScript;
+	String updateScript;
+	String deathScript;
 	
-	public NPCEditorGui(NPCData data, UUID uuid, String interactScript, String updateScript){
+	public NPCEditorGui(NPCData data, UUID uuid, String interactScript, String updateScript, String deathScript){
 		this.data = data;
 		this.name = data.getName();
 		this.message = data.getMessage();
@@ -50,12 +58,16 @@ public class NPCEditorGui extends QADGuiScreen {
 		this.skin = data.getSkin();
 		this.interactScript = interactScript;
 		this.updateScript = updateScript;
+		this.deathScript = deathScript;
+		this.type = data.getType();
+		this.damage = data.getDamage();
+		this.speed = data.getSpeed();
 	}
 	
 	public void buildGui() {
 		addComponent(new QADLabel("NPC: " + name, 2, 2));
 		
-		QADTickBox invulnerablebox = new QADTickBox(3, 25, new TickBoxModel(){
+		QADTickBox invulnerablebox = new QADTickBox(3, this.height - 20, new TickBoxModel(){
 
 			@Override
 			public void setState(boolean newState) {
@@ -73,7 +85,27 @@ public class NPCEditorGui extends QADGuiScreen {
 			}
 			
 		});
-		addComponent(invulnerablebox.setTooltip("Is the entity invulnerable?"));
+		addComponent(invulnerablebox.setTooltip("Is the NPC invulnerable?"));
+		
+		QADTickBox moveablebox = new QADTickBox(25, this.height - 20, new TickBoxModel(){
+
+			@Override
+			public void setState(boolean newState) {
+				movable = newState;
+			}
+
+			@Override
+			public boolean getState() {
+				return movable;
+			}
+
+			@Override
+			public void toggleState() {
+				movable = !movable;
+			}
+			
+		});
+		addComponent(moveablebox.setTooltip("Can the NPC be collided with?"));
 		
 		QADTickBox shownameBox = new QADTickBox(3, 50, new TickBoxModel(){
 
@@ -133,7 +165,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		});
 		addComponent(nameField.setTooltip("The Name of the NPC"));
 		
-		QADTickBox namemsgbox = new QADTickBox(3, 75, new TickBoxModel(){
+		QADTickBox namemsgbox = new QADTickBox(3, 15, new TickBoxModel(){
 
 			@Override
 			public void setState(boolean newState) {
@@ -153,7 +185,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		});
 		addComponent(namemsgbox.setTooltip("Should the NPC's name be included in the message?"));
 		
-		QADTextField messageField = (QADTextField) QADFACTORY.createTextField(this.message, 20, 75, this.getWidth()/2 - 25).setName("message");
+		QADTextField messageField = (QADTextField) QADFACTORY.createTextField(this.message, 20, 15, this.getWidth() - 20).setName("message");
 		messageField.setModel(new TextFieldModel(){
 			
 			int color = 0xFFFFFFFF;
@@ -204,7 +236,11 @@ public class NPCEditorGui extends QADGuiScreen {
 				data.setYaw(yaw);
 				data.setEyesFollow(eyesfollow);
 				data.setSkin(skin);
-				TaleCraft.network.sendToServer(new NPCDataPacket(uuid, data.toNBT(), interactScript, updateScript));
+				data.setType(type);
+				data.setMovable(movable);
+				data.setDamage(damage);
+				data.setSpeed(speed);
+				TaleCraft.network.sendToServer(new NPCDataPacket(uuid, data.toNBT(), interactScript, updateScript, deathScript));
 				NPCEditorGui.this.mc.displayGuiScreen(null);
 			}
 
@@ -228,7 +264,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		}).setTooltip("Apply Changes").setName("save");
 		addComponent(save);
 		
-		QADTickBox eyesfollowbox = new QADTickBox(3, 100, new TickBoxModel(){
+		QADTickBox eyesfollowbox = new QADTickBox(3, this.height - 70, new TickBoxModel(){
 
 			@Override
 			public void setState(boolean newState) {
@@ -249,7 +285,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		addComponent(eyesfollowbox.setTooltip("Should the NPC's eyes follow the player?"));
 		
 		
-		QADButton skinselector = QADFACTORY.createButton("Current Skin: " + skin.name(), this.width - 300, 100, 200).setModel(new ButtonModel(){
+		QADButton skinselector = QADFACTORY.createButton("Current Skin: " + skin.name(), this.width - 231, this.height - 30, 150).setModel(new ButtonModel(){
 			@Override
 			public void onClick() {
 				displayGuiScreen(new NPCSkinSelector(NPCEditorGui.this));
@@ -276,7 +312,64 @@ public class NPCEditorGui extends QADGuiScreen {
 		});
 		addComponent(skinselector);
 		
-		QADTextField updatescriptbox = new QADTextField(fontRendererObj, this.width - 300, 3, 200, 20);
+		QADButton inventorybutton = QADFACTORY.createButton("Edit Inventory", this.width - 382 + 150 - 80, this.height - 30, 80).setModel(new ButtonModel(){
+			@Override
+			public void onClick() {
+				displayGuiScreen(new NPCInventoryEditorGui(NPCEditorGui.this));
+			}
+
+			@Override
+			public String getText() {
+				return "Edit Inventory";
+			}
+
+			@Override
+			public ResourceLocation getIcon() {
+				return null;
+			}
+
+			@Override
+			public void setText(String newText) {
+			}
+
+			@Override
+			public void setIcon(ResourceLocation newIcon) {
+			}
+			
+		});
+		addComponent(inventorybutton);
+		
+		QADButton typeselector = QADFACTORY.createButton("Type: " + type.name(), 3, this.height/2 - 50, 200).setModel(new ButtonModel(){
+			@Override
+			public void onClick() {
+				int id = type.ordinal();
+				id++;
+				if(id >= NPCType.values().length) id = 0;
+				type = NPCType.values()[id];
+			}
+
+			@Override
+			public String getText() {
+				return "Type: " + type.name();
+			}
+
+			@Override
+			public ResourceLocation getIcon() {
+				return null;
+			}
+
+			@Override
+			public void setText(String newText) {
+			}
+
+			@Override
+			public void setIcon(ResourceLocation newIcon) {
+			}
+			
+		});
+		addComponent(typeselector);
+		
+		QADTextField updatescriptbox = new QADTextField(fontRendererObj, this.width - this.width/4 - 25, this.height/2 - 30, this.width/4, 20);
 		updatescriptbox.setModel(new TextFieldModel(){
 			private int color = 0xFFFFFFFF;;
 			@Override
@@ -313,7 +406,44 @@ public class NPCEditorGui extends QADGuiScreen {
 		updatescriptbox.setTooltip("The script to be run every tick.", "Leave blank if there is not script.");
 		addComponent(updatescriptbox);
 		
-		QADTextField interactscriptbox = new QADTextField(fontRendererObj, this.width - 300, 50, 200, 20);
+		QADTextField deathscriptbox = new QADTextField(fontRendererObj, this.width - this.width/4 - 25, this.height/2 + 30, this.width/4, 20);
+		deathscriptbox.setModel(new TextFieldModel(){
+			private int color = 0xFFFFFFFF;;
+			@Override
+			public String getText() {
+				return deathScript;
+			}
+
+			@Override
+			public int getTextLength() {
+				return deathScript.length();
+			}
+
+			@Override
+			public char getCharAt(int i) {
+				return deathScript.charAt(i);
+			}
+
+			@Override
+			public void setText(String text) {
+				deathScript = text;
+			}
+
+			@Override
+			public void setTextColor(int color) {
+				this.color = color;
+			}
+
+			@Override
+			public int getTextColor() {
+				return color;
+			}
+			
+		});
+		deathscriptbox.setTooltip("The script to be run upon death.", "Leave blank if there is not script.");
+		addComponent(deathscriptbox);
+		
+		QADTextField interactscriptbox = new QADTextField(fontRendererObj, this.width - this.width/4 - 25, this.height/2, this.width/4, 20);
 		interactscriptbox.setModel(new TextFieldModel(){
 			private int color = 0xFFFFFFFF;;
 			@Override
@@ -385,10 +515,93 @@ public class NPCEditorGui extends QADGuiScreen {
 			}
 			
 		});
-		yawSlider.setPosition(250, 100);
-		yawSlider.setWidth(200);
+		yawSlider.setPosition(3, this.height - 100);
+		yawSlider.setWidth(217);
 		yawSlider.setSliderValue(yaw/360f);
 		addComponent(yawSlider);
+		
+		QADSlider damageSlider = new QADSlider(new SliderModel<Float>(){
+			float sliderValue;
+			
+			@Override
+			public void setValue(Float value) {
+				sliderValue = value;
+				damage = formattedDamage();
+			}
+
+			@Override
+			public Float getValue() {
+				return sliderValue;
+			}
+
+			@Override
+			public String getValueAsText() {
+				return "DMG: " + (int) damage;
+			}
+
+			@Override
+			public void setSliderValue(float sliderValue){
+				this.sliderValue = sliderValue;
+				damage = formattedDamage();
+			}
+
+			@Override
+			public float getSliderValue() {
+				return sliderValue;
+			}
+			
+			private float formattedDamage(){
+				return sliderValue*40f;
+			}
+			
+		});
+		damageSlider.setPosition(3, this.height/2 - 5);
+		damageSlider.setWidth(80);
+		damageSlider.setSliderValue(damage/40f);
+		addComponent(damageSlider);
+		
+		QADSlider speedSlider = new QADSlider(new SliderModel<Double>(){
+			double sliderValue;
+			
+			@Override
+			public void setValue(Double value) {
+				sliderValue = value;
+				speed = formattedSpeed();
+			}
+
+			@Override
+			public Double getValue() {
+				return sliderValue;
+			}
+
+			@Override
+			public String getValueAsText() {
+				return "Speed: " + speed;
+			}
+
+			@Override
+			public void setSliderValue(float sliderValue){
+				this.sliderValue = sliderValue;
+				speed = formattedSpeed();
+			}
+
+			@Override
+			public float getSliderValue() {
+				return (float) sliderValue;
+			}
+			
+			private double formattedSpeed(){
+				double speed = sliderValue*2f;
+				DecimalFormat df = new DecimalFormat("#.####");
+				df.setRoundingMode(RoundingMode.CEILING);
+				return new Double(df.format(speed));
+			}
+			
+		});
+		speedSlider.setPosition(90, this.height/2 - 5);
+		speedSlider.setWidth(80);
+		speedSlider.setSliderValue((float) (speed/2f));
+		addComponent(speedSlider);
 		
 		QADSlider pitchSlider = new QADSlider(new SliderModel<Float>(){
 			float sliderValue;
@@ -425,7 +638,7 @@ public class NPCEditorGui extends QADGuiScreen {
 			}
 			
 		});
-		pitchSlider.setPosition(20, 100);
+		pitchSlider.setPosition(20, this.height - 70);
 		pitchSlider.setWidth(200);
 		pitchSlider.setSliderValue((pitch + 90.0f)/180.0f);
 		addComponent(pitchSlider);

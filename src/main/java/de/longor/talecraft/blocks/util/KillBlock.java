@@ -17,6 +17,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -114,6 +115,29 @@ public class KillBlock extends TCBlock {
 				(pos.getY() + 1) - f,
 				(pos.getZ() + 1) - f
 				);
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+		int meta = stack.getMetadata();
+		String type = "";
+		switch(meta) {
+		case 1:
+			type = "NPC"; break;
+		case 2:
+			type = "Item"; break;
+		case 3:
+			type = "Living"; break;
+		case 4:
+			type = "Player"; break;
+		case 5:
+			type = "Monster"; break;
+		case 6:
+			type = "Non-Player"; break;
+		case 0: default:
+			type = "All"; break;
+		}
+		tooltip.add(type);
 	}
 
 	@Override

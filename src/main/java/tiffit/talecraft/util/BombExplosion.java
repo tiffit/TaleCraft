@@ -11,8 +11,12 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStoneBrick;
+import net.minecraft.block.BlockStoneBrick.EnumType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.pattern.BlockStateMatcher;
+import net.minecraft.client.particle.ParticleBlockDust;
+import net.minecraft.client.renderer.block.statemap.BlockStateMapper;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,6 +33,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.BlockStateLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -79,23 +84,19 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
         List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, new AxisAlignedBB((double)k1, (double)i2, (double)j2, (double)l1, (double)i1, (double)j1));
         Vec3d vec3d = new Vec3d(this.explosionX, this.explosionY, this.explosionZ);
 
-        for (int k2 = 0; k2 < list.size(); ++k2)
-        {
+        for (int k2 = 0; k2 < list.size(); ++k2){
             Entity entity = (Entity)list.get(k2);
 
-            if (!entity.isImmuneToExplosions())
-            {
+            if (!entity.isImmuneToExplosions()){
                 double d12 = entity.getDistance(this.explosionX, this.explosionY, this.explosionZ) / (double)f3;
 
-                if (d12 <= 1.0D)
-                {
+                if (d12 <= 1.0D){
                     double d5 = entity.posX - this.explosionX;
                     double d7 = entity.posY + (double)entity.getEyeHeight() - this.explosionY;
                     double d9 = entity.posZ - this.explosionZ;
                     double d13 = (double)MathHelper.sqrt_double(d5 * d5 + d7 * d7 + d9 * d9);
 
-                    if (d13 != 0.0D)
-                    {
+                    if (d13 != 0.0D){
                         d5 = d5 / d13;
                         d7 = d7 / d13;
                         d9 = d9 / d13;
@@ -104,8 +105,7 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
                         entity.attackEntityFrom(DamageSource.causeExplosionDamage(explosion), 7.5f);
                         double d11 = 1.0D;
 
-                        if (entity instanceof EntityLivingBase)
-                        {
+                        if (entity instanceof EntityLivingBase){
                             d11 = EnchantmentProtection.getBlastDamageReduction((EntityLivingBase)entity, d10);
                         }
 
@@ -113,12 +113,10 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
                         entity.motionY += d7 * d11;
                         entity.motionZ += d9 * d11;
 
-                        if (entity instanceof EntityPlayer)
-                        {
+                        if (entity instanceof EntityPlayer){
                             EntityPlayer entityplayer = (EntityPlayer)entity;
 
-                            if (!entityplayer.isSpectator() && (!entityplayer.isCreative() || !entityplayer.capabilities.isFlying))
-                            {
+                            if (!entityplayer.isSpectator() && (!entityplayer.isCreative() || !entityplayer.capabilities.isFlying)){
                                 this.playerKnockbackMap.put(entityplayer, new Vec3d(d5 * d10, d7 * d10, d9 * d10));
                             }
                         }
@@ -126,6 +124,54 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
                 }
             }
         }
+
+        List<BlockPos> origBlocks = Lists.newArrayList();
+        List<BlockPos> destroyBlocks = Lists.newArrayList();
+        for(int sx = -1; sx <= 1; sx++){
+        	for(int sy = -1; sy <= 1; sy++){
+        		for(int sz = -1; sz <= 1; sz++){
+        			BlockPos pos = new BlockPos(sx + explosionX, sy + explosionY, sz + explosionZ);
+        			IBlockState state = worldObj.getBlockState(pos);
+        			if(state != null && state.getBlock() == Blocks.STONEBRICK && state.getValue(BlockStoneBrick.VARIANT) == EnumType.CRACKED){
+        				origBlocks.add(pos);
+        			}
+        		}
+        	}
+        }
+        destroyBlocks.addAll(origBlocks);
+        int added = origBlocks.size();
+        int iterations = 0;
+        while(added > 0 && iterations < 100){
+        	iterations++;
+        	List<BlockPos> currentIteration = Lists.newArrayList();
+        	currentIteration.addAll(destroyBlocks);
+        	added = 0;
+            for(BlockPos pos : destroyBlocks){
+            	added += iterate(pos, currentIteration);
+            }
+            destroyBlocks.clear();
+            destroyBlocks.addAll(currentIteration);
+        }
+        for(BlockPos pos : destroyBlocks){
+        	worldObj.setBlockToAir(pos);
+        	ParticleBlockDust e;
+        	IBlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CRACKED);
+        }
+    }
+    
+    private int iterate(BlockPos pos, List<BlockPos> destroyBlocks){
+    	BlockPos[] sides = new BlockPos[]{pos.up(), pos.down(), pos.north(), pos.south(), pos.east(), pos.west()};
+    	int added = 0;
+    	for(BlockPos side : sides){
+    		IBlockState state = worldObj.getBlockState(side);
+			if(state != null && state.getBlock() == Blocks.STONEBRICK && state.getValue(BlockStoneBrick.VARIANT) == EnumType.CRACKED){
+				if(!destroyBlocks.contains(side)){
+					destroyBlocks.add(side);
+					added++;
+				}
+			}
+    	}
+    	return added;
     }
 
     /**

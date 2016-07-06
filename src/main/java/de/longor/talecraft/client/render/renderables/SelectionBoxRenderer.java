@@ -46,7 +46,7 @@ public class SelectionBoxRenderer implements IRenderable {
 			}
 
 			// If not null, render the cursor selections boundaries.
-			if(tcWand.hasKey("boundsA") && tcWand.hasKey("boundsB")) {
+			if(tcWand.hasKey("boundsA") && tcWand.hasKey("boundsB") && tcWand.getBoolean("enabled")) {
 				// get bounds
 				int[] a = tcWand.getIntArray("boundsA");
 				int[] b = tcWand.getIntArray("boundsB");
@@ -80,13 +80,12 @@ public class SelectionBoxRenderer implements IRenderable {
 				mc.getTextureManager().bindTexture(texture);
 
 				// Render primary (with-depth) box
+				GlStateManager.enableDepth();
 				BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, 1);
-
 				// Render secondary (no-depth) box
 				GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 				mc.getTextureManager().bindTexture(ClientResources.texColorWhite);
 				BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, -1);
-				GlStateManager.enableDepth();
 				GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
 
 				mc.getTextureManager().bindTexture(ClientResources.texColorWhite);

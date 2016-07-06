@@ -16,6 +16,14 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 	public ItemStackObjectWrapper(ItemStack stack) {
 		this.stack = stack;
 	}
+	
+	public static ItemStackObjectWrapper[] createArray(ItemStack[] stacks){
+		ItemStackObjectWrapper[] newList = new ItemStackObjectWrapper[stacks.length];
+		for(int i = 0; i < stacks.length; i++){
+			newList[i] = new ItemStackObjectWrapper(stacks[i]);
+		}
+		return newList;
+	}
 
 	@Override
 	public ItemStack internal() {

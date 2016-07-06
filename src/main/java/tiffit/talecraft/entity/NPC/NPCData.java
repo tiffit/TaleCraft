@@ -1,14 +1,21 @@
 package tiffit.talecraft.entity.NPC;
 
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import tiffit.talecraft.entity.NPC.EntityNPC.NPCType;
 import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
 
+/** The class that stores all of the data for each NPC*/
 public class NPCData {
 
-	/**Can the NPC tale damage?*/
+	/**Can the NPC take damage?*/
 	private boolean invulnerable;
 	private String name;
+	/**Passive, Neutral or Aggressive*/
+	private NPCType type;
 	private String message;
+	/**Can the NPC collide other entities?*/
 	private boolean movable;
 	private boolean namemsg;
 	private boolean showname;
@@ -16,6 +23,11 @@ public class NPCData {
 	private float yaw;
 	private boolean eyesfollow;
 	private NPCSkin skin;
+	private float attackDamage;
+	private double movementspeed;
+	
+	/**The data for the NPC's inventory*/
+	private NPCInventoryData invdata;
 	
 	public NPCData(){
 		invulnerable = true;
@@ -28,6 +40,10 @@ public class NPCData {
 		yaw = 0f;
 		eyesfollow = true;
 		skin = NPCSkin.Steve;
+		type = NPCType.Passive;
+		attackDamage = 2f;
+		movementspeed = 0.6D;
+		invdata = new NPCInventoryData();
 	}
 	
 	public boolean isInvulnerable(){
@@ -56,7 +72,7 @@ public class NPCData {
 	
 	public String getMessage(){
 		return message;
-	}
+	}	
 	
 	public void setMessage(String str){
 		message = str;
@@ -93,8 +109,7 @@ public class NPCData {
 	public void setPitch(float flt){
 		pitch = flt;
 	}
-	
-	
+
 	public float getYaw(){
 		return yaw;
 	}
@@ -103,12 +118,44 @@ public class NPCData {
 		yaw = flt;
 	}
 	
+	public float getDamage(){
+		return attackDamage;
+	}
+	
+	public void setDamage(float flt){
+		attackDamage = flt;
+	}
+	
 	public NPCSkin getSkin(){
 		return skin;
 	}
 	
 	public void setSkin(NPCSkin skn){
 		skin = skn;
+	}
+	
+	public NPCType getType(){
+		return type;
+	}
+	
+	public void setType(NPCType typ){
+		type = typ;
+	}
+	
+	public double getSpeed(){
+		return movementspeed;
+	}
+	
+	public void setSpeed(double dbl){
+		movementspeed = dbl;
+	}
+	
+	public void setItem(EntityEquipmentSlot slot, ItemStack stack){
+		invdata.setItem(slot, stack);
+	}
+	
+	public ItemStack getInvStack(EntityEquipmentSlot slot){
+		return invdata.getItem(slot);
 	}
 	
 	public NBTTagCompound toNBT(){
@@ -122,6 +169,10 @@ public class NPCData {
 		tag.setFloat("yaw", yaw);
 		tag.setBoolean("eyesfollow", eyesfollow);
 		tag.setInteger("skin_id", skin.ordinal());
+		tag.setInteger("type_id", type.ordinal());
+		tag.setFloat("attackdamage", attackDamage);
+		tag.setDouble("movementspeed", movementspeed);
+		tag.setTag("inventory", invdata.toNBT());
 		return tag;
 	}
 	
@@ -136,6 +187,10 @@ public class NPCData {
 		data.setYaw(tag.getFloat("yaw"));
 		data.setEyesFollow(tag.getBoolean("eyesfollow"));
 		data.setSkin(NPCSkin.values()[tag.getInteger("skin_id")]);
+		data.setType(NPCType.values()[tag.getInteger("type_id")]);
+		data.setDamage(tag.getFloat("attackdamage"));
+		data.setSpeed(tag.getDouble("movementspeed"));
+		data.invdata = NPCInventoryData.fromNBT(tag.getCompoundTag("inventory"));
 		return data;
 	}
 	

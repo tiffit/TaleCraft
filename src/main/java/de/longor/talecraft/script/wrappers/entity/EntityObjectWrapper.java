@@ -2,6 +2,7 @@ package de.longor.talecraft.script.wrappers.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.script.wrappers.IObjectWrapper;
@@ -123,6 +124,14 @@ public class EntityObjectWrapper implements IObjectWrapper {
 	public void mount(EntityObjectWrapper rider) {
 		entity.startRiding(rider.entity);
 	}
+	
+	public int getID(){
+		return entity.getEntityId();
+	}
+	
+	public UUID getUUID(){
+		return entity.getUniqueID();
+	}
 
 	//	public void attackEntity(DamageSource source, float damage) {
 	//
@@ -131,6 +140,10 @@ public class EntityObjectWrapper implements IObjectWrapper {
 	public void kill() {
 		// TODO: This might not work correctly... ?
 		entity.attackEntityFrom(DamageSource.generic, 1000000F);
+	}
+	
+	public EntityLivingObjectWrapper getAsLiving(){
+		return new EntityLivingObjectWrapper((EntityLiving) entity);
 	}
 
 	/**

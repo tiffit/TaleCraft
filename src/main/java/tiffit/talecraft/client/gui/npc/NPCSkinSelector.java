@@ -1,4 +1,4 @@
-package tiffit.talecraft.entity.NPC;
+package tiffit.talecraft.client.gui.npc;
 
 import de.longor.talecraft.client.gui.qad.QADButton;
 import de.longor.talecraft.client.gui.qad.QADFACTORY;
@@ -6,6 +6,8 @@ import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
 import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
 import net.minecraft.util.text.TextFormatting;
+import tiffit.talecraft.entity.NPC.NPCSkinEnum;
+import tiffit.talecraft.entity.NPC.QADSkinButton;
 import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
 import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkinType;
 

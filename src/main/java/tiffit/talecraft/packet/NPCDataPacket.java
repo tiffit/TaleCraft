@@ -23,16 +23,18 @@ public class NPCDataPacket implements IMessage {
 	NBTTagCompound data;
 	String interact;
 	String update;
+	String death;
 	UUID uuid;
 	
 
 	public NPCDataPacket() {
 	}
 
-	public NPCDataPacket(UUID uuid, NBTTagCompound tag, String interact, String update) {
+	public NPCDataPacket(UUID uuid, NBTTagCompound tag, String interact, String update, String death) {
 		data = tag;
 		this.interact = interact;
 		this.update = update;
+		this.death = death;
 		this.uuid = uuid;
 	}
 
@@ -41,6 +43,7 @@ public class NPCDataPacket implements IMessage {
 		data = ByteBufUtils.readTag(buf);
 		interact = ByteBufUtils.readUTF8String(buf);
 		update = ByteBufUtils.readUTF8String(buf);
+		death = ByteBufUtils.readUTF8String(buf);
 		uuid = UUID.fromString(ByteBufUtils.readUTF8String(buf));
 	}
 
@@ -49,6 +52,7 @@ public class NPCDataPacket implements IMessage {
 		ByteBufUtils.writeTag(buf, data);
 		ByteBufUtils.writeUTF8String(buf, interact);
 		ByteBufUtils.writeUTF8String(buf, update);
+		ByteBufUtils.writeUTF8String(buf, death);
 		ByteBufUtils.writeUTF8String(buf, uuid.toString());
 	}
 
@@ -61,6 +65,7 @@ public class NPCDataPacket implements IMessage {
 			npc.setNPCData(message.data);
 			npc.setScriptInteractName((message.interact));
 			npc.setScriptUpdateName(message.update);
+			npc.setScriptDeathName(message.death);
 			return null;
 		}
 	}

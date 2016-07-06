@@ -24,6 +24,10 @@ public class EntityLivingObjectWrapper extends EntityObjectWrapper {
 		return TaleCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
 
+	public void navigateTo(double x, double y, double z) {
+		entity.getNavigator().tryMoveToXYZ(x, y, z, 0.5D);
+	}
+	
 	public void navigateTo(double x, double y, double z, double speed) {
 		entity.getNavigator().tryMoveToXYZ(x, y, z, speed);
 	}

@@ -105,7 +105,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	}
 
 	@Override
-	public final void onGuiClosed() {
+	public void onGuiClosed() {
 		// TaleCraft.logger.info("Gui.close() -> " + this.getClass().getName());
 		Keyboard.enableRepeatEvents(false);
 
@@ -133,7 +133,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	protected final void mouseReleased(int mouseX, int mouseY, int state) {
 		try {
 			for(QADComponent component : components) {
-				component.onMouseReleased(mouseX-component.getX(), mouseY-component.getY(), state);
+				if(component != null) component.onMouseReleased(mouseX-component.getX(), mouseY-component.getY(), state);
 			}
 		} catch (ConcurrentModificationException e) {
 		}
@@ -222,6 +222,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		if(components != null){
 			try{
 				for(QADComponent component : components) {
+					if(component == null) continue;
 					if(component.isPointInside(mouseX, mouseY)) {
 						List<String> text = component.getTooltip(mouseX, mouseY);		
 						if(text != null) {

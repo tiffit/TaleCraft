@@ -426,7 +426,7 @@ public class BoxRenderer {
 		tessellator.draw();
 	}
 
-	public static final void renderSelectionBox(
+	public static final void renderSelectionBox(//Used by selection
 			Tessellator tessellator, VertexBuffer ren,
 			float minX, float minY, float minZ,
 			float maxX, float maxY, float maxZ, float a

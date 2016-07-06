@@ -71,7 +71,7 @@ public class TaleCraftItems {
 		emeraldCoin = register(new CoinItem(), "emeraldcoin");
 	}
 
-	private static <T extends Item> T register(T item, String name) {
+	public static <T extends Item> T register(T item, String name) {
 		item.setUnlocalizedName(name);
 		GameRegistry.register(item.getRegistryName() == null ? item.setRegistryName(name) : item);
 		ALL_TC_ITEMS.add(item);

@@ -1,6 +1,8 @@
+key.categories.talecraft=TaleCraft
 key.toggleBuildMode=Toggle Buildmode
 key.toggleWireframe=Toggle Rendermode
 key.mapSettings=Open Map Settings
+key.nbt=Edit Item NBT
 
 itemGroup.talecraftTab=TaleCraft [Util]
 itemGroup.talecraftDecoTab=TaleCraft [Decoration]
@@ -23,8 +25,6 @@ item.instakill.name=Instakill
 item.voxelbrush.name=Voxelator
 item.terrainbrush.name=Terrain-Brush
 item.npceditor.name=NPC Editor
-
-item.bladeSalt.name=Salt
 
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key
@@ -58,13 +58,6 @@ tile.talecraft:spikeblock.name=Spike
 tile.talecraft:lockeddoorblock.name=Locked Door
 
 tile.talecraft:killblock.name=Killblock
-tile.talecraft:killblock.all.name=Killblock (ALL)
-tile.talecraft:killblock.npc.name=Killblock (NPCs)
-tile.talecraft:killblock.items.name=Killblock (Items)
-tile.talecraft:killblock.living.name=Killblock (Living)
-tile.talecraft:killblock.player.name=Killblock (Players)
-tile.talecraft:killblock.monster.name=Killblock (Monsters)
-tile.talecraft:killblock.xor_player.name=Killblock (Not Player)
 
 tile.talecraft:blankblock.name=Blank Block
 tile.talecraft:blankblock.0.name=Blank Block A0

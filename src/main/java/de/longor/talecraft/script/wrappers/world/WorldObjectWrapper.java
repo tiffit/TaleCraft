@@ -20,6 +20,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -127,6 +128,10 @@ public class WorldObjectWrapper implements IObjectWrapper {
 		});
 
 		return EntityObjectWrapper.transform(entities);
+	}
+	
+	public EntityObjectWrapper getEntityByUUID(int id) {
+		return new EntityObjectWrapper(world.getEntityByID(id));
 	}
 	
 	public EntityObjectWrapper getEntityByName(final String name) {
