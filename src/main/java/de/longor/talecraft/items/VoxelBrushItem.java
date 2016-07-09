@@ -91,7 +91,7 @@ public class VoxelBrushItem extends TCItem {
 			if(action_id == 2){
 				IBlockState[] blockstates = new IBlockState[data.getInteger("block_size")];
 				for(int i = 0; i < blockstates.length; i++){
-					blockstates[i] = Block.getBlockById(data.getInteger("block_id_" + i)).getDefaultState();
+					blockstates[i] = Block.getStateById(data.getInteger("block_id_" + i));
 				}
 				action = new VXActionVariationsReplace(blockstates);
 			}

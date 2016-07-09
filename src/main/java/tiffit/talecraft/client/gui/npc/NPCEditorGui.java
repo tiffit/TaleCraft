@@ -18,8 +18,9 @@ import de.longor.talecraft.client.gui.qad.QADTickBox;
 import de.longor.talecraft.client.gui.qad.QADTickBox.TickBoxModel;
 import net.minecraft.util.ResourceLocation;
 import tiffit.talecraft.entity.NPC.EntityNPC.NPCType;
+import tiffit.talecraft.entity.NPC.EnumNPCModel;
+import tiffit.talecraft.entity.NPC.EnumNPCSkin;
 import tiffit.talecraft.entity.NPC.NPCData;
-import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
 import tiffit.talecraft.packet.NPCDataPacket;
 
 public class NPCEditorGui extends QADGuiScreen {
@@ -37,8 +38,9 @@ public class NPCEditorGui extends QADGuiScreen {
 	double speed;
 	boolean eyesfollow;
 	UUID uuid;
-	NPCSkin skin;
+	EnumNPCSkin skin;
 	NPCType type;
+	EnumNPCModel model;
 	String interactScript;
 	String updateScript;
 	String deathScript;
@@ -56,6 +58,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		this.eyesfollow = data.doEyesFollow();
 		this.uuid = uuid;
 		this.skin = data.getSkin();
+		this.model = data.getModel();
 		this.interactScript = interactScript;
 		this.updateScript = updateScript;
 		this.deathScript = deathScript;
@@ -240,6 +243,7 @@ public class NPCEditorGui extends QADGuiScreen {
 				data.setMovable(movable);
 				data.setDamage(damage);
 				data.setSpeed(speed);
+				data.setModel(model);
 				TaleCraft.network.sendToServer(new NPCDataPacket(uuid, data.toNBT(), interactScript, updateScript, deathScript));
 				NPCEditorGui.this.mc.displayGuiScreen(null);
 			}
@@ -285,7 +289,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		addComponent(eyesfollowbox.setTooltip("Should the NPC's eyes follow the player?"));
 		
 		
-		QADButton skinselector = QADFACTORY.createButton("Current Skin: " + skin.name(), this.width - 231, this.height - 30, 150).setModel(new ButtonModel(){
+		QADButton skinselector = QADFACTORY.createButton("Skin Selector", this.width - 231 - 50, this.height - 30, 200).setModel(new ButtonModel(){
 			@Override
 			public void onClick() {
 				displayGuiScreen(new NPCSkinSelector(NPCEditorGui.this));
@@ -293,7 +297,8 @@ public class NPCEditorGui extends QADGuiScreen {
 
 			@Override
 			public String getText() {
-				return "Selected Skin: " + skin.name();
+				if(skin == null) return "Selected Skin:";
+				return "Selected Skin: " + skin.toString();
 			}
 
 			@Override
@@ -312,7 +317,35 @@ public class NPCEditorGui extends QADGuiScreen {
 		});
 		addComponent(skinselector);
 		
-		QADButton inventorybutton = QADFACTORY.createButton("Edit Inventory", this.width - 382 + 150 - 80, this.height - 30, 80).setModel(new ButtonModel(){
+		QADButton modelselector = QADFACTORY.createButton("Model Selector", this.width - 155, this.height - 58, 150).setModel(new ButtonModel(){
+			@Override
+			public void onClick() {
+				model = model.rotate();
+				skin = model.getDefaultSkin();
+			}
+
+			@Override
+			public String getText() {
+				return "Selected Model: " + model.toString();
+			}
+
+			@Override
+			public ResourceLocation getIcon() {
+				return null;
+			}
+
+			@Override
+			public void setText(String newText) {
+			}
+
+			@Override
+			public void setIcon(ResourceLocation newIcon) {
+			}
+			
+		});
+		addComponent(modelselector);
+		
+		QADButton inventorybutton = QADFACTORY.createButton("Edit Inventory", this.width - 382, this.height - 30, 80).setModel(new ButtonModel(){
 			@Override
 			public void onClick() {
 				displayGuiScreen(new NPCInventoryEditorGui(NPCEditorGui.this));

@@ -4,7 +4,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import tiffit.talecraft.entity.NPC.EntityNPC.NPCType;
-import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
 
 /** The class that stores all of the data for each NPC*/
 public class NPCData {
@@ -22,7 +21,8 @@ public class NPCData {
 	private float pitch;
 	private float yaw;
 	private boolean eyesfollow;
-	private NPCSkin skin;
+	private EnumNPCSkin skin;
+	private EnumNPCModel model;
 	private float attackDamage;
 	private double movementspeed;
 	
@@ -39,8 +39,9 @@ public class NPCData {
 		pitch = 0f;
 		yaw = 0f;
 		eyesfollow = true;
-		skin = NPCSkin.Steve;
+		skin = EnumNPCSkin.Steve;
 		type = NPCType.Passive;
+		model = EnumNPCModel.Player;
 		attackDamage = 2f;
 		movementspeed = 0.6D;
 		invdata = new NPCInventoryData();
@@ -126,12 +127,20 @@ public class NPCData {
 		attackDamage = flt;
 	}
 	
-	public NPCSkin getSkin(){
+	public EnumNPCSkin getSkin(){
 		return skin;
 	}
 	
-	public void setSkin(NPCSkin skn){
+	public void setSkin(EnumNPCSkin skn){
 		skin = skn;
+	}
+	
+	public EnumNPCModel getModel(){
+		return model;
+	}
+	
+	public void setModel(EnumNPCModel mdl){
+		model = mdl;
 	}
 	
 	public NPCType getType(){
@@ -168,7 +177,8 @@ public class NPCData {
 		tag.setFloat("pitch", pitch);
 		tag.setFloat("yaw", yaw);
 		tag.setBoolean("eyesfollow", eyesfollow);
-		tag.setInteger("skin_id", skin.ordinal());
+		tag.setInteger("skin_id", skin.ordinal()); 
+		tag.setInteger("model_id", model.ordinal()); 
 		tag.setInteger("type_id", type.ordinal());
 		tag.setFloat("attackdamage", attackDamage);
 		tag.setDouble("movementspeed", movementspeed);
@@ -186,7 +196,8 @@ public class NPCData {
 		data.setPitch(tag.getFloat("pitch"));
 		data.setYaw(tag.getFloat("yaw"));
 		data.setEyesFollow(tag.getBoolean("eyesfollow"));
-		data.setSkin(NPCSkin.values()[tag.getInteger("skin_id")]);
+		data.setSkin(EnumNPCSkin.values()[tag.getInteger("skin_id")]);
+		data.setModel(EnumNPCModel.values()[tag.getInteger("model_id")]);
 		data.setType(NPCType.values()[tag.getInteger("type_id")]);
 		data.setDamage(tag.getFloat("attackdamage"));
 		data.setSpeed(tag.getDouble("movementspeed"));

@@ -39,7 +39,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import tiffit.talecraft.packet.NPCScriptUpdatePacket;
+import tiffit.talecraft.packet.NPCDataUpdatePacket;
+import tiffit.talecraft.packet.NPCOpenPacket;
 
 public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnData, IInvokeSource{
 
@@ -136,13 +137,14 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	}
 	
 	public void setNPCData(NBTTagCompound tag){
-		if(worldObj.isRemote) return;
 		data = NPCData.fromNBT(tag);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(data.getSpeed());
+		if(worldObj.isRemote) return;
 		for(Entity ent : this.worldObj.getEntities(EntityPlayerMP.class, Predicates.notNull())){
 			EntityPlayerMP player = (EntityPlayerMP) ent;
 			player.connection.sendPacket(new S16PacketEntityLook(this.getEntityId(), (byte) this.rotationYaw, (byte) this.rotationPitch, this.onGround));
 		}
+		TaleCraft.network.sendToDimension(new NPCDataUpdatePacket(getEntityId(), tag), worldObj.provider.getDimension());
 	}
 
 	@Override
@@ -184,7 +186,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	
 	private void handleEditorInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
 		if(server){
-			TaleCraft.network.sendTo(new NPCScriptUpdatePacket(this.getEntityId(), interactInvoke, updateInvoke, deathInvoke), (EntityPlayerMP) player);
+			TaleCraft.network.sendTo(new NPCOpenPacket(this.getEntityId(), interactInvoke, updateInvoke, deathInvoke), (EntityPlayerMP) player);
 		}
 	}
 	

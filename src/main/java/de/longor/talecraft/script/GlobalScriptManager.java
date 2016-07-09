@@ -2,8 +2,6 @@ package de.longor.talecraft.script;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -14,8 +12,6 @@ import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-
-import com.google.common.collect.Lists;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.proxy.CommonProxy;
@@ -117,16 +113,18 @@ public class GlobalScriptManager {
 	
 	public Scriptable createNewNPCScope(EntityNPC entity) {
 		Context cx = Context.enter();
-		Scriptable newScope = cx.newObject(globalScope);
-		newScope.setPrototype(globalScope);
-		newScope.setParentScope(null);
-
-		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
-		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
-		ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));
-		Context.exit();
-
-		return newScope;
+		try{
+			Scriptable newScope = cx.newObject(globalScope);
+			newScope.setPrototype(globalScope);
+			newScope.setParentScope(null);
+			
+			ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(entity.getPosition()), newScope));
+			ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(entity.getEntityWorld()), newScope));
+			ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));
+			return newScope;
+		}finally{
+			Context.exit();
+		}
 	}
 
 	public Scriptable createNewWorldScope(World world) {

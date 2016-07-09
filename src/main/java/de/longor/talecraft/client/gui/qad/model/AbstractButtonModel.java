@@ -1,6 +1,7 @@
 package de.longor.talecraft.client.gui.qad.model;
 
 import de.longor.talecraft.client.gui.qad.QADButton.ButtonModel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class AbstractButtonModel implements ButtonModel {

@@ -2,7 +2,6 @@ package de.longor.talecraft.client.gui.qad;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,11 +24,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	public static final VCUIRenderer instance = new VCUIRenderer();
 	private ArrayList<QADComponent> components;
+	private ArrayList<QADComponent> lastUpdateComponents;
 	private QADLayoutManager layout;
 	private GuiScreen behindScreen;
 	private boolean shouldPauseGame;
 	private boolean shouldRelayout;
 	private boolean shouldDebugRender;
+	private boolean initializing;
 	protected GuiScreen returnScreen;
 
 	public QADGuiScreen() {
@@ -40,6 +41,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		layout = null;
 		components = null;
 		behindScreen = null;
+		lastUpdateComponents = new ArrayList<QADComponent>();
 	}
 
 	public void buildGui() {
@@ -73,6 +75,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 
 	@Override
 	public final void initGui() {
+		initializing = true;
 		// TaleCraft.logger.info("Gui.init() -> " + this.getClass().getName());
 		Keyboard.enableRepeatEvents(true);
 
@@ -94,6 +97,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		}
 
 		onLayout();
+		initializing = false;
 	}
 	
 	private final void onLayout() {
@@ -121,27 +125,21 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 
 	@Override
 	protected final void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-		try {
-			for(QADComponent component : components) {
-				component.onMouseClicked(mouseX-component.getX(), mouseY-component.getY(), mouseButton);
-			}
-		} catch (ConcurrentModificationException e) {
+		for(QADComponent component : lastUpdateComponents) {
+			component.onMouseClicked(mouseX-component.getX(), mouseY-component.getY(), mouseButton);
 		}
 	}
 
 	@Override
 	protected final void mouseReleased(int mouseX, int mouseY, int state) {
-		try {
-			for(QADComponent component : components) {
-				if(component != null) component.onMouseReleased(mouseX-component.getX(), mouseY-component.getY(), state);
-			}
-		} catch (ConcurrentModificationException e) {
+		for(QADComponent component : lastUpdateComponents) {
+			if(component != null) component.onMouseReleased(mouseX-component.getX(), mouseY-component.getY(), state);
 		}
 	}
 
 	@Override
 	protected final void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-		for(QADComponent component : components) {
+		for(QADComponent component : lastUpdateComponents) {
 			component.onMouseClickMove(mouseX-component.getX(), mouseY-component.getY(), clickedMouseButton, timeSinceLastClick);
 		}
 	}
@@ -166,14 +164,15 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 			return;
 		}
 
-		for(QADComponent component : components) {
+		for(QADComponent component : lastUpdateComponents) {
 			component.onKeyTyped(typedChar, typedCode);
 		}
 	}
 
 	@Override
 	public final void updateScreen() {
-		if(components == null) {
+		if(initializing) return;
+		if(lastUpdateComponents == null) {
 			initGui();
 			return;
 		}
@@ -185,13 +184,14 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 
 		this.updateGui();
 
-		for(QADComponent component : components) {
-			component.onTickUpdate();
+		for(QADComponent component : lastUpdateComponents) {
+			if(component != null) component.onTickUpdate();
 		}
 	}
 
 	@Override
 	public final void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		if(initializing) return;
 		// If there is a 'behind' screen, draw it first so it appears in the background.
 		if(behindScreen != null) {
 			behindScreen.drawScreen(-9999, -9999, partialTicks);
@@ -200,46 +200,38 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		// ...
 		if(this.fontRendererObj != null) instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
 		instance.drawDefaultBackground();
-
+		if(components == null) lastUpdateComponents = new ArrayList<QADComponent>();
+		else lastUpdateComponents = new ArrayList<QADComponent>(components);
 		// Draw all components
-		if(components != null){
-			try{
-				for(QADComponent component : components) {
-					if(component != null) component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
-				}
-			}catch(ConcurrentModificationException e){
-				//Do nothing, this happens alot
-			}	
+		if(lastUpdateComponents != null){
+			for(QADComponent component : lastUpdateComponents) {
+				if(component != null) component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
+			}
 		}
 
 		if(shouldDebugRender) {
-			QADGuiScreenDebugRenderer.debugRender(this, components, instance, mouseX, mouseY, partialTicks);
+			QADGuiScreenDebugRenderer.debugRender(this, lastUpdateComponents, instance, mouseX, mouseY, partialTicks);
 		}
 
 		drawCustom(mouseX, mouseY, partialTicks, instance);
 
 		// Check for tooltips, and draw them if necessary.
-		if(components != null){
-			try{
-				for(QADComponent component : components) {
-					if(component == null) continue;
-					if(component.isPointInside(mouseX, mouseY)) {
-						List<String> text = component.getTooltip(mouseX, mouseY);		
-						if(text != null) {
-							int yPos = mouseY;
-							if(text.get(0).equalsIgnoreCase("ylock")) {
-								int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
-								yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
-								text = text.subList(1, text.size()-1);
-							}
-							this.drawHoveringText(text, mouseX, yPos);
-							break;
+		if(lastUpdateComponents != null){
+			for(QADComponent component : lastUpdateComponents) {
+				if(component == null) continue;
+				if(component.isPointInside(mouseX, mouseY)) {
+					List<String> text = component.getTooltip(mouseX, mouseY);		
+					if(text != null) {
+						int yPos = mouseY;
+						if(text.get(0).equalsIgnoreCase("ylock")) {
+							int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
+							yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
+							text = text.subList(1, text.size()-1);
 						}
+						this.drawHoveringText(text, mouseX, yPos);
+						break;
 					}
 				}
-			}catch(ConcurrentModificationException e){
-				// Do nothing, this happens alot.
-				// XXX: This is not supposed to happen; Investigate if possible.
 			}
 		}
 
@@ -365,7 +357,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 
 	@Override
 	public QADComponent getComponentByName(String name) {
-		for(QADComponent component : components) {
+		for(QADComponent component : lastUpdateComponents) {
 			if(name.equals(component.getName()))
 				return component;
 		}

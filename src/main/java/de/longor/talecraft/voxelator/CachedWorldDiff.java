@@ -54,11 +54,6 @@ public class CachedWorldDiff implements IBlockAccess {
 	}
 
 	@Override
-	public boolean extendedLevelsInChunkCache() {
-		return world.extendedLevelsInChunkCache();
-	}
-
-	@Override
 	public int getStrongPower(BlockPos pos, EnumFacing direction) {
 		return world.getStrongPower(pos, direction);
 	}

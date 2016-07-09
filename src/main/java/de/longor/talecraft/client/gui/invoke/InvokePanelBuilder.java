@@ -14,6 +14,7 @@ import de.longor.talecraft.invoke.NullInvoke;
 import de.longor.talecraft.items.WandItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -209,7 +210,7 @@ public class InvokePanelBuilder {
 			@Override public void setText(String newText) {
 				// IGNORE
 			}
-
+			
 			@Override public void setIcon(ResourceLocation newIcon) {
 				// IGNORE
 			}

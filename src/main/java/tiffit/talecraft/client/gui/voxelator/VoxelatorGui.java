@@ -19,8 +19,13 @@ import de.longor.talecraft.client.gui.qad.model.DefaultTickBoxModel;
 import de.longor.talecraft.voxelator.VXAction.VXActions;
 import de.longor.talecraft.voxelator.VXShape.VXShapes;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockStateBase;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import tiffit.talecraft.packet.VoxelatorPacket;
@@ -35,7 +40,7 @@ public class VoxelatorGui extends QADGuiScreen {
 	float height = 0.3f;
 	float length = 0.3f;
 	boolean hollow = false;
-	ArrayList<Block> blocks;
+	ArrayList<IBlockState> blocks;
 	ArrayList<QADComponent> params;
 	
 	public VoxelatorGui(NBTTagCompound compound){
@@ -53,7 +58,7 @@ public class VoxelatorGui extends QADGuiScreen {
 			hollow = tag.getBoolean("hollow");
 			int block_size = tag.getInteger("block_size");
 			for(int i = 0; i < block_size; i++){
-				blocks.add(Block.getBlockById(tag.getInteger("block_id_" + i)));
+				blocks.add(Block.getStateById(tag.getInteger("block_id_" + i)));
 			}
 		}
 	}
@@ -71,7 +76,7 @@ public class VoxelatorGui extends QADGuiScreen {
 			public String getText() {
 				return custom == null ? "Action: " + VXActions.get(currentAction).toString() : custom;
 			}
-
+			
 			@Override
 			public ResourceLocation getIcon() {
 				return null;
@@ -104,7 +109,6 @@ public class VoxelatorGui extends QADGuiScreen {
 			public ResourceLocation getIcon() {
 				return null;
 			}
-
 			@Override
 			public void setText(String newText) {
 				custom = newText;
@@ -130,7 +134,7 @@ public class VoxelatorGui extends QADGuiScreen {
 				tag.setInteger("block_size", blocks.size());
 				tag.setBoolean("hollow", hollow);
 				for(int i = 0; i < blocks.size(); i++){
-					tag.setInteger("block_id_" + i, Block.getIdFromBlock(blocks.get(i)));
+					tag.setInteger("block_id_" + i, Block.getStateId(blocks.get(i)));
 				}
 				EntityPlayer p = Minecraft.getMinecraft().thePlayer;
 				TaleCraft.network.sendToServer(new VoxelatorPacket(p.getUniqueID(), tag));
@@ -187,6 +191,12 @@ public class VoxelatorGui extends QADGuiScreen {
 		if(currentShape >= VXShapes.values().length) currentShape = 0;
 	}
 	
+	private String getNameFromState(IBlockState state){
+		Block block = state.getBlock();
+		ItemStack stack = new ItemStack(block, 1, block.getMetaFromState(state));
+		return Item.getItemFromBlock(block).getItemStackDisplayName(stack);
+	}
+	
 	public void updateGui() {
 		removeAll(params);
 		if(currentAction == VXActions.Replace.getID()){
@@ -203,7 +213,7 @@ public class VoxelatorGui extends QADGuiScreen {
 
 				@Override
 				public String getText() {
-					return blocks.size() > 0 ? blocks.get(0).getLocalizedName() : "Set Replace Block";
+					return blocks.size() > 0 ? getNameFromState(blocks.get(0)) : "Set Replace Block";
 				}
 
 				@Override
@@ -233,7 +243,7 @@ public class VoxelatorGui extends QADGuiScreen {
 
 					@Override
 					public String getText() {
-						return blocks.get(index).getLocalizedName();
+						return getNameFromState(blocks.get(index));
 					}
 
 					@Override
@@ -244,7 +254,7 @@ public class VoxelatorGui extends QADGuiScreen {
 					@Override
 					public void setText(String newText) {
 					}
-
+					
 					@Override
 					public void setIcon(ResourceLocation newIcon) {
 					}
@@ -267,6 +277,8 @@ public class VoxelatorGui extends QADGuiScreen {
 				public ResourceLocation getIcon() {
 					return null;
 				}
+				
+				
 
 				@Override
 				public void setText(String newText) {

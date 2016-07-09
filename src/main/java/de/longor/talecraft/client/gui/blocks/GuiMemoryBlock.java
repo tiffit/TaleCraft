@@ -10,6 +10,7 @@ import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADLabel;
 import de.longor.talecraft.client.gui.qad.model.AbstractButtonModel;
 import de.longor.talecraft.network.StringNBTCommandPacket;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 
@@ -35,6 +36,8 @@ public class GuiMemoryBlock extends QADGuiScreen {
 				TaleCraft.network.sendToServer(new StringNBTCommandPacket(commandString, commandData));
 				GuiMemoryBlock.this.mc.displayGuiScreen(null);
 			}
+
+
 		}));
 		addComponent(new QADLabel("Triggered: " + tileEntity.getIsTriggered(), 2+60+2, 16+2+20+2+6));
 

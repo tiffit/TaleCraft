@@ -31,10 +31,10 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import tiffit.talecraft.client.entity.RenderNPC;
 import tiffit.talecraft.client.render.metaworld.PasteItemRender;
 import tiffit.talecraft.entity.NPC.EntityNPC;
 import tiffit.talecraft.entity.throwable.EntityBomb;
-import tiffit.talecraft.entityrender.RenderNPC;
 
 public class ClientProxy extends CommonProxy {
 	// All the singletons!

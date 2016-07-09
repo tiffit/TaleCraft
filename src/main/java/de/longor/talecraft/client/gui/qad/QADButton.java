@@ -5,7 +5,9 @@ import java.util.List;
 import de.longor.talecraft.client.gui.qad.model.DefaultButtonModel;
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
 import de.longor.talecraft.client.render.renderers.EXTFontRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 
 public class QADButton extends QADRectangularComponent {
@@ -35,15 +37,15 @@ public class QADButton extends QADRectangularComponent {
 	public static final ResourceLocation ICON_EDITOR_BIN = new ResourceLocation("talecraft:textures/gui/file/editors/bin.png");
 	public static final ResourceLocation ICON_EDITOR_NIL = new ResourceLocation("talecraft:textures/gui/file/editors/none.png");
 
-	Runnable clickRunnable = null;
-	ButtonModel model;
-	int x;
-	int y;
-	int width;
-	int height;
-	boolean enabled = true;
+	protected Runnable clickRunnable = null;
+	protected ButtonModel model;
+	protected int x;
+	protected int y;
+	protected int width;
+	protected int height;
+	protected boolean enabled = true;
 	protected boolean hovered = false;
-	boolean focused = false;
+	protected boolean focused = false;
 
 	// STYLE OPTIONS
 	/** 0 = Left, 1 = Center, 2 = Right **/

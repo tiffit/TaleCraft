@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.BlockPumpkin;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.EntityEquipmentSlot.Type;
 import net.minecraft.item.Item;
@@ -81,10 +82,10 @@ public class NPCInventoryData {
 	
 	
 	
-	public static List<Item> getAcceptableItems(EntityEquipmentSlot slot){
-		List<Item> items = Lists.newArrayList();
+	public static List<ItemStack> getAcceptableItems(EntityEquipmentSlot slot){
+		List<ItemStack> items = Lists.newArrayList();
 		for(Item item : Item.REGISTRY){
-			if(isAcceptable(slot, item)) items.add(item);
+			if(isAcceptable(slot, item)) items.add(new ItemStack(item));
 		}
 		return items;
 	}

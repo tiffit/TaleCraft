@@ -1,21 +1,23 @@
 package tiffit.talecraft.client.gui.npc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import de.longor.talecraft.client.gui.qad.QADButton;
+import de.longor.talecraft.client.gui.qad.QADButton.ButtonModel;
 import de.longor.talecraft.client.gui.qad.QADFACTORY;
 import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
-import de.longor.talecraft.client.gui.qad.QADButton.ButtonModel;
+import de.longor.talecraft.client.gui.qad.QADTextField;
 import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
-import tiffit.talecraft.entity.NPC.QADSkinButton;
+import tiffit.talecraft.client.gui.qad.QADItemButton;
 import tiffit.talecraft.entity.NPC.NPCInventoryData;
-import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
-import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkinType;
 
 public class NPCInventoryEditorGui extends QADGuiScreen {
 	private NPCEditorGui npcGui;
@@ -64,16 +66,70 @@ public class NPCInventoryEditorGui extends QADGuiScreen {
 	
 	private class ChooseInvItemGui extends QADGuiScreen {
 		private QADScrollPanel panel;
+		private QADTextField searchField;
+		private String lastSearch;
 		private EntityEquipmentSlot slot;
+		private final List<ItemStack> acceptableItems;
 		
 		public ChooseInvItemGui(EntityEquipmentSlot slot) {
 			this.setBehind(npcGui);
 			this.slot = slot;
 			this.returnScreen = NPCInventoryEditorGui.this;
+			acceptableItems = NPCInventoryData.getAcceptableItems(slot);
 		}
 
 		@Override
 		public void buildGui() {
+			rebuild(getForSearch(""));
+			searchField = new QADTextField(this.width - 150, 20, 125, 20);
+			searchField.setText("");
+			lastSearch = "";
+			addComponent(searchField.setTooltip("Search"));
+		}
+		
+		@Override
+		public void updateGui() {
+			super.updateGui();
+			if(!lastSearch.equals(searchField.getText())){
+				lastSearch = searchField.getText();
+				updateComponents();
+			}
+		}
+		
+		public void onGuiClosed() {}
+
+		@Override
+		public void layoutGui() {
+			panel.setSize(this.width, this.height);
+		}
+		
+		private List<ItemStack> getForSearch(String search){
+			List<ItemStack> searchedItems = new ArrayList<ItemStack>();
+			for(ItemStack item : acceptableItems){
+				List<ItemStack> subitems = new ArrayList<ItemStack>();
+				item.getItem().getSubItems(item.getItem(), CreativeTabs.INVENTORY, subitems);
+				for(final ItemStack stack : subitems){
+					if(item.getItem().getItemStackDisplayName(stack).toLowerCase().contains(search.toLowerCase())){
+						searchedItems.add(stack);
+					}
+				}
+			}
+			return searchedItems;
+		}
+		
+		private void updateComponents(){
+			String search = searchField.getText();
+			rebuild(getForSearch(search));
+			searchField = new QADTextField(this.width - 150, 20, 125, 20);
+			searchField.setText(lastSearch);
+			searchField.setFocused(true);
+			addComponent(searchField.setTooltip("Search"));
+			layoutGui();
+			relayout();
+		}
+		
+		private void rebuild(List<ItemStack> items){
+			removeAllComponents();
 			panel = new QADScrollPanel();
 			panel.setPosition(0, 0);
 			panel.setSize(200, 200);
@@ -86,10 +142,10 @@ public class NPCInventoryEditorGui extends QADGuiScreen {
 					displayGuiScreen(returnScreen);
 				}
 			});
+			clear.setHeight(18);
 			panel.addComponent(clear);
-			for(final Item item : NPCInventoryData.getAcceptableItems(slot)) {
-				final ItemStack stack = new ItemStack(item);
-				QADButton component = new QADButton(item.getItemStackDisplayName(stack));
+			for(final ItemStack stack : items){
+				QADButton component = new QADItemButton(stack.getItem().getItemStackDisplayName(stack), stack);
 				component.simplified = true;
 				component.textAlignment = 0;
 				component.setAction( new Runnable() {
@@ -98,17 +154,11 @@ public class NPCInventoryEditorGui extends QADGuiScreen {
 						displayGuiScreen(returnScreen);
 					}
 				});
+				component.setHeight(0);
 				panel.addComponent(component);
-			}
-			panel.setLayout(new QADListLayout());
+				}
+			panel.setLayout(new QADListLayout(.5D, 18));
 			addComponent(panel);
-		}
-		
-		public void onGuiClosed() {}
-
-		@Override
-		public void layoutGui() {
-			panel.setSize(this.width, this.height);
 		}
 	}
 }

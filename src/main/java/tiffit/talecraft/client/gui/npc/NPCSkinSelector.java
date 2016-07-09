@@ -1,20 +1,17 @@
 package tiffit.talecraft.client.gui.npc;
 
 import de.longor.talecraft.client.gui.qad.QADButton;
-import de.longor.talecraft.client.gui.qad.QADFACTORY;
 import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
 import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
 import net.minecraft.util.text.TextFormatting;
-import tiffit.talecraft.entity.NPC.NPCSkinEnum;
-import tiffit.talecraft.entity.NPC.QADSkinButton;
-import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkin;
-import tiffit.talecraft.entity.NPC.NPCSkinEnum.NPCSkinType;
+import tiffit.talecraft.entity.NPC.EnumNPCModel;
+import tiffit.talecraft.entity.NPC.EnumNPCSkin;
 
 public class NPCSkinSelector extends QADGuiScreen {
 	private QADScrollPanel panel;
 	private NPCEditorGui npcGui;
-	private NPCSkinType skinType;
+	private EnumNPCModel model;
 	
 	public NPCSkinSelector(NPCEditorGui npcGui) {
 		this.setBehind(npcGui);
@@ -28,28 +25,39 @@ public class NPCSkinSelector extends QADGuiScreen {
 		panel.setPosition(0, 0);
 		panel.setSize(200, 200);
 
-		NPCSkinType[] skins = NPCSkinType.values();
-		for(final NPCSkinType skin : skins) {
-			QADButton component = new QADButton(skin.name());
+		EnumNPCModel[] models = EnumNPCModel.values();
+		for(final EnumNPCModel model : models) {
+			QADButton component = new QADButton(model.name());
 			component.simplified = true;
 			component.textAlignment = 0;
 			component.setAction( new Runnable() {
 				@Override public void run() {
-					skinType = skin;
+					NPCSkinSelector.this.model = model;
 					panel.removeAllComponents();
 					loadSkins();
 				}
 			});
 			panel.addComponent(component);
 		}
-		panel.setLayout(new QADListLayout(0.25, 20));
+		QADButton component = new QADButton("Other");
+		component.simplified = true;
+		component.textAlignment = 0;
+		component.setAction( new Runnable() {
+			@Override public void run() {
+				NPCSkinSelector.this.model = null;
+				panel.removeAllComponents();
+				loadSkins();
+			}
+		});
+		panel.addComponent(component);
+		panel.setLayout(new QADListLayout(0.28, 20));
 		addComponent(panel);
 	}
 	
 	private void loadSkins(){
-		NPCSkin[] skins = NPCSkin.getSkinsWithType(skinType);
-		for(final NPCSkin skin : skins) {
-			QADButton component = new QADSkinButton(skin.name(), skin);
+		EnumNPCSkin[] skins = EnumNPCSkin.getSkinsWithModel(model);
+		for(final EnumNPCSkin skin : skins) {
+			QADButton component = new QADSkinButton(skin.toString(), skin);
 			component.simplified = true;
 			component.textAlignment = 0;
 			component.getModel().setIcon(skin.getResourceLocation());
@@ -62,7 +70,7 @@ public class NPCSkinSelector extends QADGuiScreen {
 			if(skin.hasAuthor()) component.setTooltip(TextFormatting.WHITE + "Author:", TextFormatting.GRAY + skin.getAuthor());
 			panel.addComponent(component);
 		}
-		panel.setLayout(new QADListLayout(0.25, 20));
+		panel.setLayout(new QADListLayout(0.4, 20));
 		addComponent(panel);
 	}
 
