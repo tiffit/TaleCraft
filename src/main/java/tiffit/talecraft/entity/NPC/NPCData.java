@@ -1,9 +1,13 @@
 package tiffit.talecraft.entity.NPC;
 
+import java.util.List;
+
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import tiffit.talecraft.entity.NPC.EntityNPC.NPCType;
+import tiffit.talecraft.entity.NPC.NPCInventoryData.NPCDrop;
 
 /** The class that stores all of the data for each NPC*/
 public class NPCData {
@@ -18,6 +22,7 @@ public class NPCData {
 	private boolean movable;
 	private boolean namemsg;
 	private boolean showname;
+	private boolean boss;
 	private float pitch;
 	private float yaw;
 	private boolean eyesfollow;
@@ -25,17 +30,22 @@ public class NPCData {
 	private EnumNPCModel model;
 	private float attackDamage;
 	private double movementspeed;
+	private float health;
 	
 	/**The data for the NPC's inventory*/
 	private NPCInventoryData invdata;
 	
-	public NPCData(){
+	private EntityNPC npc;
+	
+	public NPCData(EntityNPC npc){
+		this.npc = npc;
 		invulnerable = true;
 		name = "New NPC";
 		message = "Hello %player%!";
 		movable = false;
 		namemsg = true;
 		showname = true;
+		boss = false;
 		pitch = 0f;
 		yaw = 0f;
 		eyesfollow = true;
@@ -43,6 +53,7 @@ public class NPCData {
 		type = NPCType.Passive;
 		model = EnumNPCModel.Player;
 		attackDamage = 2f;
+		health = 10f;
 		movementspeed = 0.6D;
 		invdata = new NPCInventoryData();
 	}
@@ -87,6 +98,14 @@ public class NPCData {
 		movable = bool;
 	}
 	
+	public boolean isBoss(){
+		return boss;
+	}
+	
+	public void setBoss(boolean bool){
+		boss = bool;
+	}
+	
 	public boolean shouldShowName(){
 		return showname;
 	}
@@ -127,6 +146,15 @@ public class NPCData {
 		attackDamage = flt;
 	}
 	
+	public float getHealth(){
+		return health;
+	}
+	
+	public void setHealth(float flt){
+		health = flt;
+		npc.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getHealth());
+	}
+	
 	public EnumNPCSkin getSkin(){
 		return skin;
 	}
@@ -157,6 +185,7 @@ public class NPCData {
 	
 	public void setSpeed(double dbl){
 		movementspeed = dbl;
+		npc.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(getSpeed());
 	}
 	
 	public void setItem(EntityEquipmentSlot slot, ItemStack stack){
@@ -165,6 +194,14 @@ public class NPCData {
 	
 	public ItemStack getInvStack(EntityEquipmentSlot slot){
 		return invdata.getItem(slot);
+	}
+	
+	public List<NPCDrop> getDrops(){
+		return invdata.getDrops();
+	}
+	
+	public void setDrops(List<NPCDrop> drops){
+		invdata.setDrops(drops);
 	}
 	
 	public NBTTagCompound toNBT(){
@@ -181,13 +218,15 @@ public class NPCData {
 		tag.setInteger("model_id", model.ordinal()); 
 		tag.setInteger("type_id", type.ordinal());
 		tag.setFloat("attackdamage", attackDamage);
+		tag.setBoolean("boss", boss);
 		tag.setDouble("movementspeed", movementspeed);
 		tag.setTag("inventory", invdata.toNBT());
+		tag.setFloat("health", health);
 		return tag;
 	}
 	
-	public static NPCData fromNBT(NBTTagCompound tag){
-		NPCData data = new NPCData();
+	public static NPCData fromNBT(EntityNPC npc, NBTTagCompound tag){
+		NPCData data = new NPCData(npc);
 		data.setInvulnerable(tag.getBoolean("invulnerable"));
 		data.setName(tag.getString("name"));
 		data.setMessage(tag.getString("message"));
@@ -201,6 +240,9 @@ public class NPCData {
 		data.setType(NPCType.values()[tag.getInteger("type_id")]);
 		data.setDamage(tag.getFloat("attackdamage"));
 		data.setSpeed(tag.getDouble("movementspeed"));
+		data.setBoss(tag.getBoolean("boss"));
+		if(!tag.hasKey("health")) tag.setFloat("health", 10);//For backwards compatibility
+		data.setHealth(tag.getFloat("health"));
 		data.invdata = NPCInventoryData.fromNBT(tag.getCompoundTag("inventory"));
 		return data;
 	}

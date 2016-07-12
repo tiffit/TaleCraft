@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockPumpkin;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.EntityEquipmentSlot.Type;
 import net.minecraft.item.Item;
@@ -21,6 +22,66 @@ public class NPCInventoryData {
 	private ItemStack chestplate;
 	private ItemStack leggings;
 	private ItemStack boots;
+	
+	private List<NPCDrop> drops;
+	
+	public static class NPCDrop{
+		
+		public ItemStack stack;
+		public float chance;
+		
+		public NPCDrop(ItemStack stack, float chance){
+			this.stack = stack;
+			this.chance = chance;
+		}
+		
+		public NBTTagCompound toNBT(){
+			NBTTagCompound tag = new NBTTagCompound();
+			tag.setTag("stack", stack.writeToNBT(new NBTTagCompound()));
+			tag.setFloat("chance", chance);
+			return tag;
+		}
+		
+		public static NPCDrop fromNBT(NBTTagCompound tag){
+			return new NPCDrop(ItemStack.loadItemStackFromNBT(tag.getCompoundTag("stack")), tag.getFloat("chance"));
+		}
+	}
+	
+	public NPCInventoryData(){
+		drops = Lists.newArrayList();
+	}
+	
+	public List<NPCDrop> getDrops(){
+		return drops;
+	}
+	
+	public int getDropsSize(){
+		return drops.size();
+	}
+	
+	public NPCDrop getDrop(int index){
+		return drops.get(index);
+	}
+	
+	public void addDrop(NPCDrop drop){
+		drops.add(drop);
+	}
+	
+	public void removeDrop(int index){
+		drops.remove(index);
+	}
+	
+	public void removeDrop(NPCDrop stack){
+		drops.remove(stack);
+	}
+	
+	public void clearDrops(){
+		drops.clear();
+	}
+	
+	public void setDrops(List<NPCDrop> drops){
+		this.drops = drops;
+	}
 	
 	public ItemStack getItem(EntityEquipmentSlot slot){
 		switch (slot){
@@ -69,6 +130,13 @@ public class NPCInventoryData {
 		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values()){
 			if(getItem(slot) !=  null) tag.setTag(slot.toString(), getItem(slot).writeToNBT(new NBTTagCompound()));
 		}
+		NBTTagCompound drops = new NBTTagCompound();
+		int drop_size = this.drops.size();
+		drops.setInteger("size", drop_size);
+		for(int i = 0; i < drop_size; i++){
+			drops.setTag("drop_" + i, this.drops.get(i).toNBT());
+		}
+		tag.setTag("drops", drops);
 		return tag;
 	}
 	
@@ -76,6 +144,10 @@ public class NPCInventoryData {
 		NPCInventoryData data = new NPCInventoryData();
 		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values()){
 			if(tag.hasKey(slot.toString())) data.setItem(slot, ItemStack.loadItemStackFromNBT(tag.getCompoundTag(slot.toString())));
+		}
+		NBTTagCompound drops = tag.getCompoundTag("drops");
+		for(int i = 0; i < drops.getInteger("size"); i++){
+			data.drops.add(NPCDrop.fromNBT(drops.getCompoundTag("drop_" + i)));
 		}
 		return data;
 	}

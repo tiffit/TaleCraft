@@ -36,9 +36,12 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import tiffit.talecraft.entity.NPC.NPCInventoryData.NPCDrop;
 import tiffit.talecraft.packet.NPCDataUpdatePacket;
 import tiffit.talecraft.packet.NPCOpenPacket;
 
@@ -51,7 +54,8 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	private String updateInvoke;
 	private String deathInvoke;
 	private Scriptable scope;
-
+	private BossInfoServer bossInfo = new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS);
+	
 	public static enum NPCType{
 		Passive, Neutral, Aggressive;
 	}
@@ -97,7 +101,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	@Override
 	public void entityInit(){
 		super.entityInit();
-		data = new NPCData();
+		data = new NPCData(this);
 		enablePersistence();
         this.stepHeight = 1f;
 	}
@@ -108,6 +112,18 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	
 	public void setScriptData(NBTTagCompound tag){
 		scriptdata = tag;
+	}
+	
+	@Override
+	protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, DamageSource source) {
+		for(NPCDrop drop : data.getDrops()){
+			if(this.rand.nextFloat() <= drop.chance) entityDropItem(drop.stack, 0f);
+		}
+	}
+	
+	@Override
+	protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
+		//DO NOTHING
 	}
 
 	@Override
@@ -136,15 +152,47 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		deathInvoke = name;
 	}
 	
+   public void addTrackingPlayer(EntityPlayerMP player){
+	   if(!isNonBoss()) return;
+       super.addTrackingPlayer(player);
+       this.bossInfo.addPlayer(player);
+   }
+
+   public void removeTrackingPlayer(EntityPlayerMP player){
+       super.removeTrackingPlayer(player);
+       this.bossInfo.removePlayer(player);
+   }
+	
+	@Override
+	public boolean isNonBoss() {
+		return !data.isBoss();
+	}
+	
 	public void setNPCData(NBTTagCompound tag){
-		data = NPCData.fromNBT(tag);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(data.getSpeed());
+		data = NPCData.fromNBT(this, tag);
+		setHealth(getMaxHealth());
 		if(worldObj.isRemote) return;
 		for(Entity ent : this.worldObj.getEntities(EntityPlayerMP.class, Predicates.notNull())){
 			EntityPlayerMP player = (EntityPlayerMP) ent;
 			player.connection.sendPacket(new S16PacketEntityLook(this.getEntityId(), (byte) this.rotationYaw, (byte) this.rotationPitch, this.onGround));
 		}
 		TaleCraft.network.sendToDimension(new NPCDataUpdatePacket(getEntityId(), tag), worldObj.provider.getDimension());
+	}
+	
+	@Override
+	public AxisAlignedBB getEntityBoundingBox() {
+		AxisAlignedBB axisalignedbb = super.getEntityBoundingBox();
+		float width = data.getModel().width;
+		float height = data.getModel().height;
+		return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + (double)width, axisalignedbb.minY + (double)height, axisalignedbb.minZ + (double)width);
+	}
+	
+	@Override
+	public void onLivingUpdate() {
+		super.onLivingUpdate();
+		bossInfo.setVisible(!isNonBoss());
+		bossInfo.setName(getDisplayName());
+		bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 	}
 
 	@Override
@@ -201,7 +249,8 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	}
 	
 	@Override
-	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
+	public void setItemStackToSlot(EntityEquipmentSlot slot, ItemStack stack) {
+		data.setItem(slot, stack);
 	}
 	
 	@Override
@@ -222,17 +271,11 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tag){
 		super.readEntityFromNBT(tag);
-		data = NPCData.fromNBT(tag.getCompoundTag("npcdata"));
+		data = NPCData.fromNBT(this, tag.getCompoundTag("npcdata"));
 		scriptdata = tag.getCompoundTag("scriptdata");
 		updateInvoke = tag.getString("updateInvokeStr");
 		interactInvoke = tag.getString("interactInvokeStr");
 		deathInvoke = tag.getString("deathInvokeStr");
-	}
-	
-	//Prevents the NPC from dropping whatever they are holding and wearing
-	@Override
-	protected boolean canDropLoot() {
-		return false;
 	}
 	
 	@Override
