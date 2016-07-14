@@ -322,6 +322,33 @@ public class GuiSummonBlock extends QADGuiScreen {
 				panel.addComponent(button);
 			}
 			panelHeight += rowHeight;
+			
+			panel.addComponent(new QADLabel("Stable ", 2, panelHeight+6));
+			{
+				QADTickBox tickbox = new QADTickBox(new TickBoxModel(){
+					boolean state = option.isStable();
+
+					@Override public void setState(boolean newState) {
+						if(state != newState) {
+							state = newState;
+							option.setStable(state);
+							updateSummonBlockData(false);
+						}
+					}
+
+					@Override public boolean getState() {
+						return state;
+					}
+
+					@Override public void toggleState() {
+						setState(!getState());
+					}
+				});
+				tickbox.setPosition(2+140, panelHeight);
+				tickbox.getModel().setState(option.isStable());
+				panel.addComponent(tickbox);
+			}
+			panelHeight += rowHeight;
 
 			panel.setHeight(panelHeight+6);
 			summonOptionPanels.add(panel);

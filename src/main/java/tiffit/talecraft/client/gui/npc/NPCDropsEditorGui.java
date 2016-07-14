@@ -21,7 +21,13 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.Constants.NBT;
+import scala.util.parsing.json.JSON;
 import tiffit.talecraft.client.gui.qad.QADItemButton;
 import tiffit.talecraft.entity.NPC.NPCInventoryData;
 import tiffit.talecraft.entity.NPC.NPCInventoryData.NPCDrop;
@@ -90,8 +96,8 @@ public class NPCDropsEditorGui extends QADGuiScreen {
 		}));
 		for(int i = 0; i < npcGui.drops.size(); i++){
 			final int index = i;
-			QADPanel panel = new QADPanel();
-			panel.setBounds(0, i*30, this.width, 60);
+			final QADPanel panel = new QADPanel();
+			panel.setBounds(0, i*30, this.width, 90);
 			panel.setBackgroundColor(1);
 			panel.addComponent(QADFACTORY.createLabel("Drop #" + (i + 1), 3, 3));
 			panel.addComponent(new QADButton(32, 15, 150, new AbstractButtonModel(npcGui.drops.get(index).stack.getItem().getItemStackDisplayName(npcGui.drops.get(index).stack)) {
@@ -188,7 +194,9 @@ public class NPCDropsEditorGui extends QADGuiScreen {
 
 				@Override
 				public String getValueAsText() {
-					return "" + npcGui.drops.get(index).chance;
+					float chance = npcGui.drops.get(index).chance;
+					chance *= 100;
+					return "" + (int) chance + "%";
 				}
 
 				@Override
@@ -208,8 +216,50 @@ public class NPCDropsEditorGui extends QADGuiScreen {
 				
 			});
 			chanceSlider.setSliderValue(npcGui.drops.get(index).chance);
-			chanceSlider.setBounds(25, 40, 100, 20);
+			chanceSlider.setBounds(45, 43, 100, 20);
 			panel.addComponent(chanceSlider);
+			panel.addComponent(QADFACTORY.createLabel("NBT: ", 3, 75));
+			QADTextField nbtField = new QADTextField(fontRendererObj, 45, 67, 350, 20);
+			if(!npcGui.drops.get(index).stack.hasTagCompound()) npcGui.drops.get(index).stack.setTagCompound(new NBTTagCompound());
+			nbtField.setModel(new DefaultTextFieldModel() {
+				String text = npcGui.drops.get(index).stack.getTagCompound().toString();;
+				@Override
+				public void setText(String text) {
+					this.text = text;
+					try {
+						npcGui.drops.get(index).stack.setTagCompound(JsonToNBT.getTagFromJson(text));
+						setTextColor(0xffffff);
+					} catch (NBTException e) {
+						setTextColor(0xff0000);
+					}
+				}
+				
+				@Override
+				public int getTextLength() {
+					return getText().length();
+				}
+				
+				@Override
+				public String getText() {
+					return text;
+				}
+				
+				@Override
+				public char getCharAt(int i) {
+					return getText().charAt(i);
+				}
+			});
+			panel.addComponent(nbtField);
+			QADButton button = new QADButton(QADButton.ICON_DELETE);
+			button.setPosition(panel.getWidth()-20-2, 0);
+			button.setAction(new Runnable(){
+				@Override
+				public void run() {
+					npcGui.drops.remove(index);
+					displayGuiScreen(new NPCDropsEditorGui(npcGui));
+				}
+			});
+			panel.addComponent(button);
 			mainPanel.addComponent(panel);
 		}
 		mainPanel.setLayout(new QADListLayout());
@@ -234,7 +284,6 @@ public class NPCDropsEditorGui extends QADGuiScreen {
 		public ChooseDropItemGui(int index) {
 			this.setBehind(npcGui);
 			this.index = index;
-			this.returnScreen = NPCDropsEditorGui.this;
 			acceptableItems = NPCInventoryData.getAcceptableItems(EntityEquipmentSlot.MAINHAND);
 		}
 
@@ -296,7 +345,7 @@ public class NPCDropsEditorGui extends QADGuiScreen {
 				component.setAction( new Runnable() {
 					@Override public void run() {
 						npcGui.drops.get(index).stack.setItem(stack.getItem());
-						displayGuiScreen(returnScreen);
+						displayGuiScreen(new NPCDropsEditorGui(npcGui));
 					}
 				});
 				component.setHeight(0);

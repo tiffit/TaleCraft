@@ -59,6 +59,11 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import tiffit.talecraft.client.entity.RenderNPC;
+import tiffit.talecraft.client.render.RenderBullet;
+import tiffit.talecraft.entity.NPC.EntityNPC;
+import tiffit.talecraft.entity.projectile.EntityBomb;
+import tiffit.talecraft.entity.projectile.EntityBullet;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
 import tiffit.talecraft.tileentity.MusicBlockTileEntity;
 import tiffit.talecraft.tileentity.specialrender.LockedDoorEntityRenderer;
@@ -243,7 +248,7 @@ public class ClientRenderer {
 	}
 
 	private void init_render_entity() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, PointEntityRenderer.FACTORY);
+
 	}
 
 	public void addStaticRenderer(SelectionBoxRenderer selectionBoxRenderer) {

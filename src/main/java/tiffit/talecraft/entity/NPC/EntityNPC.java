@@ -14,6 +14,7 @@ import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.invoke.IInvokeSource;
 import de.longor.talecraft.invoke.Invoke;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;

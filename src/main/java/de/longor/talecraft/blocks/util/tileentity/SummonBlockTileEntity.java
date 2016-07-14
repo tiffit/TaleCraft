@@ -12,6 +12,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -129,7 +131,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 			{
 				for(SummonOption option : summonOptions) {
 					for(int j = 0; j < option.getWeight(); j++) {
-						summonEntity(option);
+						if(!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), worldObj), (int) option.getWeight()))summonEntity(option);
 					}
 				}
 			}
@@ -138,7 +140,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 			// ...entities randomly selecting them from a weighted list.
 			for(int i = 0; i < summonCount; i++) {
 				SummonOption option = selectRandomWeightedOption();
-				summonEntity(option);
+				if(!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), worldObj), summonCount))summonEntity(option);
 			}
 		}
 	}
@@ -188,6 +190,18 @@ public class SummonBlockTileEntity extends TCTileEntity {
 		}
 
 	}
+	
+	private boolean stableCheck(Entity entity, int max){
+		BlockPos bp1 = new BlockPos(summonRegionBounds[0], summonRegionBounds[1], summonRegionBounds[2]);
+		BlockPos bp2 = new BlockPos(summonRegionBounds[3], summonRegionBounds[4], summonRegionBounds[5]);
+		List<Entity> entities = worldObj.getEntitiesWithinAABB(entity.getClass(), new AxisAlignedBB(bp1, bp2));
+		int count = 0;
+		for(Entity ent: entities){
+			if(ent.getClass().equals(entity.getClass())) count++;
+		}
+		int canSpawn = max - count;
+		return canSpawn >= 1;
+	}
 
 	public Vec3d selectRandomBoundedLocation() {
 		Random random = worldObj.rand;
@@ -233,12 +247,13 @@ public class SummonBlockTileEntity extends TCTileEntity {
 		return items[randomIndex];
 	}
 
+	//SummonOption class START
 	public static class SummonOption {
-		float summonWeight;
-		NBTTagCompound summonData;
+		private float summonWeight;
+		private NBTTagCompound summonData;
+		private boolean stable;
 
 		public SummonOption() {
-
 		}
 
 		public float getWeight() {
@@ -247,6 +262,14 @@ public class SummonBlockTileEntity extends TCTileEntity {
 
 		public void setWeight(float f) {
 			summonWeight = f;
+		}
+		
+		public void setStable(boolean bool){
+			stable = bool;
+		}
+		
+		public boolean isStable(){
+			return stable;
 		}
 
 		public NBTTagCompound getData() {
@@ -268,6 +291,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 
 		public SummonOption read(NBTTagCompound compound) {
 			summonWeight = compound.getFloat("summonWeight");
+			stable = compound.getBoolean("stable");
 			summonData = compound.getCompoundTag("summonData");
 
 			String ID = summonData.getString("id");
@@ -309,13 +333,11 @@ public class SummonBlockTileEntity extends TCTileEntity {
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setFloat("summonWeight", summonWeight);
 			compound.setTag("summonData", summonData);
+			compound.setBoolean("stable", stable);
 			return compound;
 		}
 	}
-
-
-
-
+	//SummonOption class END
 
 	public int[] getSummonRegionBounds() {
 		return summonRegionBounds;

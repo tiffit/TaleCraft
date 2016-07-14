@@ -3,17 +3,24 @@ package de.longor.talecraft.client;
 import org.lwjgl.input.Keyboard;
 
 import de.longor.talecraft.Reference;
+import de.longor.talecraft.TCSoundHandler;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.client.gui.nbt.GuiNBTEditor;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import tiffit.talecraft.items.weapon.TCGunItem;
+import tiffit.talecraft.packet.GunReloadPacket;
 
 public class ClientKeyboardHandler {
 	private final ClientProxy proxy;
@@ -24,6 +31,7 @@ public class ClientKeyboardHandler {
 	private KeyBinding buildModeBinding;
 	private KeyBinding visualizationBinding;
 	private KeyBinding nbt;
+	private KeyBinding reload;
 
 	public ClientKeyboardHandler(ClientProxy clientProxy) {
 		proxy = clientProxy;
@@ -33,13 +41,14 @@ public class ClientKeyboardHandler {
 		buildModeBinding = new KeyBinding("key.toggleBuildMode", Keyboard.KEY_B, category);
 		visualizationBinding = new KeyBinding("key.toggleWireframe", Keyboard.KEY_PERIOD, category);
 		nbt = new KeyBinding("key.nbt", Keyboard.KEY_N, category);
+		reload = new KeyBinding("key.reload", Keyboard.KEY_R, category);
 
 		// register all keybindings
 		ClientRegistry.registerKeyBinding(mapSettingsBinding);
 		ClientRegistry.registerKeyBinding(buildModeBinding);
 		ClientRegistry.registerKeyBinding(visualizationBinding);
 		ClientRegistry.registerKeyBinding(nbt);
-		
+		ClientRegistry.registerKeyBinding(reload);
 	}
 
 	public void on_key(KeyInputEvent event) {
@@ -55,7 +64,18 @@ public class ClientKeyboardHandler {
 		if(visualizationBinding.isPressed() && visualizationBinding.isKeyDown()) {
 			proxy.getRenderer().setVisualizationMode(proxy.getRenderer().getVisualizationMode().next());
 		}
-
+		if(reload.isPressed() && reload.isKeyDown()) {
+			ItemStack stack = mc.thePlayer.inventory.getCurrentItem();
+			if(stack != null && stack.getItem() instanceof TCGunItem){
+				TCGunItem gun = (TCGunItem) stack.getItem();
+				if(gun.getClipInInventory(mc.thePlayer.inventory) != -1){
+					if(!(!stack.hasTagCompound() || (!stack.getTagCompound().hasKey("reloading") || stack.getTagCompound().getLong("reloading") <= 0))){
+						mc.theWorld.playSound(mc.thePlayer, mc.thePlayer.getPosition(), gun.reloadSound(), SoundCategory.AMBIENT, 5F, 1F);
+						TaleCraft.network.sendToServer(new GunReloadPacket(mc.thePlayer.getUniqueID()));
+					}
+				}
+			}
+		}
 		// this toggles between buildmode and adventuremode
 		if(buildModeBinding.isPressed() && buildModeBinding.isKeyDown() && mc.theWorld != null && mc.thePlayer != null && !mc.isGamePaused()) {
 			TaleCraft.logger.info("Switching GameMode using the buildmode-key.");

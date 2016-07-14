@@ -7,6 +7,7 @@ key.nbt=Edit Item NBT
 itemGroup.talecraftTab=TaleCraft [Util]
 itemGroup.talecraftDecoTab=TaleCraft [Decoration]
 itemGroup.talecraftWorldTab=TaleCraft [World]
+itemGroup.talecraftWeaponTab=TaleCraft [Weapon]
 
 entity.talecraft.tc_point.name=Point Entity
 entity.talecraft.tc_NPC.name=NPC
@@ -32,6 +33,19 @@ item.bomb.name=Throwable Bomb
 item.goldcoin.name=Gold Coin
 item.silvercoin.name=Silver Coin
 item.emeraldcoin.name=Emerald Coin
+item.heart.name=Heart
+
+item.pistol.name=Pistol
+item.pistolclip.name=Pistol Clip
+item.rifle.name=Rifle
+item.rifleclip.name=Rifle Clip
+item.shotgun.name=Shotgun
+item.shotgunclip.name=Shotgun Clip
+item.bombarrow.name=Explosive Arrow
+
+item.harp.name=Harp
+item.guitar.name=Guitar
+item.drums.name=Drums
 
 tile.talecraft:clockblock.name=Clock Block
 tile.talecraft:redstone_trigger.name=Redstone Trigger Block

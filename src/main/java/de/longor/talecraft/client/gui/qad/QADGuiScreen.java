@@ -346,13 +346,17 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		components.remove(index);
 	}
 	
+	public void removeComponent(QADComponent comp){
+		components.remove(comp);
+	}
+	
 	public void removeAll(ArrayList<QADComponent> comps){
 		components.removeAll(comps);
 	}
 	
 	public void resetGuiScreen() {
-		components = null;
-		
+		removeAllComponents();
+		buildGui();
 	}
 
 	@Override

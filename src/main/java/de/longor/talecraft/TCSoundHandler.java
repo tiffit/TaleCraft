@@ -11,6 +11,13 @@ public final class TCSoundHandler {
 	public static SoundEvent EFFECT1, EFFECT2, EFFECT3, EFFECT4, EFFECT5, EFFECT6, EFFECT7, EFFECT8;
 	public static SoundEvent EXTRA1, EXTRA2, EXTRA3, EXTRA4;
 	
+	public static SoundEvent DryFire;
+	public static SoundEvent Reload;
+	public static SoundEvent PistolFire;
+	public static SoundEvent RifleFire;
+	public static SoundEvent ShotgunFire;
+	public static SoundEvent ShotgunReload;
+	
 	private static int index = 0;
 	
 	public static void init() {
@@ -39,6 +46,12 @@ public final class TCSoundHandler {
 		EXTRA3 = register("EXTRA3");
 		EXTRA4 = register("EXTRA4");
 		
+		DryFire = register("DryFire");
+		Reload = register("Reload");
+		PistolFire = register("PistolFire");
+		RifleFire = register("RifleFire");
+		ShotgunFire = register("ShotgunFire");
+		ShotgunReload = register("ShotgunReload");
 	}
 	
 	private static SoundEvent register(String name) {

@@ -2,28 +2,33 @@ package de.longor.talecraft;
 
 import de.longor.talecraft.network.StringNBTCommandPacket;
 import de.longor.talecraft.server.ServerHandler;
-import net.minecraft.client.Minecraft;
+import net.minecraft.command.CommandResultStats.Type;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import tiffit.talecraft.versionchecker.TCVersion;
-import tiffit.talecraft.versionchecker.VersionParser;
 
 public class TaleCraftEventHandler {
 	public TaleCraftEventHandler() {}
@@ -132,11 +137,66 @@ public class TaleCraftEventHandler {
 
 	}
 
-	/*
 	@SubscribeEvent
-	public void playerJoin(PlayerUseItemEvent event) {
-		System.out.println("[TALECRAFT INFO] Player used item! " + event);
+	public void playerUseItem(final PlayerInteractEvent.RightClickItem event) {
+		if(event.getSide() == Side.CLIENT) return;
+		ItemStack stack = event.getItemStack();
+		final EntityPlayer player = event.getEntityPlayer();
+		boolean hasCommandTag = stack.hasTagCompound() ? stack.getTagCompound().hasKey("command") : false;
+		if(hasCommandTag){
+			String command = stack.getTagCompound().getString("command");
+			FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(new ICommandSender() {
+				@Override
+				public void setCommandStat(Type type, int amount) {
+					player.setCommandStat(type, amount);
+				}
+				@Override
+				public boolean sendCommandFeedback() {
+					return false;
+				}
+				@Override
+				public MinecraftServer getServer() {
+					return FMLCommonHandler.instance().getMinecraftServerInstance();
+				}
+				@Override
+				public Vec3d getPositionVector() {
+					return player.getPositionVector();
+				}
+				
+				@Override
+				public BlockPos getPosition() {
+					return player.getPosition();
+				}
+				
+				@Override
+				public String getName() {
+					return player.getName();
+				}
+				
+				@Override
+				public World getEntityWorld() {
+					return player.getEntityWorld();
+				}
+				
+				@Override
+				public ITextComponent getDisplayName() {
+					return player.getDisplayName();
+				}
+				@Override
+				public Entity getCommandSenderEntity() {
+					return player;
+				}
+				@Override
+				public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+					return true;
+				}
+				@Override
+				public void addChatMessage(ITextComponent component) {
+					event.getEntityPlayer().addChatMessage(component);
+				}
+			}, command);
+		}
 	}
-	 */
+	 
 
 }

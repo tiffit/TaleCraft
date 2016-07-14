@@ -1,4 +1,4 @@
-package tiffit.talecraft.items.world;
+package tiffit.talecraft.items.weapon;
 
 import java.util.List;
 
@@ -12,13 +12,10 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
-import tiffit.talecraft.entity.throwable.EntityBomb;
+import tiffit.talecraft.entity.projectile.EntityBomb;
+import tiffit.talecraft.items.world.TCWorldItem;
 
-public class BombItem extends TCItem {
-
-	public BombItem(){
-		this.setCreativeTab(TaleCraftTabs.tab_TaleCraftWorldTab);
-	}
+public class BombItem extends TCWeaponItem {
 	
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand){
         if (!playerIn.capabilities.isCreativeMode){
@@ -35,11 +32,5 @@ public class BombItem extends TCItem {
         
         return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
     }
-	
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean adv){
-		if(player.isCreative()){
-			list.add("This item is buggy, but it works!");
-		}
-	}
 	
 }

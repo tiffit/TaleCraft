@@ -60,5 +60,12 @@ public class TaleCraftTabs {
 			return TaleCraftItems.goldKey;
 		}
 	};
+	
+	public static CreativeTabs tab_TaleCraftWeaponTab = new CreativeTabs("talecraftWeaponTab") {
+		@Override
+		public Item getTabIconItem() {
+			return TaleCraftItems.bomb;
+		}
+	};
 
 }

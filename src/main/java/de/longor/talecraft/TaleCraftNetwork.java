@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import tiffit.talecraft.packet.DoorPacket;
 import tiffit.talecraft.packet.FadePacket;
+import tiffit.talecraft.packet.GunReloadPacket;
 import tiffit.talecraft.packet.NPCDataPacket;
 import tiffit.talecraft.packet.NPCDataUpdatePacket;
 import tiffit.talecraft.packet.NPCOpenPacket;
@@ -37,6 +38,7 @@ public class TaleCraftNetwork {
 		register(NPCDataUpdatePacket.Handler.class, NPCDataUpdatePacket.class, CLIENT);
 		register(SoundsMutePacket.Handler.class, SoundsMutePacket.class, CLIENT);
 		register(FadePacket.Handler.class, FadePacket.class, CLIENT);
+		register(GunReloadPacket.Handler.class, GunReloadPacket.class, SERVER);
 		register(StringNBTCommandPacketClient.Handler.class, StringNBTCommandPacketClient.class, CLIENT);
 	}
 	

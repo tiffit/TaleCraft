@@ -21,6 +21,7 @@ public class TCItem extends Item {
 
 	public TCItem() {
 		this.setCreativeTab(TaleCraftTabs.tab_TaleCraftTab);
+		this.setMaxStackSize(1);
 	}
 
 	@Override
@@ -78,15 +79,6 @@ public class TCItem extends Item {
 	public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 		player.worldObj.notifyBlockUpdate(pos, player.worldObj.getBlockState(pos), player.worldObj.getBlockState(pos), 0);
 		return true;
-	}
-
-	@Override
-	public int getItemStackLimit(ItemStack stack) {
-		return 1;
-	}
-	
-	public String getTrueUnlocalizedName(){
-		return getUnlocalizedName().replace("item.", "");
 	}
 
 }

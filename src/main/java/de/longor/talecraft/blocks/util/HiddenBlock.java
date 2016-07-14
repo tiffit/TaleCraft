@@ -1,8 +1,12 @@
 package de.longor.talecraft.blocks.util;
 
+import java.util.List;
+
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.blocks.TCBlock;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -18,6 +22,7 @@ public class HiddenBlock extends TCBlock {
 
 	public HiddenBlock() {
 		super();
+		setCreativeTab(null);
 	}
 
 	@Override
@@ -28,6 +33,14 @@ public class HiddenBlock extends TCBlock {
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+		tooltip.add("DO NOT USE");
+		tooltip.add("USE BARRIER INSTEAD");
+		tooltip.add("This block will be removed in");
+		tooltip.add("a future update.");
 	}
 
 	@Override

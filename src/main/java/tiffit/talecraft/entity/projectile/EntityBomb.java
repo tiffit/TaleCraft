@@ -1,4 +1,4 @@
-package tiffit.talecraft.entity.throwable;
+package tiffit.talecraft.entity.projectile;
 
 import de.longor.talecraft.TaleCraftItems;
 import net.minecraft.block.Block;
@@ -17,6 +17,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -39,15 +40,23 @@ public class EntityBomb extends EntityThrowable{
     public EntityBomb(World world, double x, double y, double z){
         super(world, x, y, z);
     }
+    
+    public void setFuse(int fuse){
+    	explosion_delay = fuse;
+    }
 	
 	@Override
     protected void onImpact(RayTraceResult result){
         if (result.entityHit != null){
-    		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posX, posY, posZ, 0, 0, 0, null);
             explode(); //explode on impact
+            updateMovementLogic = false;
         }
-        updateMovementLogic = false;
-        this.setVelocity(0, 0, 0);
+		if(result.typeOfHit == Type.BLOCK){
+			if(worldObj.getBlockState(result.getBlockPos()).isFullBlock()){
+				updateMovementLogic = false;
+				setVelocity(0, 0, 0);
+			}
+		}
     }
 	
 	@Override
@@ -59,14 +68,14 @@ public class EntityBomb extends EntityThrowable{
 		}
 		explosion_delay--;
 		if(explosion_delay <= 0){
-			if(!worldObj.isRemote) explode();
-			else worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posX, posY, posZ, 0, 0, 0, null);
+			explode();
 		}
 		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY + .3, posZ, 0, 0, 0, null);
 		if(explosion_delay <= 20) worldObj.spawnParticle(EnumParticleTypes.FLAME, posX, posY+.3, posZ, 0, 0, 0, null);
 	}
 	
 	private void explode(){
+		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posX, posY, posZ, 0, 0, 0, null);
 		if(!worldObj.isRemote){
 			BombExplosion explosion = new BombExplosion(worldObj, this, posX, posY, posZ);
 			explosion.doExplosionA();
@@ -87,13 +96,11 @@ public class EntityBomb extends EntityThrowable{
 	
 	
 	public static class EntityBombRenderFactory implements IRenderFactory{
-
 		@Override
 		public Render createRenderFor(RenderManager manager) {
 			Minecraft mc = Minecraft.getMinecraft();
 			return new RenderSnowball(manager, TaleCraftItems.bomb, mc.getRenderItem());
 		}
-		
 	}
 
 }

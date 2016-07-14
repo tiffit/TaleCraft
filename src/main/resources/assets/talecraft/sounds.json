@@ -20,5 +20,12 @@
     "EXTRA1": { "category": "block", "sounds":[{"name":"talecraft:EXTRA1", "stream": true}] },
     "EXTRA2": { "category": "block", "sounds":[{"name":"talecraft:EXTRA2", "stream": true}] },
     "EXTRA3": { "category": "block", "sounds":[{"name":"talecraft:EXTRA3", "stream": true}] },
-    "EXTRA4": { "category": "block", "sounds":[{"name":"talecraft:EXTRA4", "stream": true}] }
+    "EXTRA4": { "category": "block", "sounds":[{"name":"talecraft:EXTRA4", "stream": true}] },
+	
+	"DryFire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/dryfire", "stream": false}] },
+    "PistolFire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/pistolfire", "stream": false}] },
+	"Reload": { "category": "ambient", "sounds":[{"name":"talecraft:gun/reload", "stream": false}] },
+	"RifleFire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/riflefire", "stream": false}] },
+	"ShotgunFire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/shotgunfire", "stream": false}] },
+	"ShotgunReload": { "category": "ambient", "sounds":[{"name":"talecraft:gun/shotgunreload", "stream": false}] }
 }

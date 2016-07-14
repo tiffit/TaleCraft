@@ -1,4 +1,4 @@
-package tiffit.talecraft.items.world;
+package tiffit.talecraft.items.weapon;
 
 import java.util.List;
 
@@ -12,13 +12,9 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
-import tiffit.talecraft.entity.throwable.EntityBomb;
+import tiffit.talecraft.entity.projectile.EntityBomb;
 
-public class BoomerangItem extends TCItem {
-
-	public BoomerangItem(){
-		this.setCreativeTab(TaleCraftTabs.tab_TaleCraftWorldTab);
-	}
+public class BoomerangItem extends TCWeaponItem {
 	
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand){
         if (!playerIn.capabilities.isCreativeMode){
