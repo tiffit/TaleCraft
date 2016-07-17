@@ -1,0 +1,6 @@
+{
+    "parent": "talecraft:item/boomerang",
+    "textures": {
+        "layer0": "talecraft:items/weapons/boomerang_thrown"
+    }
+}

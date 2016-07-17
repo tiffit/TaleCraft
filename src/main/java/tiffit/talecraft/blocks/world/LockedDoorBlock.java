@@ -27,13 +27,12 @@ import tiffit.talecraft.packet.DoorPacket;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity.DoorCorner;
 
-public class LockedDoorBlock extends TCBlock implements ITileEntityProvider{ //NOTE: This is the first time I used IBlockStates so I might have done something terribly
+public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider{
 
 	public static final PropertyEnum CORNER = PropertyEnum.create("corner", DoorCorner.class);
 	
 	public LockedDoorBlock(){
 		super();
-		this.setCreativeTab(TaleCraftTabs.tab_TaleCraftWorldTab);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(CORNER, DoorCorner.BottomLeftX));
 	}
 	
@@ -114,7 +113,6 @@ public class LockedDoorBlock extends TCBlock implements ITileEntityProvider{ //N
 	}
 	
 	@Override
-	//If you have a much better way of doing this, please tell me or even better, create a pull request
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
 		facing = EnumFacing.fromAngle(placer.rotationYawHead);
 		boolean ZAxis = facing == EnumFacing.WEST || facing == EnumFacing.EAST;

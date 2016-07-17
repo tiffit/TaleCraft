@@ -182,7 +182,6 @@ public class GuiSummonBlock extends QADGuiScreen {
 					newArray[oldArray.length].setWeight(1f);
 					newArray[oldArray.length].setData(new NBTTagCompound());
 					newArray[oldArray.length].getData().setString("id", "Zombie");
-
 					tileEntity.setSummonOptions(newArray);
 					updateSummonBlockData(true);
 					displayGuiScreen(null);

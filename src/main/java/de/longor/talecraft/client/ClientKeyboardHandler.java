@@ -19,6 +19,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import tiffit.talecraft.items.weapon.TCGunClipItem;
 import tiffit.talecraft.items.weapon.TCGunItem;
 import tiffit.talecraft.packet.GunReloadPacket;
 
@@ -68,8 +69,10 @@ public class ClientKeyboardHandler {
 			ItemStack stack = mc.thePlayer.inventory.getCurrentItem();
 			if(stack != null && stack.getItem() instanceof TCGunItem){
 				TCGunItem gun = (TCGunItem) stack.getItem();
-				if(gun.getClipInInventory(mc.thePlayer.inventory) != -1){
-					if(!(!stack.hasTagCompound() || (!stack.getTagCompound().hasKey("reloading") || stack.getTagCompound().getLong("reloading") <= 0))){
+				int index = gun.getClipInInventory(mc.thePlayer.inventory);
+				if(index != -1){
+					TCGunClipItem clip = (TCGunClipItem) mc.thePlayer.inventory.getStackInSlot(index).getItem();
+					if(stack.getItemDamage() > 0){
 						mc.theWorld.playSound(mc.thePlayer, mc.thePlayer.getPosition(), gun.reloadSound(), SoundCategory.AMBIENT, 5F, 1F);
 						TaleCraft.network.sendToServer(new GunReloadPacket(mc.thePlayer.getUniqueID()));
 					}

@@ -11,11 +11,9 @@ import de.longor.talecraft.client.ClientSettings;
 import de.longor.talecraft.client.InfoBar;
 import de.longor.talecraft.client.InvokeTracker;
 import de.longor.talecraft.client.commands.TaleCraftClientCommands;
-import de.longor.talecraft.client.render.entity.PointEntityRenderer;
 import de.longor.talecraft.client.render.renderables.SelectionBoxRenderer;
 import de.longor.talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import de.longor.talecraft.clipboard.ClipboardItem;
-import de.longor.talecraft.entities.EntityPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +22,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -33,12 +30,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
-import tiffit.talecraft.client.entity.RenderNPC;
 import tiffit.talecraft.client.render.metaworld.PasteItemRender;
-import tiffit.talecraft.entity.NPC.EntityNPC;
-import tiffit.talecraft.entity.projectile.EntityBomb;
-import tiffit.talecraft.entity.projectile.EntityBombArrow;
-import tiffit.talecraft.entity.projectile.EntityBullet;
 
 public class ClientProxy extends CommonProxy {
 	// All the singletons!
@@ -67,12 +59,8 @@ public class ClientProxy extends CommonProxy {
 		TaleCraftClientCommands.init();
 
 		clientTickQeue = new ConcurrentLinkedDeque<Runnable>();
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, PointEntityRenderer.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new EntityBullet.EntityBulletRenderFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new EntityBomb.EntityBombRenderFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityNPC.class, new RenderNPC.NPCRenderFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityBombArrow.class, new EntityBombArrow.EntityBombArrowRenderFactory());
+		clientRenderer = new ClientRenderer(this);
+		clientRenderer.preInit();
 	}
 
 	@Override
@@ -83,7 +71,6 @@ public class ClientProxy extends CommonProxy {
 		clientNetworkHandler = new ClientNetworkHandler(this);
 
 		// create client renderer
-		clientRenderer = new ClientRenderer(this);
 		clientRenderer.init();
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());

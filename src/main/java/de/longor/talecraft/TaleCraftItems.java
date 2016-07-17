@@ -19,9 +19,11 @@ import de.longor.talecraft.items.WandItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.world.NoteBlockEvent.Instrument;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import tiffit.talecraft.items.NPCCloneItem;
 import tiffit.talecraft.items.NPCEditorItem;
 import tiffit.talecraft.items.weapon.BombArrowItem;
 import tiffit.talecraft.items.weapon.BombItem;
+import tiffit.talecraft.items.weapon.BoomerangItem;
 import tiffit.talecraft.items.weapon.PistolClipItem;
 import tiffit.talecraft.items.weapon.PistolItem;
 import tiffit.talecraft.items.weapon.RifleClipItem;
@@ -49,6 +51,7 @@ public class TaleCraftItems {
 	public static MetaSwapperItem metaswapper;
 	public static SpawnPointItem spawnpoint;
 	public static NPCEditorItem npceditor;
+	public static NPCCloneItem npcclone;
 	
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
@@ -66,6 +69,7 @@ public class TaleCraftItems {
 	public static ShotgunItem shotgun;
 	public static ShotgunClipItem shotgunClip;
 	public static BombArrowItem bombArrow;
+	public static BoomerangItem boomerang;
 	
 	public static TCInstrumentItem harp;
 	public static TCInstrumentItem guitar;
@@ -85,6 +89,7 @@ public class TaleCraftItems {
 		metaswapper = register(new MetaSwapperItem(), "metaswapper");
 		spawnpoint = register(new SpawnPointItem(), "spawnpoint");
 		npceditor = register(new NPCEditorItem(), "npceditor");
+		npcclone = register(new NPCCloneItem(), "npcclone");
 		
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");
@@ -94,13 +99,14 @@ public class TaleCraftItems {
 		silverCoin = register(new TCWorldItem(), "silvercoin");
 		emeraldCoin = register(new TCWorldItem(), "emeraldcoin");
 		
-		pistol = register(new PistolItem(), "pistol");
 		pistolClip = register(new PistolClipItem(), "pistolclip");
-		rifle = register(new RifleItem(), "rifle");
+		pistol = register(new PistolItem(), "pistol");
 		rifleClip = register(new RifleClipItem(), "rifleclip");
-		shotgun = register(new ShotgunItem(), "shotgun");
+		rifle = register(new RifleItem(), "rifle");
 		shotgunClip = register(new ShotgunClipItem(), "shotgunclip");
+		shotgun = register(new ShotgunItem(), "shotgun");
 		bombArrow = register(new BombArrowItem(), "bombarrow");
+		boomerang = register(new BoomerangItem(), "boomerang");
 		
 		harp = register(new TCInstrumentItem(Instrument.PIANO), "harp");
 		guitar = register(new TCInstrumentItem(Instrument.BASSGUITAR), "guitar");

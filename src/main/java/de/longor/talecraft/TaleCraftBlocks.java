@@ -1,13 +1,10 @@
 package de.longor.talecraft;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.ObjectArrays;
 
 import de.longor.talecraft.blocks.deco.BlankBlock;
 import de.longor.talecraft.blocks.util.BlockUpdateDetector;
@@ -74,7 +71,6 @@ public class TaleCraftBlocks {
 	public static StorageBlock storageBlock;
 	public static EmitterBlock emitterBlock;
 	public static ImageHologramBlock imageHologramBlock;
-	//	public static BarrierEXTBlock barrierEXTBlock;
 	public static CollisionTriggerBlock collisionTriggerBlock;
 	public static LightBlock lightBlock;
 	public static HiddenBlock hiddenBlock;
@@ -181,16 +177,6 @@ public class TaleCraftBlocks {
 		GameRegistry.registerTileEntity(MusicBlockTileEntity.class, "tc_musicblock");
 		
 		spikeBlock = register("spikeblock", new SpikeBlock());
-		
-		//spikeBlock = register("spikeblock", new SpikeBlock());
-		//GameRegistry.registerTileEntity(SpikeBlockTileEntity.class, "tc_spikeblock");
-
-		// Can't implement because custom renderers are currently only possible with tileentities
-		//		barrierEXTBlock = register("barrierextblock", new BarrierEXTBlock(), new BlockRegisterFunc() {
-		//			@Override public void call(Block block, String name) {
-		//				GameRegistry.registerBlock(block, ItemBarrierEXTBlock.class, name);
-		//			}
-		//		});
 	}
 
 	private static void init_decoration() {
@@ -292,23 +278,4 @@ public class TaleCraftBlocks {
 			return damage;
 		}
 	}
-
-	public static class ItemBarrierEXTBlock extends ItemMultiTexture {
-		public ItemBarrierEXTBlock(Block block) {
-			super(block, block, new String[] {
-					"all", // 0
-					"players", // 1
-					"living", // 2
-					"living (not players)", // 3
-					"monsters", // 4
-					"villagers", // 5
-					"items" // 6
-			});
-		}
-	}
-
-	public static List<Block> getBlockList() {
-		return blocks;
-	}
-
 }

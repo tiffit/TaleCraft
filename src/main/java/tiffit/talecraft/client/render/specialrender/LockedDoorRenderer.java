@@ -1,4 +1,4 @@
-package tiffit.talecraft.tileentity.specialrender;
+package tiffit.talecraft.client.render.specialrender;
 
 import org.lwjgl.opengl.GL11;
 
@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
 
-public class LockedDoorEntityRenderer extends TileEntitySpecialRenderer<LockedDoorTileEntity> {
+public class LockedDoorRenderer extends TileEntitySpecialRenderer<LockedDoorTileEntity> {
 
 	@Override
 	public void renderTileEntityAt(LockedDoorTileEntity te, double posX, double posY, double posZ, float partialTicks, int destroyStage) {

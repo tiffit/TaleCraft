@@ -66,7 +66,7 @@ public final class FullDebugPrintCommand extends CommandBase {
 
 		TaleCraft.logger.info("Printing information about ALL blocks ...");
 
-		List<Block> blocks = TaleCraftBlocks.getBlockList();
+		List<Block> blocks = TaleCraftBlocks.blocks;
 		for(Block block : blocks) {
 			TaleCraft.logger.info("Block -> " + block.getUnlocalizedName() + ", TE?" + block.hasTileEntity(block.getDefaultState()) + ", STATE?" + block.getDefaultState());
 		}

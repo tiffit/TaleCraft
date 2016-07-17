@@ -59,6 +59,32 @@ public class NPCInventoryEditorGui extends QADGuiScreen {
 			});
 			addComponent(equipmentbutton);
 		}
+		QADButton tradesbutton = QADFACTORY.createButton("Change Trades", 123, 65, 100).setModel(new ButtonModel(){
+			@Override
+			public void onClick() {
+				displayGuiScreen(new NPCShopEditorGui(npcGui));
+			}
+
+			@Override
+			public String getText() {
+				return "Change Trades";
+			}
+
+			@Override
+			public ResourceLocation getIcon() {
+				return null;
+			}
+
+			@Override
+			public void setText(String newText) {
+			}
+
+			@Override
+			public void setIcon(ResourceLocation newIcon) {
+			}
+		
+		});
+		addComponent(tradesbutton);
 		QADButton dropsbutton = QADFACTORY.createButton("Change Drops", 123, 95, 100).setModel(new ButtonModel(){
 			@Override
 			public void onClick() {

@@ -1,0 +1,14 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "talecraft:items/weapons/boomerang"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "thrown": 1
+            },
+            "model": "talecraft:item/boomerang_thrown"
+        }
+    ]
+}

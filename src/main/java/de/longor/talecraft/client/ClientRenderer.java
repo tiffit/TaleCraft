@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
 
 import de.longor.talecraft.TaleCraftBlocks;
 import de.longor.talecraft.TaleCraftItems;
@@ -39,7 +38,6 @@ import de.longor.talecraft.client.render.tileentity.SummonBlockTileEntityEXTRend
 import de.longor.talecraft.entities.EntityPoint;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -53,20 +51,20 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import tiffit.talecraft.client.entity.RenderNPC;
-import tiffit.talecraft.client.render.RenderBullet;
+import tiffit.talecraft.client.render.specialrender.LockedDoorRenderer;
 import tiffit.talecraft.entity.NPC.EntityNPC;
 import tiffit.talecraft.entity.projectile.EntityBomb;
+import tiffit.talecraft.entity.projectile.EntityBombArrow;
+import tiffit.talecraft.entity.projectile.EntityBoomerang;
 import tiffit.talecraft.entity.projectile.EntityBullet;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
 import tiffit.talecraft.tileentity.MusicBlockTileEntity;
-import tiffit.talecraft.tileentity.specialrender.LockedDoorEntityRenderer;
 
 public class ClientRenderer {
 	private final ClientProxy proxy;
@@ -100,6 +98,15 @@ public class ClientRenderer {
 		staticRenderers = new ConcurrentLinkedDeque<IRenderable>();
 	}
 
+	public void preInit() {
+		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, PointEntityRenderer.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new EntityBullet.EntityBulletRenderFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new EntityBomb.EntityBombRenderFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityNPC.class, new RenderNPC.NPCRenderFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBombArrow.class, new EntityBombArrow.EntityBombArrowRenderFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBoomerang.class, new EntityBoomerang.EntityBoomerangFactory());
+	}
+	
 	public void init() {
 		// Get the ModelMesher and register ALL item-models
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
@@ -166,13 +173,15 @@ public class ClientRenderer {
 				new GenericTileEntityRenderer<SummonBlockTileEntity>("talecraft:textures/blocks/util/spawner.png",
 						new SummonBlockTileEntityEXTRenderer()));
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(LockedDoorTileEntity.class, new LockedDoorEntityRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(LockedDoorTileEntity.class, new LockedDoorRenderer());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(URLBlockTileEntity.class,
 				new GenericTileEntityRenderer<URLBlockTileEntity>("talecraft:textures/blocks/util/url.png"));
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(MusicBlockTileEntity.class,
 				new GenericTileEntityRenderer<MusicBlockTileEntity>("talecraft:textures/blocks/util/music.png"));
+		
+		
 	}
 
 	private void init_render_item(ItemModelMesher mesher) {
@@ -496,5 +505,7 @@ public class ClientRenderer {
 //		// ClientProxy..worldPass() -> Last line of code.
 //		GlStateManager.enableTexture2D();
 	}
+
+
 
 }

@@ -13,12 +13,12 @@ public class RifleItem extends TCGunItem {
 
 	@Override
 	protected float getDamage() {
-		return 2F;
+		return 3F;
 	}
 
 	@Override
 	protected double range() {
-		return 60D;
+		return 100D;
 	}
 
 	@Override

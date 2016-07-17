@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class SpikeBlock extends TCBlock implements TCITriggerableBlock{
+public class SpikeBlock extends TCWorldBlock implements TCITriggerableBlock{
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
@@ -43,7 +43,6 @@ public class SpikeBlock extends TCBlock implements TCITriggerableBlock{
 	
 	public SpikeBlock(){
 		super();
-		this.setCreativeTab(TaleCraftTabs.tab_TaleCraftWorldTab);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP).withProperty(ACTIVE, true));
 	}
 	

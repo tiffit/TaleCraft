@@ -3,6 +3,7 @@ key.toggleBuildMode=Toggle Buildmode
 key.toggleWireframe=Toggle Rendermode
 key.mapSettings=Open Map Settings
 key.nbt=Edit Item NBT
+key.reload=Reload Gun
 
 itemGroup.talecraftTab=TaleCraft [Util]
 itemGroup.talecraftDecoTab=TaleCraft [Decoration]
@@ -26,6 +27,7 @@ item.instakill.name=Instakill
 item.voxelbrush.name=Voxelator
 item.terrainbrush.name=Terrain-Brush
 item.npceditor.name=NPC Editor
+item.npcclone.name=NPC Cloner
 
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key
@@ -42,6 +44,7 @@ item.rifleclip.name=Rifle Clip
 item.shotgun.name=Shotgun
 item.shotgunclip.name=Shotgun Clip
 item.bombarrow.name=Explosive Arrow
+item.boomerang.name=Boomerang
 
 item.harp.name=Harp
 item.guitar.name=Guitar

@@ -84,7 +84,7 @@ public class TaleCraft {
 		eventHandler = new TaleCraftEventHandler();
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(new SendMessage());
-		if(ConfigurationManager.USE_VERSION_CHECKER)MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
+		if(ConfigurationManager.USE_VERSION_CHECKER && event.getSide() == Side.CLIENT)MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
 		logger.info("TaleCraft Event Handler @" + eventHandler.hashCode());
 		// Initialize all the Tabs/Blocks/Items/Commands etc.
 		logger.info("Loading Tabs, Blocks, Items, Entities and Commands (In that order)");
@@ -93,6 +93,7 @@ public class TaleCraft {
 		TaleCraftBlocks.init();
 		TaleCraftEntities.init();
 		TaleCraftCommands.init();
+		MinecraftForge.EVENT_BUS.register(TaleCraftItems.boomerang);
 
 		// Initialize the Proxy
 		logger.info("Initializing Proxy...");

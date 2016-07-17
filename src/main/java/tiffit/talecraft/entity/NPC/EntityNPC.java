@@ -14,7 +14,7 @@ import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.invoke.IInvokeSource;
 import de.longor.talecraft.invoke.Invoke;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -25,6 +25,7 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,6 +38,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.village.MerchantRecipe;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
@@ -219,6 +221,10 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 				if(data.shouldIncludeNameInMessage()) message = data.getName() + ": " + message;
 				player.addChatMessage(new TextComponentString(message));
 			}
+		}
+		if(data.getShop().getRecipes(player).size() > 0){
+			data.getShop().setCustomer(player);
+			player.displayVillagerTradeGui(data.getShop());
 		}
 	}
 	

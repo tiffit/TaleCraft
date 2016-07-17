@@ -21,6 +21,7 @@ import de.longor.talecraft.client.gui.qad.QADTickBox;
 import de.longor.talecraft.client.gui.qad.QADTickBox.TickBoxModel;
 import de.longor.talecraft.client.gui.qad.model.AbstractButtonModel;
 import de.longor.talecraft.client.gui.qad.model.DefaultTextFieldModel;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import tiffit.talecraft.entity.NPC.EntityNPC.NPCType;
@@ -28,6 +29,7 @@ import tiffit.talecraft.entity.NPC.EnumNPCModel;
 import tiffit.talecraft.entity.NPC.EnumNPCSkin;
 import tiffit.talecraft.entity.NPC.NPCData;
 import tiffit.talecraft.entity.NPC.NPCInventoryData.NPCDrop;
+import tiffit.talecraft.entity.NPC.NPCShop;
 import tiffit.talecraft.packet.NPCDataPacket;
 
 public class NPCEditorGui extends QADGuiScreen {
@@ -54,6 +56,7 @@ public class NPCEditorGui extends QADGuiScreen {
 	String updateScript;
 	String deathScript;
 	List<NPCDrop> drops;
+	NPCShop shop;
 	
 	public NPCEditorGui(NPCData data, UUID uuid, String interactScript, String updateScript, String deathScript){
 		this.data = data;
@@ -78,6 +81,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		this.damage = data.getDamage();
 		this.speed = data.getSpeed();
 		this.drops = data.getDrops();
+		this.shop = data.getShop();
 	}
 	
 	@Override
@@ -102,6 +106,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		data.setDrops(drops);
 		data.setBoss(boss);
 		data.setHealth(health);
+		data.setShop(shop);
 		TaleCraft.network.sendToServer(new NPCDataPacket(uuid, data.toNBT(), interactScript, updateScript, deathScript));
 		NPCEditorGui.this.mc.displayGuiScreen(null);
 	}

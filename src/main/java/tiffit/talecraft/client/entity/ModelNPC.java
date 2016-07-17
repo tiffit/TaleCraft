@@ -55,9 +55,13 @@ public class ModelNPC extends ModelBiped {
     
     private ModelBase getCurrentModel(Entity entity){
     	EntityNPC npc = (EntityNPC) entity;
-    	ModelBase model = npc.getNPCData().getModel().getModel();
+    	ModelBase model = getModelForEntity(npc);
     	this.lastUsedModel = model;
     	return model;
+    }
+    
+    public static ModelBase getModelForEntity(EntityNPC npc){
+    	return npc.getNPCData().getModel().getModel();
     }
 
 }

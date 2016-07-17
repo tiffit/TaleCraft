@@ -22,7 +22,7 @@ public class ShotgunItem extends TCGunItem {
 
 	@Override
 	protected double range() {
-		return 2D;
+		return 5D;
 	}
 
 	@Override

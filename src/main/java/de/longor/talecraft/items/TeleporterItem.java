@@ -15,6 +15,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class TeleporterItem extends TCItem {
@@ -40,7 +41,8 @@ public class TeleporterItem extends TCItem {
 		// Teleport
 		if(player instanceof EntityPlayerMP) {
 			// Its a MP player
-
+			BlockPos npos = new BlockPos(nX, nY, nZ);
+			player.addChatComponentMessage(new TextComponentString("[" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "] -> " + "[" + npos.getX() + ", " + npos.getY() + ", " + npos.getZ() + "]"));
 			if(player.getRidingEntity() == null) {
 				((EntityPlayerMP) player).connection.setPlayerLocation(nX,nY,nZ, rY, rP);
 
@@ -56,7 +58,7 @@ public class TeleporterItem extends TCItem {
 				if(riding instanceof EntityPoint) {
 					return EnumActionResult.PASS;
 				}
-
+				
 				riding.setPositionAndUpdate(nX, nY+0.01f, nZ);
 				riding.velocityChanged = true;
 			}
@@ -114,6 +116,7 @@ public class TeleporterItem extends TCItem {
 				// Its a MP player
 
 				if(player.getRidingEntity() == null) {
+					
 					((EntityPlayerMP) player).connection.setPlayerLocation(nX,nY,nZ, rY, rP);
 
 					if(player.isSprinting()) {

@@ -31,6 +31,8 @@ public class NPCData {
 	private float attackDamage;
 	private double movementspeed;
 	private float health;
+
+	private NPCShop shop;
 	
 	/**The data for the NPC's inventory*/
 	private NPCInventoryData invdata;
@@ -55,7 +57,16 @@ public class NPCData {
 		attackDamage = 2f;
 		health = 10f;
 		movementspeed = 0.6D;
+		shop = new NPCShop(npc);
 		invdata = new NPCInventoryData();
+	}
+	
+	public NPCShop getShop(){
+		return shop;
+	}
+	
+	public void setShop(NPCShop shp){
+		shop = shp;
 	}
 	
 	public boolean isInvulnerable(){
@@ -222,6 +233,7 @@ public class NPCData {
 		tag.setDouble("movementspeed", movementspeed);
 		tag.setTag("inventory", invdata.toNBT());
 		tag.setFloat("health", health);
+		tag.setTag("shop", shop.toNBT());
 		return tag;
 	}
 	
@@ -244,6 +256,7 @@ public class NPCData {
 		if(!tag.hasKey("health")) tag.setFloat("health", 10);//For backwards compatibility
 		data.setHealth(tag.getFloat("health"));
 		data.invdata = NPCInventoryData.fromNBT(tag.getCompoundTag("inventory"));
+		data.shop = NPCShop.getShop(tag.getCompoundTag("shop"), npc);
 		return data;
 	}
 	

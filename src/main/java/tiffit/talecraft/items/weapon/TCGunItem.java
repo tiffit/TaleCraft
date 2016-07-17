@@ -1,9 +1,13 @@
 package tiffit.talecraft.items.weapon;
 
+import java.util.List;
+
 import de.longor.talecraft.TCSoundHandler;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -18,12 +22,25 @@ public abstract class TCGunItem extends TCWeaponItem {
 	
 	public TCGunItem(){
 		this.setMaxStackSize(1);
+		this.setMaxDamage(getClip().clipSize());
+	}
+	
+	@Override
+	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+		list.add(new ItemStack(item, 1, item.getMaxDamage()));
+		list.add(new ItemStack(item));
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+		int max = stack.getMaxDamage();
+		int ammo = stack.getMaxDamage() - stack.getItemDamage();
+		tooltip.add("Ammo: " + ammo + "/" + max);
 	}
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-		if(world.isRemote)return ActionResult.newResult(EnumActionResult.PASS, stack);
-
+		if(world.isRemote || hand == EnumHand.OFF_HAND)return ActionResult.newResult(EnumActionResult.PASS, stack);
 		if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound tag = stack.getTagCompound();
 		if(!tag.hasKey("reloading")) tag.setLong("reloading", world.getTotalWorldTime());
@@ -31,9 +48,9 @@ public abstract class TCGunItem extends TCWeaponItem {
 			tag.setLong("reloading", tag.getLong("reloading") - 1);
 			return ActionResult.newResult(EnumActionResult.FAIL, stack);
 		}
-		if(!tag.hasKey("amount") || tag.getInteger("amount") <= 0){
-			world.playSound(null, player.getPosition(), TCSoundHandler.DryFire, SoundCategory.AMBIENT, 5F, 1F);
-			tag.setInteger("amount", 0);
+		if(stack.getItemDamage() >= stack.getMaxDamage()){
+			stack.setItemDamage(stack.getMaxDamage());
+			world.playSound(null, player.getPosition(), TCSoundHandler.DryFire, SoundCategory.AMBIENT, 3F, 1F);
 			return ActionResult.newResult(EnumActionResult.FAIL, stack);
 		}
 		if(!tag.hasKey("fireSpeed")) tag.setLong("fireSpeed", world.getTotalWorldTime());
@@ -41,9 +58,9 @@ public abstract class TCGunItem extends TCWeaponItem {
 		if(isPistol() ? tag.getBoolean("usingDone") : world.getTotalWorldTime() - tag.getLong("fireSpeed") >= fireSpeed()){
 			tag.setBoolean("usingDone", false);
 			tag.setLong("fireSpeed", world.getTotalWorldTime());
-			tag.setInteger("amount", tag.getInteger("amount") - 1);
+			stack.attemptDamageItem(1, itemRand);
 			fire(world, player);
-			player.setActiveHand(hand);
+			if(isPistol())player.setActiveHand(hand);
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
 		return ActionResult.newResult(EnumActionResult.FAIL, stack);
@@ -51,7 +68,7 @@ public abstract class TCGunItem extends TCWeaponItem {
 	
 	protected void fire(World world, EntityPlayer player){
 		EntityBullet bullet = new EntityBullet(world, player, getDamage(), range());
-		world.playSound(null, player.getPosition(), fireSound(), SoundCategory.AMBIENT, 5F, 1F);
+		world.playSound(null, player.getPosition(), fireSound(), SoundCategory.AMBIENT, 3F, 1F);
 		bullet.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 		world.spawnEntityInWorld(bullet);
 	}

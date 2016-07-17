@@ -53,13 +53,16 @@ public class GunReloadPacket implements IMessage {
 				int index = gun.getClipInInventory(player.inventory);
 				if(index != -1){
 					if(!item.hasTagCompound())item.setTagCompound(new NBTTagCompound());
-					if(!item.getTagCompound().hasKey("reloading") || item.getTagCompound().getLong("reloading") <= 0){
+					ItemStack clipStack = player.inventory.getStackInSlot(index);
+					TCGunClipItem clip = (TCGunClipItem)clipStack.getItem();
+					if(item.getItemDamage() == 0){
 						return null;
 					}
-					TCGunClipItem clip = (TCGunClipItem) player.inventory.getStackInSlot(index).getItem();
-					item.getTagCompound().setInteger("amount", clip.clipSize());
+					item.setItemDamage(0);
 					item.getTagCompound().setLong("reloading", player.worldObj.getTotalWorldTime() + 45);
-					player.inventory.setInventorySlotContents(index, null);
+					clipStack.stackSize--;
+					if(clipStack.stackSize <= 0) clipStack = null;
+					player.inventory.setInventorySlotContents(index, clipStack);
 				}
 			}
 			return null;
