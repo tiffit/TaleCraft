@@ -28,6 +28,7 @@ item.voxelbrush.name=Voxelator
 item.terrainbrush.name=Terrain-Brush
 item.npceditor.name=NPC Editor
 item.npcclone.name=NPC Cloner
+item.camera.name=Camera
 
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key
@@ -45,6 +46,7 @@ item.shotgun.name=Shotgun
 item.shotgunclip.name=Shotgun Clip
 item.bombarrow.name=Explosive Arrow
 item.boomerang.name=Boomerang
+item.knife.name=Throwing Knife
 
 item.harp.name=Harp
 item.guitar.name=Guitar
@@ -70,9 +72,11 @@ tile.talecraft:delayblock.name=Delay Block
 tile.talecraft:urlblock.name=URL Block
 tile.talecraft:summonblock.name=Summon Block
 tile.talecraft:musicblock.name=Music Block
+tile.talecraft:camerablock.name=Camera Block
 
 tile.talecraft:spikeblock.name=Spike
 tile.talecraft:lockeddoorblock.name=Locked Door
+tile.talecraft:workbench.name=Workbench
 
 tile.talecraft:killblock.name=Killblock
 
