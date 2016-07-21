@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "talecraft:blocks/world/workbench_front",
+        "down": "talecraft:blocks/world/workbench_bottom",
+        "up": "talecraft:blocks/world/workbench_top",
+        "north": "talecraft:blocks/world/workbench_front",
+        "east": "talecraft:blocks/world/workbench_side",
+        "south": "talecraft:blocks/world/workbench_side",
+        "west": "talecraft:blocks/world/workbench_front"
+    }
+}

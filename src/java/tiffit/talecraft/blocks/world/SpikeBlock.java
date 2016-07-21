@@ -1,0 +1,140 @@
+package tiffit.talecraft.blocks.world;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import de.longor.talecraft.TaleCraft;
+import de.longor.talecraft.TaleCraftTabs;
+import de.longor.talecraft.blocks.TCBlock;
+import de.longor.talecraft.blocks.TCITriggerableBlock;
+import de.longor.talecraft.invoke.EnumTriggerState;
+import net.minecraft.block.BlockAnvil;
+import net.minecraft.block.BlockCactus;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+public class SpikeBlock extends TCWorldBlock implements TCITriggerableBlock{
+	
+	public static final PropertyDirection FACING = PropertyDirection.create("facing");
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
+	private static final Logger LOGGER = LogManager.getLogger();
+	
+	public SpikeBlock(){
+		super();
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP).withProperty(ACTIVE, true));
+	}
+	
+	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+        EnumFacing enumfacing = placer.getHorizontalFacing();
+        if(hitY == 0f) enumfacing = EnumFacing.UP;
+        else if(hitY == 1f) enumfacing = EnumFacing.DOWN;
+        try{
+            return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, enumfacing).withProperty(ACTIVE, true);
+        }
+        catch (IllegalArgumentException var11){
+            if (!worldIn.isRemote){
+                LOGGER.warn(String.format("Invalid spike block data @ " + pos.toString() + " in " + worldIn.provider.getDimension()));
+
+                if (placer instanceof EntityPlayer){
+                    ((EntityPlayer)placer).addChatMessage(new TextComponentString("Invalid spike block data!"));
+                }
+            }
+
+            return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, 0, placer).withProperty(FACING, EnumFacing.UP).withProperty(ACTIVE, true);
+        }
+    }
+	
+	@Override
+	protected BlockStateContainer createBlockState() {
+	    return new BlockStateContainer(this, new IProperty[] { FACING, ACTIVE });
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		int altmeta = meta;
+		if(meta >= 6){
+			altmeta -= 6;
+		}
+		EnumFacing direction = EnumFacing.values()[altmeta];
+		boolean active = meta >= 6;
+	    return getDefaultState().withProperty(FACING, direction).withProperty(ACTIVE, active);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+	    EnumFacing facing = state.getValue(FACING);
+	    int meta = facing.ordinal();
+	    if(state.getValue(ACTIVE)) meta +=6;
+	    return meta;
+	}
+	
+	@Override
+	public int damageDropped(IBlockState state) {
+		return getMetaFromState(state);
+	}
+	
+	@Override
+    public boolean isOpaqueCube(IBlockState state){
+        return false;
+    }
+
+	@Override
+    public boolean isFullCube(IBlockState state){
+        return false;
+    }
+	
+	@Override
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT;
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+		return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+		return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1D, 0.3D, 1D);
+	}
+
+	@Override
+	public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		return true;
+	}
+	
+	@Override
+    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn){
+        if(state.getValue(ACTIVE)) entityIn.attackEntityFrom(DamageSource.cactus, 2.5F);
+    }
+
+	@Override
+	public void trigger(World world, BlockPos position, EnumTriggerState trigger) {
+		boolean active = trigger.getBooleanValue();
+		IBlockState bs = world.getBlockState(position);
+		world.setBlockState(position, bs.withProperty(ACTIVE, active));
+	}
+}
