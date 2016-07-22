@@ -16,6 +16,25 @@
         "Added throwable knife",
         "Added camera block and camera item"
       ]
+    },
+    {
+      "version": "v0.2.15",
+      "mc": "1.10.2",
+      "forge": "1.10.2-12.18.0.2007-1.10.0",
+      "libs": "1102_2007",
+      "id": 2316527,
+      "type": "Beta",
+      "reddit": "https://www.reddit.com/r/talecraft/comments/4t77i5/update_talecraftv0215/",
+      "curse": "http://minecraft.curseforge.com/projects/talecraft/files/2316527",
+      "changelog": [
+        "Modified guns",
+        "Added boomerang",
+        "Bug Fixes",
+        "NPCs can now be merchants",
+        "Servers now work again",
+        "Added NPC cloner",
+        "Other minor changes"
+      ]
     }
   ]
 }
