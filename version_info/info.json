@@ -8,7 +8,6 @@
       "id": 2317707,
       "type": "Beta",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4tz5kp/update_talecraftv0216/",
-      "curse": "http://minecraft.curseforge.com/projects/talecraft/files/2317707",
       "changelog": [
         "NPC Trades can now have limited stock",
         "The name of an NPC will now change color according to its type",
@@ -25,7 +24,6 @@
       "id": 2316527,
       "type": "Beta",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4t77i5/update_talecraftv0215/",
-      "curse": "http://minecraft.curseforge.com/projects/talecraft/files/2316527",
       "changelog": [
         "Modified guns",
         "Added boomerang",
@@ -34,6 +32,58 @@
         "Servers now work again",
         "Added NPC cloner",
         "Other minor changes"
+      ]
+    },
+    {
+      "version": "v0.2.14",
+      "mc": "1.10.2",
+      "forge": "1.10.2-12.18.0.2007-1.10.0",
+      "libs": "1102_2007",
+      "id": 2315837,
+      "type": "Beta",
+      "reddit": "https://www.reddit.com/r/talecraft/comments/4srmfy/update_talecraftv0214/",
+      "changelog": [
+        "Added \"stable\" option to summon blocks that acts as a limit and only spawns entities when below the spawn amount",
+        "Adding the tag \"command\" to any itemstack will cause the command specified to run when the item is right clicked",
+        "NPCs can now drop items with NBT",
+        "Added heart item",
+        "Bug Fixes",
+        "Added pistol, rifle, and shotgun",
+        "Added harp, guitar, and drums",
+        "Added explosive arrow"
+      ]
+    },
+    {
+      "version": "v0.2.13",
+      "mc": "1.10.2",
+      "forge": "1.10.2-12.18.0.2007-1.10.0",
+      "libs": "1102_2007",
+      "id": 2315348,
+      "type": "Beta",
+      "reddit": "https://www.reddit.com/r/talecraft/comments/4sep5q/update_talecraftv0213/",
+      "changelog": [
+        "Added Configurable NPC Drops",
+        "NPCs can now be bosses",
+        "Max Health of NPCs can now be changed",
+        "Added more NPC models",
+        "The hit box of NPCs now changes based on the model",
+        "Added NPC model selection GUI"
+      ]
+    },
+    {
+      "version": "v0.2.12",
+      "mc": "1.10.2",
+      "forge": "1.10.2-12.18.0.2007-1.10.0",
+      "libs": "1102_2007",
+      "id": 2314761,
+      "type": "Beta",
+      "reddit": "https://www.reddit.com/r/talecraft/comments/4s2t95/update_talecraftv0212/",
+      "changelog": [
+        "Improved voxelator block selection GUI",
+        "Improved NPC inventory item selection GUI",
+        "Added the ability for NPCs to change models.",
+        "Small bug fixes",
+        "Fixed NPC data syncing issue"
       ]
     }
   ]
