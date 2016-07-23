@@ -7,6 +7,7 @@
       "libs": "1102_2007",
       "id": 2317707,
       "type": "Beta",
+      "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4tz5kp/update_talecraftv0216/",
       "changelog": [
         "NPC Trades can now have limited stock",
@@ -23,6 +24,7 @@
       "libs": "1102_2007",
       "id": 2316527,
       "type": "Beta",
+      "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4t77i5/update_talecraftv0215/",
       "changelog": [
         "Modified guns",
@@ -41,6 +43,7 @@
       "libs": "1102_2007",
       "id": 2315837,
       "type": "Beta",
+      "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4srmfy/update_talecraftv0214/",
       "changelog": [
         "Added \"stable\" option to summon blocks that acts as a limit and only spawns entities when below the spawn amount",
@@ -60,6 +63,7 @@
       "libs": "1102_2007",
       "id": 2315348,
       "type": "Beta",
+      "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4sep5q/update_talecraftv0213/",
       "changelog": [
         "Added Configurable NPC Drops",
@@ -77,6 +81,7 @@
       "libs": "1102_2007",
       "id": 2314761,
       "type": "Beta",
+      "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4s2t95/update_talecraftv0212/",
       "changelog": [
         "Improved voxelator block selection GUI",
