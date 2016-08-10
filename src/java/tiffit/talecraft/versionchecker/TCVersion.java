@@ -1,10 +1,5 @@
 package tiffit.talecraft.versionchecker;
 
-import de.longor.talecraft.Reference;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-
 public class TCVersion {
 	String name;
 	

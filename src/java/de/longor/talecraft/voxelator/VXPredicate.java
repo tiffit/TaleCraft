@@ -10,14 +10,18 @@ import de.longor.talecraft.voxelator.predicates.VXPredicateIsSolid;
 import de.longor.talecraft.voxelator.predicates.VXPredicateNOT;
 import de.longor.talecraft.voxelator.predicates.VXPredicateOR;
 import de.longor.talecraft.voxelator.predicates.VXPredicateRandom;
-import de.longor.talecraft.voxelator.predicates.VXPredicateStateMatch;
-import de.longor.talecraft.voxelator.predicates.VXPredicateTypeMatch;
+import de.longor.talecraft.voxelator.predicates.VXPredicateIsState;
+import de.longor.talecraft.voxelator.predicates.VXPredicateIsType;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class VXPredicate{
-	/** A predicate that always returns true. **/
+	/**
+	 * A predicate that always returns true.
+	 * @deprecated Use instead: {@code de.longor.talecraft.voxelator.predicates.VXPredicateAlways}
+	 **/
+	@Deprecated
 	public static final VXPredicate ALWAYS = new VXPredicate(){
 		@Override
 		public boolean test(
@@ -51,11 +55,11 @@ public abstract class VXPredicate{
 	}
 
 	public static VXPredicate newTypeMatch(Block type) {
-		return new VXPredicateTypeMatch(type);
+		return new VXPredicateIsType(type);
 	}
 
 	public static VXPredicate newStateMatch(IBlockState state) {
-		return new VXPredicateStateMatch(state);
+		return new VXPredicateIsState(state);
 	}
 
 	public static VXPredicate newHeightLimit(int height) {

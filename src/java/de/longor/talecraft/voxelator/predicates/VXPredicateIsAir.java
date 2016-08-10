@@ -5,20 +5,20 @@ import de.longor.talecraft.voxelator.BrushParameter;
 import de.longor.talecraft.voxelator.CachedWorldDiff;
 import de.longor.talecraft.voxelator.VXPredicate;
 import de.longor.talecraft.voxelator.Voxelator.FilterFactory;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public final class VXPredicateIsSolid extends VXPredicate {
+public final class VXPredicateIsAir extends VXPredicate {
 	public static FilterFactory FACTORY = new FilterFactory() {
 		@Override
 		public String getName() {
-			return "is_solid";
+			return "is_air";
 		}
 		
 		@Override
 		public VXPredicate newFilter(NBTTagCompound filterData) {
-			return new VXPredicateIsSolid();
+			return new VXPredicateIsAir();
 		}
 		
 		@Override
@@ -32,10 +32,13 @@ public final class VXPredicateIsSolid extends VXPredicate {
 			return BrushParameter.NO_PARAMETERS;
 		}
 	};
+	
+	public VXPredicateIsAir() {
+		// no op
+	}
 
 	@Override
 	public boolean test(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld) {
-		return fworld.getBlockState(pos).getBlock().isBlockSolid(fworld, pos, EnumFacing.UP);
+		return fworld.getBlockState(pos).equals(Blocks.AIR.getDefaultState());
 	}
-
 }

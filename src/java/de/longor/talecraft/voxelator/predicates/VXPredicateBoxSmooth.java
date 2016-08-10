@@ -1,18 +1,52 @@
 package de.longor.talecraft.voxelator.predicates;
 
 import de.longor.talecraft.util.MutableBlockPos;
+import de.longor.talecraft.voxelator.BrushParameter;
 import de.longor.talecraft.voxelator.CachedWorldDiff;
 import de.longor.talecraft.voxelator.VXPredicate;
+import de.longor.talecraft.voxelator.Voxelator.FilterFactory;
+import de.longor.talecraft.voxelator.params.IntegerBrushParameter;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 
 public final class VXPredicateBoxSmooth extends VXPredicate {
-	private final int size;
+	private static final BrushParameter[] PARAMS = new BrushParameter[]{
+		new IntegerBrushParameter("range", 2, 9, 6)
+	};
+	
+	public static FilterFactory FACTORY = new FilterFactory() {
+		@Override
+		public String getName() {
+			return "boxsmooth";
+		}
+		
+		@Override
+		public VXPredicate newFilter(NBTTagCompound filterData) {
+			return new VXPredicateBoxSmooth(filterData.getInteger("range"));
+		}
+		
+		@Override
+		public NBTTagCompound newFilter(String[] parameters) {
+			if(parameters.length == 1) {
+				NBTTagCompound filterData = new NBTTagCompound();
+				filterData.setString("type", getName());
+				filterData.setInteger("range", Integer.parseInt(parameters[0]));
+				return filterData;
+			}
+			return null;
+		}
+
+		@Override
+		public BrushParameter[] getParameters() {
+			return PARAMS;
+		}
+	};
+	
 	private final double sizeSquared;
 	private final Vec3i vec;
 
 	public VXPredicateBoxSmooth(int size) {
-		this.size = size;
 		this.sizeSquared = size * size;
 		this.vec = new Vec3i(size, size-1, size);
 	}
