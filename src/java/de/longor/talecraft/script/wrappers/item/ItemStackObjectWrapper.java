@@ -5,8 +5,6 @@ import java.util.List;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.script.wrappers.IObjectWrapper;
 import de.longor.talecraft.script.wrappers.nbt.CompoundTagWrapper;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 

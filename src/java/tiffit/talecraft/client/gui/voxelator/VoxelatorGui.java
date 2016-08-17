@@ -15,14 +15,11 @@ import de.longor.talecraft.client.gui.qad.QADSlider;
 import de.longor.talecraft.client.gui.qad.QADSlider.SliderModel;
 import de.longor.talecraft.client.gui.qad.QADTickBox;
 import de.longor.talecraft.client.gui.qad.QADTickBox.TickBoxModel;
-import de.longor.talecraft.client.gui.qad.model.DefaultTickBoxModel;
 import de.longor.talecraft.voxelator.VXAction.VXActions;
 import de.longor.talecraft.voxelator.VXShape.VXShapes;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -63,6 +60,7 @@ public class VoxelatorGui extends QADGuiScreen {
 		}
 	}
 	
+	@Override
 	public void buildGui() {
 		addComponent(new QADLabel("Voxelator", 2, 2));
 		QADButton action = (QADButton) QADFACTORY.createButton("", 2, 10, 200).setModel(new ButtonModel(){
@@ -197,6 +195,7 @@ public class VoxelatorGui extends QADGuiScreen {
 		return Item.getItemFromBlock(block).getItemStackDisplayName(stack);
 	}
 	
+	@Override
 	public void updateGui() {
 		removeAll(params);
 		if(currentAction == VXActions.Replace.getID()){

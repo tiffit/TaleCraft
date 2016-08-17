@@ -3,9 +3,7 @@ package tiffit.talecraft.items.weapon;
 import javax.annotation.Nullable;
 
 import de.longor.talecraft.TaleCraftItems;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.IItemPropertyGetter;
@@ -18,7 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,7 +26,8 @@ public class BoomerangItem extends TCWeaponItem {
 	public BoomerangItem() {
 		super();
 		this.addPropertyOverride(new ResourceLocation("thrown"), new IItemPropertyGetter(){
-            @SideOnly(Side.CLIENT)
+            @Override
+						@SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity)	{
             	return isThrown(stack) ? 1.0F : 0.0F;
             }
@@ -50,6 +48,7 @@ public class BoomerangItem extends TCWeaponItem {
 		}
 	}
 	
+	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.AMBIENT, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 		if (!world.isRemote) {
@@ -63,7 +62,7 @@ public class BoomerangItem extends TCWeaponItem {
 			}
 		}
 
-		return new ActionResult(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 	
 	public static boolean isThrown(ItemStack stack){

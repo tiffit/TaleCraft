@@ -2,11 +2,7 @@ package tiffit.talecraft.items.weapon;
 
 import de.longor.talecraft.TCSoundHandler;
 import de.longor.talecraft.TaleCraftItems;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import tiffit.talecraft.entity.projectile.EntityBullet;
 
 public class ShotgunItem extends TCGunItem {
 	

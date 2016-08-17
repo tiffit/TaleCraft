@@ -5,12 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
-import tiffit.talecraft.entity.NPC.EntityNPC;
 
 public class ModifiedModelSkeleton extends ModelSkeleton {
 
@@ -22,6 +18,7 @@ public class ModifiedModelSkeleton extends ModelSkeleton {
 		super(modelSize, bool);
 	}
 	
+	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn){
 		boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getTicksElytraFlying() > 4;
         this.bipedHead.rotateAngleY = netHeadYaw * 0.017453292F;

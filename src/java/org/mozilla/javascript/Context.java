@@ -53,6 +53,7 @@ import org.mozilla.javascript.xml.XMLLib;
  * @author Brendan Eich
  */
 
+@SuppressWarnings({"javadoc","dep-ann","deprecation"})
 public class Context
 {
     /**
@@ -183,7 +184,7 @@ public class Context
          * @deprecated In previous releases, this name was given to
          * FEATURE_PARENT_PROTO_PROPERTIES.
          */
-    public static final int FEATURE_PARENT_PROTO_PROPRTIES = 5;
+		public static final int FEATURE_PARENT_PROTO_PROPRTIES = 5;
 
     /**
      * Control if support for E4X(ECMAScript for XML) extension is available.
@@ -304,7 +305,7 @@ public class Context
      * this class, consider using {@link #Context(ContextFactory)} constructor
      * instead in the subclasses' constructors.
      */
-    public Context()
+		public Context()
     {
         this(ContextFactory.getGlobal());
     }
@@ -474,7 +475,8 @@ public class Context
             factory = ContextFactory.getGlobal();
         }
         return call(factory, new ContextAction() {
-            public Object run(Context cx) {
+            @Override
+						public Object run(Context cx) {
                 return callable.call(cx, scope, thisObj, args);
             }
         });
@@ -1968,10 +1970,12 @@ public class Context
             return null;
         hasClassShutter = true;
         return new ClassShutterSetter() {
-            public void setClassShutter(ClassShutter shutter) {
+            @Override
+						public void setClassShutter(ClassShutter shutter) {
                 classShutter = shutter;
             }
-            public ClassShutter getClassShutter() {
+            @Override
+						public ClassShutter getClassShutter() {
                 return classShutter;
             }
         };

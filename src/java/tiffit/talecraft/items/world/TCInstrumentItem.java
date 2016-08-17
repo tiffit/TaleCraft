@@ -22,12 +22,12 @@ public class TCInstrumentItem extends TCWorldItem {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemstack, World world, EntityPlayer player,EnumHand hand) {
-		if(world.isRemote) return new ActionResult(EnumActionResult.PASS, itemstack);
+		if(world.isRemote) return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
 		int note = world.rand.nextInt(25);
 		byte b = (byte)(note % 25);
 		float pitch = (float)Math.pow(2.0D, (double)(b - 12) / 12.0D);
 		world.playSound(null, player.getPosition(), getInstrument(instrument), SoundCategory.AMBIENT, 1F, pitch);
-		return new ActionResult(EnumActionResult.SUCCESS, itemstack);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
 	}
 	
     public static SoundEvent getInstrument(Instrument instrument) {

@@ -19,6 +19,7 @@ import java.util.Set;
  * See ECMA 15.2.
  * @author Norris Boyd
  */
+@SuppressWarnings("rawtypes")
 public class NativeObject extends IdScriptableObject implements Map
 {
     static final long serialVersionUID = -6345305608474346996L;
@@ -422,7 +423,8 @@ public class NativeObject extends IdScriptableObject implements Map
 
     // methods implementing java.util.Map
 
-    public boolean containsKey(Object key) {
+    @Override
+		public boolean containsKey(Object key) {
         if (key instanceof String) {
             return has((String) key, this);
         } else if (key instanceof Number) {
@@ -431,7 +433,8 @@ public class NativeObject extends IdScriptableObject implements Map
         return false;
     }
 
-    public boolean containsValue(Object value) {
+    @Override
+		public boolean containsValue(Object value) {
         for (Object obj : values()) {
             if (value == obj ||
                     value != null && value.equals(obj)) {
@@ -441,7 +444,8 @@ public class NativeObject extends IdScriptableObject implements Map
         return false;
     }
 
-    public Object remove(Object key) {
+    @Override
+		public Object remove(Object key) {
         Object value = get(key);
         if (key instanceof String) {
             delete((String) key);
@@ -452,27 +456,33 @@ public class NativeObject extends IdScriptableObject implements Map
     }
 
 
-    public Set<Object> keySet() {
+    @Override
+		public Set<Object> keySet() {
         return new KeySet();
     }
 
-    public Collection<Object> values() {
+    @Override
+		public Collection<Object> values() {
         return new ValueCollection();
     }
 
-    public Set<Map.Entry<Object, Object>> entrySet() {
+    @Override
+		public Set<Map.Entry<Object, Object>> entrySet() {
         return new EntrySet();
     }
 
-    public Object put(Object key, Object value) {
+    @Override
+		public Object put(Object key, Object value) {
         throw new UnsupportedOperationException();
     }
 
-    public void putAll(Map m) {
+    @Override
+		public void putAll(Map m) {
         throw new UnsupportedOperationException();
     }
 
-    public void clear() {
+    @Override
+		public void clear() {
         throw new UnsupportedOperationException();
     }
 
@@ -485,27 +495,33 @@ public class NativeObject extends IdScriptableObject implements Map
                 Object key = null;
                 int index = 0;
 
-                public boolean hasNext() {
+                @Override
+								public boolean hasNext() {
                     return index < ids.length;
                 }
 
-                public Map.Entry<Object, Object> next() {
+                @Override
+								public Map.Entry<Object, Object> next() {
                     final Object ekey = key = ids[index++];
                     final Object value = get(key);
                     return new Map.Entry<Object, Object>() {
-                        public Object getKey() {
+                        @Override
+												public Object getKey() {
                             return ekey;
                         }
 
-                        public Object getValue() {
+                        @Override
+												public Object getValue() {
                             return value;
                         }
 
-                        public Object setValue(Object value) {
+                        @Override
+												public Object setValue(Object value) {
                             throw new UnsupportedOperationException();
                         }
 
-                        public boolean equals(Object other) {
+                        @Override
+												public boolean equals(Object other) {
                             if (!(other instanceof Map.Entry)) {
                                 return false;
                             }
@@ -514,18 +530,21 @@ public class NativeObject extends IdScriptableObject implements Map
                                 && (value == null ? e.getValue() == null : value.equals(e.getValue()));
                         }
 
-                        public int hashCode() {
+                        @Override
+												public int hashCode() {
                             return (ekey == null ? 0 : ekey.hashCode()) ^
                                    (value == null ? 0 : value.hashCode());
                         }
 
-                        public String toString() {
+                        @Override
+												public String toString() {
                             return ekey + "=" + value;
                         }
                     };
                 }
 
-                public void remove() {
+                @Override
+								public void remove() {
                     if (key == null) {
                         throw new IllegalStateException();
                     }
@@ -555,11 +574,13 @@ public class NativeObject extends IdScriptableObject implements Map
                 Object key;
                 int index = 0;
 
-                public boolean hasNext() {
+                @Override
+								public boolean hasNext() {
                     return index < ids.length;
                 }
 
-                public Object next() {
+                @Override
+								public Object next() {
                     try {
                         return (key = ids[index++]);
                     } catch(ArrayIndexOutOfBoundsException e) {
@@ -568,7 +589,8 @@ public class NativeObject extends IdScriptableObject implements Map
                     }
                 }
 
-                public void remove() {
+                @Override
+								public void remove() {
                     if (key == null) {
                         throw new IllegalStateException();
                     }
@@ -593,15 +615,18 @@ public class NativeObject extends IdScriptableObject implements Map
                 Object key;
                 int index = 0;
 
-                public boolean hasNext() {
+                @Override
+								public boolean hasNext() {
                     return index < ids.length;
                 }
 
-                public Object next() {
+                @Override
+								public Object next() {
                     return get((key = ids[index++]));
                 }
 
-                public void remove() {
+                @Override
+								public void remove() {
                     if (key == null) {
                         throw new IllegalStateException();
                     }

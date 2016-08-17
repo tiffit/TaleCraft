@@ -3,7 +3,6 @@ package de.longor.talecraft.client;
 import org.lwjgl.input.Keyboard;
 
 import de.longor.talecraft.Reference;
-import de.longor.talecraft.TCSoundHandler;
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.client.gui.nbt.GuiNBTEditor;
 import de.longor.talecraft.proxy.ClientProxy;
@@ -11,8 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -71,6 +68,7 @@ public class ClientKeyboardHandler {
 				TCGunItem gun = (TCGunItem) stack.getItem();
 				int index = gun.getClipInInventory(mc.thePlayer.inventory);
 				if(index != -1){
+					// XXX: Why is clip unused?
 					TCGunClipItem clip = (TCGunClipItem) mc.thePlayer.inventory.getStackInSlot(index).getItem();
 					if(stack.getItemDamage() > 0){
 						mc.theWorld.playSound(mc.thePlayer, mc.thePlayer.getPosition(), gun.reloadSound(), SoundCategory.AMBIENT, 5F, 1F);

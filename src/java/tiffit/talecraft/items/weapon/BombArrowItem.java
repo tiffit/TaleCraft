@@ -14,7 +14,8 @@ public class BombArrowItem extends ItemArrow {
 		this.setCreativeTab(TaleCraftTabs.tab_TaleCraftWeaponTab);
 	}
 
-    public EntityArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter){
+    @Override
+		public EntityArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter){
         return new EntityBombArrow(worldIn, shooter);
     }
 

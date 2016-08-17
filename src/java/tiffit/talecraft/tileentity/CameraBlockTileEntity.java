@@ -124,6 +124,7 @@ public class CameraBlockTileEntity extends TCTileEntity {
 			return new CameraPos(x, y, z, yaw, pitch);
 		}
 		
+		@Override
 		public String toString(){
 			DecimalFormat format = ItemStack.DECIMALFORMAT;
 			return "[x=" + format.format(xCoord) + ", y=" + format.format(yCoord) + ", z=" + format.format(zCoord) + " | yaw=" + format.format(yaw) + ", pitch=" + format.format(pitch) + "]";
@@ -232,7 +233,7 @@ public class CameraBlockTileEntity extends TCTileEntity {
 		private double calcDistance(CameraPos pos){
 			double xDiff = player.posX - pos.xCoord;
 			double yDiff = player.posY - pos.yCoord;
-			double zDiff = player.posZ - pos.zCoord; 
+			double zDiff = player.posZ - pos.zCoord;
 			double arg1 = xDiff*xDiff;
 			double arg2 = yDiff*yDiff;
 			double arg3 = zDiff*zDiff;

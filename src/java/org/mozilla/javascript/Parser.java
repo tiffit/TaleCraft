@@ -11,7 +11,6 @@ import org.mozilla.javascript.ast.*;  // we use basically every class
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +37,7 @@ import java.util.HashSet;
  * @author Mike McCabe
  * @author Brendan Eich
  */
+@SuppressWarnings("javadoc")
 public class Parser
 {
     /**
@@ -2379,7 +2379,7 @@ public class Parser
                         // #TODO
                     }
                 }
-                else {                           
+                else {
                     result.add(en);
                 }
             } while (matchToken(Token.COMMA));

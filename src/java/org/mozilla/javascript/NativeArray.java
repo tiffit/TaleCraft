@@ -21,7 +21,7 @@ import java.util.Set;
  * @author Norris Boyd
  * @author Mike McCabe
  */
-public class NativeArray extends IdScriptableObject implements List
+public class NativeArray extends IdScriptableObject implements List<Object>
 {
     static final long serialVersionUID = 7331366857676127338L;
 
@@ -211,7 +211,8 @@ public class NativeArray extends IdScriptableObject implements List
         initPrototypeMethod(ARRAY_TAG, id, s, arity);
     }
 
-    @Override
+    @SuppressWarnings("boxing")
+		@Override
     public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
                              Scriptable thisObj, Object[] args)
     {
@@ -496,7 +497,8 @@ public class NativeArray extends IdScriptableObject implements List
       return allIds.toArray();
     }
 
-    public Integer[] getIndexIds() {
+    @SuppressWarnings("boxing")
+		public Integer[] getIndexIds() {
       Object[] ids = getIds();
       java.util.List<Integer> indices = new java.util.ArrayList<Integer>(ids.length);
       for (Object id : ids) {
@@ -519,7 +521,8 @@ public class NativeArray extends IdScriptableObject implements List
         return super.getDefaultValue(hint);
     }
 
-    private ScriptableObject defaultIndexPropertyDescriptor(Object value) {
+    @SuppressWarnings("boxing")
+		private ScriptableObject defaultIndexPropertyDescriptor(Object value) {
       Scriptable scope = getParentScope();
       if (scope == null) scope = this;
       ScriptableObject desc = new NativeObject();
@@ -606,8 +609,10 @@ public class NativeArray extends IdScriptableObject implements List
         return length;
     }
 
-    /** @deprecated Use {@link #getLength()} instead. */
-    public long jsGet_length() {
+    /** @return ?
+     * @deprecated Use {@link #getLength()} instead. */
+    @SuppressWarnings("dep-ann")
+		public long jsGet_length() {
         return getLength();
     }
 
@@ -967,7 +972,8 @@ public class NativeArray extends IdScriptableObject implements List
             final Scriptable funThis = ScriptRuntime.lastStoredScriptable(cx);
             final Object[] cmpBuf = new Object[2]; // Buffer for cmp arguments
             comparator = new Comparator<Object>() {
-                public int compare(final Object x, final Object y) {
+                @Override
+								public int compare(final Object x, final Object y) {
                     // sort undefined to end
                     if (x == y) {
                         return 0;
@@ -994,7 +1000,8 @@ public class NativeArray extends IdScriptableObject implements List
             };
         } else {
             comparator = new Comparator<Object>() {
-                public int compare(final Object x, final Object y) {
+                @Override
+								public int compare(final Object x, final Object y) {
                     // sort undefined to end
                     if (x == y)
                         return 0;
@@ -1642,7 +1649,7 @@ public class NativeArray extends IdScriptableObject implements List
                 // no initial value passed, use first element found as inital value
                 value = elem;
             } else {
-                Object[] innerArgs = { value, elem, index, thisObj };
+                Object[] innerArgs = { value, elem, Long.valueOf(index), thisObj };
                 value = f.call(cx, parent, parent, innerArgs);
             }
         }
@@ -1655,15 +1662,19 @@ public class NativeArray extends IdScriptableObject implements List
 
     // methods to implement java.util.List
 
-    public boolean contains(Object o) {
+    @Override
+		public boolean contains(Object o) {
         return indexOf(o) > -1;
     }
 
-    public Object[] toArray() {
+    @Override
+		public Object[] toArray() {
         return toArray(ScriptRuntime.emptyArgs);
     }
 
-    public Object[] toArray(Object[] a) {
+    @SuppressWarnings("unchecked")
+		@Override
+		public Object[] toArray(Object[] a) {
         long longLen = length;
         if (longLen > Integer.MAX_VALUE) {
             throw new IllegalStateException();
@@ -1678,14 +1689,16 @@ public class NativeArray extends IdScriptableObject implements List
         return array;
     }
 
-    public boolean containsAll(Collection c) {
+    @Override
+		public boolean containsAll(Collection<?> c) {
         for (Object aC : c)
             if (!contains(aC))
                 return false;
         return true;
     }
 
-    public int size() {
+    @Override
+		public int size() {
         long longLen = length;
         if (longLen > Integer.MAX_VALUE) {
             throw new IllegalStateException();
@@ -1707,11 +1720,13 @@ public class NativeArray extends IdScriptableObject implements List
         }
     }
 
-    public Object get(int index) {
+    @Override
+		public Object get(int index) {
         return get((long) index);
     }
 
-    public int indexOf(Object o) {
+    @Override
+		public int indexOf(Object o) {
         long longLen = length;
         if (longLen > Integer.MAX_VALUE) {
             throw new IllegalStateException();
@@ -1733,7 +1748,8 @@ public class NativeArray extends IdScriptableObject implements List
         return -1;
     }
 
-    public int lastIndexOf(Object o) {
+    @Override
+		public int lastIndexOf(Object o) {
         long longLen = length;
         if (longLen > Integer.MAX_VALUE) {
             throw new IllegalStateException();
@@ -1755,15 +1771,21 @@ public class NativeArray extends IdScriptableObject implements List
         return -1;
     }
 
-    public Iterator iterator() {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+		@Override
+		public Iterator iterator() {
         return listIterator(0);
     }
 
-    public ListIterator listIterator() {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+		@Override
+		public ListIterator listIterator() {
         return listIterator(0);
     }
 
-    public ListIterator listIterator(final int start) {
+    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+		public ListIterator listIterator(final int start) {
         long longLen = length;
         if (longLen > Integer.MAX_VALUE) {
             throw new IllegalStateException();
@@ -1774,95 +1796,116 @@ public class NativeArray extends IdScriptableObject implements List
             throw new IndexOutOfBoundsException("Index: " + start);
         }
 
-        return new ListIterator() {
+        return new ListIterator<Object>() {
 
             int cursor = start;
 
-            public boolean hasNext() {
+            @Override
+						public boolean hasNext() {
                 return cursor < len;
             }
 
-            public Object next() {
+            @Override
+						public Object next() {
                 if (cursor == len) {
                     throw new NoSuchElementException();
                 }
                 return get(cursor++);
             }
 
-            public boolean hasPrevious() {
+            @Override
+						public boolean hasPrevious() {
                 return cursor > 0;
             }
 
-            public Object previous() {
+            @Override
+						public Object previous() {
                 if (cursor == 0) {
                     throw new NoSuchElementException();
                 }
                 return get(--cursor);
             }
 
-            public int nextIndex() {
+            @Override
+						public int nextIndex() {
                 return cursor;
             }
 
-            public int previousIndex() {
+            @Override
+						public int previousIndex() {
                 return cursor - 1;
             }
 
-            public void remove() {
+            @Override
+						public void remove() {
                 throw new UnsupportedOperationException();
             }
 
-            public void add(Object o) {
+            @Override
+						public void add(Object o) {
                 throw new UnsupportedOperationException();
             }
 
-            public void set(Object o) {
+            @Override
+						public void set(Object o) {
                 throw new UnsupportedOperationException();
             }
         };
     }
 
-    public boolean add(Object o) {
+    @Override
+		public boolean add(Object o) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean remove(Object o) {
+    @Override
+		public boolean remove(Object o) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean addAll(Collection c) {
+    @Override
+		public boolean addAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean removeAll(Collection c) {
+    @Override
+		public boolean removeAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean retainAll(Collection c) {
+    @Override
+		public boolean retainAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
-    public void clear() {
+    @Override
+		public void clear() {
         throw new UnsupportedOperationException();
     }
 
-    public void add(int index, Object element) {
+    @Override
+		public void add(int index, Object element) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean addAll(int index, Collection c) {
+    @Override
+		public boolean addAll(int index, Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
-    public Object set(int index, Object element) {
+    @Override
+		public Object set(int index, Object element) {
         throw new UnsupportedOperationException();
     }
 
-    public Object remove(int index) {
+    @Override
+		public Object remove(int index) {
         throw new UnsupportedOperationException();
     }
 
-    public List subList(int fromIndex, int toIndex) {
+    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+		public List subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException();
     }
 

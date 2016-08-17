@@ -12,6 +12,7 @@ package org.mozilla.javascript;
  * The class of exceptions raised by the engine as described in
  * ECMA edition 3. See section 15.11.6 in particular.
  */
+@SuppressWarnings("dep-ann")
 public class EcmaError extends RhinoException
 {
     static final long serialVersionUID = -6261226256957286699L;

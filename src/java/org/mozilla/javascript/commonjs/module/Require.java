@@ -173,7 +173,8 @@ public class Require extends BaseFunction
         ScriptableObject.putProperty(scope, "require", this);
     }
 
-    public Object call(Context cx, Scriptable scope, Scriptable thisObj,
+    @Override
+		public Object call(Context cx, Scriptable scope, Scriptable thisObj,
             Object[] args)
     {
         if(args == null || args.length < 1) {
@@ -218,7 +219,8 @@ public class Require extends BaseFunction
         return getExportedModuleInterface(cx, id, uri, base, false);
     }
 
-    public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
+    @Override
+		public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
         throw ScriptRuntime.throwError(cx, scope,
                 "require() can not be invoked as a constructor");
     }

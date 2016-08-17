@@ -2,15 +2,14 @@ package de.longor.talecraft.blocks.util.tileentity;
 
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import de.longor.talecraft.blocks.TCTileEntity;
 import de.longor.talecraft.invoke.BlockTriggerInvoke;
 import de.longor.talecraft.invoke.EnumTriggerState;
 import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.invoke.Invoke;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 
 public class ClockBlockTileEntity extends TCTileEntity  {
 	IInvoke clockInvoke;

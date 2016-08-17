@@ -160,13 +160,15 @@ public class NativeRegExp extends IdScriptableObject implements Function
     	return "object";
     }
 
-    public Object call(Context cx, Scriptable scope, Scriptable thisObj,
+    @Override
+		public Object call(Context cx, Scriptable scope, Scriptable thisObj,
                        Object[] args)
     {
         return execSub(cx, scope, args, MATCH);
     }
 
-    public Scriptable construct(Context cx, Scriptable scope, Object[] args)
+    @Override
+		public Scriptable construct(Context cx, Scriptable scope, Object[] args)
     {
         return (Scriptable)execSub(cx, scope, args, MATCH);
     }
@@ -2453,7 +2455,8 @@ public class NativeRegExp extends IdScriptableObject implements Function
             res.parens = new SubString[re.parenCount];
             for (num = 0; num < re.parenCount; num++) {
                 int cap_index = gData.parensIndex(num);
-                String parstr;
+                @SuppressWarnings("unused")
+								String parstr;
                 if (cap_index != -1) {
                     int cap_length = gData.parensLength(num);
                     parsub = new SubString(str, cap_index, cap_length);

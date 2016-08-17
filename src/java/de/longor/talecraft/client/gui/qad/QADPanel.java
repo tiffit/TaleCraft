@@ -257,6 +257,7 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		return QADEnumComponentClass.CONTAINER;
 	}
 	
+	@Override
 	public void forceRebuildLayout() {
 		if(layout != null) {
 			layout.layout( this, components, new Vec2i() );
@@ -264,14 +265,17 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		}
 	}
 	
+	@Override
 	public boolean isLayoutDirty() {
 		return shouldRebuildLayout;
 	}
 	
+	@Override
 	public QADLayoutManager getLayout() {
 		return layout;
 	}
 	
+	@Override
 	public void setLayout(QADLayoutManager newLayout) {
 		layout = newLayout;
 		shouldRebuildLayout = true;

@@ -220,7 +220,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 			for(QADComponent component : lastUpdateComponents) {
 				if(component == null) continue;
 				if(component.isPointInside(mouseX, mouseY)) {
-					List<String> text = component.getTooltip(mouseX, mouseY);		
+					List<String> text = component.getTooltip(mouseX, mouseY);
 					if(text != null) {
 						int yPos = mouseY;
 						if(text.get(0).equalsIgnoreCase("ylock")) {
@@ -368,19 +368,23 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		return null;
 	}
 	
+	@Override
 	public void forceRebuildLayout() {
 		onLayout();
 	}
 	
+	@Override
 	public boolean isLayoutDirty() {
 		// GuiScreen layout is never dirty.
 		return false;
 	}
 	
+	@Override
 	public QADLayoutManager getLayout() {
 		return layout;
 	}
 	
+	@Override
 	public void setLayout(QADLayoutManager newLayout) {
 		layout = newLayout;
 		onLayout();

@@ -1,13 +1,12 @@
 package tiffit.talecraft.packet;
 
-import de.longor.talecraft.client.ClientFadeEffect;
-import de.longor.talecraft.client.ClientRenderer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+// TODO: Change this into a packet that can force any key/combination of keys.
 public class ForceF1Packet implements IMessage {
 
 	boolean f1;

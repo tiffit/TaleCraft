@@ -14,6 +14,7 @@ package org.mozilla.javascript;
  *
  * @author Norris Boyd
  */
+@SuppressWarnings("dep-ann")
 public class WrappedException extends EvaluatorException
 {
     static final long serialVersionUID = -1551979216966520648L;

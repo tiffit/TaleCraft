@@ -2,7 +2,19 @@ package de.longor.talecraft.script.wrappers.world;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.command.EntitySelector;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
 import org.mozilla.javascript.Scriptable;
+
+import tiffit.talecraft.script.wrappers.WorkbenchObjectWrapper;
+import tiffit.talecraft.util.CustomWorldData;
+import tiffit.talecraft.util.WorkbenchManager;
 
 import com.google.common.base.Predicate;
 
@@ -16,17 +28,6 @@ import de.longor.talecraft.script.wrappers.scoreboard.ScoreboardObjectWrapper;
 import de.longor.talecraft.util.GObjectTypeHelper;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.util.WorldCommandSender;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.command.EntitySelector;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import tiffit.talecraft.script.wrappers.WorkbenchObjectWrapper;
-import tiffit.talecraft.util.CustomWorldData;
-import tiffit.talecraft.util.WorkbenchManager;
 
 public class WorldObjectWrapper implements IObjectWrapper {
 	private World world;

@@ -1,12 +1,6 @@
 package tiffit.talecraft.script.wrappers;
 
-import java.util.List;
-
-import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.script.wrappers.IObjectWrapper;
-import de.longor.talecraft.script.wrappers.entity.EntityLivingObjectWrapper;
 import de.longor.talecraft.script.wrappers.entity.EntityObjectWrapper;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
@@ -23,6 +17,7 @@ public class PlayerObjectWrapper extends EntityObjectWrapper{
 		player.addChatComponentMessage(new TextComponentString(message));
 	}
 	
+	@Override
 	public String getName(){
 		return player.getDisplayNameString();
 	}

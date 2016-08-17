@@ -15,45 +15,50 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import tiffit.talecraft.client.render.RenderBullet;
 
-public class EntityBullet extends EntityThrowable{
-
+public class EntityBullet extends EntityThrowable {
+	
 	private float damage = 1f;
 	private double distance = 50f;
 	private BlockPos original = new BlockPos(0, 0, 0);
-
-    public EntityBullet(World world){
-        super(world);
-    }
-    
-    public EntityBullet(World world, double x, double y, double z){
-        super(world, x, y, z);
-    }
 	
-    public EntityBullet(World world, EntityLivingBase thrower, float damage, double distance){
-        super(world, thrower);
-        this.damage = damage;
-        this.distance = distance;
-        original = thrower.getPosition();
-    }
+	public EntityBullet(World world) {
+		super(world);
+	}
+	
+	public EntityBullet(World world, double x, double y, double z) {
+		super(world, x, y, z);
+	}
+	
+	public EntityBullet(World world, EntityLivingBase thrower, float damage,
+			double distance) {
+		super(world, thrower);
+		this.damage = damage;
+		this.distance = distance;
+		original = thrower.getPosition();
+	}
 	
 	@Override
-    protected void onImpact(RayTraceResult result){
-		if(worldObj.isRemote) return;
+	protected void onImpact(RayTraceResult result) {
+		if (worldObj.isRemote)
+			return;
 		boolean kill = true;
-		if(result.typeOfHit == Type.ENTITY){
+		if (result.typeOfHit == Type.ENTITY) {
 			Entity ent = result.entityHit;
-			if(ent instanceof EntityPlayerMP){
+			if (ent instanceof EntityPlayerMP) {
 				kill = false;
-			}else
-			ent.attackEntityFrom((new EntityDamageSource("arrow", getThrower())).setProjectile(), damage);
+			} else
+				ent.attackEntityFrom(
+						(new EntityDamageSource("arrow", getThrower())).setProjectile(),
+						damage);
 		}
-		if(result.typeOfHit == Type.BLOCK){
-			if(!worldObj.getBlockState(result.getBlockPos()).isFullBlock()){
+		if (result.typeOfHit == Type.BLOCK) {
+			if (!worldObj.getBlockState(result.getBlockPos()).isFullBlock()) {
 				kill = false;
 			}
 		}
-		if(kill)setDead();
-    }
+		if (kill)
+			setDead();
+	}
 	
 	@Override
 	protected float getGravityVelocity() {
@@ -61,35 +66,38 @@ public class EntityBullet extends EntityThrowable{
 	}
 	
 	@Override
-	public void onUpdate(){
+	public void onUpdate() {
 		super.onUpdate();
-		if(getPosition().distanceSq(original) >= (distance*distance) && !worldObj.isRemote){
+		if (getPosition().distanceSq(original) >= (distance * distance)
+				&& !worldObj.isRemote) {
 			setDead();
 		}
 	}
 	
-	 public void writeEntityToNBT(NBTTagCompound tag){
-	        super.writeEntityToNBT(tag);
-	        tag.setFloat("damage", damage);
-	        tag.setDouble("distance", distance);
-	        tag.setLong("original", original.toLong());
-	    }
-
-	    public void readEntityFromNBT(NBTTagCompound tag){
-	       super.readEntityFromNBT(tag);
-	       damage = tag.getFloat("damage");
-	       distance = tag.getDouble("distance");
-	       original = BlockPos.fromLong(tag.getLong("double"));
-	    }
+	@Override
+	public void writeEntityToNBT(NBTTagCompound tag) {
+		super.writeEntityToNBT(tag);
+		tag.setFloat("damage", damage);
+		tag.setDouble("distance", distance);
+		tag.setLong("original", original.toLong());
+	}
 	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound tag) {
+		super.readEntityFromNBT(tag);
+		damage = tag.getFloat("damage");
+		distance = tag.getDouble("distance");
+		original = BlockPos.fromLong(tag.getLong("double"));
+	}
 	
-	public static class EntityBulletRenderFactory implements IRenderFactory{
-
+	@SuppressWarnings("rawtypes")
+	public static class EntityBulletRenderFactory implements IRenderFactory {
+		
 		@Override
 		public Render createRenderFor(RenderManager manager) {
 			return new RenderBullet(manager);
 		}
 		
 	}
-
+	
 }

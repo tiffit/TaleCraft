@@ -1,6 +1,5 @@
 package tiffit.talecraft.client.render;
 
-import de.longor.talecraft.TaleCraftItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -9,8 +8,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import tiffit.talecraft.entity.projectile.EntityBoomerang;
 import tiffit.talecraft.entity.projectile.EntityKnife;
+import de.longor.talecraft.TaleCraftItems;
 
 public class RenderKnife extends Render<EntityKnife> {
 

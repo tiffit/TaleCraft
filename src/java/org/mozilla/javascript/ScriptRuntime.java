@@ -24,6 +24,7 @@ import org.mozilla.javascript.xml.XMLLib;
  * @author Norris Boyd
  */
 
+@SuppressWarnings({"javadoc","dep-ann"})
 public class ScriptRuntime {
 
     /**
@@ -76,7 +77,8 @@ public class ScriptRuntime {
          * @param args the array of arguments
          * @return the result of the call
          */
-        public Object call(Context cx, Scriptable scope, Scriptable thisObj,
+        @Override
+				public Object call(Context cx, Scriptable scope, Scriptable thisObj,
                            Object[] args)
         {
             Object[] nestedArgs = new Object[2];
@@ -1687,7 +1689,7 @@ public class ScriptRuntime {
     /**
      * @deprecated
      */
-    public static Object delete(Object obj, Object id, Context cx)
+		public static Object delete(Object obj, Object id, Context cx)
     {
         return delete(obj, id, cx, false);
     }
@@ -3631,7 +3633,8 @@ public class ScriptRuntime {
      * file to avoid (synchronized) text parsing.
      */
     private static class DefaultMessageProvider implements MessageProvider {
-        public String getMessage(String messageId, Object[] arguments) {
+        @Override
+				public String getMessage(String messageId, Object[] arguments) {
             final String defaultResource = "assets.rhino.text.Messages";
 
             Context cx = Context.getCurrentContext();

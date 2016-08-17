@@ -2,24 +2,14 @@ package de.longor.talecraft.client.render.renderers;
 
 import java.util.HashMap;
 
-import org.lwjgl.opengl.GL11;
-
-import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.client.ClientResources;
-import de.longor.talecraft.clipboard.ClipboardItem;
-import de.longor.talecraft.clipboard.ClipboardTagNames;
 import de.longor.talecraft.proxy.ClientProxy;
-import de.longor.talecraft.util.NBTHelper;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import tiffit.talecraft.client.render.metaworld.IMetadataRender;
 
 public class ItemMetaWorldRenderer {

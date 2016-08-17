@@ -111,7 +111,8 @@ public class SoftCachingModuleScriptProvider extends CachingModuleScriptProvider
         }
     }
 
-    private void readObject(ObjectInputStream in) throws IOException,
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+		private void readObject(ObjectInputStream in) throws IOException,
     ClassNotFoundException
     {
         scriptRefQueue = new ReferenceQueue<Script>();

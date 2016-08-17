@@ -1,9 +1,6 @@
 package tiffit.talecraft.blocks.world;
 
-import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.TaleCraftItems;
-import de.longor.talecraft.TaleCraftTabs;
-import de.longor.talecraft.blocks.TCBlock;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -21,16 +18,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import tiffit.talecraft.items.world.KeyItem;
-import tiffit.talecraft.packet.DoorPacket;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity;
 import tiffit.talecraft.tileentity.LockedDoorTileEntity.DoorCorner;
 
 public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider{
 
+	@SuppressWarnings("rawtypes")
 	public static final PropertyEnum CORNER = PropertyEnum.create("corner", DoorCorner.class);
 	
+	@SuppressWarnings("unchecked")
 	public LockedDoorBlock(){
 		super();
 		this.setDefaultState(this.blockState.getBaseState().withProperty(CORNER, DoorCorner.BottomLeftX));
@@ -117,19 +114,19 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 		facing = EnumFacing.fromAngle(placer.rotationYawHead);
 		boolean ZAxis = facing == EnumFacing.WEST || facing == EnumFacing.EAST;
 		
-		//Check here if there are any blocks that are in the way, but I am lazy
-		boolean canPlace = true;
 		if(ZAxis){
 			
 		}else{
 			
 		}
+		
 		world.setBlockState(pos.add(0, 1, 0), getStateFromMeta(DoorCorner.TopLeftX.ordinal() + (ZAxis ? 4 : 0)));
 		world.setBlockState(pos.add(ZAxis ? 0 : 1, 0, ZAxis ? 1 : 0), getStateFromMeta(DoorCorner.BottomRightX.ordinal() + (ZAxis ? 4 : 0)));
 		world.setBlockState(pos.add(ZAxis ? 0 : 1, 1, ZAxis ? 1 : 0), getStateFromMeta(DoorCorner.TopRightX.ordinal() + (ZAxis ? 4 : 0)));
 		return this.getStateFromMeta(meta + (ZAxis ? 4 : 0));
 	}
 	
+	@Override
 	public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState state){
 		DoorCorner corner = DoorCorner.values()[getMetaFromState(state)];
 		if(corner == DoorCorner.BottomLeftX){
@@ -180,11 +177,13 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 	    return new BlockStateContainer(this, new IProperty[] { CORNER });
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 	    return getDefaultState().withProperty(CORNER, DoorCorner.values()[meta]);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int getMetaFromState(IBlockState state) {
 	    DoorCorner type = (DoorCorner) state.getValue(CORNER);
@@ -196,6 +195,7 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 	    return getMetaFromState(state);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		LockedDoorTileEntity te = new LockedDoorTileEntity();

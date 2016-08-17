@@ -23,7 +23,6 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteractSpecific;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -38,7 +37,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.blocks.world.WorkbenchBlock;
 import tiffit.talecraft.client.gui.npc.GuiNPCMerchant;
 import tiffit.talecraft.entity.NPC.NPCShop;
-import tiffit.talecraft.util.CustomWorldData;
 import tiffit.talecraft.util.WorkbenchManager;
 import tiffit.talecraft.util.WorldFileDataHelper;
 
@@ -70,7 +68,6 @@ public class TaleCraftEventHandler {
 		if(event.player instanceof EntityPlayerMP) {
 			ServerHandler.getServerMirror(null).playerList().playerJoin((EntityPlayerMP) event.player);
 			TaleCraft.network.sendTo(new StringNBTCommandPacket("client.network.join"), (EntityPlayerMP) event.player);
-			GuiMerchant e;
 		}
 		
 	}

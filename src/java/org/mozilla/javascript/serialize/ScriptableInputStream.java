@@ -28,8 +28,9 @@ public class ScriptableInputStream extends ObjectInputStream {
      * Create a ScriptableInputStream.
      * @param in the InputStream to read from.
      * @param scope the top-level scope to create the object in.
+     * @throws IOException ?
      */
-    public ScriptableInputStream(InputStream in, Scriptable scope)
+		public ScriptableInputStream(InputStream in, Scriptable scope)
         throws IOException
     {
         super(in);

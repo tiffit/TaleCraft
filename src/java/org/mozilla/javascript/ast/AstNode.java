@@ -61,6 +61,8 @@ import java.util.Map;
  * statements, as the distinction in JavaScript is not as clear-cut as in
  * Java or C++. <p>
  */
+
+@SuppressWarnings({ "boxing" })
 public abstract class AstNode extends Node implements Comparable<AstNode> {
 
     protected int position = -1;
@@ -127,7 +129,8 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
          * relative to their parent, so this comparator is only meaningful for
          * comparing siblings.
          */
-        public int compare(AstNode n1, AstNode n2) {
+        @Override
+				public int compare(AstNode n1, AstNode n2) {
             return n1.position - n2.position;
         }
     }
@@ -354,7 +357,8 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
     public abstract void visit(NodeVisitor visitor);
 
     // subclasses with potential side effects should override this
-    public boolean hasSideEffects()
+    @Override
+		public boolean hasSideEffects()
     {
         switch (getType()) {
           case Token.ASSIGN:
@@ -463,7 +467,7 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
     /**
      * @see Kit#codeBug
      */
-    public static RuntimeException codeBug()
+		public static RuntimeException codeBug()
         throws RuntimeException
     {
         throw Kit.codeBug();
@@ -520,7 +524,8 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
      * {@code other}'s length.  If the lengths are equal, sorts abitrarily
      * on hashcode unless the nodes are the same per {@link #equals}.
      */
-    public int compareTo(AstNode other) {
+    @Override
+		public int compareTo(AstNode other) {
         if (this.equals(other)) return 0;
         int abs1 = this.getAbsolutePosition();
         int abs2 = other.getAbsolutePosition();
@@ -548,7 +553,8 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
         public DebugPrintVisitor(StringBuilder buf) {
             buffer = buf;
         }
-        public String toString() {
+        @Override
+				public String toString() {
             return buffer.toString();
         }
         private String makeIndent(int depth) {
@@ -558,7 +564,8 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
             }
             return sb.toString();
         }
-        public boolean visit(AstNode node) {
+        @Override
+				public boolean visit(AstNode node) {
             int tt = node.getType();
             String name = Token.typeToName(tt);
             buffer.append(node.getAbsolutePosition()).append("\t");

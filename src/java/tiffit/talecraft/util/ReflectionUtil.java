@@ -8,7 +8,6 @@ import java.util.Map;
 
 import net.minecraft.client.gui.GuiListWorldSelectionEntry;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldSummary;
 import net.minecraftforge.fml.common.eventhandler.IEventListener;
 

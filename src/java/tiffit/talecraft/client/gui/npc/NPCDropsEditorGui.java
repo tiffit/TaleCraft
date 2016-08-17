@@ -24,10 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.Constants.NBT;
-import scala.util.parsing.json.JSON;
 import tiffit.talecraft.client.gui.qad.QADItemButton;
 import tiffit.talecraft.entity.NPC.NPCInventoryData;
 import tiffit.talecraft.entity.NPC.NPCInventoryData.NPCDrop;
@@ -266,6 +263,7 @@ public class NPCDropsEditorGui extends QADGuiScreen {
 		addComponent(mainPanel);
 	}
 	
+	@Override
 	public void onGuiClosed() {}
 	
 	@Override
@@ -305,6 +303,7 @@ public class NPCDropsEditorGui extends QADGuiScreen {
 			}
 		}
 		
+		@Override
 		public void onGuiClosed() {}
 
 		@Override

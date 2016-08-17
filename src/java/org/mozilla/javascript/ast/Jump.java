@@ -118,7 +118,7 @@ public class Jump extends AstNode {
     /**
      * Jumps are only used directly during code generation, and do
      * not support this interface.
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException ?
      */
     @Override
     public void visit(NodeVisitor visitor) {

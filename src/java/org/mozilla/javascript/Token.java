@@ -231,7 +231,8 @@ public class Token
         LAST_TOKEN     = 163;
 
     /**
-     * Returns a name for the token.  If Rhino is compiled with certain
+     * @param token ?
+     * @return a name for the token.  If Rhino is compiled with certain
      * hardcoded debugging flags in this file, it calls {@code #typeToName};
      * otherwise it returns a string whose value is the token number.
      */
@@ -425,7 +426,8 @@ public class Token
      * @param token A token
      * @return the corresponding name string
      */
-    public static String keywordToName(int token) {
+    @SuppressWarnings("javadoc")
+		public static String keywordToName(int token) {
         switch (token) {
             case Token.BREAK:      return "break";
             case Token.CASE:       return "case";

@@ -5,7 +5,6 @@ import org.lwjgl.util.glu.GLU;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.math.MathHelper;
 
@@ -14,14 +13,13 @@ public class ClientFadeEffect {
 	private int color;
 	private int time;
 	private int current_time;
-	private Minecraft mc;
 	
 	public ClientFadeEffect(int color, int time){
 		this.color = color;
 		time *=20;
 		this.time = time;
 		this.current_time = time;
-		mc = Minecraft.getMinecraft();
+		Minecraft.getMinecraft();
 	}
 	
 	public void render(){

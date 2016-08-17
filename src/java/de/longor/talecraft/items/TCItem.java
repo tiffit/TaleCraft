@@ -1,8 +1,5 @@
 package de.longor.talecraft.items;
 
-import java.util.List;
-
-import de.longor.talecraft.TaleCraftTabs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import de.longor.talecraft.TaleCraftTabs;
 
 public class TCItem extends Item {
 

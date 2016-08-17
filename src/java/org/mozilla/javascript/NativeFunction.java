@@ -13,6 +13,7 @@ import org.mozilla.javascript.debug.DebuggableScript;
  * See ECMA 15.3.
  * @author Norris Boyd
  */
+@SuppressWarnings("dep-ann")
 public abstract class NativeFunction extends BaseFunction
 {
 

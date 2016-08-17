@@ -11,6 +11,7 @@ package org.mozilla.javascript;
 import java.lang.reflect.*;
 import java.io.*;
 
+@SuppressWarnings("dep-ann")
 public class FunctionObject extends BaseFunction
 {
     static final long serialVersionUID = -5332312783643935019L;

@@ -1,11 +1,10 @@
 package tiffit.talecraft.entity.NPC;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockPumpkin;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.EntityEquipmentSlot.Type;
 import net.minecraft.item.Item;
@@ -156,7 +155,10 @@ public class NPCInventoryData {
 	
 	public static List<ItemStack> getAcceptableItems(EntityEquipmentSlot slot){
 		List<ItemStack> items = Lists.newArrayList();
-		for(Item item : Item.REGISTRY){
+		
+		Iterator<Item> iter = Item.REGISTRY.iterator();
+		while(iter.hasNext()) {
+			Item item = iter.next();
 			if(isAcceptable(slot, item)) items.add(new ItemStack(item));
 		}
 		return items;

@@ -69,7 +69,7 @@ public interface ConstProperties {
 
     /**
      * Returns true if the named property is defined as a const on this object.
-     * @param name
+     * @param name ?
      * @return true if the named property is defined as a const, false
      * otherwise.
      */

@@ -186,7 +186,8 @@ public final class Interpreter extends Icode implements Evaluator
         }
     }
 
-    public Object compile(CompilerEnvirons compilerEnv,
+    @Override
+		public Object compile(CompilerEnvirons compilerEnv,
                           ScriptNode tree,
                           String encodedSource,
                           boolean returnFunction)
@@ -196,7 +197,8 @@ public final class Interpreter extends Icode implements Evaluator
         return itsData;
     }
 
-    public Script createScriptObject(Object bytecode, Object staticSecurityDomain)
+    @Override
+		public Script createScriptObject(Object bytecode, Object staticSecurityDomain)
     {
         if(bytecode != itsData)
         {
@@ -206,12 +208,14 @@ public final class Interpreter extends Icode implements Evaluator
                                                 staticSecurityDomain);
     }
 
-    public void setEvalScriptFlag(Script script) {
+    @Override
+		public void setEvalScriptFlag(Script script) {
         ((InterpretedFunction)script).idata.evalScriptFlag = true;
     }
 
 
-    public Function createFunctionObject(Context cx, Scriptable scope,
+    @Override
+		public Function createFunctionObject(Context cx, Scriptable scope,
             Object bytecode, Object staticSecurityDomain)
     {
         if(bytecode != itsData)
@@ -592,7 +596,8 @@ public final class Interpreter extends Icode implements Evaluator
         return presentLines.getKeys();
     }
 
-    public void captureStackInfo(RhinoException ex)
+    @Override
+		public void captureStackInfo(RhinoException ex)
     {
         Context cx = Context.getCurrentContext();
         if (cx == null || cx.lastInterpreterFrame == null) {
@@ -647,7 +652,8 @@ public final class Interpreter extends Icode implements Evaluator
         ex.interpreterLineData = linePC;
     }
 
-    public String getSourcePositionFromStack(Context cx, int[] linep)
+    @Override
+		public String getSourcePositionFromStack(Context cx, int[] linep)
     {
         CallFrame frame = (CallFrame)cx.lastInterpreterFrame;
         InterpreterData idata = frame.idata;
@@ -659,7 +665,8 @@ public final class Interpreter extends Icode implements Evaluator
         return idata.itsSourceFile;
     }
 
-    public String getPatchedStack(RhinoException ex,
+    @Override
+		public String getPatchedStack(RhinoException ex,
                                   String nativeStackTrace)
     {
         String tag = "org.mozilla.javascript.Interpreter.interpretLoop";
@@ -718,7 +725,8 @@ public final class Interpreter extends Icode implements Evaluator
         return sb.toString();
     }
 
-    public List<String> getScriptStack(RhinoException ex) {
+    @Override
+		public List<String> getScriptStack(RhinoException ex) {
         ScriptStackElement[][] stack = getScriptStackElements(ex);
         List<String> list = new ArrayList<String>(stack.length);
         String lineSeparator =

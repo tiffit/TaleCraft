@@ -1,29 +1,18 @@
 package tiffit.talecraft.blocks.world;
 
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.TaleCraftTabs;
-import de.longor.talecraft.blocks.TCBlock;
 import de.longor.talecraft.blocks.TCITriggerableBlock;
 import de.longor.talecraft.invoke.EnumTriggerState;
-import net.minecraft.block.BlockAnvil;
-import net.minecraft.block.BlockCactus;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
@@ -46,6 +35,7 @@ public class SpikeBlock extends TCWorldBlock implements TCITriggerableBlock{
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP).withProperty(ACTIVE, true));
 	}
 	
+	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
         EnumFacing enumfacing = placer.getHorizontalFacing();
         if(hitY == 0f) enumfacing = EnumFacing.UP;

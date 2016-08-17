@@ -37,8 +37,8 @@ public class InterfaceAdapter
             Method[] methods = cl.getMethods();
             if ( object instanceof Callable) {
                 // Check if interface can be implemented by a single function.
-                // We allow this if the interface has only one method or multiple 
-                // methods with the same name (in which case they'd result in 
+                // We allow this if the interface has only one method or multiple
+                // methods with the same name (in which case they'd result in
                 // the same function to be invoked anyway).
                 int length = methods.length;
                 if (length == 0) {
@@ -78,7 +78,8 @@ public class InterfaceAdapter
                          final Object[] args)
     {
         ContextAction action = new ContextAction() {
-                public Object run(Context cx)
+                @Override
+								public Object run(Context cx)
                 {
                     return invokeImpl(cx, target, topScope, thisObject, method, args);
                 }

@@ -25,6 +25,7 @@ public final class ParsedContentType implements Serializable
      * @param mimeType the full MIME type; typically the value of the
      * "Content-Type" header of some MIME-compliant message. Can be null.
      */
+	@SuppressWarnings("null")
 	public ParsedContentType(String mimeType) {
         String contentType = null;
         String encoding = null;

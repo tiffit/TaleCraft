@@ -145,6 +145,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 		}
 	}
 
+	// XXX: Something is wrong here with typeStr and spawnCount...?
 	public void summonEntity(SummonOption option) {
 		// Select 'random' position.
 		Vec3d position = selectRandomBoundedLocation();

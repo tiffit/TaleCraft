@@ -10,6 +10,7 @@ package org.mozilla.javascript;
 /**
  * The class of exceptions thrown by the JavaScript engine.
  */
+@SuppressWarnings("dep-ann")
 public class EvaluatorException extends RhinoException
 {
     static final long serialVersionUID = -8743165779676009808L;

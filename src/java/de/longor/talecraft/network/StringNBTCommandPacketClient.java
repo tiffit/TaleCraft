@@ -1,8 +1,6 @@
 package de.longor.talecraft.network;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.client.ClientNetworkHandler;
-import de.longor.talecraft.server.ServerHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;

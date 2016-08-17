@@ -105,6 +105,7 @@ public class ClientRenderer {
 		staticRenderers = new ConcurrentLinkedDeque<IRenderable>();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void preInit() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, PointEntityRenderer.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new EntityBulletRenderFactory());

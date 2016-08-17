@@ -4,16 +4,12 @@ import org.mozilla.javascript.Scriptable;
 
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.invoke.IInvokeSource;
-import de.longor.talecraft.particles.BlockEffect;
-import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -26,7 +22,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import tiffit.talecraft.util.ConfigurationManager;
 
 public abstract class TCTileEntity extends TileEntity implements IInvokeSource, ICommandSender, TCIBlockCommandReceiver, ITickable  {
 	private boolean isTileEntityInitialized = false;

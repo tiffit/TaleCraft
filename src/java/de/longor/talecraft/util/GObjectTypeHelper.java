@@ -14,6 +14,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 
+// TODO: Redo the findBlock methods to accept the new metadata parsing from MC 1.10.X!
 public class GObjectTypeHelper {
 
 	public static final List<String> getParticleNameList() {

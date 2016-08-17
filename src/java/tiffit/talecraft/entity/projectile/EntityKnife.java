@@ -1,33 +1,16 @@
 package tiffit.talecraft.entity.projectile;
 
 import de.longor.talecraft.TaleCraftItems;
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import tiffit.talecraft.client.render.RenderKnife;
-import tiffit.talecraft.util.BombExplosion;
 
 public class EntityKnife extends EntityArrow{
 	
@@ -80,10 +63,10 @@ public class EntityKnife extends EntityArrow{
         }
     }
 	
+	@SuppressWarnings("rawtypes")
 	public static class EntityKnifeRenderFactory implements IRenderFactory{
 		@Override
 		public Render createRenderFor(RenderManager manager) {
-			Minecraft mc = Minecraft.getMinecraft();
 			return new RenderKnife(manager);
 		}
 	}

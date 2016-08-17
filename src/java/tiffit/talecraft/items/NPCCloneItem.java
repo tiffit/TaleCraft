@@ -1,9 +1,5 @@
 package tiffit.talecraft.items;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.items.TCItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

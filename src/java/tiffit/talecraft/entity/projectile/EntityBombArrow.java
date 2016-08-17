@@ -1,14 +1,10 @@
 package tiffit.talecraft.entity.projectile;
 
 import de.longor.talecraft.TaleCraftItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.renderer.entity.RenderTippedArrow;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -45,10 +41,10 @@ public class EntityBombArrow extends EntityArrow {
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static class EntityBombArrowRenderFactory implements IRenderFactory{
 		@Override
 		public Render createRenderFor(RenderManager manager) {
-			Minecraft mc = Minecraft.getMinecraft();
 			return new RenderBombArrow(manager);
 		}
 	}

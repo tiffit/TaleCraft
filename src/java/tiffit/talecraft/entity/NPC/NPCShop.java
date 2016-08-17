@@ -1,16 +1,11 @@
 package tiffit.talecraft.entity.NPC;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
@@ -181,7 +176,7 @@ public class NPCShop implements IMerchant {
 		
 		 public NPCMerchantRecipe(NPCTrade trade, ItemStack outOfStock){
 		        super(trade.item1, outOfStock, trade.item2, 0, Integer.MAX_VALUE);
-		        this.npctrade = trade; 
+		        this.npctrade = trade;
 		 }
 		 
 		 @Override

@@ -3,8 +3,6 @@ package de.longor.talecraft.client.gui.misc;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
-
 import com.google.common.collect.Lists;
 
 import de.longor.talecraft.client.gui.qad.QADButton;
@@ -449,7 +447,6 @@ public class GuiEntityEditor extends QADGuiScreen {
 			textField.textChangedListener = new TextChangeListener(){
 				@Override public void call(QADTextField field, String text) {
 					try {
-						UUID uuid = UUID.fromString(text);
 						field.setTextColor(0xFFFFFFFF);
 					} catch (IllegalArgumentException e) {
 						field.setTextColor(0xFFFF0000);

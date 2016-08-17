@@ -74,6 +74,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		scriptdata = new NBTTagCompound();
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(1, new EntityAIAttackMelee(this, data.getSpeed(), true));
@@ -86,7 +87,8 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		return getNavigator().tryMoveToXYZ(x, y, z, speed);
 	}
 	
-    protected void applyEntityAttributes(){
+    @Override
+		protected void applyEntityAttributes(){
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(data.getSpeed());
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
@@ -158,13 +160,15 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		deathInvoke = name;
 	}
 	
-   public void addTrackingPlayer(EntityPlayerMP player){
+   @Override
+	public void addTrackingPlayer(EntityPlayerMP player){
 	   if(!isNonBoss()) return;
        super.addTrackingPlayer(player);
        this.bossInfo.addPlayer(player);
    }
 
-   public void removeTrackingPlayer(EntityPlayerMP player){
+   @Override
+	public void removeTrackingPlayer(EntityPlayerMP player){
        super.removeTrackingPlayer(player);
        this.bossInfo.removePlayer(player);
    }
@@ -231,6 +235,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		}
 	}
 	
+	@Override
 	public boolean attackEntityAsMob(Entity ent){
 		if(ent instanceof EntityPlayerMP && data.getType() != NPCType.Passive){
 			EntityPlayerMP player = (EntityPlayerMP) ent;
@@ -368,6 +373,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		invokes.add(new FileScriptInvoke(deathInvoke));
 	}
 	
+	@Override
 	public boolean getCanSpawnHere(){
 		return false;
 	}

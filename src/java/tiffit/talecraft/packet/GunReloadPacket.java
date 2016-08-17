@@ -2,20 +2,16 @@ package tiffit.talecraft.packet;
 
 import java.util.UUID;
 
-import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.TaleCraftItems;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.server.FMLServerHandler;
 import tiffit.talecraft.items.weapon.TCGunClipItem;
 import tiffit.talecraft.items.weapon.TCGunItem;
 

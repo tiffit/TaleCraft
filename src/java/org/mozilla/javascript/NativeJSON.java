@@ -192,7 +192,8 @@ public final class NativeJSON extends IdScriptableObject
         String gap;
         Callable replacer;
         List<Object> propertyList;
-        Object space;
+        @SuppressWarnings("unused")
+				Object space;
 
         Context cx;
         Scriptable scope;

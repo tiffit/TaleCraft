@@ -128,6 +128,7 @@ public class WrapFactory
      * @return the wrapped value which shall not be null
      * @since 1.7R3
      */
+    @SuppressWarnings("rawtypes")
     public Scriptable wrapJavaClass(Context cx, Scriptable scope,
                                     Class javaClass)
     {
@@ -135,7 +136,7 @@ public class WrapFactory
     }
 
     /**
-     * Return <code>false</code> if result of Java method, which is instance of
+     * @return <code>false</code> if result of Java method, which is instance of
      * <code>String</code>, <code>Number</code>, <code>Boolean</code> and
      * <code>Character</code>, should be used directly as JavaScript primitive
      * type.
@@ -151,6 +152,7 @@ public class WrapFactory
     }
 
     /**
+     * @param value ?
      * @see #isJavaPrimitiveWrap()
      */
     public final void setJavaPrimitiveWrap(boolean value)

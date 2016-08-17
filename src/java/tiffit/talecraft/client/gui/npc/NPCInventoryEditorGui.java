@@ -1,7 +1,6 @@
 package tiffit.talecraft.client.gui.npc;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import de.longor.talecraft.client.gui.qad.QADButton;
@@ -13,7 +12,6 @@ import de.longor.talecraft.client.gui.qad.QADTextField;
 import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import tiffit.talecraft.client.gui.qad.QADItemButton;
@@ -113,6 +111,7 @@ public class NPCInventoryEditorGui extends QADGuiScreen {
 		addComponent(dropsbutton);
 	}
 	
+	@Override
 	public void onGuiClosed() {}
 	
 	
@@ -148,6 +147,7 @@ public class NPCInventoryEditorGui extends QADGuiScreen {
 			}
 		}
 		
+		@Override
 		public void onGuiClosed() {}
 
 		@Override

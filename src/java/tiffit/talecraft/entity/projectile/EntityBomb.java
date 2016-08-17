@@ -1,24 +1,18 @@
 package tiffit.talecraft.entity.projectile;
 
 import de.longor.talecraft.TaleCraftItems;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import tiffit.talecraft.util.BombExplosion;
@@ -84,17 +78,20 @@ public class EntityBomb extends EntityThrowable{
 		}
 	}
 	
-	 public void writeEntityToNBT(NBTTagCompound tag){
+	 @Override
+	public void writeEntityToNBT(NBTTagCompound tag){
 	        super.writeEntityToNBT(tag);
 	        tag.setInteger("explosion_delay", explosion_delay);
 	    }
 
-	    public void readEntityFromNBT(NBTTagCompound tag){
+	    @Override
+			public void readEntityFromNBT(NBTTagCompound tag){
 	       super.readEntityFromNBT(tag);
 	       explosion_delay = tag.getInteger("explosion_delay");
 	    }
 	
 	
+	@SuppressWarnings("rawtypes")
 	public static class EntityBombRenderFactory implements IRenderFactory{
 		@Override
 		public Render createRenderFor(RenderManager manager) {

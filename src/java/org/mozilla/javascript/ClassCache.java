@@ -18,6 +18,7 @@ import java.io.Serializable;
  *
  * @since Rhino 1.5 Release 5
  */
+@SuppressWarnings("dep-ann")
 public class ClassCache implements Serializable
 {
     private static final long serialVersionUID = -8866246036237312215L;
@@ -146,7 +147,7 @@ public class ClassCache implements Serializable
      * The method always returns false.
      * @see #setInvokerOptimizationEnabled(boolean enabled)
      */
-    public boolean isInvokerOptimizationEnabled()
+		public boolean isInvokerOptimizationEnabled()
     {
         return false;
     }

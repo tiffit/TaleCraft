@@ -53,8 +53,6 @@ public class PlayerInventoryObjectWrapper implements IObjectWrapper{
 	}
 	
 	public int getFirstEmptySlot(){
-
-		inv.getHotbarSize();
 		return inv.getFirstEmptyStack();
 	}
 

@@ -198,7 +198,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
 
     }
 
-    protected static ScriptableObject buildDataDescriptor(Scriptable scope,
+    @SuppressWarnings("boxing")
+		protected static ScriptableObject buildDataDescriptor(Scriptable scope,
                                                           Object value,
                                                           int attributes) {
         ScriptableObject desc = new NativeObject();
@@ -209,7 +210,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
         desc.defineProperty("configurable", (attributes & PERMANENT) == 0, EMPTY);
         return desc;
     }
-
+    
+    @SuppressWarnings("boxing")
     private static final class GetterSlot extends Slot
     {
         static final long serialVersionUID = -4900574849788797588L;
@@ -222,7 +224,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
             super(name, indexOrHash, attributes);
         }
 
-        @Override
+				@Override
         ScriptableObject getPropertyDescriptor(Context cx, Scriptable scope) {
             int attr = getAttributes();
             ScriptableObject desc = new NativeObject();
@@ -411,7 +413,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * Classes extending ScriptableObject must implement this abstract
      * method.
      */
-    public abstract String getClassName();
+    @Override
+		public abstract String getClassName();
 
     /**
      * Returns true if the named property is defined.
@@ -420,7 +423,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @param start the object in which the lookup began
      * @return true if and only if the property was found in the object
      */
-    public boolean has(String name, Scriptable start)
+    @Override
+		public boolean has(String name, Scriptable start)
     {
         return null != getSlot(name, 0, SLOT_QUERY);
     }
@@ -432,7 +436,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @param start the object in which the lookup began
      * @return true if and only if the property was found in the object
      */
-    public boolean has(int index, Scriptable start)
+    @Override
+		public boolean has(int index, Scriptable start)
     {
         return null != getSlot(null, index, SLOT_QUERY);
     }
@@ -447,7 +452,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @param start the object in which the lookup began
      * @return the value of the property (may be null), or NOT_FOUND
      */
-    public Object get(String name, Scriptable start)
+    @Override
+		public Object get(String name, Scriptable start)
     {
         Slot slot = getSlot(name, 0, SLOT_QUERY);
         if (slot == null) {
@@ -463,7 +469,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @param start the object in which the lookup began
      * @return the value of the property (may be null), or NOT_FOUND
      */
-    public Object get(int index, Scriptable start)
+    @Override
+		public Object get(int index, Scriptable start)
     {
         Slot slot = getSlot(null, index, SLOT_QUERY);
         if (slot == null) {
@@ -487,7 +494,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @param start the object whose property is being set
      * @param value value to set the property to
      */
-    public void put(String name, Scriptable start, Object value)
+    @Override
+		public void put(String name, Scriptable start, Object value)
     {
         if (putImpl(name, 0, start, value))
             return;
@@ -503,7 +511,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @param start the object whose property is being set
      * @param value value to set the property to
      */
-    public void put(int index, Scriptable start, Object value)
+    @Override
+		public void put(int index, Scriptable start, Object value)
     {
         if (putImpl(null, index, start, value))
             return;
@@ -520,7 +529,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      *
      * @param name the name of the property
      */
-    public void delete(String name)
+    @Override
+		public void delete(String name)
     {
         checkNotSealed(name, 0);
         removeSlot(name, 0);
@@ -534,7 +544,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      *
      * @param index the numeric index for the property
      */
-    public void delete(int index)
+    @Override
+		public void delete(int index)
     {
         checkNotSealed(null, index);
         removeSlot(null, index);
@@ -555,7 +566,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @param start the object whose property is being set
      * @param value value to set the property to
      */
-    public void putConst(String name, Scriptable start, Object value)
+    @Override
+		public void putConst(String name, Scriptable start, Object value)
     {
         if (putConstImpl(name, 0, start, value, READONLY))
             return;
@@ -567,7 +579,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
             start.put(name, start, value);
     }
 
-    public void defineConst(String name, Scriptable start)
+    @Override
+		public void defineConst(String name, Scriptable start)
     {
         if (putConstImpl(name, 0, start, Undefined.instance, UNINITIALIZED_CONST))
             return;
@@ -578,11 +591,12 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
     }
     /**
      * Returns true if the named property is defined as a const on this object.
-     * @param name
+     * @param name ?
      * @return true if the named property is defined as a const, false
      * otherwise.
      */
-    public boolean isConst(String name)
+    @Override
+		public boolean isConst(String name)
     {
         Slot slot = getSlot(name, 0, SLOT_QUERY);
         if (slot == null) {
@@ -596,7 +610,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @deprecated Use {@link #getAttributes(String name)}. The engine always
      * ignored the start argument.
      */
-    public final int getAttributes(String name, Scriptable start)
+    @Deprecated
+		public final int getAttributes(String name, Scriptable start)
     {
         return getAttributes(name);
     }
@@ -605,7 +620,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @deprecated Use {@link #getAttributes(int index)}. The engine always
      * ignored the start argument.
      */
-    public final int getAttributes(int index, Scriptable start)
+    @Deprecated
+		public final int getAttributes(int index, Scriptable start)
     {
         return getAttributes(index);
     }
@@ -614,7 +630,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @deprecated Use {@link #setAttributes(String name, int attributes)}.
      * The engine always ignored the start argument.
      */
-    public final void setAttributes(String name, Scriptable start,
+    @Deprecated
+		public final void setAttributes(String name, Scriptable start,
                                     int attributes)
     {
         setAttributes(name, attributes);
@@ -624,7 +641,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @deprecated Use {@link #setAttributes(int index, int attributes)}.
      * The engine always ignored the start argument.
      */
-    public void setAttributes(int index, Scriptable start,
+    @Deprecated
+		public void setAttributes(int index, Scriptable start,
                               int attributes)
     {
         setAttributes(index, attributes);
@@ -817,7 +835,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
     /**
      * Returns the prototype of the object.
      */
-    public Scriptable getPrototype()
+    @Override
+		public Scriptable getPrototype()
     {
         return prototypeObject;
     }
@@ -825,7 +844,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
     /**
      * Sets the prototype of the object.
      */
-    public void setPrototype(Scriptable m)
+    @Override
+		public void setPrototype(Scriptable m)
     {
         prototypeObject = m;
     }
@@ -833,7 +853,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
     /**
      * Returns the parent (enclosing) scope of the object.
      */
-    public Scriptable getParentScope()
+    @Override
+		public Scriptable getParentScope()
     {
         return parentScopeObject;
     }
@@ -841,7 +862,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
     /**
      * Sets the parent (enclosing) scope of the object.
      */
-    public void setParentScope(Scriptable m)
+    @Override
+		public void setParentScope(Scriptable m)
     {
         parentScopeObject = m;
     }
@@ -857,7 +879,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * Integer entry in the returned array. Properties accessed by
      * a String will have a String entry in the returned array.
      */
-    public Object[] getIds() {
+    @Override
+		public Object[] getIds() {
         return getIds(false);
     }
 
@@ -872,7 +895,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * Integer entry in the returned array. Properties accessed by
      * a String will have a String entry in the returned array.
      */
-    public Object[] getAllIds() {
+    @Override
+		public Object[] getAllIds() {
         return getIds(true);
     }
 
@@ -890,7 +914,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      *
      * See ECMA 8.6.2.6.
      */
-    public Object getDefaultValue(Class<?> typeHint)
+    @Override
+		public Object getDefaultValue(Class<?> typeHint)
     {
         return getDefaultValue(this, typeHint);
     }
@@ -986,7 +1011,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
      * @return true if "this" appears in value's prototype chain
      *
      */
-    public boolean hasInstance(Scriptable instance) {
+    @Override
+		public boolean hasInstance(Scriptable instance) {
         // Default for JS objects (other than Function) is to do prototype
         // chasing.  This will be overridden in NativeFunction and non-JS
         // objects.

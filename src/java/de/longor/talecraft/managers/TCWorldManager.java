@@ -14,11 +14,9 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class TCWorldManager {
-	private final TaleCraft taleCraft;
 	private final World world;
 
 	public TCWorldManager(TaleCraft tc, World w) {
-		taleCraft = tc;
 		world = w;
 	}
 

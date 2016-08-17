@@ -26,19 +26,21 @@ public class SecurityUtilities
         return AccessController.doPrivileged(
             new PrivilegedAction<String>()
             {
-                public String run()
+                @Override
+								public String run()
                 {
                     return System.getProperty(name);
                 }
             });
     }
-
+    
     public static ProtectionDomain getProtectionDomain(final Class<?> clazz)
     {
         return AccessController.doPrivileged(
                 new PrivilegedAction<ProtectionDomain>()
                 {
-                    public ProtectionDomain run()
+                    @Override
+										public ProtectionDomain run()
                     {
                         return clazz.getProtectionDomain();
                     }
@@ -52,12 +54,14 @@ public class SecurityUtilities
      * otherwise it returns <code>null</code>.
      * @return The protection of the top-most script in the current stack, or null
      */
+    @SuppressWarnings("rawtypes")
     public static ProtectionDomain getScriptProtectionDomain() {
         final SecurityManager securityManager = System.getSecurityManager();
         if (securityManager instanceof RhinoSecurityManager) {
             return AccessController.doPrivileged(
                 new PrivilegedAction<ProtectionDomain>() {
-                    public ProtectionDomain run() {
+                    @Override
+										public ProtectionDomain run() {
                         Class c = ((RhinoSecurityManager) securityManager)
                                     .getCurrentScriptClass();
                         return c == null ? null : c.getProtectionDomain();

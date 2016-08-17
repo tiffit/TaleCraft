@@ -15,15 +15,12 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ContainerMerchant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.village.MerchantRecipe;
-import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -59,7 +56,8 @@ public class GuiNPCMerchant extends GuiContainer
      * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
      * window resizes, the buttonList is cleared beforehand.
      */
-    public void initGui(){
+    @Override
+		public void initGui(){
         super.initGui();
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
@@ -72,7 +70,8 @@ public class GuiNPCMerchant extends GuiContainer
     /**
      * Draw the foreground layer for the GuiContainer (everything in front of the items)
      */
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
+    @Override
+		protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
         String s = this.chatComponent.getUnformattedText();
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
@@ -81,7 +80,8 @@ public class GuiNPCMerchant extends GuiContainer
     /**
      * Called from the main game loop to update the screen.
      */
-    public void updateScreen(){
+    @Override
+		public void updateScreen(){
         super.updateScreen();
         List<NPCTrade> trades = merchant.getTrades();
 
@@ -94,7 +94,8 @@ public class GuiNPCMerchant extends GuiContainer
     /**
      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
      */
-    protected void actionPerformed(GuiButton button) throws IOException{
+    @Override
+		protected void actionPerformed(GuiButton button) throws IOException{
         boolean flag = false;
 
         if (button == this.nextButton){
@@ -128,7 +129,8 @@ public class GuiNPCMerchant extends GuiContainer
     /**
      * Draws the background layer of this container (behind the items).
      */
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY){
+    @Override
+		protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY){
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(MERCHANT_GUI_TEXTURE);
         int i = (this.width - this.xSize) / 2;
@@ -158,7 +160,8 @@ public class GuiNPCMerchant extends GuiContainer
     /**
      * Draws the screen and all the components in it.
      */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks){
+    @Override
+		public void drawScreen(int mouseX, int mouseY, float partialTicks){
         super.drawScreen(mouseX, mouseY, partialTicks);
         List<NPCTrade> trades = merchant.getTrades();
 
@@ -221,7 +224,8 @@ public class GuiNPCMerchant extends GuiContainer
             /**
              * Draws this button to the screen.
              */
-            public void drawButton(Minecraft mc, int mouseX, int mouseY){
+            @Override
+						public void drawButton(Minecraft mc, int mouseX, int mouseY){
                 if (this.visible){
                     mc.getTextureManager().bindTexture(GuiNPCMerchant.MERCHANT_GUI_TEXTURE);
                     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

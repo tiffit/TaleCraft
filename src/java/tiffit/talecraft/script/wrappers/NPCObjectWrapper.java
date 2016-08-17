@@ -3,14 +3,9 @@ package tiffit.talecraft.script.wrappers;
 import java.util.List;
 
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.script.wrappers.IObjectWrapper;
 import de.longor.talecraft.script.wrappers.entity.EntityLivingObjectWrapper;
-import de.longor.talecraft.script.wrappers.entity.EntityObjectWrapper;
 import de.longor.talecraft.script.wrappers.nbt.CompoundTagWrapper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import tiffit.talecraft.entity.NPC.EntityNPC;
 import tiffit.talecraft.entity.NPC.NPCData;
 

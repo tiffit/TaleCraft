@@ -1,27 +1,20 @@
 package tiffit.talecraft.client.gui.voxelator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.longor.talecraft.client.gui.qad.QADButton;
-import de.longor.talecraft.client.gui.qad.QADComponent;
-import de.longor.talecraft.client.gui.qad.QADFACTORY;
 import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
 import de.longor.talecraft.client.gui.qad.QADTextField;
 import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
-import de.longor.talecraft.util.Vec2i;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
-import tiffit.talecraft.client.gui.npc.NPCInventoryEditorGui;
 import tiffit.talecraft.client.gui.qad.QADItemButton;
-import tiffit.talecraft.entity.NPC.NPCInventoryData;
 
 public class BlockStateSelector extends QADGuiScreen {
 	private QADScrollPanel panel;
@@ -38,8 +31,10 @@ public class BlockStateSelector extends QADGuiScreen {
 		this.returnScreen = voxGui;
 		this.voxGui = voxGui;
 		blocks = new ArrayList<ItemStack>();
-		for(Block block : Block.REGISTRY){
-			blocks.add(new ItemStack(block));
+		
+		Iterator<Block> iter = Block.REGISTRY.iterator();
+		while(iter.hasNext()) {
+			blocks.add(new ItemStack(iter.next()));
 		}
 	}
 	
@@ -129,13 +124,13 @@ public class BlockStateSelector extends QADGuiScreen {
 //	private QADScrollPanel panel;
 //	private boolean add = true;
 //	private int index = 0;
-//	
+//
 //	public BlockStateSelector(VoxelatorGui voxGui) {
 //		this.setBehind(voxGui);
 //		this.returnScreen = voxGui;
 //		this.voxGui = voxGui;
 //	}
-//	
+//
 //	public BlockStateSelector(VoxelatorGui voxGui, boolean add, int index) {
 //		this.setBehind(voxGui);
 //		this.returnScreen = voxGui;

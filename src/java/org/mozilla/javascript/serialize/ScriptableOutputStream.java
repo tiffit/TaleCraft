@@ -40,6 +40,7 @@ public class ScriptableOutputStream extends ObjectOutputStream {
      *
      * @param out the OutputStream to write to.
      * @param scope the scope containing the object.
+     * @throws IOException ?
      */
     public ScriptableOutputStream(OutputStream out, Scriptable scope)
         throws IOException
@@ -104,7 +105,8 @@ public class ScriptableOutputStream extends ObjectOutputStream {
     }
 
     /**
-     * Returns true if the name is excluded from serialization.
+     * @return true if the name is excluded from serialization.
+     * @param name ?
      */
     public boolean hasExcludedName(String name) {
         return table.get(name) != null;
@@ -112,6 +114,7 @@ public class ScriptableOutputStream extends ObjectOutputStream {
 
     /**
      * Removes a name from the list of names to exclude.
+     * @param name ?
      */
     public void removeExcludedName(String name) {
         table.remove(name);

@@ -32,6 +32,7 @@ package org.mozilla.javascript;
  * @see java.lang.ClassLoader
  * @since 1.5 Release 4
  */
+@SuppressWarnings("dep-ann")
 public abstract class SecurityController
 {
     private static SecurityController global;
@@ -155,7 +156,8 @@ public abstract class SecurityController
     {
         return execWithDomain(cx, scope, new Script()
         {
-            public Object exec(Context cx, Scriptable scope)
+            @Override
+						public Object exec(Context cx, Scriptable scope)
             {
                 return callable.call(cx, scope, thisObj, args);
             }

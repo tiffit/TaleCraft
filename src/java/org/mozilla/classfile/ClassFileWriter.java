@@ -423,7 +423,8 @@ public class ClassFileWriter {
         if (stackMapTableLength > 0) {
             int stackMapTableAttrIndex =
                     itsConstantPool.addUtf8("StackMapTable");
-            int start = index;
+            @SuppressWarnings("unused")
+						int start = index;
             index = putInt16(stackMapTableAttrIndex, codeAttribute, index);
             index = stackMap.write(codeAttribute, index);
         }
@@ -2553,7 +2554,8 @@ public class ClassFileWriter {
         }
 
         private int writeTypes(int[] types, int start) {
-            int startOffset = rawStackMapTop;
+            @SuppressWarnings("unused")
+						int startOffset = rawStackMapTop;
             for (int i = start; i < types.length; i++) {
                 rawStackMapTop = writeType(types[i]);
             }
@@ -2584,7 +2586,8 @@ public class ClassFileWriter {
         private int workListTop;
 
         private SuperBlock[] superBlocks;
-        private SuperBlock[] superBlockDeps;
+        @SuppressWarnings("unused")
+				private SuperBlock[] superBlockDeps;
 
         private byte[] rawStackMap;
         private int rawStackMapTop;
@@ -5144,7 +5147,8 @@ final class TypeInfo {
      * For example, given "java/lang/Object", returns the equivalent of
      * Class.forName("java.lang.Object"), but also handles exceptions.
      */
-    static Class getClassFromInternalName(String internalName) {
+    @SuppressWarnings("rawtypes")
+		static Class getClassFromInternalName(String internalName) {
         try {
             return Class.forName(internalName.replace('/', '.'));
         } catch (ClassNotFoundException e) {

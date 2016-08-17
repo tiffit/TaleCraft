@@ -2,22 +2,18 @@ package tiffit.talecraft.container;
 
 import javax.annotation.Nullable;
 
-import de.longor.talecraft.TaleCraftBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import tiffit.talecraft.blocks.world.WorkbenchBlock;
+import de.longor.talecraft.TaleCraftBlocks;
 
 public class WorkbenchContainer extends ContainerWorkbench {
 	
@@ -56,11 +52,13 @@ public class WorkbenchContainer extends ContainerWorkbench {
         this.onCraftMatrixChanged(this.craftMatrix);
 	}
 	
-    public boolean canInteractWith(EntityPlayer playerIn){
+    @Override
+		public boolean canInteractWith(EntityPlayer playerIn){
         return this.worldObj.getBlockState(this.pos).getBlock() != TaleCraftBlocks.workbench ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
     }
     
-    public void onCraftMatrixChanged(IInventory inventoryIn){
+    @Override
+		public void onCraftMatrixChanged(IInventory inventoryIn){
         this.craftResult.setInventorySlotContents(0, WorkbenchBlock.findMatchingRecipe(this.craftMatrix, this.worldObj));
     }
     
@@ -75,11 +73,13 @@ public class WorkbenchContainer extends ContainerWorkbench {
 			thePlayer = player;
 		}
 		
-	    public boolean isItemValid(@Nullable ItemStack stack){
+	    @Override
+			public boolean isItemValid(@Nullable ItemStack stack){
 	        return thePlayer.isCreative();
 	    }
 		
-		 public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack){
+		 @Override
+		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack){
 		        net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(playerIn, stack, craftMatrix);
 		        this.onCrafting(stack);
 		        net.minecraftforge.common.ForgeHooks.setCraftingPlayer(playerIn);

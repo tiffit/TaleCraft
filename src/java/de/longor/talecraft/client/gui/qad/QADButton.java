@@ -5,9 +5,7 @@ import java.util.List;
 import de.longor.talecraft.client.gui.qad.model.DefaultButtonModel;
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
 import de.longor.talecraft.client.render.renderers.EXTFontRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 
 public class QADButton extends QADRectangularComponent {

@@ -73,7 +73,8 @@ public abstract class TCGunItem extends TCWeaponItem {
 		world.spawnEntityInWorld(bullet);
 	}
 	
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft){
+    @Override
+		public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft){
 		if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound tag = stack.getTagCompound();
 		tag.setBoolean("usingDone", true);
@@ -88,7 +89,8 @@ public abstract class TCGunItem extends TCWeaponItem {
 		return -1; //-1 means the clip doesn't exist
 	}
 	
-    public int getMaxItemUseDuration(ItemStack stack){
+    @Override
+		public int getMaxItemUseDuration(ItemStack stack){
         return isPistol()? 10000000 : 0;
     }
 	

@@ -9,6 +9,7 @@ package org.mozilla.javascript;
 import java.io.Serializable;
 
 import org.mozilla.javascript.xml.XMLLib;
+
 import static org.mozilla.javascript.ScriptableObject.DONTENUM;
 import static org.mozilla.javascript.ScriptableObject.READONLY;
 import static org.mozilla.javascript.ScriptableObject.PERMANENT;
@@ -22,6 +23,7 @@ import static org.mozilla.javascript.ScriptableObject.PERMANENT;
  * @author Mike Shaver
  */
 
+@SuppressWarnings("dep-ann")
 public class NativeGlobal implements Serializable, IdFunctionCall
 {
     static final long serialVersionUID = 6080442165748707530L;
@@ -132,7 +134,8 @@ public class NativeGlobal implements Serializable, IdFunctionCall
         }
     }
 
-    public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
+    @Override
+		public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
                              Scriptable thisObj, Object[] args)
     {
         if (f.hasTag(FTAG)) {

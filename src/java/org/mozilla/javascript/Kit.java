@@ -411,7 +411,7 @@ public class Kit
      * only to be able to write <tt>throw Kit.codeBug()</tt> if plain
      * <tt>Kit.codeBug()</tt> triggers unreachable code error.
      */
-    public static RuntimeException codeBug()
+		public static RuntimeException codeBug()
         throws RuntimeException
     {
         RuntimeException ex = new IllegalStateException("FAILED ASSERTION");

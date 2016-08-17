@@ -15,7 +15,6 @@ import de.longor.talecraft.client.gui.qad.QADTextField;
 import de.longor.talecraft.client.gui.qad.layout.QADListLayout;
 import de.longor.talecraft.client.gui.qad.model.AbstractButtonModel;
 import de.longor.talecraft.client.gui.qad.model.DefaultTextFieldModel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -24,8 +23,6 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.village.MerchantRecipe;
-import net.minecraft.village.MerchantRecipeList;
 import tiffit.talecraft.client.gui.qad.QADItemButton;
 import tiffit.talecraft.entity.NPC.NPCInventoryData;
 import tiffit.talecraft.entity.NPC.NPCShop.NPCTrade;
@@ -276,6 +273,7 @@ public class NPCShopEditorGui extends QADGuiScreen {
 		addComponent(mainPanel);
 	}
 	
+	@Override
 	public void onGuiClosed() {}
 	
 	@Override
@@ -317,6 +315,7 @@ public class NPCShopEditorGui extends QADGuiScreen {
 			}
 		}
 		
+		@Override
 		public void onGuiClosed() {}
 
 		@Override

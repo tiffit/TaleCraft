@@ -357,18 +357,22 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 		}
 	}
 	
+	@Override
 	public void forceRebuildLayout() {
 		relayout();
 	}
 	
+	@Override
 	public boolean isLayoutDirty() {
 		return shouldRebuildLayout;
 	}
 	
+	@Override
 	public QADLayoutManager getLayout() {
 		return layout;
 	}
 	
+	@Override
 	public void setLayout(QADLayoutManager newLayout) {
 		layout = newLayout;
 		shouldRebuildLayout = true;

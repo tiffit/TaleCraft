@@ -1,7 +1,5 @@
 package tiffit.talecraft.client.gui.npc;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +19,6 @@ import de.longor.talecraft.client.gui.qad.QADTickBox;
 import de.longor.talecraft.client.gui.qad.QADTickBox.TickBoxModel;
 import de.longor.talecraft.client.gui.qad.model.AbstractButtonModel;
 import de.longor.talecraft.client.gui.qad.model.DefaultTextFieldModel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import tiffit.talecraft.entity.NPC.EntityNPC.NPCType;
@@ -111,6 +108,7 @@ public class NPCEditorGui extends QADGuiScreen {
 		NPCEditorGui.this.mc.displayGuiScreen(null);
 	}
 	
+	@Override
 	public void buildGui() {
 		addComponent(new QADLabel("NPC: " + name, 2, 2));
 		

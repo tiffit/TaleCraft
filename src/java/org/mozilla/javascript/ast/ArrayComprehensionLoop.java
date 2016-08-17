@@ -14,6 +14,7 @@ import org.mozilla.javascript.Token;
  * {@link ForInLoop}, except that it has no body statement.
  * Node type is {@link Token#FOR}.<p>
  */
+@SuppressWarnings("javadoc")
 public class ArrayComprehensionLoop extends ForInLoop {
 
     public ArrayComprehensionLoop() {
@@ -31,7 +32,8 @@ public class ArrayComprehensionLoop extends ForInLoop {
      * Returns {@code null} for loop body
      * @return loop body (always {@code null} for this node type)
      */
-    public AstNode getBody() {
+    @Override
+		public AstNode getBody() {
         return null;
     }
 
@@ -40,7 +42,8 @@ public class ArrayComprehensionLoop extends ForInLoop {
      * @param body loop body
      * @throws UnsupportedOperationException
      */
-    public void setBody(AstNode body) {
+		@Override
+		public void setBody(AstNode body) {
         throw new UnsupportedOperationException("this node type has no body");
     }
 

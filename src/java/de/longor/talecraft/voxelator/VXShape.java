@@ -2,8 +2,6 @@ package de.longor.talecraft.voxelator;
 
 import de.longor.talecraft.util.BlockRegion;
 import de.longor.talecraft.util.MutableBlockPos;
-import de.longor.talecraft.voxelator.shapes.VXShapeBox;
-import de.longor.talecraft.voxelator.shapes.VXShapeSphere;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class VXShape {
@@ -17,6 +15,7 @@ public abstract class VXShape {
 			this.name = name;
 		}
 	
+		@Override
 		public String toString(){
 			return name;
 		}

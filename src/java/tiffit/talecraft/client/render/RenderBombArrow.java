@@ -2,7 +2,6 @@ package tiffit.talecraft.client.render;
 
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,7 +19,8 @@ public class RenderBombArrow extends RenderArrow<EntityBombArrow>
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(EntityBombArrow entity)
+    @Override
+		protected ResourceLocation getEntityTexture(EntityBombArrow entity)
     {
         return RES_ARROW;
     }

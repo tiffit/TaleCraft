@@ -129,7 +129,7 @@ public class VisualizeCommand extends TCCommandBase {
 
 	}
 
-	private void execute_es(ICommandSender sender, String[] args, CommandArgumentParser parser) throws CommandException {
+	public void execute_es(ICommandSender sender, String[] args, CommandArgumentParser parser) throws CommandException {
 		String selector = parser.consume_string("Could not parse selector.");
 		String color = parser.consume_string("Could not parse color.");
 

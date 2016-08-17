@@ -13,6 +13,7 @@ package org.mozilla.javascript;
  * {@link Context} instances should implement
  * {@link ContextFactory.Listener}.
  */
+@SuppressWarnings("dep-ann")
 public interface ContextListener extends ContextFactory.Listener
 {
 

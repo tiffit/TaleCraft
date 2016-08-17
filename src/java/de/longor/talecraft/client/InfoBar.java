@@ -37,6 +37,11 @@ public class InfoBar {
 			lastHeight = 0;
 			return;
 		}
+		
+		if(!enabled) {
+			lastHeight = 0;
+			return;
+		}
 
 		// begin building string
 		builder.setLength(0);

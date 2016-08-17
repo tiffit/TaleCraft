@@ -200,7 +200,8 @@ final class NativeError extends IdScriptableObject
         return sb.toString();
     }
 
-    private static String getString(Scriptable obj, String id)
+    @SuppressWarnings("unused")
+		private static String getString(Scriptable obj, String id)
     {
         Object value = ScriptableObject.getProperty(obj, id);
         if (value == NOT_FOUND) return "";

@@ -8,7 +8,6 @@ import de.longor.talecraft.voxelator.VXShape;
 import de.longor.talecraft.voxelator.Voxelator.ShapeFactory;
 import de.longor.talecraft.voxelator.params.BooleanBrushParameter;
 import de.longor.talecraft.voxelator.params.FloatBrushParameter;
-import de.longor.talecraft.voxelator.params.IntegerBrushParameter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;

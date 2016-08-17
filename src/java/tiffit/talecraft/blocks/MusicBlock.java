@@ -1,10 +1,5 @@
 package tiffit.talecraft.blocks;
 
-import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.blocks.TCBlockContainer;
-import de.longor.talecraft.blocks.TCITriggerableBlock;
-import de.longor.talecraft.blocks.util.tileentity.URLBlockTileEntity;
-import de.longor.talecraft.invoke.EnumTriggerState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +13,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.client.gui.GuiMusicBlock;
 import tiffit.talecraft.tileentity.MusicBlockTileEntity;
+import de.longor.talecraft.TaleCraft;
+import de.longor.talecraft.blocks.TCBlockContainer;
+import de.longor.talecraft.blocks.TCITriggerableBlock;
+import de.longor.talecraft.invoke.EnumTriggerState;
 
 public class MusicBlock extends TCBlockContainer implements TCITriggerableBlock {
 

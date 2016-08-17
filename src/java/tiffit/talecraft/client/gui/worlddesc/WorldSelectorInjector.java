@@ -2,7 +2,6 @@ package tiffit.talecraft.client.gui.worlddesc;
 
 import net.minecraft.client.gui.GuiWorldSelection;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class WorldSelectorInjector { //It Rhymes!
