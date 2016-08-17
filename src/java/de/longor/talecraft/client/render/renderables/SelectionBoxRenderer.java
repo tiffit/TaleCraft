@@ -77,17 +77,29 @@ public class SelectionBoxRenderer implements IRenderable {
 					texture = ClientResources.textureSelectionBoxFF;
 				}
 
-				mc.getTextureManager().bindTexture(texture);
-
+				GlStateManager.enableTexture2D();
+				
 				// Render primary (with-depth) box
-				GlStateManager.enableDepth();
-				BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, 1);
+				{
+					mc.getTextureManager().bindTexture(texture);
+					GlStateManager.enableDepth();
+					BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, 1);
+				}
+				
 				// Render secondary (no-depth) box
-				GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-				mc.getTextureManager().bindTexture(ClientResources.texColorWhite);
-				BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, -1);
-				GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-
+				/// XXX: Temporarily disabled the 'xray selection' feature since it isnt working as intended.
+				if(Boolean.FALSE.booleanValue())
+				{
+					mc.getTextureManager().bindTexture(ClientResources.texColorWhite);
+					GlStateManager.disableTexture2D();
+					GlStateManager.disableDepth();
+					GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+					BoxRenderer.renderSelectionBox(tessellator, vertexbuffer, ix-E, iy-E, iz-E, ax+1+E, ay+1+E, az+1+E, -1);
+					GlStateManager.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+					GlStateManager.enableDepth();
+					GlStateManager.enableTexture2D();
+				}
+				
 				mc.getTextureManager().bindTexture(ClientResources.texColorWhite);
 				GlStateManager.glBegin(GL11.GL_LINES);
 				GlStateManager.color(1, 0, 0, 1);

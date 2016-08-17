@@ -27,6 +27,8 @@ public class BoxRenderer {
 		float x = X;
 		float y = Y;
 		float z = Z;
+		
+		// TODO: Try to make this method use VertexBuffer.
 
 		GlStateManager.glBegin(GL11.GL_LINES);
 		GlStateManager.color(r*0.5f, g*0.5f, b*0.5f, a);
@@ -481,6 +483,13 @@ public class BoxRenderer {
 		float g = 0.5f;
 		float b = 0;
 
+		if(a == 0) {
+			a = 1;
+			r = 1;
+			g = 1;
+			b = 1;
+		}
+
 		if(a == -1) {
 			a = 1;
 			r = 0;
@@ -501,11 +510,14 @@ public class BoxRenderer {
 			g = 0.25f;
 			b = 0.25f;
 		}
+		
 		VertexBufferHelper vertexbuffer = new VertexBufferHelper(ren);
-		// top
 		vertexbuffer.startDrawingQuads();
 		vertexbuffer.color(r, g, b, a);
-		vertexbuffer.setBrightness(0xEE);
+		vertexbuffer.setTranslation(0, 0, 0);
+		vertexbuffer.setBrightness(0xFF);
+		
+		// top
 		vertexbuffer.normal(0, 1, 0);
 		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, u0, w0);
 		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, u1, w0);
@@ -567,17 +579,24 @@ public class BoxRenderer {
 			rend.pos(x, y, z).tex(u, v).endVertex();
 			
 		}
-
+		
+		/*
+		 * XXX:
+		 * Temporarily fixed the bug where the rendering of
+		 * the selection box is completely messed up,
+		 * by commenting out the contents of the methods below.
+		 */
+		
 		public void normal(float x, float y, float z) {
-			rend.normal(x, y, z);
+			// rend.normal(x, y, z);
 		}
 
 		public void setBrightness(int brightness) {
-			//TODO Find replacement for setBrightness method
+		// rend.lightmap((brightness>>4)&0xF, brightness&0xF);
 		}
 
 		public void color(float r, float g, float b, float a) {
-			rend.color(r, g, b, a);
+			//rend.color(r, g, b, a);
 		}
 	}
 
