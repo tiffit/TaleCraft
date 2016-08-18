@@ -14,6 +14,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -24,9 +26,67 @@ public class WandItem extends TCItem {
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
+		
+		applyWand(player, pos);
+		
+		return EnumActionResult.SUCCESS;
+	}
+	
+	@Override //Clears the wand selection
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+		if(world.isRemote)
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		
+		if(player.isSneaking()) {
+			resetWand(player);
+			return super.onItemRightClick(stack, world, player, hand);
+		}
+		
+		{ // do far-away raytrace...
+			float lerp = 1f;
+			float dist = 256;
+			
+			Vec3d start = getPositionEyes(lerp, player);
+			Vec3d direction = player.getLook(lerp);
+			Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
 
-		// System.out.println("ITEM WAND : Block Click -> " + pos);
+			RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
+			
+			if(result.getBlockPos() != null) {
+				applyWand(player, result.getBlockPos());
+				return super.onItemRightClick(stack, world, player, hand);
+			}
+		}
+		
+		return ActionResult.newResult(EnumActionResult.PASS, stack);
+	}
 
+	@Override
+	// Warning: Forge Method
+	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+		// Check if we are on the server-side.
+		if(!player.worldObj.isRemote) {
+			EntityPlayerMP playerMP = (EntityPlayerMP) player;
+			String cmd = "/tc_editentity " + entity.getUniqueID().toString();
+			FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(playerMP, cmd);
+		}
+
+		// by returning TRUE, we prevent damaging the entity being hit.
+		return true;
+	}
+
+	public static final Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
+		if(partialTicks == 1.0F) {
+			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
+		} else {
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * partialTicks + player.getEyeHeight();
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
+			return new Vec3d(d0, d1, d2);
+		}
+	}
+	
+	public static final void applyWand(EntityPlayer player, BlockPos pos) {
 		NBTTagCompound compound = player.getEntityData();
 		NBTTagCompound tcWand = null;
 
@@ -58,35 +118,15 @@ public class WandItem extends TCItem {
 		// System.out.println("comp = " + tcWand);
 
 		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
-		return EnumActionResult.SUCCESS;
 	}
 	
-	@Override //Clears the wand selection
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-		if(world.isRemote)
-			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		if(!player.isSneaking()) return ActionResult.newResult(EnumActionResult.PASS, stack);
+	public static final void resetWand(EntityPlayer player) {
 		NBTTagCompound compound = player.getEntityData();
 		compound.getCompoundTag("tcWand").setBoolean("enabled", false);
 		compound.getCompoundTag("tcWand").setIntArray("boundsA", new int[]{0, 0, 0});
 		compound.getCompoundTag("tcWand").setIntArray("boundsB", new int[]{0, 0, 0});
 		player.addChatMessage(new TextComponentString("Wand selection has been cleared!"));
 		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
-		return super.onItemRightClick(stack, world, player, hand);
-	}
-
-	@Override
-	// Warning: Forge Method
-	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-		// Check if we are on the server-side.
-		if(!player.worldObj.isRemote) {
-			EntityPlayerMP playerMP = (EntityPlayerMP) player;
-			String cmd = "/tc_editentity " + entity.getUniqueID().toString();
-			FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(playerMP, cmd);
-		}
-
-		// by returning TRUE, we prevent damaging the entity being hit.
-		return true;
 	}
 
 	public static final int[] getBoundsFromPlayerOrNull(EntityPlayer player) {
