@@ -2,8 +2,6 @@ package de.longor.talecraft.client.gui.qad;
 
 import java.util.List;
 
-import net.minecraft.util.math.MathHelper;
-
 import org.lwjgl.input.Keyboard;
 
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
