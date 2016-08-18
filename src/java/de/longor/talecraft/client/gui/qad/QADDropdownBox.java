@@ -196,7 +196,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 						int icox = x;
 						int icoy = y;
 						renderer.offset(icox, icoy);
-						dropbox_model.drawIcon(renderer, partialTicks, light);
+						dropbox_model.drawIcon(renderer, partialTicks, light, item);
 						renderer.offset(-icox, -icoy);
 					}
 				}
@@ -436,7 +436,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 		/** let this return true if drawIcon is implemented. **/
 		public boolean hasIcons();
 		/** implement this to draw icons (origin is at list item!). **/
-		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light);
+		public void drawIcon(VCUIRenderer renderer, float partialTicks, boolean light, ListModelItem item);
 	}
 	
 	// The interface for list items. Pretty simple, isnt it?
