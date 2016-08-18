@@ -14,6 +14,7 @@ import de.longor.talecraft.commands.FileCommand;
 import de.longor.talecraft.commands.HighlightCommand;
 import de.longor.talecraft.commands.MountCommand;
 import de.longor.talecraft.commands.RegionTriggerCommand;
+import de.longor.talecraft.commands.RenameCommand;
 import de.longor.talecraft.commands.ScriptCommand;
 import de.longor.talecraft.commands.TargetedTeleportCommand;
 import de.longor.talecraft.commands.TriggerCommand;
@@ -49,6 +50,7 @@ public class TaleCraftCommands {
 		commands.add(new HighlightCommand());
 		commands.add(new FileCommand());
 		commands.add(new FadeCommand());
+		commands.add(new RenameCommand());
 	}
 
 	public static void register(CommandHandler registry) {
