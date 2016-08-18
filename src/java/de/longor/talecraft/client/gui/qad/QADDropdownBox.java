@@ -18,7 +18,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 	private int fieldbox_height = 20;
 	private int fieldbox_x = 0;
 	private int fieldbox_y = 0;
-	private String fieldbox_text;
+	private String fieldbox_text = "";
 
 	private boolean dropbox_visible = false;
 	private int dropbox_width = 100;
@@ -33,8 +33,23 @@ public class QADDropdownBox extends QADRectangularComponent {
 	private String dropbox_filterstr = "";
 	private ListModelItem dropbox_selected = null;
 	
-	public QADDropdownBox(ListModel model) {
+	public QADDropdownBox(ListModel model, ListModelItem selectedItem) {
 		this.dropbox_model = model;
+		
+		if(model != null && model.hasItems()) {
+			if(selectedItem != null && model.getItems().contains(selectedItem)) {
+				this.fieldbox_text = selectedItem.getText();
+				this.dropbox_selected = selectedItem;
+			} else {
+				ListModelItem item = model.getItems().get(0);
+				this.fieldbox_text = item.getText();
+				this.dropbox_selected = item;
+			}
+		}
+	}
+	
+	public QADDropdownBox(ListModel model) {
+		this(model, (ListModelItem)null);
 	}
 	
 	@Override
