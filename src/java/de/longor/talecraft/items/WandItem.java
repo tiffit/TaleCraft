@@ -29,7 +29,7 @@ public class WandItem extends TCItem {
 		
 		applyWand(player, pos);
 		
-		return EnumActionResult.SUCCESS;
+		return EnumActionResult.PASS;
 	}
 	
 	@Override //Clears the wand selection
@@ -39,7 +39,7 @@ public class WandItem extends TCItem {
 		
 		if(player.isSneaking()) {
 			resetWand(player);
-			return super.onItemRightClick(stack, world, player, hand);
+			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
 		
 		{ // do far-away raytrace...
@@ -54,7 +54,7 @@ public class WandItem extends TCItem {
 			
 			if(result.getBlockPos() != null) {
 				applyWand(player, result.getBlockPos());
-				return super.onItemRightClick(stack, world, player, hand);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 			}
 		}
 		
@@ -96,26 +96,36 @@ public class WandItem extends TCItem {
 		} else {
 			tcWand = compound.getCompoundTag("tcWand");
 		}
+		
+		{
+			// Double Call Prevention Hack
+			long timeNow = player.worldObj.getTotalWorldTime();
+			long timePre = tcWand.getLong("DCPH");
+			
+			if(timeNow == timePre) {
+				return;
+			} else {
+				tcWand.setLong("DCPH", timeNow);
+			}
+		}
 
 		int[] pos$$ = new int[]{pos.getX(),pos.getY(),pos.getZ()};
-
+		
 		tcWand.setIntArray("cursor", Arrays.copyOf(pos$$, 3));
 
 		if(!tcWand.hasKey("boundsA") || !tcWand.getBoolean("enabled")) {
-			tcWand.setIntArray("boundsA", Arrays.copyOf(pos$$, 3));
-			tcWand.setIntArray("boundsB", Arrays.copyOf(pos$$, 3));
+			tcWand.setIntArray("boundsA", pos$$);
+			tcWand.setIntArray("boundsB", pos$$);
 			tcWand.setBoolean("enabled", true);
 		} else {
 			boolean flip = tcWand.getBoolean("flip");
 			if(flip) {
-				tcWand.setIntArray("boundsB", Arrays.copyOf(pos$$, 3));
+				tcWand.setIntArray("boundsB", pos$$);
 			} else {
-				tcWand.setIntArray("boundsA", Arrays.copyOf(pos$$, 3));
+				tcWand.setIntArray("boundsA", pos$$);
 			}
 			tcWand.setBoolean("flip", !flip);
 		}
-
-		// System.out.println("comp = " + tcWand);
 
 		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
 	}
