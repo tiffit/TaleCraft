@@ -32,8 +32,8 @@ public class VoxelatorGuiPacket implements IMessage {
 	public static class Handler implements IMessageHandler<VoxelatorGuiPacket, IMessage> {
 		@Override
 		public IMessage onMessage(VoxelatorGuiPacket message, MessageContext ctx) {
-			// Minecraft.getMinecraft().displayGuiScreen(new tiffit.talecraft.client.gui.voxelator.VoxelatorGui(message.tag));
-			Minecraft.getMinecraft().displayGuiScreen(new de.longor.talecraft.client.gui.items.GuiVoxelator(message.tag));
+			Minecraft.getMinecraft().displayGuiScreen(new tiffit.talecraft.client.gui.voxelator.VoxelatorGui(message.tag));
+			// Minecraft.getMinecraft().displayGuiScreen(new de.longor.talecraft.client.gui.items.GuiVoxelator(message.tag));
 			return null;
 		}
 	}
