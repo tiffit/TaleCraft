@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import tiffit.talecraft.client.gui.voxelator.VoxelatorGui;
 
 public class VoxelatorGuiPacket implements IMessage {
 	
@@ -31,10 +30,10 @@ public class VoxelatorGuiPacket implements IMessage {
 	}
 
 	public static class Handler implements IMessageHandler<VoxelatorGuiPacket, IMessage> {
-
 		@Override
 		public IMessage onMessage(VoxelatorGuiPacket message, MessageContext ctx) {
-			Minecraft.getMinecraft().displayGuiScreen(new VoxelatorGui(message.tag));
+			// Minecraft.getMinecraft().displayGuiScreen(new tiffit.talecraft.client.gui.voxelator.VoxelatorGui(message.tag));
+			Minecraft.getMinecraft().displayGuiScreen(new de.longor.talecraft.client.gui.items.GuiVoxelator(message.tag));
 			return null;
 		}
 	}
