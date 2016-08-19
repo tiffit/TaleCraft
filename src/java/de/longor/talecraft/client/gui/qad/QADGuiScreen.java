@@ -373,6 +373,10 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		onLayout();
 	}
 	
+	public void setLayoutDirty() {
+		shouldRelayout = true;
+	}
+	
 	@Override
 	public boolean isLayoutDirty() {
 		// GuiScreen layout is never dirty.
