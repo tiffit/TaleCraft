@@ -64,7 +64,7 @@ public class TeleporterItem extends TCItem {
 				riding.velocityChanged = true;
 			}
 
-			player.worldObj.playSound(null, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.5f, (float) (1f + Math.random()*0.1));
+			player.worldObj.playSound(null, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random()*0.1));
 		}
 
 		return EnumActionResult.SUCCESS;
@@ -141,7 +141,7 @@ public class TeleporterItem extends TCItem {
 					riding.velocityChanged = true;
 				}
 
-				player.worldObj.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.5f, (float) (1f + Math.random()*0.1));
+				player.worldObj.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random()*0.1));
 			}
 		}
 
