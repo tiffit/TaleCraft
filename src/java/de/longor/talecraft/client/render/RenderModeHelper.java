@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import de.longor.talecraft.client.ClientRenderer.VisualMode;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
@@ -16,21 +18,22 @@ public class RenderModeHelper {
 	 **/
 	public static final void ENABLE(VisualMode visual) {
 		switch(visual) {
-		case Backface:
-			GL11.glLineWidth(0.25f);
-			GL11.glDisable(GL11.GL_CULL_FACE);
-			GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE); GL11.glPolygonMode(GL11.GL_BACK, GL11.GL_FILL);
-			break;
 		case Lighting:
 			GL11.glPointSize(8.0f);
 			GL11.glLineWidth(0.25f);
 			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-			GL11.glDisable(GL11.GL_LIGHTING);
+			GlStateManager.disableTexture2D();
+			GlStateManager.disableLighting();
 			break;
 		case Nightvision:
 			GL11.glPointSize(8.0f);
 			GL11.glLineWidth(0.25f);
 			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+			GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+			GlStateManager.disableTexture2D();
+			GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+			GlStateManager.disableFog();
+			
 			Minecraft.getMinecraft().thePlayer.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, Integer.MAX_VALUE));
 			break;
 		case Wireframe:

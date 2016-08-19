@@ -144,14 +144,12 @@ public class InfoBar {
 		builder.append(' ');
 		builder.append(TextFormatting.BLUE);
 
-		switch(visualMode) {
-		case Wireframe: builder.append("[1:wireframe mode]"); break;
-		case Backface: builder.append("[2:backface mode]"); break;
-		case Lighting: builder.append("[3:lighting mode]"); break;
-		case Nightvision: builder.append("[4:nightvision mode]"); break;
-		default: builder.append("[?:funny display mode]"); break;
-		}
-
+		builder.append('[');
+		builder.append(visualMode.ordinal());
+		builder.append(':');
+		builder.append(visualMode.getName());
+		builder.append(']');
+		
 		builder.append(TextFormatting.RESET);
 	}
 

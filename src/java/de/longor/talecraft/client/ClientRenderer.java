@@ -7,40 +7,20 @@ import org.lwjgl.opengl.GL11;
 
 import de.longor.talecraft.TaleCraftBlocks;
 import de.longor.talecraft.TaleCraftItems;
-import de.longor.talecraft.blocks.util.tileentity.BlockUpdateDetectorTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.ClockBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.CollisionTriggerBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.DelayBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.EmitterBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.ImageHologramBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.InverterBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.LightBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.MemoryBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.MessageBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.RedstoneTriggerBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.RelayBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.ScriptBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.StorageBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.SummonBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.TriggerFilterBlockTileEntity;
-import de.longor.talecraft.blocks.util.tileentity.URLBlockTileEntity;
+import de.longor.talecraft.blocks.util.tileentity.*;
 import de.longor.talecraft.client.render.IRenderable;
 import de.longor.talecraft.client.render.ITemporaryRenderable;
 import de.longor.talecraft.client.render.RenderModeHelper;
 import de.longor.talecraft.client.render.entity.PointEntityRenderer;
 import de.longor.talecraft.client.render.renderables.SelectionBoxRenderer;
-import de.longor.talecraft.client.render.renderers.CustomSkyRenderer;
-import de.longor.talecraft.client.render.renderers.ItemMetaWorldRenderer;
-import de.longor.talecraft.client.render.tileentity.GenericTileEntityRenderer;
-import de.longor.talecraft.client.render.tileentity.ImageHologramBlockTileEntityEXTRenderer;
-import de.longor.talecraft.client.render.tileentity.StorageBlockTileEntityEXTRenderer;
-import de.longor.talecraft.client.render.tileentity.SummonBlockTileEntityEXTRenderer;
+import de.longor.talecraft.client.render.renderers.*;
+import de.longor.talecraft.client.render.tileentity.*;
 import de.longor.talecraft.entities.EntityPoint;
 import de.longor.talecraft.proxy.ClientProxy;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -56,6 +36,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+
 import tiffit.talecraft.client.entity.RenderNPC.NPCRenderFactory;
 import tiffit.talecraft.client.render.specialrender.LockedDoorRenderer;
 import tiffit.talecraft.entity.NPC.EntityNPC;
@@ -69,9 +50,7 @@ import tiffit.talecraft.entity.projectile.EntityBullet;
 import tiffit.talecraft.entity.projectile.EntityBullet.EntityBulletRenderFactory;
 import tiffit.talecraft.entity.projectile.EntityKnife;
 import tiffit.talecraft.entity.projectile.EntityKnife.EntityKnifeRenderFactory;
-import tiffit.talecraft.tileentity.CameraBlockTileEntity;
-import tiffit.talecraft.tileentity.LockedDoorTileEntity;
-import tiffit.talecraft.tileentity.MusicBlockTileEntity;
+import tiffit.talecraft.tileentity.*;
 
 public class ClientRenderer {
 	private final ClientProxy proxy;
@@ -81,7 +60,19 @@ public class ClientRenderer {
 	private float partialTicks;
 	
 	public static enum VisualMode{
-		Default, Wireframe, Backface, Lighting, Nightvision;
+		Default("default"),
+		Lighting("lighting"),
+		Nightvision("nightvision"),
+		Wireframe("wireframe");
+		String name;
+		
+		VisualMode(String n) {
+			name = n;
+		}
+		
+		public String getName() {
+			return name;
+		}
 		
 		public VisualMode next(){
 			int current = ordinal();
@@ -429,39 +420,31 @@ public class ClientRenderer {
 	}
 	
 	public void on_render_world_terrain_pre(RenderTickEvent revt) {
-		// this takes care of the CUSTOM SKY RENDERING
-		if(mc.theWorld != null && mc.theWorld.provider != null) {
-			boolean wireframeModeActive = proxy.isBuildMode() ? (visualizationMode != VisualMode.Default) : false;
-
-			if(wireframeModeActive) {
-				CustomSkyRenderer.instance.setDebugSky(true);
-				mc.theWorld.provider.setSkyRenderer(CustomSkyRenderer.instance);
-			} else {
-				CustomSkyRenderer.instance.setDebugSky(false);
-				mc.theWorld.provider.setSkyRenderer(null);
+		if(mc.theWorld != null) {
+			// Which VisualMode should we use?
+			VisualMode visMode = visualizationMode;
+			
+			// Prevent non-creative players from using the visualization modes.
+			if(!proxy.isBuildMode()) {
+				visMode = VisualMode.Default;
 			}
-		}
-
-		// this enables the WIREFRAME-MODE if we are ingame
-		if(mc.theWorld != null && mc.thePlayer != null) {
-			RenderModeHelper.ENABLE(mc.thePlayer.capabilities.isCreativeMode ? visualizationMode : VisualMode.Default);
-
-			if(visualizationMode == VisualMode.Default) {
-				mc.gameSettings.clouds = 1;
-			} else {
-				mc.gameSettings.clouds = 0;
+			
+			// this takes care of the CUSTOM SKY RENDERING
+			if(mc.theWorld.provider != null) {
+				boolean debugSkyActive = visMode != VisualMode.Default;
+				
+				if(debugSkyActive) {
+					CustomSkyRenderer.instance.setDebugSky(true);
+					mc.theWorld.provider.setSkyRenderer(CustomSkyRenderer.instance);
+				} else {
+					CustomSkyRenderer.instance.setDebugSky(false);
+					mc.theWorld.provider.setSkyRenderer(null);
+				}
 			}
-
-			// this is part of the LIGHTING visualization mode
-			if(visualizationMode == VisualMode.Lighting) {
-				GlStateManager.disableTexture2D();
-			}
-
-			if(visualizationMode == VisualMode.Nightvision) {
-				GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-				GlStateManager.disableTexture2D();
-				GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
-				GlStateManager.disableFog();
+			
+			// handle currently active VisualMode
+			if(mc.thePlayer != null) {
+				RenderModeHelper.ENABLE(visMode);
 			}
 		}
 	}
@@ -486,34 +469,8 @@ public class ClientRenderer {
 			// Do NOT draw the hand!
 			event.setCanceled(true);
 		}
+		
 		GlStateManager.enableTexture2D();
-//		// If active, render a fade-effect (this makes the screen go dark).
-//		// This overlays everything except the hand and the GUI, which is wrong.
-//		double fade = 0.5f;
-//		int color = 0xff0000;
-//		if(fade > 0 && mc.ingameGUI != null) {
-//			// Draw Overlay
-//			GL11.glMatrixMode(GL11.GL_PROJECTION);
-//			GL11.glLoadIdentity();
-//			GLU.gluOrtho2D(0, 2, 2, 0);
-//			GL11.glMatrixMode(GL11.GL_MODELVIEW);
-//			GL11.glLoadIdentity();
-//
-//			{
-//				int alpha = MathHelper.clamp_int((int) (fade * 255), 0, 255);
-//				int mixed = ((alpha & 0xFF) << 24) | (color);
-//				Gui.drawRect(-1, -1, 4, 4, mixed);
-//			}
-//
-//			RenderHelper.disableStandardItemLighting();
-//
-//			// Do NOT draw the hand!
-//			event.setCanceled(true);
-//		}
-//
-//		// Enable for reasons stated in:
-//		// ClientProxy..worldPass() -> Last line of code.
-//		GlStateManager.enableTexture2D();
 	}
 
 

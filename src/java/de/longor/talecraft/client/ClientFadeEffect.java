@@ -24,9 +24,11 @@ public class ClientFadeEffect {
 	
 	public void render(){
 		double fade = 1.0f;
+		
 		if((current_time + 0.0)/(time + 0.0) < 0.25){
 			fade = (current_time + 0.0)/(time - current_time);
 		}
+		
 		// Draw Overlay
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
@@ -37,6 +39,9 @@ public class ClientFadeEffect {
 			int alpha = MathHelper.clamp_int((int) (fade * 255), 0, 255);
 			int mixed = ((alpha & 0xFF) << 24) | (color);
 			Gui.drawRect(-1, -1, 4, 4, mixed);
+			
+			// TODO: Implement TEXTURED fade effect
+			// -> Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, 0, 0, 0, 0);
 		}
 		RenderHelper.disableStandardItemLighting();
 		current_time--;
