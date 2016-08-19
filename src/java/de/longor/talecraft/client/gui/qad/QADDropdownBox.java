@@ -38,6 +38,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 			if(selectedItem != null && model.getItems().contains(selectedItem)) {
 				this.fieldbox_text = selectedItem.getText();
 				this.dropbox_selected = selectedItem;
+				this.dropbox_model.onSelection(selectedItem);
 			} else {
 				ListModelItem item = model.getItems().get(0);
 				this.fieldbox_text = item.getText();
@@ -61,11 +62,6 @@ public class QADDropdownBox extends QADRectangularComponent {
 	}
 
 	@Override
-	public boolean canResize() {
-		return true;
-	}
-
-	@Override
 	public void setWidth(int newWidth) {
 		setSize(newWidth, fieldbox_height);
 	}
@@ -80,6 +76,11 @@ public class QADDropdownBox extends QADRectangularComponent {
 		this.fieldbox_width = newWidth;
 		this.fieldbox_height = newHeight;
 		reFocus();
+	}
+
+	@Override
+	public boolean canResize() {
+		return true;
 	}
 
 	@Override
@@ -118,6 +119,8 @@ public class QADDropdownBox extends QADRectangularComponent {
 	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
 		if(!isVisible)
 			return;
+		
+		renderer.drawLineRectangle(getX(), getY(), localMouseX+getX(), localMouseY+getY(), 0x507f007f);
 		
 		boolean hover = isPointInside(localMouseX+getX(), localMouseY+getY());
 		
@@ -185,7 +188,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 				boolean hasIcons = dropbox_model.hasIcons();
 				
 				// hover highlight
-				int hoverlight = hover?mouseToItemIndex(localMouseY+getX()):-1;
+				int hoverlight = hover?mouseToItemIndex(localMouseY+getY()):-1;
 				this.dropbox_highlight = hoverlight;
 				
 				// list render
@@ -245,7 +248,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 		if(isFocused && inside && dropbox_model != null) {
 			List<ListModelItem> items = dropbox_model.getFilteredItems();
 			if(items != null) {
-				int hoverlight = mouseToItemIndex(localMouseY+getX());
+				int hoverlight = mouseToItemIndex(localMouseY+getY());
 				this.dropbox_highlight = hoverlight;
 				
 				if(hoverlight != -1) {
@@ -336,15 +339,15 @@ public class QADDropdownBox extends QADRectangularComponent {
 	}
 	
 	public int mouseToItemIndex(int mouseY) {
-		if(mouseY < dropbox_y+dropbox_rowheight) {
+		if(mouseY < dropbox_y) {
 			return -1;
 		}
-		if(mouseY >= dropbox_y+dropbox_height+dropbox_rowheight) {
+		if(mouseY >= dropbox_y+dropbox_height) {
 			return -1;
 		}
 		
 		mouseY -= dropbox_y;
-		mouseY -= dropbox_rowheight;
+		// mouseY -= dropbox_rowheight;
 		
 		return (mouseY) / dropbox_rowheight;
 	}
