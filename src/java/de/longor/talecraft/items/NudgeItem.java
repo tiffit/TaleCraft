@@ -18,9 +18,6 @@ public class NudgeItem extends TCItem {
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
-
-		nudge(player);
-
 		return EnumActionResult.SUCCESS;
 	}
 
@@ -29,12 +26,12 @@ public class NudgeItem extends TCItem {
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
-		nudge(player);
+		nudge(player, player.isSneaking());
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
-	private void nudge(EntityPlayer player) {
+	private void nudge(EntityPlayer player, boolean moveByBounds) {
 		if(player == null)
 			return;
 
@@ -76,36 +73,61 @@ public class NudgeItem extends TCItem {
 		}
 
 		// playerIn.addChatMessage(new ChatComponentText(TextFormatting.AQUA+"Nudge: " + direction + " " + bounds_volume));
-
+		
+		// Selection Bounds
 		int ix = bounds[0];
 		int iy = bounds[1];
 		int iz = bounds[2];
 		int ax = bounds[3];
 		int ay = bounds[4];
 		int az = bounds[5];
-
+		
+		// Selection Size
+		int sx = ax-ix+1;
+		int sy = ay-iy+1;
+		int sz = az-iz+1;
+		
+		// Selection Movement
 		int new_ix = ix;
 		int new_iy = iy;
 		int new_iz = iz;
-
-		switch(side) {
-		// x
-		case EAST:	new_ix++; break;
-		case WEST:	new_ix--; break;
-		// y
-		case UP:	new_iy++; break;
-		case DOWN:	new_iy--; break;
-		// z
-		case SOUTH:	new_iz++; break;
-		case NORTH:	new_iz--; break;
-		// ?!
-		default: return;
+		
+		if(moveByBounds) {
+			switch(side) {
+				// x
+				case EAST:	new_ix +=-sx; break;
+				case WEST:	new_ix -=-sx; break;
+				// y
+				case UP:	  new_iy +=-sy; break;
+				case DOWN:	new_iy -=-sy; break;
+				// z
+				case SOUTH:	new_iz +=-sz; break;
+				case NORTH:	new_iz -=-sz; break;
+				// ?!
+				default: return;
+			}
+		} else {
+			switch(side) {
+				// x
+				case EAST:	new_ix++; break;
+				case WEST:	new_ix--; break;
+				// y
+				case UP:	  new_iy++; break;
+				case DOWN:	new_iy--; break;
+				// z
+				case SOUTH:	new_iz++; break;
+				case NORTH:	new_iz--; break;
+				// ?!
+				default: return;
+			}
 		}
-
+		
 		int moveX = new_ix - ix;
 		int moveY = new_iy - iy;
 		int moveZ = new_iz - iz;
-
+		
+		// Lets by terribly lazy and use an existing minecraft command to do the actual movement.
+		
 		StringBuilder builder = new StringBuilder(128);
 
 		builder.append("/clone ");
