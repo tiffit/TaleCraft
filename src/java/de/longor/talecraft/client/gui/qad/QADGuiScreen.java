@@ -101,10 +101,14 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	}
 	
 	private final void onLayout() {
-		layoutGui();
-		if(layout != null) {
-			Vec2i newSize = new Vec2i();
-			layout.layout(this, components, newSize);
+		if(components != null && !components.isEmpty() && lastUpdateComponents != null) {
+			layoutGui();
+			if(layout != null) {
+				Vec2i newSize = new Vec2i();
+				layout.layout(this, components, newSize);
+			}
+		} else {
+			shouldRelayout = true;
 		}
 	}
 
@@ -172,7 +176,8 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	@Override
 	public final void updateScreen() {
 		if(initializing) return;
-		if(lastUpdateComponents == null) {
+		
+		if(lastUpdateComponents == null || components == null) {
 			initGui();
 			return;
 		}
@@ -198,10 +203,16 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		}
 
 		// ...
-		if(this.fontRendererObj != null) instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
+		if(this.fontRendererObj != null)
+			instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
+		
 		instance.drawDefaultBackground();
-		if(components == null) lastUpdateComponents = new ArrayList<QADComponent>();
-		else lastUpdateComponents = new ArrayList<QADComponent>(components);
+		
+		if(components == null)
+			lastUpdateComponents = new ArrayList<QADComponent>();
+		else
+			lastUpdateComponents = new ArrayList<QADComponent>(components);
+		
 		// Draw all components
 		if(lastUpdateComponents != null){
 			for(QADComponent component : lastUpdateComponents) {
@@ -371,6 +382,13 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	@Override
 	public void forceRebuildLayout() {
 		onLayout();
+	}
+	
+	public void forceRebuildAll() {
+		initializing = true;
+		components = null;
+		lastUpdateComponents = null;
+		initGui();
 	}
 	
 	public void setLayoutDirty() {

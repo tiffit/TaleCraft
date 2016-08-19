@@ -187,8 +187,13 @@ public class VCUIRenderer {
 		return fontRenderer;
 	}
 
-	public void bindTexture(ResourceLocation resource) {
-		minecraft.getTextureManager().bindTexture(resource == null ? ClientResources.texColorWhite : resource);
+	public void bindTexture(ResourceLocation texture) {
+		if(texture == null) {
+			minecraft.getTextureManager().bindTexture(ClientResources.texColorWhite);
+			return;
+		}
+		
+		minecraft.getTextureManager().bindTexture(texture);
 	}
 
 	public void drawTexturedModalRectangle(int x, int y, int textureX, int textureY, int width, int height, int color) {
@@ -360,12 +365,10 @@ public class VCUIRenderer {
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-		vertexbuffer.color(r, g, b, a);
-		//vertexbuffer.setBrightness(0xFF); //TODO FIX
-		vertexbuffer.pos(L, B, z).tex(u0, v1).endVertex();
-		vertexbuffer.pos(R, B, z).tex(u1, v1).endVertex();
-		vertexbuffer.pos(R, T, z).tex(u1, v0).endVertex();
-		vertexbuffer.pos(L, T, z).tex(u0, v0).endVertex();
+		vertexbuffer.pos(L, B, z).tex(u0, v1).color(r, g, b, a).endVertex();
+		vertexbuffer.pos(R, B, z).tex(u1, v1).color(r, g, b, a).endVertex();
+		vertexbuffer.pos(R, T, z).tex(u1, v0).color(r, g, b, a).endVertex();
+		vertexbuffer.pos(L, T, z).tex(u0, v0).color(r, g, b, a).endVertex();
 		tessellator.draw();
 	}
 
@@ -376,7 +379,7 @@ public class VCUIRenderer {
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		vertexbuffer.pos(xCoord + 0.0F, yCoord + maxV, this.zLevel).tex((minU + 0) * f2, (minV + maxV) * f3).endVertex();												
+		vertexbuffer.pos(xCoord + 0.0F, yCoord + maxV, this.zLevel).tex((minU + 0) * f2, (minV + maxV) * f3).endVertex();
 		vertexbuffer.pos(xCoord + maxU, yCoord + maxV, this.zLevel).tex((minU + maxU) * f2, (minV + maxV) * f3).endVertex();
 		vertexbuffer.pos(xCoord + maxU, yCoord + 0.0F, this.zLevel).tex( (minU + maxU) * f2, (minV + 0) * f3).endVertex();
 		vertexbuffer.pos(xCoord + 0.0F, yCoord + 0.0F, this.zLevel).tex((minU + 0) * f2, (minV + 0) * f3).endVertex();

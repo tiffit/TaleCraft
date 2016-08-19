@@ -120,8 +120,6 @@ public class QADDropdownBox extends QADRectangularComponent {
 		if(!isVisible)
 			return;
 		
-		renderer.drawLineRectangle(getX(), getY(), localMouseX+getX(), localMouseY+getY(), 0x507f007f);
-		
 		boolean hover = isPointInside(localMouseX+getX(), localMouseY+getY());
 		
 		if(fieldbox_visible) {

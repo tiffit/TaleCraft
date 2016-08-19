@@ -8,6 +8,9 @@ import com.google.common.collect.Lists;
 
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
 import de.longor.talecraft.util.Vec2i;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiResourcePackList;
+import net.minecraft.client.gui.GuiWorldSelection;
 import net.minecraft.util.ResourceLocation;
 
 public class QADPanel extends QADRectangularComponent implements QADComponentContainer {
@@ -130,9 +133,12 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 			renderer.bindTexture(null);
 			renderer.drawRectangle(x, y, x+width, y+height, backgroundColor);
 		} else {
-			ResourceLocation optionsBackground = new ResourceLocation("textures/gui/options_background.png");
+			ResourceLocation optionsBackground = new ResourceLocation("minecraft:textures/gui/options_background.png");
+			
+			optionsBackground = GuiWorldSelection.OPTIONS_BACKGROUND;
+			
 			renderer.bindTexture(optionsBackground);
-			renderer.drawTexturedModalRectangle(x, y, 0, 0, -width, -height, 0xFF888888);
+			renderer.drawTexturedModalRectangle(x, y, 0, 0, -width-1, -height-1, 0xFF888888);
 			renderer.bindTexture(null);
 		}
 
