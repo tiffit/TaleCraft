@@ -41,7 +41,7 @@ public class VoxelBrushItem extends TCItem {
 		if(world.isRemote)
 			return;
 
-		if(world.getGameRules().getBoolean("disableTCVoxelBrush")) {
+		if(world.getGameRules().hasRule("disableTCVoxelBrush") && world.getGameRules().getBoolean("disableTCVoxelBrush")) {
 			return;
 		}
 
@@ -57,35 +57,42 @@ public class VoxelBrushItem extends TCItem {
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		
 		if(!player.capabilities.isCreativeMode)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		
 		if(!player.capabilities.allowEdit){
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
+		
 		if(!stack.hasTagCompound()){
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
+		
 		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush");
+		
+		if(player.isSneaking()){
+			TaleCraft.network.sendTo(new VoxelatorGuiPacket(stack.getTagCompound()), (EntityPlayerMP) player);
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		}
+		
+		if(data.hasNoTags())
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		
 		float lerp = 1F;
 		float dist = 256;
-
 		Vec3d start = this.getPositionEyes(lerp, player);
 		Vec3d direction = player.getLook(lerp);
 		Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
 
 		RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
 
-		if(result == null)
+		if(result == null) {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-
-			if(player.isSneaking()){
-				TaleCraft.network.sendTo(new VoxelatorGuiPacket(stack.getTagCompound()), (EntityPlayerMP) player);
-				return ActionResult.newResult(EnumActionResult.PASS, stack);
-			}else{
-				if(data.hasNoTags())
-					return ActionResult.newResult(EnumActionResult.PASS, stack);
-			}
-			VXAction action = null; int action_id = data.getInteger("action");
+		}
+		
+		VXAction action = null; int action_id = data.getInteger("action");
+		{
 			if(action_id == 0) action = new VXActionGrassify();
 			if(action_id == 1) action = new VXActionReplace(Block.getBlockById(data.getInteger("block_id_0")).getDefaultState());
 			if(action_id == 2){
@@ -95,14 +102,19 @@ public class VoxelBrushItem extends TCItem {
 				}
 				action = new VXActionVariationsReplace(blockstates);
 			}
-			
-			boolean hollow = data.getBoolean("hollow");
-			VXShape shape = null; int shape_id = data.getInteger("shape");
+		}
+		
+		boolean hollow = data.getBoolean("hollow");
+		
+		VXShape shape = null; int shape_id = data.getInteger("shape");
+		{
 			if(shape_id == 0) shape = new VXShapeSphere(result.getBlockPos(), data.getFloat("radius"), hollow);
 			if(shape_id == 1) shape = new VXShapeBox(result.getBlockPos(), data.getInteger("width"), data.getInteger("height"), data.getInteger("length"), hollow);
 			if(shape_id == 2) shape = new VXShapeCylinder(result.getBlockPos(), data.getFloat("radius"), data.getInteger("height"), hollow);
-			Voxelator.apply(shape, action_id == 0 ? VXPredicate.newIsSolid() : new VXPredicateHeightLimit(256), action, world);
-			return ActionResult.newResult(EnumActionResult.PASS, stack);
+		}
+		
+		Voxelator.apply(shape, action_id == 0 ? VXPredicate.newIsSolid() : new VXPredicateHeightLimit(256), action, world);
+		return ActionResult.newResult(EnumActionResult.PASS, stack);
 	}
 
 	@Override
@@ -140,7 +152,7 @@ public class VoxelBrushItem extends TCItem {
 		String shapeData = "";
 		if(shape == VXShapes.Sphere) shapeData = "[r=" + data.getFloat("radius") + "]";
 		if(shape == VXShapes.Box) shapeData  = "[w=" + data.getInteger("width") + ",h=" + data.getInteger("height") + ",l="+ data.getInteger("length") + "]";
-		if(shape == VXShapes.Cylinder) shapeData = "[r=" + data.getFloat("radius") + ",h=" + data.getInteger("height") + "]";	
+		if(shape == VXShapes.Cylinder) shapeData = "[r=" + data.getFloat("radius") + ",h=" + data.getInteger("height") + "]";
 		tooltip.add("Shape: " + shape.toString() + shapeData);
 		tooltip.add("Action: " + action.toString());
 		tooltip.add("");
