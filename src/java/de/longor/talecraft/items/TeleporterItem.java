@@ -15,7 +15,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class TeleporterItem extends TCItem {
@@ -24,15 +23,19 @@ public class TeleporterItem extends TCItem {
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
-
-		if(world.getGameRules().getBoolean("disableTCTeleporter")) {
+		
+		if(world.getGameRules().hasRule("disableTCTeleporter") && world.getGameRules().getBoolean("disableTCTeleporter")) {
 			return EnumActionResult.PASS;
+		}
+		
+		while(world.getBlockState(pos).isFullBlock() && pos.getY()<255) {
+			pos = pos.up();
 		}
 
 		// Get new Position
 		double nX = pos.getX() + 0.5;
 		double nZ = pos.getZ() + 0.5;
-		double nY = pos.getY() + 1;
+		double nY = pos.getY();
 
 		// Get Old Rotation
 		float rY = player.rotationYaw;
@@ -41,8 +44,6 @@ public class TeleporterItem extends TCItem {
 		// Teleport
 		if(player instanceof EntityPlayerMP) {
 			// Its a MP player
-			BlockPos npos = new BlockPos(nX, nY, nZ);
-			player.addChatComponentMessage(new TextComponentString("[" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "] -> " + "[" + npos.getX() + ", " + npos.getY() + ", " + npos.getZ() + "]"));
 			if(player.getRidingEntity() == null) {
 				((EntityPlayerMP) player).connection.setPlayerLocation(nX,nY,nZ, rY, rP);
 
@@ -63,7 +64,7 @@ public class TeleporterItem extends TCItem {
 				riding.velocityChanged = true;
 			}
 
-			player.worldObj.playSound(player, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1.5f, (float) (1f + Math.random()*0.1));
+			player.worldObj.playSound(null, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.5f, (float) (1f + Math.random()*0.1));
 		}
 
 		return EnumActionResult.SUCCESS;
@@ -73,8 +74,8 @@ public class TeleporterItem extends TCItem {
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-
-		if(world.getGameRules().getBoolean("disableTCTeleporter")) {
+		
+		if(world.getGameRules().hasRule("disableTCTeleporter") && world.getGameRules().getBoolean("disableTCTeleporter")) {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
 
@@ -97,11 +98,15 @@ public class TeleporterItem extends TCItem {
 		if(result.typeOfHit == RayTraceResult.Type.BLOCK) {
 			// Extract Block Hit
 			BlockPos newPos = result.getBlockPos();
+			
+			while(world.getBlockState(newPos).isFullBlock() && newPos.getY()<255) {
+				newPos = newPos.up();
+			}
 
 			// Get new Position
 			double nX = newPos.getX() + 0.5;
 			double nZ = newPos.getZ() + 0.5;
-			double nY = newPos.getY() + 1;
+			double nY = newPos.getY();
 
 			if(player.isSneaking()) {
 				nY = player.posY;
@@ -136,7 +141,7 @@ public class TeleporterItem extends TCItem {
 					riding.velocityChanged = true;
 				}
 
-				player.worldObj.playSound(player, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1.5f, (float) (1f + Math.random()*0.1));
+				player.worldObj.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.5f, (float) (1f + Math.random()*0.1));
 			}
 		}
 
