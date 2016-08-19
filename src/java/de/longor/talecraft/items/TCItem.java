@@ -80,6 +80,19 @@ public class TCItem extends Item {
 		return true;
 	}
 	
+	public final NBTTagCompound getNBTfromItemStack(ItemStack stack) {
+		NBTTagCompound comp = null;
+		
+		if(stack.hasTagCompound()) {
+			comp = stack.getTagCompound();
+		} else {
+			comp = new NBTTagCompound();
+			stack.setTagCompound(comp);
+		}
+		
+		return comp;
+	}
+	
 	public static final boolean isDoubleCall(ItemStack stack, long currentWorldTime) {
 		NBTTagCompound compound = stack.getTagCompound();
 		if(compound!=null){
