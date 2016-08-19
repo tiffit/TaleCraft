@@ -3,17 +3,35 @@ package de.longor.talecraft.client.render.renderables;
 import org.lwjgl.opengl.GL11;
 
 import de.longor.talecraft.TaleCraft;
+import de.longor.talecraft.TaleCraftItems;
 import de.longor.talecraft.client.ClientResources;
 import de.longor.talecraft.client.render.IRenderable;
 import de.longor.talecraft.client.render.renderers.BoxRenderer;
 import de.longor.talecraft.proxy.ClientProxy;
+import de.longor.talecraft.util.WorldHelper;
+import de.longor.talecraft.util.WorldHelper.BlockRegionIterator;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.tileentity.TileEntityStructureRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.client.renderer.vertex.VertexFormatElement;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityStructure;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.gen.structure.StructureStart;
 
 public class SelectionBoxRenderer implements IRenderable {
 
@@ -48,16 +66,79 @@ public class SelectionBoxRenderer implements IRenderable {
 			// If not null, render the cursor selections boundaries.
 			if(tcWand.hasKey("boundsA") && tcWand.hasKey("boundsB") && tcWand.getBoolean("enabled")) {
 				// get bounds
-				int[] a = tcWand.getIntArray("boundsA");
-				int[] b = tcWand.getIntArray("boundsB");
-
+				int[] ba = tcWand.getIntArray("boundsA");
+				int[] bb = tcWand.getIntArray("boundsB");
+				
 				// make sure its correctly sorted
-				int ix = Math.min(a[0], b[0]);
-				int iy = Math.min(a[1], b[1]);
-				int iz = Math.min(a[2], b[2]);
-				int ax = Math.max(a[0], b[0]);
-				int ay = Math.max(a[1], b[1]);
-				int az = Math.max(a[2], b[2]);
+				int ix = Math.min(ba[0], bb[0]);
+				int iy = Math.min(ba[1], bb[1]);
+				int iz = Math.min(ba[2], bb[2]);
+				int ax = Math.max(ba[0], bb[0]);
+				int ay = Math.max(ba[1], bb[1]);
+				int az = Math.max(ba[2], bb[2]);
+				
+				// Calculate Size & Volume
+				int sx = ax-ix+1;
+				int sy = ay-iy+1;
+				int sz = az-iz+1;
+				int sv = sx*sy*sz;
+				
+				if(sv < 1024 && sv > 0) {
+					boolean showVoid = false;
+					
+					ItemStack IS = mc.thePlayer.getHeldItemMainhand();
+					Item I = IS!=null?IS.getItem():null;
+					
+					if(I!=null) {
+						/* TODO: Replace the getBlockFromName with the actual Block instance if possible. */
+						showVoid |= I.equals(Item.getItemFromBlock(Block.getBlockFromName("minecraft:structure_void")));
+						showVoid |= I.equals(Item.getItemFromBlock(Blocks.STRUCTURE_BLOCK));
+						showVoid |= I.equals(TaleCraftItems.paste);
+						showVoid |= I.equals(TaleCraftItems.copy);
+						showVoid |= I.equals(TaleCraftItems.cut);
+					}
+					
+					if(showVoid) {
+						IBlockState stvoid = Block.getBlockFromName("minecraft:structure_void").getDefaultState();
+						
+						GlStateManager.disableBlend();
+						GlStateManager.disableTexture2D();
+						GlStateManager.glLineWidth(3f);
+						vertexbuffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+						final float m = 0.45f;
+						final float M = 1-m;
+						
+						final int r = 0;
+						final int g = 255;
+						final int b = 255;
+						final int a = 255;
+						
+						WorldHelper.foreach(mc.theWorld, ix, iy, iz, ax, ay, az, new BlockRegionIterator() {
+							@Override public void $(World world, IBlockState state, BlockPos pos) {
+								if(!state.equals(stvoid))
+									return;
+								
+								float x = pos.getX();
+								float y = pos.getY();
+								float z = pos.getZ();
+								
+								vertexbuffer.pos(x+m, y+m, z+m).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x+M, y+M, z+M).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x+M, y+m, z+m).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x+m, y+M, z+M).color(r, g, b, a).endVertex();
+								
+								vertexbuffer.pos(x+m, y+m, z+M).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x+M, y+M, z+m).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x+M, y+m, z+M).color(r, g, b, a).endVertex();
+								vertexbuffer.pos(x+m, y+M, z+m).color(r, g, b, a).endVertex();
+							}
+						});
+						tessellator.draw();
+						GlStateManager.glLineWidth(1f);
+						GlStateManager.enableTexture2D();
+						GlStateManager.enableBlend();
+					}
+				}
 
 				// 'error' offset
 				final float E = 1f / 32f;
