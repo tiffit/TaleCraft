@@ -73,6 +73,9 @@ public class ClipboardItem {
 				}
 
 			}
+			
+			// Structure Void BlockState
+			IBlockState structureVoid = Block.getBlockFromName("minecraft:structure_void").getDefaultState();
 
 			// Place all the blocks...
 			int[] blockData = blocks.getIntArray($REGION_DATA);
@@ -83,7 +86,9 @@ public class ClipboardItem {
 						int index = (Yx*regionWidth*regionLength) + (Zx*regionWidth) + (Xx);
 						int type = blockData[index];
 						IBlockState state = palletRaw[type];
-						world.setBlockState(pos.add(Xx, Yx, Zx), state);
+						
+						if(!state.equals(structureVoid))
+							world.setBlockState(pos.add(Xx, Yx, Zx), state);
 					}
 				}
 			}
