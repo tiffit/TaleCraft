@@ -13,7 +13,9 @@ import de.longor.talecraft.voxelator.Voxelator.ActionFactory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
 public class VXActionVariationsReplace extends VXAction {
@@ -34,7 +36,10 @@ public class VXActionVariationsReplace extends VXAction {
 			IBlockState[] a = new IBlockState[l];
 			
 			for(int i = 0; i < l; i++) {
-				a[i] = GObjectTypeHelper.findBlockState(list.getStringTagAt(i));
+				NBTTagCompound tag = list.getCompoundTagAt(i);
+				ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
+				Block block = Block.getBlockFromItem(stack.getItem());
+				a[i] = block.getStateFromMeta(stack.getMetadata());
 			}
 			
 			return new VXActionVariationsReplace(a);
@@ -67,12 +72,7 @@ public class VXActionVariationsReplace extends VXAction {
 	}
 
 	@Override
-	public void apply(
-			BlockPos pos,
-			BlockPos center,
-			MutableBlockPos offset,
-			CachedWorldDiff fworld
-			) {
+	public void apply(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld) {
 		fworld.setBlockState(pos, states[random.nextInt(states.length)]);
 	}
 }

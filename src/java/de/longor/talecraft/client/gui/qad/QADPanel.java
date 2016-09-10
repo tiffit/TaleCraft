@@ -149,6 +149,9 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 			for(QADComponent component : components) {
 				component.draw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
 			}
+			for(QADComponent component : components) {
+				component.postDraw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
+			}
 			renderer.offset(-x, -y);
 		}
 	}
@@ -160,7 +163,12 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		if(!isPointInside(localMouseX+x, localMouseY+y) && ignoreOuterEvents) {
 			return;
 		}
-
+		for(QADComponent component : components) {
+			if(component.focusInput()){
+				component.onMouseClicked(localMouseX-component.getX(), localMouseY-component.getY(), mouseButton);
+			return;
+			}
+		}
 		for(QADComponent component : components) {
 			component.onMouseClicked(localMouseX-component.getX(), localMouseY-component.getY(), mouseButton);
 
@@ -177,7 +185,12 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		if(!isPointInside(localMouseX+x, localMouseY+y) && ignoreOuterEvents) {
 			return;
 		}
-
+		for(QADComponent component : components) {
+			if(component.focusInput()){
+				component.onMouseReleased(localMouseX-component.getX(), localMouseY-component.getY(), state);
+			return;
+			}
+		}
 		for(QADComponent component : components) {
 			component.onMouseReleased(localMouseX-component.getX(), localMouseY-component.getY(), state);
 		}
@@ -190,7 +203,12 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		if(!isPointInside(localMouseX+x, localMouseY+y) && ignoreOuterEvents) {
 			return;
 		}
-
+		for(QADComponent component : components) {
+			if(component.focusInput()){
+				component.onMouseClickMove(localMouseX-component.getX(), localMouseY-component.getY(), clickedMouseButton, timeSinceLastClick);
+			return;
+			}
+		}
 		for(QADComponent component : components) {
 			component.onMouseClickMove(localMouseX-component.getX(), localMouseY-component.getY(), clickedMouseButton, timeSinceLastClick);
 		}

@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import de.longor.talecraft.items.CopyItem;
 import de.longor.talecraft.items.CutItem;
+import de.longor.talecraft.items.DecoratorItem;
 import de.longor.talecraft.items.EraserItem;
 import de.longor.talecraft.items.FillerItem;
 import de.longor.talecraft.items.InstaKillItem;
@@ -14,7 +15,7 @@ import de.longor.talecraft.items.NudgeItem;
 import de.longor.talecraft.items.PasteItem;
 import de.longor.talecraft.items.SpawnPointItem;
 import de.longor.talecraft.items.TeleporterItem;
-import de.longor.talecraft.items.VoxelBrushItem;
+import de.longor.talecraft.items.VoxelatorItem;
 import de.longor.talecraft.items.WandItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.world.NoteBlockEvent.Instrument;
@@ -45,7 +46,7 @@ public class TaleCraftItems {
 	public static EraserItem eraser;
 	public static TeleporterItem teleporter;
 	public static InstaKillItem instakill;
-	public static VoxelBrushItem voxelbrush;
+	public static VoxelatorItem voxelbrush;
 	public static NudgeItem nudger;
 	public static CopyItem copy;
 	public static PasteItem paste;
@@ -55,6 +56,7 @@ public class TaleCraftItems {
 	public static NPCEditorItem npceditor;
 	public static NPCCloneItem npcclone;
 	public static CameraItem camera;
+	public static DecoratorItem decorator;
 	
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
@@ -85,7 +87,7 @@ public class TaleCraftItems {
 		eraser = register(new EraserItem(), "eraser");
 		teleporter = register(new TeleporterItem(), "teleporter");
 		instakill = register(new InstaKillItem(), "instakill");
-		voxelbrush = register(new VoxelBrushItem(), "voxelbrush");
+		voxelbrush = register(new VoxelatorItem(), "voxelbrush");
 		nudger = register(new NudgeItem(), "nudger");
 		copy = register(new CopyItem(), "copy");
 		paste = register(new PasteItem(), "paste");
@@ -95,6 +97,7 @@ public class TaleCraftItems {
 		npceditor = register(new NPCEditorItem(), "npceditor");
 		npcclone = register(new NPCCloneItem(), "npcclone");
 		camera = register(new CameraItem(), "camera");
+		decorator = register(new DecoratorItem(), "decorator");
 		
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");

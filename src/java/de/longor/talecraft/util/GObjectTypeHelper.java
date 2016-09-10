@@ -188,7 +188,6 @@ public class GObjectTypeHelper {
 
 		if(block != null) {
 			if(block.getUnlocalizedName().equals("tile.air") && !typeID.contains("air")){
-				System.out.println("Block " + block.getUnlocalizedName());
 				return null; // This is the wrong block! D: (Probably minecraft:air)
 			}
 

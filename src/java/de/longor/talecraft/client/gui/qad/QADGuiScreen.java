@@ -130,6 +130,12 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	@Override
 	protected final void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		for(QADComponent component : lastUpdateComponents) {
+			if(component.focusInput()){
+				component.onMouseClicked(mouseX-component.getX(), mouseY-component.getY(), mouseButton);
+			return;
+			}
+		}
+		for(QADComponent component : lastUpdateComponents) {
 			component.onMouseClicked(mouseX-component.getX(), mouseY-component.getY(), mouseButton);
 		}
 	}
@@ -137,12 +143,24 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	@Override
 	protected final void mouseReleased(int mouseX, int mouseY, int state) {
 		for(QADComponent component : lastUpdateComponents) {
+			if(component.focusInput()){
+				component.onMouseReleased(mouseX-component.getX(), mouseY-component.getY(), state);
+			return;
+			}
+		}
+		for(QADComponent component : lastUpdateComponents) {
 			if(component != null) component.onMouseReleased(mouseX-component.getX(), mouseY-component.getY(), state);
 		}
 	}
 
 	@Override
 	protected final void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+		for(QADComponent component : lastUpdateComponents) {
+			if(component.focusInput()){
+				component.onMouseClickMove(mouseX-component.getX(), mouseY-component.getY(), clickedMouseButton, timeSinceLastClick);
+			return;
+			}
+		}
 		for(QADComponent component : lastUpdateComponents) {
 			component.onMouseClickMove(mouseX-component.getX(), mouseY-component.getY(), clickedMouseButton, timeSinceLastClick);
 		}
@@ -217,6 +235,9 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		if(lastUpdateComponents != null){
 			for(QADComponent component : lastUpdateComponents) {
 				if(component != null) component.draw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
+			}
+			for(QADComponent component : lastUpdateComponents) {
+				if(component != null) component.postDraw(mouseX-component.getX(), mouseY-component.getY(), partialTicks, instance);
 			}
 		}
 

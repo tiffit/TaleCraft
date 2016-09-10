@@ -502,6 +502,8 @@ public class QADTextField extends QADRectangularComponent {
 
 			this.setCursorPositionEnd();
 		}
+		if(textChangedListener != null)
+			textChangedListener.call(this, model.getText());
 	}
 
 	public String getText() {

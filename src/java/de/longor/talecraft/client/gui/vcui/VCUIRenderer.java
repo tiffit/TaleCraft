@@ -150,7 +150,7 @@ public class VCUIRenderer {
 		itemRender.renderItemIntoGUI(item, x+offsetX, y+offsetY);
 		GlStateManager.enableLighting();
 		GlStateManager.enableDepth();
-		RenderHelper.enableStandardItemLighting();
+		RenderHelper.disableStandardItemLighting();
 	}
 
 	public int drawString(String text, int x, int y, int color, boolean shadow) {

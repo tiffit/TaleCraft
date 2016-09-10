@@ -8,17 +8,19 @@ import de.longor.talecraft.blocks.TCTileEntity;
 import de.longor.talecraft.invoke.EnumTriggerState;
 import de.longor.talecraft.invoke.IInvoke;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.SoundCategory;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import tiffit.talecraft.packet.SoundsMutePacket;
+import tiffit.talecraft.packet.SoundsPacket;
 
 public class MusicBlockTileEntity extends TCTileEntity {
 	private SoundEnum sound;
 	private boolean mute;
+	private boolean repeat;
+	private int repeat_delay;
 
 	public MusicBlockTileEntity() {
 		sound = SoundEnum.EFFECT1;
 		mute = false;
+		repeat = false;
+		repeat_delay = 0;
 	}
 
 	@Override
@@ -30,6 +32,8 @@ public class MusicBlockTileEntity extends TCTileEntity {
 		if(command.equals("sound")){
 			sound = SoundEnum.valueOf(data.getString("sound"));
 			mute = data.getBoolean("mute");
+			repeat = data.getBoolean("repeat");
+			repeat_delay = data.getInteger("repeat_delay");
 			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0);
 			return;
 		}
@@ -53,12 +57,16 @@ public class MusicBlockTileEntity extends TCTileEntity {
 	public void readFromNBT_do(NBTTagCompound comp) {
 		sound = SoundEnum.values()[comp.getInteger("sound")];
 		mute = comp.getBoolean("mute");
+		repeat = comp.getBoolean("repeat");
+		repeat_delay = comp.getInteger("repeat_delay");
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
 		comp.setInteger("sound", sound.ordinal());
 		comp.setBoolean("mute", mute);
+		comp.setBoolean("repeat", repeat);
+		comp.setInteger("repeat_delay", repeat_delay);
 		return comp;
 	}
 
@@ -69,16 +77,24 @@ public class MusicBlockTileEntity extends TCTileEntity {
 	public boolean isMute(){
 		return mute;
 	}
+	
+	public boolean isRepeat(){
+		return repeat;
+	}
+	
+	public int repeatDelay(){
+		return repeat_delay;
+	}
 
 	public void trigger(EnumTriggerState triggerState){
+		if(worldObj.isRemote) return;
+		SoundsPacket packet = null;
 		if(mute){
-			int x = pos.getX();
-			int y = pos.getY();
-			int z = pos.getZ();
-			TaleCraft.network.sendToAllAround(new SoundsMutePacket(), new TargetPoint(worldObj.provider.getDimension(), x, y, z, 16D));
+			packet = new SoundsPacket();
 		}else{
-			this.worldObj.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), sound.getSoundEvent(), SoundCategory.MASTER, 1F, 1F);
+			packet = new SoundsPacket(getSound(), isRepeat(), repeatDelay());
 		}
+		TaleCraft.network.sendToDimension(packet, worldObj.provider.getDimension());
 	}
 	
 	

@@ -60,11 +60,19 @@ public abstract class QADComponent {
 		return isPointInside(mouseX, mouseY) ? tooltip : null;
 	}
 
+	public void postDraw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer){
+		
+	}
+	
 	public void playPressSound(float pitch) {
 		// TODO: Extract the playing of sounds from this class into a QADSoundHandler class.
 		//       That should be done so in the future custom gui screens can have custom sound.
 		SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
 		soundHandler.playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, pitch));
+	}
+	
+	public boolean focusInput(){
+		return false;
 	}
 
 	public abstract boolean transferFocus();

@@ -33,7 +33,6 @@ public class RenderModeHelper {
 			GlStateManager.disableTexture2D();
 			GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
 			GlStateManager.disableFog();
-			
 			Minecraft.getMinecraft().thePlayer.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, Integer.MAX_VALUE));
 			break;
 		case Wireframe:
@@ -46,31 +45,6 @@ public class RenderModeHelper {
 			break;
 		
 		}
-//		case 1: {
-//			GL11.glLineWidth(0.25f);
-//			GL11.glDisable(GL11.GL_CULL_FACE);
-//			GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
-//			GL11.glPolygonMode(GL11.GL_BACK, GL11.GL_POINT);
-//		}break;
-//		case 2: {
-//			GL11.glLineWidth(0.25f);
-//			GL11.glDisable(GL11.GL_CULL_FACE);
-//			GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE); GL11.glPolygonMode(GL11.GL_BACK, GL11.GL_FILL);
-//		}break;
-//		case 3: {
-//			GL11.glPointSize(8.0f);
-//			GL11.glLineWidth(0.25f);
-//			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-//			GL11.glDisable(GL11.GL_LIGHTING);
-//		}break;
-//		case 4: {
-//			GL11.glPointSize(8.0f);
-//			GL11.glLineWidth(0.25f);
-//			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-//			Minecraft.getMinecraft().thePlayer.addPotionEffect(new PotionEffect(MobEffects.nightVision, Integer.MAX_VALUE));
-//		}break;
-//		case 0:default:break;
-//		}
 	}
 
 	/**
@@ -83,8 +57,6 @@ public class RenderModeHelper {
 		GL11.glLineWidth(1.0f);
 		GL11.glPointSize(1.0f);
 		RenderHelper.enableStandardItemLighting();
-
-		Minecraft.getMinecraft().thePlayer.getActivePotionEffects().clear();
 	}
 
 }

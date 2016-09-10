@@ -24,12 +24,14 @@ public class QADDropdownBox extends QADRectangularComponent {
 	private int dropbox_x = 0;
 	private int dropbox_y = 20;
 	
-	private int dropbox_rowcount = 7;
+	private int dropbox_rowcount = 15;
 	private int dropbox_rowheight = 20;
 	private int dropbox_highlight = -1;
 	private ListModel dropbox_model = null;
 	private String dropbox_filterstr = "";
 	private ListModelItem dropbox_selected = null;
+	
+	private int color = 0x7F101010;
 	
 	public QADDropdownBox(ListModel model, ListModelItem selectedItem) {
 		this.dropbox_model = model;
@@ -64,6 +66,10 @@ public class QADDropdownBox extends QADRectangularComponent {
 	@Override
 	public void setWidth(int newWidth) {
 		setSize(newWidth, fieldbox_height);
+	}
+	
+	public void setColor(int color){
+		this.color = color;
 	}
 
 	@Override
@@ -115,11 +121,12 @@ public class QADDropdownBox extends QADRectangularComponent {
 		reFocus();
 	}
 
-	@Override
-	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
+	public void postDraw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer){
+		if(!(dropbox_visible && dropbox_model != null))return;
 		if(!isVisible)
 			return;
-		
+
+		renderer.drawRectangle(0, 0, renderer.getWidth(), renderer.getHeight(), 0xaa000000);
 		boolean hover = isPointInside(localMouseX+getX(), localMouseY+getY());
 		
 		if(fieldbox_visible) {
@@ -130,10 +137,14 @@ public class QADDropdownBox extends QADRectangularComponent {
 				hoverState++;
 			
 			switch(hoverState) {
-				case 0: color = 0x7F101010; break;
-				case 1: color = 0xFF505030; break;
-				case 2: color = 0xFF707030; break;
-				default:color = 0xFF101010;break;
+			case 0: color = this.color; break;
+			case 1: color = 0xFF505030; break;
+			case 2: color = 0xFF707030; break;
+			default:color = 0xFF101010;break;
+//				case 0: color = 0x7F101010; break;
+//				case 1: color = 0xFF505030; break;
+//				case 2: color = 0xFF707030; break;
+//				default:color = 0xFF101010;break;
 			}
 			
 			renderer.drawRectangle    (this.fieldbox_x, this.fieldbox_y, this.fieldbox_x+this.fieldbox_width, this.fieldbox_y+this.fieldbox_height, 0xFF000000);
@@ -177,7 +188,8 @@ public class QADDropdownBox extends QADRectangularComponent {
 			renderer.popScissor();
 		}
 		
-		if(dropbox_visible && dropbox_model != null) {
+
+		
 			renderer.drawRectangle(dropbox_x, dropbox_y, dropbox_x+dropbox_width, dropbox_y+dropbox_height, 0x7F000000);
 			
 			List<ListModelItem> items = dropbox_model.getFilteredItems();
@@ -202,9 +214,8 @@ public class QADDropdownBox extends QADRectangularComponent {
 					
 					int x = dropbox_x;
 					int y = dropbox_y+yOffset;
-					
-					renderer.drawLineRectangle(x, y, x+dropbox_width, y+dropbox_rowheight, 0x50FFFFFF);
-					renderer.drawString(item.getText(), x+xOffset, y+6, light?0xFFFFFFFF:0xFF888888, false);
+					renderer.drawLineRectangle(x, y, x+dropbox_width, y+dropbox_rowheight, 0xFFFFFFFF);
+					renderer.drawString(item.getText(), x+xOffset, y+6, light?0xFFfff266:0xFFFFFFFF, false);
 					
 					if(hasIcons) {
 						int icox = x;
@@ -215,8 +226,81 @@ public class QADDropdownBox extends QADRectangularComponent {
 					}
 				}
 			}
+	}
+	
+	@Override
+	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
+		if(dropbox_visible && dropbox_model != null)return;
+		if(!isVisible)
+			return;
+		
+		boolean hover = isPointInside(localMouseX+getX(), localMouseY+getY());
+		
+		if(fieldbox_visible) {
+			int color = -1;
+			int hoverState = hover ? 1 : 0;
 			
+			if(isFocused)
+				hoverState++;
+			
+			switch(hoverState) {
+			case 0: color = this.color; break;
+			case 1: color = 0xFF505030; break;
+			case 2: color = 0xFF707030; break;
+			default:color = 0xFF101010;break;
+//				case 0: color = 0x7F101010; break;
+//				case 1: color = 0xFF505030; break;
+//				case 2: color = 0xFF707030; break;
+//				default:color = 0xFF101010;break;
+			}
+			
+			renderer.drawRectangle    (this.fieldbox_x, this.fieldbox_y, this.fieldbox_x+this.fieldbox_width, this.fieldbox_y+this.fieldbox_height, 0xFF000000);
+			renderer.drawLineRectangle(this.fieldbox_x, this.fieldbox_y, this.fieldbox_x+this.fieldbox_width, this.fieldbox_y+this.fieldbox_height, color);
+			
+			renderer.pushScissor(this.fieldbox_x+1, this.fieldbox_y+1, this.fieldbox_width-2, this.fieldbox_height-2);
+			
+			
+			int textColor = -1;
+			String text = "";
+			boolean cursor = true;
+			
+			if(isFocused) {
+				text = dropbox_filterstr;
+				
+				if(dropbox_filterstr.isEmpty()) {
+					text = fieldbox_text;
+					textColor = 0x7F505050;
+					cursor = false;
+				}
+			} else {
+				text = fieldbox_text;
+				cursor = false;
+			}
+			
+			int strp = renderer.drawString(text, this.fieldbox_x+4, this.fieldbox_y+6, textColor, !cursor);
+			
+			if(isFocused) {
+				if(!cursor) {
+					strp = this.fieldbox_x+4;
+				}
+				
+				// draw text cursor if focused
+				renderer.drawRectangle(
+						strp+0, this.fieldbox_y+14,
+						strp+5, this.fieldbox_y+15,
+						(System.currentTimeMillis()%1000) < 700 ? 0 : 0xFFFFFFFF
+				);
+			}
+			
+			renderer.popScissor();
 		}
+		
+
+	}
+	
+	@Override
+	public boolean focusInput() {
+		return dropbox_visible && dropbox_model != null;
 	}
 
 	@Override
@@ -235,12 +319,11 @@ public class QADDropdownBox extends QADRectangularComponent {
 		}
 		
 		if(preFocus != isFocused) {
-			dropbox_filterstr = "";
-			
 			if(dropbox_model != null) {
 				dropbox_model.applyFilter(dropbox_filterstr);
 				recalculateDropbox();
 			}
+			dropbox_filterstr = "";
 		}
 		
 		if(isFocused && inside && dropbox_model != null) {
@@ -305,8 +388,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 				return;
 			}
 			
-			if(Character.isJavaIdentifierStart(typedChar)) {
-				System.out.println("MEEP " + typedChar);
+			if(Character.isJavaIdentifierStart(typedChar) || Character.isWhitespace(typedChar)) {
 				dropbox_filterstr += typedChar;
 				
 				if(dropbox_model!=null) {
@@ -386,7 +468,6 @@ public class QADDropdownBox extends QADRectangularComponent {
 	
 	private void recalculateDropbox() {
 		this.dropbox_visible = false;
-		
 		if(!isFocused) {
 			// dont continue if not focused!
 			return;
@@ -412,7 +493,6 @@ public class QADDropdownBox extends QADRectangularComponent {
 		if(items == null) {
 			return;
 		}
-		
 		int itemCount = items.size();
 		int itemHeight = dropbox_rowheight;
 		

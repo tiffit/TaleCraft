@@ -17,10 +17,12 @@ import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.proxy.CommonProxy;
 import de.longor.talecraft.script.wrappers.IObjectWrapper;
 import de.longor.talecraft.script.wrappers.item.ItemStackObjectWrapper;
+import de.longor.talecraft.script.wrappers.nbt.CompoundTagWrapper;
 import de.longor.talecraft.script.wrappers.world.WorldObjectWrapper;
 import de.longor.talecraft.util.MutableBlockPos;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -106,6 +108,23 @@ public class GlobalScriptManager {
 		ScriptableObject.putProperty(newScope, "npc", Context.javaToJS(new NPCObjectWrapper(entity), newScope));
 		ScriptableObject.putProperty(newScope, "itemstack", Context.javaToJS(new ItemStackObjectWrapper(stack), newScope));
 		ScriptableObject.putProperty(newScope, "player", Context.javaToJS(new PlayerObjectWrapper(player), newScope));
+		Context.exit();
+
+		return newScope;
+	}
+	
+	public Scriptable createNewDecorationScope(World world, BlockPos[] pos, NBTTagCompound options) {
+		Context cx = Context.enter();
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
+		newScope.setParentScope(null);
+		MutableBlockPos[] mpos = new MutableBlockPos[pos.length];
+		for(int i = 0; i < pos.length; i++){
+			mpos[i] = new MutableBlockPos(pos[i]);
+		}
+		ScriptableObject.putProperty(newScope, "positions", Context.javaToJS(mpos, newScope));
+		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(world), newScope));
+		ScriptableObject.putProperty(newScope, "options", Context.javaToJS(new CompoundTagWrapper(options), newScope));
 		Context.exit();
 
 		return newScope;

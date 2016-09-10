@@ -49,6 +49,10 @@ public abstract class BrushParameter {
 		return (BlockstateBrushParameter) this;
 	}
 	
+	public BooleanBrushParameter asBooleanParameter() {
+		return (BooleanBrushParameter) this;
+	}
+	
 	public ListBrushParameter asListParameter() {
 		return (ListBrushParameter) this;
 	}

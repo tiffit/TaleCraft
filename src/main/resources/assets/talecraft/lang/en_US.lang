@@ -29,6 +29,7 @@ item.terrainbrush.name=Terrain-Brush
 item.npceditor.name=NPC Editor
 item.npcclone.name=NPC Cloner
 item.camera.name=Camera
+item.decorator.name=Decorator
 
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key

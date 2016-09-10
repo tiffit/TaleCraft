@@ -1,35 +1,35 @@
-package de.longor.talecraft.client.gui.items;
+package de.longor.talecraft.client.gui.items.voxelator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import tiffit.talecraft.packet.VoxelatorPacket;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.Constants.NBT;
 import de.longor.talecraft.TaleCraft;
-import de.longor.talecraft.client.gui.qad.QADBoxLabel;
 import de.longor.talecraft.client.gui.qad.QADButton;
-import de.longor.talecraft.client.gui.qad.QADComponent;
 import de.longor.talecraft.client.gui.qad.QADDropdownBox;
 import de.longor.talecraft.client.gui.qad.QADDropdownBox.ListModel;
 import de.longor.talecraft.client.gui.qad.QADDropdownBox.ListModelItem;
 import de.longor.talecraft.client.gui.qad.QADFACTORY;
 import de.longor.talecraft.client.gui.qad.QADGuiScreen;
-import de.longor.talecraft.client.gui.qad.QADLabel;
 import de.longor.talecraft.client.gui.qad.QADPanel;
 import de.longor.talecraft.client.gui.qad.QADRectangularComponent;
 import de.longor.talecraft.client.gui.qad.QADScrollPanel;
+import de.longor.talecraft.client.gui.qad.QADSlider;
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
 import de.longor.talecraft.voxelator.BrushParameter;
+import de.longor.talecraft.voxelator.BrushParameter.BPType;
 import de.longor.talecraft.voxelator.Voxelator;
 import de.longor.talecraft.voxelator.Voxelator.ActionFactory;
 import de.longor.talecraft.voxelator.Voxelator.FilterFactory;
 import de.longor.talecraft.voxelator.Voxelator.ShapeFactory;
 import de.longor.talecraft.voxelator.actions.VXActionReplace;
+import de.longor.talecraft.voxelator.params.ListBrushParameter;
 import de.longor.talecraft.voxelator.predicates.VXPredicateAlways;
 import de.longor.talecraft.voxelator.shapes.VXShapeSphere;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import tiffit.talecraft.packet.VoxelatorPacket;
 
 public class GuiVoxelator extends QADGuiScreen {
 	private final NBTTagCompound data;
@@ -55,6 +55,12 @@ public class GuiVoxelator extends QADGuiScreen {
 			this.data.setTag("action", new NBTTagCompound());
 	}
 	
+	public void applyChanges() {
+		System.out.println("Applying NBT: " + data);
+		VoxelatorPacket packet = new VoxelatorPacket(mc.thePlayer.getUniqueID(), data);
+		TaleCraft.network.sendToServer(packet);
+	}
+	
 	@Override
 	public void buildGui() {
 		{
@@ -69,7 +75,14 @@ public class GuiVoxelator extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Voxelator Settings", 88, 6)).setFontHeight(fontRendererObj.FONT_HEIGHT*2);
 			
 			// Apply Button
-			panel.addComponent(QADFACTORY.createButton("Apply", 2, 0, 80).setEnabled(false).setName("apply"));
+			QADButton apply_button = (QADButton) QADFACTORY.createButton("Apply", 2, 0, 80).setEnabled(true).setName("apply");
+			apply_button.setAction(new Runnable(){
+				@Override
+				public void run() {
+					applyChanges();
+				}
+			});
+			panel.addComponent(apply_button);
 		}
 		
 		NBTTagCompound shape$$ = data.getCompoundTag("shape");
@@ -100,9 +113,7 @@ public class GuiVoxelator extends QADGuiScreen {
 				
 				int yOffset = 2;
 				for(BrushParameter param : params) {
-					String paramName = param.getName();
-					
-					QADRectangularComponent comp = new QADButton(0, yOffset, width/3-3, paramName);
+					QADRectangularComponent comp = getCompForType(param, 0, yOffset, width/3-3, shape$$);
 					
 					pan_shape.addComponent(comp);
 					yOffset += 22;
@@ -128,6 +139,18 @@ public class GuiVoxelator extends QADGuiScreen {
 			pan_filter.setViewportHeight(60);
 			addComponent(pan_filter);
 			addComponent(box_filter);
+			{
+				FilterItem item = (FilterItem) box_filter.getSelected();
+				BrushParameter[] params = item.factory.getParameters();
+				
+				int yOffset = 2;
+				for(BrushParameter param : params) {
+					QADRectangularComponent comp = getCompForType(param, 0, yOffset, width/3-3, filter$$);
+					
+					pan_filter.addComponent(comp);
+					yOffset += 22;
+				}
+			}
 		}
 		
 		{
@@ -147,8 +170,23 @@ public class GuiVoxelator extends QADGuiScreen {
 			pan_action.setViewportHeight(60);
 			addComponent(pan_action);
 			addComponent(box_action);
+			{
+				ActionItem item = (ActionItem) box_action.getSelected();
+				BrushParameter[] params = item.factory.getParameters();
+				
+				int yOffset = 2;
+				for(BrushParameter param : params) {
+					QADRectangularComponent comp = getCompForType(param, 0, yOffset, width/3-3, action$$);
+					
+					pan_action.addComponent(comp);
+					yOffset += 22;
+				}
+			}
 		}
-		
+		final int _color = 0xFF880000;
+		box_action.setColor(_color);
+		box_filter.setColor(_color);
+		box_shape.setColor(_color);
 	}
 
 	@Override
@@ -178,18 +216,59 @@ public class GuiVoxelator extends QADGuiScreen {
 		pan_action.setBounds(columnWidth*2+1, tbbxheight+1, columnWidth-2, columnHeight);
 	}
 	
-	public void applyChanges() {
-		System.out.println("Applying NBT: " + data);
-		
-		/*
-		EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-		TaleCraft.network.sendToServer(new VoxelatorPacket(p.getUniqueID(), data));
-		GuiVoxelator.this.mc.displayGuiScreen(null);
-		//*/
+	private QADRectangularComponent getCompForType(BrushParameter param, int x, int y, int width, NBTTagCompound compound){
+		BPType type = param.getType();
+		if(type == BPType.INTEGER){
+			QADSlider slider = new QADSlider(new IntegerSliderModel(compound, param.asIntegerParameter()));
+			slider.setBounds(0, y, width, 20);
+			return slider;
+		}
+		if(type == BPType.FLOAT){
+			QADSlider slider = new QADSlider(new FloatSliderModel(compound, param.asFloatParameter()));
+			slider.setBounds(0, y, width, 20);
+			return slider;
+		}
+		if(type == BPType.BOOLEAN){
+			QADButton button = new QADButton(0, y, width, new VoxButtonModel(compound, param.asBooleanParameter()));
+			button.setHeight(20);
+			return button;
+		}
+		if(type == BPType.BLOCKSTATE){
+			QADDropdownBox box = new QADDropdownBox(new BlockStateListModel(compound, param.asBlockstateParameter()));
+			box.setBounds(0, y, width, 20);
+			box.setColor(0xFFFFFFFF);
+			return box;
+		}
+		if(type == BPType.LIST){
+			ListBrushParameter lparam = param.asListParameter();
+			QADPanel panel = new QADPanel();
+			if(!compound.hasKey(param.getName()))compound.setTag(param.getName(), new NBTTagList());
+			final NBTTagList taglist = compound.getTagList(param.getName(), 10);
+			if(lparam.getEntryType() == BPType.BLOCKSTATE){
+				panel.setBounds(0, y, width, taglist.tagCount()*20 + 20);
+				panel.setBackgroundColor(2);
+				for(int i = 0; i < taglist.tagCount(); i++){
+					NBTTagCompound sing = taglist.getCompoundTagAt(i);
+					QADDropdownBox box = new QADDropdownBox(new ListBlockStateListModel(sing), new ListBlockStateListModel.BlockStateItem(ItemStack.loadItemStackFromNBT(sing)));
+					box.setBounds(0, i*22, width, 20);
+					box.setColor(0xFFFFFFFF);
+					panel.addComponent(box);
+				}
+				QADButton button = new QADButton("Add");
+				button.setBounds(0, taglist.tagCount()*22, width, 20);
+				button.setAction(new Runnable(){
+					@Override
+					public void run() {
+						taglist.appendTag(new ItemStack(Blocks.STONE).serializeNBT());
+						GuiVoxelator.this.forceRebuildAll();
+					}
+				});
+				panel.addComponent(button);
+			}
+			return panel;
+		}
+		return new QADButton(x, y, width, "error");
 	}
-	
-	
-	
 	
 	
 	
@@ -232,11 +311,11 @@ public class GuiVoxelator extends QADGuiScreen {
 		final List<ListModelItem> list;
 		final List<ListModelItem> filteredList;
 		{
-			list = new ArrayList<>();
+			list = new ArrayList<ListModelItem>();
 			for(ShapeFactory sf : Voxelator.shapes.values()) {
 				list.add(new ShapeItem(sf));
 			}
-			filteredList = new ArrayList<>();
+			filteredList = new ArrayList<ListModelItem>();
 			filteredList.addAll(list);
 		}
 		
@@ -263,7 +342,11 @@ public class GuiVoxelator extends QADGuiScreen {
 		}
 		@Override public void applyFilter(String filterString) {
 			filteredList.clear();
-			filteredList.addAll(list);
+			for(ListModelItem item : list){
+				if(item.getText().contains(filterString)){
+					filteredList.add(item);
+				}
+			}
 		}
 		
 		@Override public boolean hasIcons() {return false;}
@@ -274,11 +357,11 @@ public class GuiVoxelator extends QADGuiScreen {
 		final List<ListModelItem> list;
 		final List<ListModelItem> filteredList;
 		{
-			list = new ArrayList<>();
+			list = new ArrayList<ListModelItem>();
 			for(FilterFactory sf : Voxelator.filters.values()) {
 				list.add(new FilterItem(sf));
 			}
-			filteredList = new ArrayList<>();
+			filteredList = new ArrayList<ListModelItem>();
 			filteredList.addAll(list);
 		}
 		
@@ -305,7 +388,11 @@ public class GuiVoxelator extends QADGuiScreen {
 		}
 		@Override public void applyFilter(String filterString) {
 			filteredList.clear();
-			filteredList.addAll(list);
+			for(ListModelItem item : list){
+				if(item.getText().contains(filterString)){
+					filteredList.add(item);
+				}
+			}
 		}
 		
 		@Override public boolean hasIcons() {return false;}
@@ -316,11 +403,11 @@ public class GuiVoxelator extends QADGuiScreen {
 		final List<ListModelItem> list;
 		final List<ListModelItem> filteredList;
 		{
-			list = new ArrayList<>();
+			list = new ArrayList<ListModelItem>();
 			for(ActionFactory sf : Voxelator.actions.values()) {
 				list.add(new ActionItem(sf));
 			}
-			filteredList = new ArrayList<>();
+			filteredList = new ArrayList<ListModelItem>();
 			filteredList.addAll(list);
 		}
 		
@@ -347,7 +434,11 @@ public class GuiVoxelator extends QADGuiScreen {
 		}
 		@Override public void applyFilter(String filterString) {
 			filteredList.clear();
-			filteredList.addAll(list);
+			for(ListModelItem item : list){
+				if(item.getText().contains(filterString)){
+					filteredList.add(item);
+				}
+			}
 		}
 		
 		@Override public boolean hasIcons() {return false;}

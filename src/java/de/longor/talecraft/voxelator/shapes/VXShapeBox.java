@@ -27,15 +27,17 @@ public class VXShapeBox extends VXShape {
 		}
 		@Override
 		public VXShape newShape(NBTTagCompound shapeData, BlockPos origin) {
-			int px = shapeData.getInteger("position.x") + origin.getX();
-			int py = shapeData.getInteger("position.y") + origin.getY();
-			int pz = shapeData.getInteger("position.z") + origin.getZ();
-			
+//			int px = shapeData.getInteger("position.x") + origin.getX();
+//			int py = shapeData.getInteger("position.y") + origin.getY();
+//			int pz = shapeData.getInteger("position.z") + origin.getZ();
+			int px = origin.getX();
+			int py = origin.getY();
+			int pz = origin.getZ();
 			int w = shapeData.getInteger("width");
 			int h = shapeData.getInteger("height");
 			int l = shapeData.getInteger("length");
 			boolean hollow = shapeData.getBoolean("hollow");
-			
+			System.out.println(w + ", " + h + ", " + l);
 			return new VXShapeBox(new BlockPos(px, py, pz), w, h, l, hollow);
 		}
 		

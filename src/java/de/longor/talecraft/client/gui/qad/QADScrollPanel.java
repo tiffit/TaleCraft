@@ -156,6 +156,9 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 		for(QADComponent component : components) {
 			component.draw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
 		}
+		for(QADComponent component : components) {
+			component.postDraw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
+		}
 		renderer.offset(-x, -y+(viewport?viewportPosition:0));
 		renderer.popScissor();
 

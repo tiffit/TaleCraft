@@ -37,7 +37,7 @@ public class SelectionBoxRenderer implements IRenderable {
 
 	@Override
 	public void render(Minecraft mc, ClientProxy clientProxy,
-			Tessellator tessellator, VertexBuffer vertexbuffer,
+			Tessellator tessellator, final VertexBuffer vertexbuffer,
 			double partialTicks) {
 
 		// Don't show the selection if we are not in BuildMode!
@@ -99,7 +99,7 @@ public class SelectionBoxRenderer implements IRenderable {
 					}
 					
 					if(showVoid) {
-						IBlockState stvoid = Block.getBlockFromName("minecraft:structure_void").getDefaultState();
+						final IBlockState stvoid = Block.getBlockFromName("minecraft:structure_void").getDefaultState();
 						
 						GlStateManager.disableBlend();
 						GlStateManager.disableTexture2D();

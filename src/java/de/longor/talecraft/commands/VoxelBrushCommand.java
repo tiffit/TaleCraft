@@ -3,7 +3,7 @@ package de.longor.talecraft.commands;
 import java.util.Collections;
 import java.util.List;
 
-import de.longor.talecraft.items.VoxelBrushItem;
+import de.longor.talecraft.items.VoxelatorItem;
 import de.longor.talecraft.util.GObjectTypeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
@@ -46,7 +46,7 @@ public class VoxelBrushCommand extends CommandBase {
 		if(stack == null)
 			throw new CommandException("No voxelbrush equipped in main hand.", player);
 
-		if(!(stack.getItem() instanceof VoxelBrushItem))
+		if(!(stack.getItem() instanceof VoxelatorItem))
 			throw new CommandException("No voxelbrush equipped in main hand.", player, stack);
 
 		if(args.length == 0)

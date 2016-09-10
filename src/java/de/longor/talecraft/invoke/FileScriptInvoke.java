@@ -1,5 +1,10 @@
 package de.longor.talecraft.invoke;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+
 import de.longor.talecraft.TaleCraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -19,6 +24,15 @@ public class FileScriptInvoke implements IScriptInvoke {
 	public FileScriptInvoke(String name) {
 		fileName = name;
 		bufferedScript = null;
+	}
+	
+	public FileScriptInvoke(File file) {
+		fileName = file.getName();
+		try {
+			bufferedScript = FileUtils.readFileToString(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void loadScript() {

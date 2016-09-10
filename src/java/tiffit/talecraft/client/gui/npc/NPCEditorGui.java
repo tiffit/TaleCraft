@@ -204,7 +204,7 @@ public class NPCEditorGui extends QADGuiScreen {
 
 			@Override
 			public int getTextLength() {
-				return message.length();
+				return name.length();
 			}
 
 			@Override
@@ -287,6 +287,7 @@ public class NPCEditorGui extends QADGuiScreen {
 			
 		});
 		addComponent(messageField.setTooltip("The message to be sent to the player when right-clicked.", "Leave blank for no message."));
+		messageField.setMaxStringLength(1000);
 		
 		QADButton save = (QADButton) QADFACTORY.createButton("", this.width - 80, this.height - 30, 75).setModel(new ButtonModel(){
 

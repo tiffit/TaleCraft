@@ -190,9 +190,11 @@ public class Voxelator {
 		for(final BlockPos pos : BlockPos.getAllInBox(region.getMin(), region.getMax())) {
 			offset.set(pos);
 			offset.__sub(center);
-
-			if(shape.test(pos, center, offset, fworld) && predicate.test(pos, center, offset, fworld)) {
-				action.apply(pos, center, offset, fworld);
+			if(shape.test(pos, center, offset, fworld)) {
+				System.out.println("shape");
+				if(predicate.test(pos, center, offset, fworld)){
+					action.apply(pos, center, offset, fworld);
+				}
 			}
 		}
 

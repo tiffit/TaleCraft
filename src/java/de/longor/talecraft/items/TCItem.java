@@ -42,6 +42,11 @@ public class TCItem extends Item {
 	}
 
 	@Override
+	public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
+		return false;
+	}
+	
+	@Override
 	public boolean isDamageable() {
 		return false;
 	}
@@ -77,7 +82,7 @@ public class TCItem extends Item {
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 		player.worldObj.notifyBlockUpdate(pos, player.worldObj.getBlockState(pos), player.worldObj.getBlockState(pos), 0);
-		return true;
+		return false;
 	}
 	
 	public final NBTTagCompound getNBTfromItemStack(ItemStack stack) {

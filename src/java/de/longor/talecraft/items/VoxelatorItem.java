@@ -9,6 +9,7 @@ import de.longor.talecraft.voxelator.VXPredicate;
 import de.longor.talecraft.voxelator.VXShape;
 import de.longor.talecraft.voxelator.VXShape.VXShapes;
 import de.longor.talecraft.voxelator.Voxelator;
+import de.longor.talecraft.voxelator.Voxelator.ActionFactory;
 import de.longor.talecraft.voxelator.actions.VXActionGrassify;
 import de.longor.talecraft.voxelator.actions.VXActionReplace;
 import de.longor.talecraft.voxelator.actions.VXActionVariationsReplace;
@@ -34,7 +35,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tiffit.talecraft.packet.VoxelatorGuiPacket;
 
-public class VoxelBrushItem extends TCItem {
+public class VoxelatorItem extends TCItem {
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
@@ -69,10 +70,10 @@ public class VoxelBrushItem extends TCItem {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
 		
-		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush");
+		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush_data");
 		
 		if(player.isSneaking()){
-			TaleCraft.network.sendTo(new VoxelatorGuiPacket(stack.getTagCompound()), (EntityPlayerMP) player);
+			TaleCraft.network.sendTo(new VoxelatorGuiPacket(data), (EntityPlayerMP) player);
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
 		
@@ -90,31 +91,15 @@ public class VoxelBrushItem extends TCItem {
 		if(result == null) {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
-		
-		VXAction action = null; int action_id = data.getInteger("action");
-		{
-			if(action_id == 0) action = new VXActionGrassify();
-			if(action_id == 1) action = new VXActionReplace(Block.getBlockById(data.getInteger("block_id_0")).getDefaultState());
-			if(action_id == 2){
-				IBlockState[] blockstates = new IBlockState[data.getInteger("block_size")];
-				for(int i = 0; i < blockstates.length; i++){
-					blockstates[i] = Block.getStateById(data.getInteger("block_id_" + i));
-				}
-				action = new VXActionVariationsReplace(blockstates);
-			}
-		}
-		
-		boolean hollow = data.getBoolean("hollow");
-		
-		VXShape shape = null; int shape_id = data.getInteger("shape");
-		{
-			if(shape_id == 0) shape = new VXShapeSphere(result.getBlockPos(), data.getFloat("radius"), hollow);
-			if(shape_id == 1) shape = new VXShapeBox(result.getBlockPos(), data.getInteger("width"), data.getInteger("height"), data.getInteger("length"), hollow);
-			if(shape_id == 2) shape = new VXShapeCylinder(result.getBlockPos(), data.getFloat("radius"), data.getInteger("height"), hollow);
-		}
-		
-		Voxelator.apply(shape, action_id == 0 ? VXPredicate.newIsSolid() : new VXPredicateHeightLimit(256), action, world);
-		return ActionResult.newResult(EnumActionResult.PASS, stack);
+		NBTTagCompound NBTshape = data.getCompoundTag("shape");
+		NBTTagCompound NBTfilter = data.getCompoundTag("filter");
+		NBTTagCompound NBTaction = data.getCompoundTag("action");
+		System.out.println(data);
+		VXShape shape = Voxelator.newShape(NBTshape, result.getBlockPos());
+		VXPredicate filter = Voxelator.newFilter(NBTfilter);
+		VXAction action = Voxelator.newAction(NBTaction);
+		Voxelator.apply(shape, filter, action, world);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override
@@ -125,7 +110,7 @@ public class VoxelBrushItem extends TCItem {
 			return;
 		}
 
-		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush");
+		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush_data");
 		addDesc(data, tooltip);
 		super.addInformation(stack, player, tooltip, advanced);
 	}
@@ -147,16 +132,12 @@ public class VoxelBrushItem extends TCItem {
 			tooltip.add(TextFormatting.RED + "Not Defined Yet");
 			return;
 		}
-		VXActions action = VXActions.get(data.getInteger("action"));
-		VXShapes shape = VXShapes.get(data.getInteger("shape"));
-		String shapeData = "";
-		if(shape == VXShapes.Sphere) shapeData = "[r=" + data.getFloat("radius") + "]";
-		if(shape == VXShapes.Box) shapeData  = "[w=" + data.getInteger("width") + ",h=" + data.getInteger("height") + ",l="+ data.getInteger("length") + "]";
-		if(shape == VXShapes.Cylinder) shapeData = "[r=" + data.getFloat("radius") + ",h=" + data.getInteger("height") + "]";
-		tooltip.add("Shape: " + shape.toString() + shapeData);
-		tooltip.add("Action: " + action.toString());
-		tooltip.add("");
-
+		NBTTagCompound shape = data.getCompoundTag("shape");
+		NBTTagCompound filter = data.getCompoundTag("filter");
+		NBTTagCompound action = data.getCompoundTag("action");
+		tooltip.add(shape.getString("type"));
+		tooltip.add(filter.getString("type"));
+		tooltip.add(action.getString("type"));
 	}
 
 }
