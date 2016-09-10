@@ -1,11 +1,11 @@
 {
   "versions": [
     {
-      "version": "v0.2.16",
+      "version": "v0.2.17",
       "mc": "1.10.2",
       "forge": "1.10.2-12.18.0.2007-1.10.0",
       "libs": "https://raw.githubusercontent.com/MinecraftForge/MinecraftForge/1.10.x/jsons/1.10.2-rel.json",
-      "id": 2317707,
+      "id": 2329440,
       "type": "Beta",
       "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4tz5kp/update_talecraftv0216/",
@@ -15,6 +15,28 @@
         "Added workbench",
         "Added throwable knife",
         "Added camera block and camera item"
+      ]
+    },
+    {
+      "version": "v0.2.16",
+      "mc": "1.10.2",
+      "forge": "1.10.2-12.18.0.2007-1.10.0",
+      "libs": "https://raw.githubusercontent.com/MinecraftForge/MinecraftForge/1.10.x/jsons/1.10.2-rel.json",
+      "id": 2317707,
+      "type": "Beta",
+      "assets": "1.10",
+      "reddit": "https://www.reddit.com/r/talecraft/comments/525idb/update_talecraftv0217/",
+      "changelog": [
+        "Eraser Tool can now selectively erase",
+        "Added replace functionality to the fill tool",
+        "Redid the voxelator",
+        "Added the Decorator Tool",
+        "Modified the music blocks",
+        "Paste Tool no longer places structure-void blocks",
+        "Fixed bugs with the NPC gui",
+        "Added the tc_rename command",
+        "A whole bunch of bug fixes",
+        "Other minor changes"
       ]
     },
     {
