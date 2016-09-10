@@ -10,11 +10,16 @@
       "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4tz5kp/update_talecraftv0216/",
       "changelog": [
-        "NPC Trades can now have limited stock",
-        "The name of an NPC will now change color according to its type",
-        "Added workbench",
-        "Added throwable knife",
-        "Added camera block and camera item"
+        "Eraser Tool can now selectively erase",
+        "Added replace functionality to the fill tool",
+        "Redid the voxelator",
+        "Added the Decorator Tool",
+        "Modified the music blocks",
+        "Paste Tool no longer places structure-void blocks",
+        "Fixed bugs with the NPC gui",
+        "Added the tc_rename command",
+        "A whole bunch of bug fixes",
+        "Other minor changes"
       ]
     },
     {
@@ -27,16 +32,11 @@
       "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/525idb/update_talecraftv0217/",
       "changelog": [
-        "Eraser Tool can now selectively erase",
-        "Added replace functionality to the fill tool",
-        "Redid the voxelator",
-        "Added the Decorator Tool",
-        "Modified the music blocks",
-        "Paste Tool no longer places structure-void blocks",
-        "Fixed bugs with the NPC gui",
-        "Added the tc_rename command",
-        "A whole bunch of bug fixes",
-        "Other minor changes"
+        "NPC Trades can now have limited stock",
+        "The name of an NPC will now change color according to its type",
+        "Added workbench",
+        "Added throwable knife",
+        "Added camera block and camera item"
       ]
     },
     {
