@@ -7,7 +7,6 @@ import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -16,8 +15,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -101,6 +98,7 @@ public class TaleCraftEventHandler {
 	
 	private NPCShop lastOpened;
 	
+	// TODO: Move this method and its associated variable to the ClientProxy.
 	@SubscribeEvent
 	public void npcTradeOpen(GuiOpenEvent event){
 		if(event.getGui() instanceof GuiMerchant){
