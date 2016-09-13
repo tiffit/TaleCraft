@@ -115,12 +115,14 @@ public class TaleCraftEventHandler {
 	
 	@SubscribeEvent
 	public void villagerInteract(EntityInteractSpecific e){
+		/* XXX: Commented out because disabling features is NOT okay.
 		if(e.getTarget() instanceof EntityVillager){
 			if(e.getSide() == Side.CLIENT){
 				e.getEntityPlayer().addChatComponentMessage(new TextComponentString(TextFormatting.RED + "Villager trading is disabled in TaleCraft. Use the NPC instead."));
 			}
 			e.setCanceled(true);
 		}
+		//*/
 	}
 
 	@SubscribeEvent
