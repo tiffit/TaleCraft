@@ -47,6 +47,7 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 		rowp[4] = rowp[3] + rowh + 0;
 		rowp[5] = rowp[4] + rowh + 0;
 		rowp[6] = rowp[5] + rowh + 0;
+		rowp[7] = rowp[6] + rowh + 0;
 
 		addComponent(QADFACTORY.createLabel("Texture Path",colp[0], rowp[0]+sro));
 
@@ -57,6 +58,8 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 		addComponent(QADFACTORY.createLabel("Offset"  , colp[0], rowp[3]+sro));
 		addComponent(QADFACTORY.createLabel("Rotation", colp[0], rowp[4]+sro));
 		addComponent(QADFACTORY.createLabel("Size"    , colp[0], rowp[5]+sro));
+
+		addComponent(QADFACTORY.createLabel("Color"   , colp[0], rowp[6]+sro));
 
 		final QADTextField texturePathTextField = QADFACTORY.createTextField(tileEntity.getTextureLocation(), colp[1], rowp[0]+tfc, colw[1]+colw[2]+colw[3]+6);
 		texturePathTextField.setTooltip("The path of the texture to display.");
@@ -81,12 +84,21 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 
 		final QADTextField textureWidthTextField = QADFACTORY.createTextField(tileEntity.getHologramWidth(), colp[1], rowp[5]+tfc, colw[1]);
 		final QADTextField textureHeightTextField = QADFACTORY.createTextField(tileEntity.getHologramHeight(), colp[2], rowp[5]+tfc, colw[2]);
-		textureWidthTextField .setTooltip("Width of the hologram.");
-		textureHeightTextField.setTooltip("Height of the hologram.");
+		textureWidthTextField .setTooltip("Width of the hologram.","If negative, texture is tiled over surface horizontally.");
+		textureHeightTextField.setTooltip("Height of the hologram.","If negative, texture is tiled over surface vertically.");
 		addComponent(textureWidthTextField);
 		addComponent(textureHeightTextField);
+		addComponent(rotationYawTextField);
 
-		QADButton applyButton = QADFACTORY.createButton("Apply", colp[1], rowp[6], colw[1], null);
+		final QADTextField colorTextField = QADFACTORY.createTextField(tileEntity.getHologramColor(), colp[1], rowp[6]+tfc, colw[1]);
+		colorTextField.setTooltip(
+				"Color of the hologram as hexadecimal ARGB integer.",
+				"Example: FFFFFFFF = White",
+				"Example: 7F00FFFF = Transparent Cyan"
+		);
+		addComponent(colorTextField);
+
+		QADButton applyButton = QADFACTORY.createButton("Apply", colp[1], rowp[7], colw[1], null);
 		applyButton.setEnabled(true);
 		applyButton.setAction(new Runnable() {
 			@Override public void run() {
@@ -103,6 +115,8 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 
 				commandComp.setFloat("var_width", parseFloat(textureWidthTextField.getText(), tileEntity.getHologramWidth(), -1000, 1000));
 				commandComp.setFloat("var_height", parseFloat(textureHeightTextField.getText(), tileEntity.getHologramHeight(), -1000, 1000));
+
+				commandComp.setFloat("var_color", parseInt(colorTextField.getText(), tileEntity.getHologramColor(), 0, 0xFFFFFFFF));
 
 				// Final
 				commandComp.setString("command", "set_vars");

@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import de.longor.talecraft.blocks.util.tileentity.ImageHologramBlockTileEntity;
 import de.longor.talecraft.client.ClientResources;
-import de.longor.talecraft.client.render.renderers.BoxRenderer;
 import de.longor.talecraft.proxy.ClientProxy;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -57,14 +56,13 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 		if(h < 0) {
 			v = (h = h*-1) * 2f;
 		}
-
-		float t = 0;
-
-		float r = 1;
-		float g = 1;
-		float b = 1;
-		float a = 1;
-
+		
+		int argb = tileentity.getHologramColor();
+		float a = (float)((argb>>24) & 0xFF) / 256F;
+		float r = (float)((argb>>16) & 0xFF) / 256F;
+		float g = (float)((argb>>8) & 0xFF) / 256F;
+		float b = (float)(argb & 0xFF) / 256F;
+		
 		GlStateManager.pushMatrix();
 
 		GlStateManager.translate(x, y, z);
@@ -75,9 +73,7 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
 
-		if(Boolean.FALSE.booleanValue()) {
-			BoxRenderer.renderBox(tessellator, vertexbuffer, -w, -h, -t, +w, +h, +t, r, g, b, a);
-		} else {
+		{
 			// setup
 			GlStateManager.color(r, g, b, a);
 			vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
