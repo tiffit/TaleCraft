@@ -363,7 +363,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 				if(dropbox_model != null) {
 					List<ListModelItem> items = dropbox_model.getFilteredItems();
 					if(items.size() > 0) {
-						int hl = 0; // XXX: dropbox_highlight?
+						int hl = 0; // XXX: dropbox_highlight? No.
 						ListModelItem item = items.get(hl);
 						fieldbox_text = item.getText();
 						dropbox_selected = item;

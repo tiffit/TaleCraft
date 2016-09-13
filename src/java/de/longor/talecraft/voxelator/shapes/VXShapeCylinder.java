@@ -99,7 +99,7 @@ public class VXShapeCylinder extends VXShape {
 		int dy = y - sy;
 		int dz = z - sz;
 		dy = dy < 0 ? -dy : dy;
-		// TODO: new 'new VXShapeCylinder' is a waste of memory and should be removed somehow.
+		// TODO: 'new VXShapeCylinder' is a waste of memory and should be removed somehow.
 		return dy < height && dx*dx + dz*dz <= radiusSquared && (hollow ? !(new VXShapeCylinder(position, radius-1, height-1, false).test(pos, center, offset, fworld)) : true);
 	}
 

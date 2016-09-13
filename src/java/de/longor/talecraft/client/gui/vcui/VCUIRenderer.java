@@ -405,7 +405,6 @@ public class VCUIRenderer {
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		//vertexbuffer.setColorOpaque_I(0xFFFFFFFF); //TODO FIX
 		vertexbuffer.pos(x, y + height, 0.0D).tex( u * f4, (v + height) * f5).endVertex();
 		vertexbuffer.pos(x + width, y + height, 0.0D).tex( (u + width) * f4, (v + height) * f5).endVertex();
 		vertexbuffer.pos(x + width, y, 0.0D).tex( (u + width) * f4, v * f5).endVertex();

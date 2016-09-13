@@ -9,7 +9,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-//TODO: Replace data logic with a model.
 public class QADSlider extends QADRectangularComponent {
 
 	public static interface SliderModel<T> {
@@ -113,7 +112,6 @@ public class QADSlider extends QADRectangularComponent {
 
 		// this.mouseDragged(mc, mouseX, mouseY);
 
-		// TODO: Draw slider right here!
 		int sliderPos = (int) (model.getSliderValue() * width);
 		sliderPos = MathHelper.clamp_int(sliderPos, 2, width-3);
 

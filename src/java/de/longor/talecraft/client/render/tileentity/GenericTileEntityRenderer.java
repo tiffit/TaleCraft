@@ -230,6 +230,6 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 		GlStateManager.enableLighting();
 		GlStateManager.enableCull();
 
-	}	
+	}
 
 }

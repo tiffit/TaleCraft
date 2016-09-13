@@ -121,14 +121,12 @@ public class BoxRenderer {
 		float nz = dz / length;
 
 		vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		vertexbuffer.color(r, g, b, a);
-		//vertexbuffer.setBrightness(0xFF); //TODO FIX
 		float minX,minY,minZ,maxX,maxY,maxZ,tx,ty,tz, size = 0.05f;
 		for(float t = TaleCraft.asClient().getRenderer().getLastPartialTicks() / 3f, step = 1f / 3f; t < length; t += step) {
 			tx = x0 + nx*t;
 			ty = y0 + ny*t;
 			tz = z0 + nz*t;
-
+			
 			minX = tx - size;
 			minY = ty - size;
 			minZ = tz - size;
@@ -578,8 +576,7 @@ public class BoxRenderer {
 		}
 		
 		/*
-		 * XXX:
-		 * Temporarily fixed the bug where the rendering of
+		 * XXX: Temporarily fixed the bug where the rendering of
 		 * the selection box is completely messed up,
 		 * by commenting out the contents of the methods below.
 		 */
