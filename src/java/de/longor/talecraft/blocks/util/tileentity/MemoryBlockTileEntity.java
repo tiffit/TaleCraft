@@ -70,11 +70,33 @@ public class MemoryBlockTileEntity extends TCTileEntity {
 	}
 
 	public void trigger(EnumTriggerState triggerState) {
-		if(!triggered) {
-			Invoke.invoke(triggerInvoke, this, null, triggerState);
-			triggered = true;
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+		switch(triggerState) {
+			case IGNORE:
+				// no op
+				break;
+			case INVERT:
+				// reset
+				if(triggered) {
+					triggered = false;
+					worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+				}
+				break;
+			case OFF:
+				// no op
+				break;
+			case ON:
+				if(!triggered) {
+					Invoke.invoke(triggerInvoke, this, null, triggerState);
+					triggered = true;
+					worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+				}
+				break;
+			default:
+				// no op
+				break;
 		}
+		
+		
 	}
 
 	public boolean getIsTriggered() {
