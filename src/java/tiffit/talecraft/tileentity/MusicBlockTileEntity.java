@@ -92,7 +92,7 @@ public class MusicBlockTileEntity extends TCTileEntity {
 		if(mute){
 			packet = new SoundsPacket();
 		}else{
-			packet = new SoundsPacket(getSound(), isRepeat(), repeatDelay());
+			packet = new SoundsPacket(getSound(), isRepeat(), repeatDelay(), true);
 		}
 		TaleCraft.network.sendToDimension(packet, worldObj.provider.getDimension());
 	}
