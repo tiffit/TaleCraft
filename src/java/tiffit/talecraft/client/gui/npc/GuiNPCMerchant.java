@@ -3,9 +3,6 @@ package tiffit.talecraft.client.gui.npc;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -32,7 +29,6 @@ import tiffit.talecraft.entity.NPC.NPCShop.NPCTrade;
 /**I find copying the class was the easiest way to do this*/
 public class GuiNPCMerchant extends GuiContainer
 {
-    private static final Logger LOGGER = LogManager.getLogger();
     /** The GUI texture for the villager merchant GUI. */
     private static final ResourceLocation MERCHANT_GUI_TEXTURE = new ResourceLocation("textures/gui/container/villager.png");
     /** The current IMerchant instance in use for this specific merchant. */

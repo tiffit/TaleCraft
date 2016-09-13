@@ -2,7 +2,6 @@ package de.longor.talecraft.voxelator.actions;
 
 import java.util.Random;
 
-import de.longor.talecraft.util.GObjectTypeHelper;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.voxelator.BrushParameter.BPType;
 import de.longor.talecraft.voxelator.CachedWorldDiff;

@@ -103,12 +103,12 @@ public class VelocityCommand extends TCCommandBase {
 		if(action == 4) { // ACTION::multiply
 			for(Entity entity : entities) {
 				float yaw = 90 - entity.rotationYaw;
-				float pitch = entity.rotationPitch;
+//			float pitch = entity.rotationPitch;
 
 				float f2 = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
 				float f3 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
-				float f4 = -MathHelper.cos(-pitch * 0.017453292F);
-				float f5 = MathHelper.sin(-pitch * 0.017453292F);
+//			float f4 = -MathHelper.cos(-pitch * 0.017453292F);
+//			float f5 = MathHelper.sin(-pitch * 0.017453292F);
 
 				entity.motionX += f2 * vX;
 				entity.motionY += vY;

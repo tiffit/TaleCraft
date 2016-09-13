@@ -33,7 +33,6 @@ public abstract class TCCommandBase extends CommandBase {
 		if(directionStr.equalsIgnoreCase("west")  || directionStr.equalsIgnoreCase("-x")) direction = 5; // -x
 
 		if(directionStr.equalsIgnoreCase("me")) {
-			EnumFacing directionSky = player.getHorizontalFacing();
 			EnumFacing directionFull = null;
 
 			if(player.rotationPitch > 45) {

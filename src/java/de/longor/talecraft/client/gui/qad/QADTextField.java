@@ -42,7 +42,7 @@ public class QADTextField extends QADRectangularComponent {
 
 	//	private final int ID;
 	private final FontRenderer fontRendererInstance;
-	private Predicate field_175209_y = Predicates.alwaysTrue();
+	private Predicate<String> field_175209_y = Predicates.alwaysTrue();
 	//  private GuiPageButtonList.GuiResponder field_175210_x;
 
 	public String[] autoCompleteOptions = null;

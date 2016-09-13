@@ -155,7 +155,6 @@ public class SummonBlockTileEntity extends TCTileEntity {
 
 		// Create the entity, merge the existing NBT into it, then spawn the entity.
 		NBTTagCompound entityNBT = option.getData();
-		String typeStr = entityNBT.getString("id");
 		Entity entity = EntityList.createEntityFromNBT(entityNBT, worldObj);
 
 		if(entity == null) {
@@ -165,9 +164,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 
 		entity.setLocationAndAngles(posX, posY, posZ, entity.rotationYaw, entity.rotationPitch);
 		worldObj.spawnEntityInWorld(entity);
-
-		int spawnCount = 1;
-
+		
 		// This takes care of 'riding' entities.
 		{
 			Entity mountEntity = entity;
@@ -183,7 +180,6 @@ public class SummonBlockTileEntity extends TCTileEntity {
 					ridingEntity.setLocationAndAngles(posX, posY, posZ, ridingEntity.rotationYaw, ridingEntity.rotationPitch);
 					worldObj.spawnEntityInWorld(ridingEntity);
 					mountEntity.startRiding(ridingEntity);
-					spawnCount++;
 				}
 
 				mountEntity = ridingEntity;

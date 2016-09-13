@@ -1,7 +1,5 @@
 package de.longor.talecraft.client.gui.items.voxelator;
 
-import java.util.HashMap;
-
 import de.longor.talecraft.client.gui.qad.QADButton.ButtonModel;
 import de.longor.talecraft.voxelator.params.BooleanBrushParameter;
 import net.minecraft.nbt.NBTTagCompound;

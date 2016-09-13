@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.longor.talecraft.client.gui.items.GuiDecorator;
-import de.longor.talecraft.client.gui.items.voxelator.GuiVoxelator;
 import de.longor.talecraft.decorator.Decoration;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

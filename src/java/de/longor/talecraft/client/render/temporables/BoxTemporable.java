@@ -29,9 +29,6 @@ public class BoxTemporable implements ITemporaryRenderable {
 	public void render(Minecraft mc, ClientProxy clientProxy,
 			Tessellator tessellator, VertexBuffer vertexbuffer,
 			double partialTicks) {
-
-		float ERROR = 1f / 16f;
-
 		float minX = box[0];
 		float minY = box[1];
 		float minZ = box[2];

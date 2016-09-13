@@ -1,6 +1,5 @@
 package de.longor.talecraft.voxelator.actions;
 
-import de.longor.talecraft.util.GObjectTypeHelper;
 import de.longor.talecraft.util.MutableBlockPos;
 import de.longor.talecraft.voxelator.BrushParameter;
 import de.longor.talecraft.voxelator.CachedWorldDiff;

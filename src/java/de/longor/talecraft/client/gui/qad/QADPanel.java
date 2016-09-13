@@ -8,8 +8,6 @@ import com.google.common.collect.Lists;
 
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
 import de.longor.talecraft.util.Vec2i;
-import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.gui.GuiResourcePackList;
 import net.minecraft.client.gui.GuiWorldSelection;
 import net.minecraft.util.ResourceLocation;
 

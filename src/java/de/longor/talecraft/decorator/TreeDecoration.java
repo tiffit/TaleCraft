@@ -3,7 +3,6 @@ package de.longor.talecraft.decorator;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenBigTree;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 
 public class TreeDecoration extends StaticDecoration {

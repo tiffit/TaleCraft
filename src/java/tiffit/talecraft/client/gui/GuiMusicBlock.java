@@ -128,7 +128,7 @@ public class GuiMusicBlock extends QADGuiScreen {
 
 		private SoundEnum sound;
 		
-		public MusicModelItem(SoundEnum sound){ 
+		public MusicModelItem(SoundEnum sound){
 			this.sound = sound;
 		}
 		@Override
@@ -136,11 +136,16 @@ public class GuiMusicBlock extends QADGuiScreen {
 			return sound.toString();
 		}
 		
+		@Override
 		public boolean equals(Object obj){
 			if(obj instanceof MusicModelItem){
 				MusicModelItem mmi = (MusicModelItem) obj;
 				return mmi.sound == sound;
 			}return false;
+		}
+		@Override
+		public int hashCode() {
+			return sound.hashCode();
 		}
 	}
 	

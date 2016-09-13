@@ -41,7 +41,7 @@ public class PointEntityRenderer extends Render<Entity> {
 
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
-		float r=1,g=1,b=1,a=1,yeoffset=entity.getEyeHeight();
+		float yeoffset=entity.getEyeHeight();
 
 		bindTexture(ClientResources.texColorWhite);
 
@@ -61,11 +61,11 @@ public class PointEntityRenderer extends Render<Entity> {
 			for(int i = 0; i < 2; i++) {
 				float E = (i + 1) / 16f;
 				GlStateManager.blendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ZERO);
-				BoxRenderer.renderBox(tessellator, vertexbuffer, -E, -E, -E, +E, +E, +E, 1, 1, 1, a);
+				BoxRenderer.renderBox(tessellator, vertexbuffer, -E, -E, -E, +E, +E, +E, 1, 1, 1, 1);
 
 				E *= 0.3f;
 				GlStateManager.blendFunc(GL11.GL_DST_COLOR, GL11.GL_SRC_ALPHA);
-				BoxRenderer.renderBox(tessellator, vertexbuffer, -E, -E, -E, +E, +E, +E, 0, 0, 0, a);
+				BoxRenderer.renderBox(tessellator, vertexbuffer, -E, -E, -E, +E, +E, +E, 0, 0, 0, 1);
 			}
 			GlStateManager.popMatrix();
 		} else {
@@ -75,7 +75,7 @@ public class PointEntityRenderer extends Render<Entity> {
 			GlStateManager.rotate(entity.rotationPitch, 1, 0, 0);
 			float E = 1f / 2f;
 			GlStateManager.blendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ZERO);
-			BoxRenderer.renderBox(tessellator, vertexbuffer, -E, -E, -E, +E, +E, +E, 0, 0, 0, a);
+			BoxRenderer.renderBox(tessellator, vertexbuffer, -E, -E, -E, +E, +E, +E, 0, 0, 0, 1);
 			GlStateManager.popMatrix();
 		}
 

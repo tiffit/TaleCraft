@@ -1,7 +1,6 @@
 package de.longor.talecraft.client.gui.items.voxelator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,15 +8,11 @@ import java.util.Set;
 import de.longor.talecraft.client.gui.qad.QADDropdownBox.ListModel;
 import de.longor.talecraft.client.gui.qad.QADDropdownBox.ListModelItem;
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
-import de.longor.talecraft.voxelator.params.BlockstateBrushParameter;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import scala.collection.mutable.HashSet;
 
 public class ListBlockStateListModel implements ListModel {
 	private final NBTTagCompound tag;
@@ -29,8 +24,8 @@ public class ListBlockStateListModel implements ListModel {
 		items = new ArrayList<ListModelItem>();
 		filtered = new ArrayList<ListModelItem>();
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
-		for(Block block : Block.REGISTRY){
-			stacks.add(new ItemStack(block));
+		for(Object block : Block.REGISTRY){
+			stacks.add(new ItemStack((Block)block));
 		}
 		for(ItemStack item : stacks){
 			Item itm = item.getItem();
@@ -110,6 +105,11 @@ public class ListBlockStateListModel implements ListModel {
 		public boolean equals(Object obj) {
 			if(!(obj instanceof BlockStateItem))return false;
 			return ItemStack.areItemStacksEqual(stack, ((BlockStateItem)obj).stack);
+		}
+
+		@Override
+		public int hashCode() {
+			return stack.hashCode();
 		}
 		
 	}

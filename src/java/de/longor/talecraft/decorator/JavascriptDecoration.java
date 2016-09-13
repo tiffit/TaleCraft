@@ -4,21 +4,15 @@ import java.util.List;
 
 import org.mozilla.javascript.Scriptable;
 
-import com.google.common.collect.Lists;
-import com.google.common.primitives.UnsignedBytes;
-
 import de.longor.talecraft.TaleCraft;
 import de.longor.talecraft.invoke.EnumTriggerState;
 import de.longor.talecraft.invoke.FileScriptInvoke;
 import de.longor.talecraft.invoke.IInvoke;
 import de.longor.talecraft.invoke.IInvokeSource;
 import de.longor.talecraft.invoke.Invoke;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +21,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import tiffit.talecraft.entity.NPC.EntityNPC;
 
 public class JavascriptDecoration implements Decoration{
 

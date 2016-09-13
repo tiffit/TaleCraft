@@ -159,7 +159,6 @@ public class WandCommand extends TCCommandBase {
 			}
 
 			String varStr = args[1];
-			String valueStr = args[2];
 
 			int ix = bounds[0];
 			int iy = bounds[1];

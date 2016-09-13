@@ -12,10 +12,7 @@ import de.longor.talecraft.client.gui.qad.QADGuiScreen;
 import de.longor.talecraft.client.gui.qad.QADLabel;
 import de.longor.talecraft.client.gui.qad.QADNumberTextField;
 import de.longor.talecraft.client.gui.qad.QADNumberTextField.NumberType;
-import de.longor.talecraft.client.gui.qad.model.DefaultTextFieldModel;
 import de.longor.talecraft.client.gui.vcui.VCUIRenderer;
-import de.longor.talecraft.decorator.Decoration;
-import de.longor.talecraft.decorator.Decorator;
 import net.minecraft.nbt.NBTTagCompound;
 import tiffit.talecraft.packet.DecoratorPacket;
 
@@ -74,7 +71,7 @@ public class GuiDecorator extends QADGuiScreen {
 			@Override
 			public void run() {
 				TaleCraft.network.sendToServer(
-						new DecoratorPacket(mc.thePlayer.getUniqueID(), 
+						new DecoratorPacket(mc.thePlayer.getUniqueID(),
 								X_OFFSET.getValue().intValue(), (int)Y_OFFSET.getValue().intValue(), (int)Z_OFFSET.getValue().intValue(),
 								selected_decoration, AMOUNT.getValue().intValue(), RADIUS.getValue().intValue()));
 			}
@@ -140,7 +137,7 @@ public class GuiDecorator extends QADGuiScreen {
 
 		private String decor;
 		
-		public DecorationModelItem(String decor){ 
+		public DecorationModelItem(String decor){
 			this.decor = decor;
 		}
 		@Override
@@ -152,6 +149,10 @@ public class GuiDecorator extends QADGuiScreen {
 			if(!(o instanceof DecorationModelItem)) return false;
 			DecorationModelItem other = (DecorationModelItem) o;
 			return other.decor.equals(decor);
+		}
+		@Override
+		public int hashCode() {
+			return decor.hashCode();
 		}
 	}
 

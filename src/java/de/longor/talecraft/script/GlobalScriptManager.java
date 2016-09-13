@@ -55,7 +55,7 @@ public class GlobalScriptManager {
 			ScriptableObject.putProperty(globalScope, "system", Context.javaToJS(globalScriptObject, globalScope));
 
 			consoleOutput = new ConsoleOutput();
-			ScriptableObject.putProperty(globalScope, "out", Context.javaToJS(new ConsoleOutput(), globalScope));
+			ScriptableObject.putProperty(globalScope, "out", Context.javaToJS(consoleOutput, globalScope));
 
 			// String loadMe = "RegExp; getClass; java; Packages; JavaAdapter;";
 			// cx.evaluateString(globalScope , loadMe, "lazyLoad", 0, null);

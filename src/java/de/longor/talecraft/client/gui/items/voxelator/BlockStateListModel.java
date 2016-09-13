@@ -1,7 +1,6 @@
 package de.longor.talecraft.client.gui.items.voxelator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import de.longor.talecraft.client.gui.qad.QADDropdownBox.ListModel;
@@ -33,8 +32,8 @@ public class BlockStateListModel implements ListModel {
 		items = new ArrayList<ListModelItem>();
 		filtered = new ArrayList<ListModelItem>();
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
-		for(Block block : Block.REGISTRY){
-			stacks.add(new ItemStack(block));
+		for(Object block : Block.REGISTRY){
+			stacks.add(new ItemStack((Block)block));
 		}
 		for(ItemStack item : stacks){
 			Item itm = item.getItem();

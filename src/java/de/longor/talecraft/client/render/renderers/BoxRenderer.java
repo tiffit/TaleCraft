@@ -9,11 +9,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
 
 public class BoxRenderer {
-	private static final Vec3d UP = new Vec3d(0, 1, 0);
-
 	public static final void renderWireBoxWithPointAndLines(
 			float x0, float y0, float z0, float x1, float y1, float z1,
 			float X, float Y, float Z,
