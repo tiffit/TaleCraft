@@ -139,7 +139,7 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
         	currentIteration.addAll(destroyBlocks);
         	added = 0;
             for(BlockPos pos : destroyBlocks){
-            	added += iterate(pos, currentIteration);
+            	added += iterate(pos, currentIteration, explosionX, explosionY, explosionZ);
             }
             destroyBlocks.clear();
             destroyBlocks.addAll(currentIteration);
@@ -152,7 +152,11 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
         }
     }
     
-    private int iterate(BlockPos pos, List<BlockPos> destroyBlocks){
+    private int iterate(BlockPos pos, List<BlockPos> destroyBlocks, double oX, double oY, double oZ){
+    	if(pos.distanceSq(oX, oY, oZ) > 32) {
+    		return 0;
+    	}
+    	
     	BlockPos[] sides = new BlockPos[]{pos.up(), pos.down(), pos.north(), pos.south(), pos.east(), pos.west()};
     	int added = 0;
     	for(BlockPos side : sides){
