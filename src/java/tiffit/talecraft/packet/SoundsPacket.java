@@ -1,11 +1,14 @@
 package tiffit.talecraft.packet;
 
 import de.longor.talecraft.TCSoundHandler.SoundEnum;
+import de.longor.talecraft.client.sound.ConstantSound;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.ISound.AttenuationType;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -15,6 +18,7 @@ public class SoundsPacket implements IMessage {
 
 	boolean mute;
 	boolean repeat;
+	boolean constant;
 	int delay;
 	SoundEnum sound;
 	
@@ -22,11 +26,12 @@ public class SoundsPacket implements IMessage {
 		mute = true;
 	}
 	
-	public SoundsPacket(SoundEnum sound, boolean repeat, int delay) {
+	public SoundsPacket(SoundEnum sound, boolean repeat, int delay, boolean constant) {
 		mute = false;
 		this.sound = sound;
 		this.repeat = repeat;
 		this.delay = delay;
+		this.constant = constant;
 	}
 
 	@Override
@@ -35,6 +40,7 @@ public class SoundsPacket implements IMessage {
 			sound = SoundEnum.values()[buf.readInt()];
 			repeat = buf.readBoolean();
 			delay = buf.readInt();
+			constant = buf.readBoolean();
 		}
 	}
 
@@ -45,6 +51,7 @@ public class SoundsPacket implements IMessage {
 			buf.writeInt(sound.ordinal());
 			buf.writeBoolean(repeat);
 			buf.writeInt(delay);
+			buf.writeBoolean(constant);
 		}
 	}
 
@@ -57,7 +64,36 @@ public class SoundsPacket implements IMessage {
 				mc.getSoundHandler().stopSounds();
 			}else{
 				EntityPlayer player = mc.thePlayer;
-				PositionedSoundRecord record = new PositionedSoundRecord(message.sound.getSoundEvent().getSoundName(), SoundCategory.MUSIC, 1F, 1F, message.repeat, message.delay, ISound.AttenuationType.LINEAR, (float)player.posX, (float)player.posY, (float)player.posZ);
+				
+				ISound record = null;
+				
+				ResourceLocation soundName = message.sound.getSoundEvent().getSoundName();
+				SoundCategory category = SoundCategory.MUSIC;
+				boolean repeat = message.repeat;
+				int delay = message.delay;
+				AttenuationType attenuation = message.constant ? AttenuationType.NONE : AttenuationType.LINEAR;
+				
+				if(message.constant) {
+					ConstantSound c = new ConstantSound(soundName);
+					record = c;
+					
+					if(repeat)
+						c.setRepeating(delay);
+					else
+						c.setNonRepeating();
+					
+					c.setVolume(1);
+					c.setPitch(1);
+				} else {
+					record = new PositionedSoundRecord(
+							soundName, category,
+							1F, 1F,
+							repeat, delay, attenuation,
+							(float)player.posX, (float)player.posY, (float)player.posZ
+					);
+				}
+				
+				
 				mc.getSoundHandler().playSound(record);
 			}
 			return null;
