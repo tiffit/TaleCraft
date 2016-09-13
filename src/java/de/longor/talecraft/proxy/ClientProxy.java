@@ -15,6 +15,7 @@ import de.longor.talecraft.client.render.renderables.SelectionBoxRenderer;
 import de.longor.talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import de.longor.talecraft.clipboard.ClipboardItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -134,6 +135,12 @@ public class ClientProxy extends CommonProxy {
 		if(event instanceof ClientTickEvent) {
 			while(!clientTickQeue.isEmpty())
 				clientTickQeue.poll().run();
+			
+			// Stop music from playing if a specific tag is set.
+			// This is temporary until something better can be implemented.
+			if(mc.thePlayer != null && mc.thePlayer.getEntityData().getBoolean("no-music")) {
+				mc.getMusicTicker().stopMusic();
+			}
 		}
 
 		if(event instanceof RenderTickEvent) {
