@@ -41,6 +41,7 @@ public class BlockUpdateDetector extends TCBlockContainer implements TCITriggera
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		BlockUpdateDetectorTileEntity tEntity = (BlockUpdateDetectorTileEntity)worldIn.getTileEntity(pos);

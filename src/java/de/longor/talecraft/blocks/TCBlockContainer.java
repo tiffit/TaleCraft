@@ -50,11 +50,13 @@ public abstract class TCBlockContainer extends BlockContainer {
 		return EnumBlockRenderType.INVISIBLE;
 	}
 
+	@Deprecated
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
@@ -65,17 +67,20 @@ public abstract class TCBlockContainer extends BlockContainer {
 		return 1;
 	}
 
+	@Deprecated
 	@Override
 	@SideOnly(Side.CLIENT)
 	public RayTraceResult collisionRayTrace(IBlockState state, World world, BlockPos pos, Vec3d start, Vec3d end) {
 		return TaleCraft.proxy.isBuildMode() ? super.collisionRayTrace(state, world, pos, start, end) : null;
 	}
 
+	@Deprecated
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
 		return null;//new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	}
 
+	@Deprecated
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
@@ -90,6 +95,7 @@ public abstract class TCBlockContainer extends BlockContainer {
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getAmbientOcclusionLightValue(IBlockState state) {

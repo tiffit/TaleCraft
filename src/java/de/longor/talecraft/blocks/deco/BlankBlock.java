@@ -43,6 +43,7 @@ public class BlankBlock extends TCBlock {
 		return state.getValue(SUB).intValue();
 	}
 
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(SUB, Integer.valueOf(meta));
@@ -72,6 +73,7 @@ public class BlankBlock extends TCBlock {
 		return blockLayer == 0 ? BlockRenderLayer.SOLID : BlockRenderLayer.CUTOUT;
 	}
 
+	@Deprecated
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
@@ -102,6 +104,7 @@ public class BlankBlock extends TCBlock {
 		return blockLayer == 0;
 	}
 
+	@Deprecated
 	@Override //TODO Doesn't work
 	public EnumPushReaction getMobilityFlag(IBlockState state) {
 		return EnumPushReaction.NORMAL; // Can be moved by pistons

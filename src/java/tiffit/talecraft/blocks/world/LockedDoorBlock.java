@@ -177,13 +177,12 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 	    return new BlockStateContainer(this, new IProperty[] { CORNER });
 	}
 	
-	@SuppressWarnings("unchecked")
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 	    return getDefaultState().withProperty(CORNER, DoorCorner.values()[meta]);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public int getMetaFromState(IBlockState state) {
 	    DoorCorner type = (DoorCorner) state.getValue(CORNER);
@@ -195,7 +194,6 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 	    return getMetaFromState(state);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		LockedDoorTileEntity te = new LockedDoorTileEntity();

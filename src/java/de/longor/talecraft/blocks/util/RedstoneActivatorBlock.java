@@ -24,11 +24,13 @@ public class RedstoneActivatorBlock extends TCBlock implements TCITriggerableBlo
 		setDefaultState(this.blockState.getBaseState().withProperty(POWERED, Boolean.valueOf(false)));
 	}
 
+	@Deprecated
 	@Override
 	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public int getWeakPower(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
 		return state.getValue(POWERED).booleanValue() ? 15 : 0;
@@ -62,6 +64,7 @@ public class RedstoneActivatorBlock extends TCBlock implements TCITriggerableBlo
 		}
 	}
 
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(POWERED, Boolean.valueOf((meta & 1) > 0));

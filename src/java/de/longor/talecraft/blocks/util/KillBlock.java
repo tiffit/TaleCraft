@@ -102,6 +102,7 @@ public class KillBlock extends TCBlock {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 		float f = 0.45f;
@@ -146,6 +147,7 @@ public class KillBlock extends TCBlock {
 		}
 	}
 
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(KILLTYPE, Integer.valueOf(meta));

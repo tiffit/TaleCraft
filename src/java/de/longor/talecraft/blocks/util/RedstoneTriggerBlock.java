@@ -38,6 +38,7 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 		return new RedstoneTriggerBlockTileEntity();
 	}
 
+	@Deprecated
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (!worldIn.isRemote) {
@@ -81,6 +82,7 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(TRIGGERED, Boolean.valueOf((meta & 1) > 0));

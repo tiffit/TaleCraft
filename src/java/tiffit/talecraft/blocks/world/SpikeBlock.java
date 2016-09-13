@@ -61,6 +61,7 @@ public class SpikeBlock extends TCWorldBlock implements TCITriggerableBlock{
 	    return new BlockStateContainer(this, new IProperty[] { FACING, ACTIVE });
 	}
 	
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		int altmeta = meta;
@@ -100,11 +101,13 @@ public class SpikeBlock extends TCWorldBlock implements TCITriggerableBlock{
 		return BlockRenderLayer.CUTOUT;
 	}
 	
+	@Deprecated
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
 		return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	}
 
+	@Deprecated
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {

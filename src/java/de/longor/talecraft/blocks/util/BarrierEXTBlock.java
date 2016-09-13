@@ -42,6 +42,7 @@ public class BarrierEXTBlock extends BlockBarrier {
 			return null;
 	}*/
 
+	@Deprecated
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
 		int type = state.getValue(TYPE).intValue();
@@ -109,6 +110,7 @@ public class BarrierEXTBlock extends BlockBarrier {
 		}
 	}
 
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(TYPE, Integer.valueOf(meta));

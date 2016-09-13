@@ -25,6 +25,7 @@ public class HiddenBlock extends TCBlock {
 		setCreativeTab(null);
 	}
 
+	@Deprecated
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
@@ -48,23 +49,27 @@ public class HiddenBlock extends TCBlock {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getAmbientOcclusionLightValue(IBlockState state) {
 		return 1.0F;
 	}
 
+	@Deprecated
 	@Override
 	@SideOnly(Side.CLIENT)
 	public RayTraceResult collisionRayTrace(IBlockState state, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
 		return TaleCraft.proxy.isBuildMode() ? super.collisionRayTrace(state, worldIn, pos, start, end) : null;
 	}
 
+	@Deprecated
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
 		return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	}
 
+	@Deprecated
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
