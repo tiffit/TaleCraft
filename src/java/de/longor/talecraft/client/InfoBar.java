@@ -178,11 +178,15 @@ public class InfoBar {
 					builder.append(identifier.getResourceDomain()).append(":").append(identifier.getResourcePath()).append("/").append(state.getBlock().getMetaFromState(state));
 				} else {
 					if(state == null) {
-						builder.append("NULL-DATA ERROR");
+						builder.append("NULL STATE");
 					} else if(state.getBlock() == null) {
-						builder.append("NULL-DATA ERROR");
+						builder.append("INVALID STATE");
 					} else if(Item.getItemFromBlock(state.getBlock()) == null) {
-						builder.append("NULL-DATA ERROR");
+						String name = state.getBlock().getLocalizedName();
+						if(name == null)
+							builder.append("NO ITEM");
+						else
+							builder.append(name);
 					} else {
 						Block block = state.getBlock();
 						int metadata = block.getMetaFromState(state);
