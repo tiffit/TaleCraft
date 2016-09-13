@@ -4,22 +4,22 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.ResourceLocation;
 
 public class ClientFadeEffect {
 
-	private int color;
-	private int time;
+	private final ResourceLocation tex;
+	private final int color;
+	private final int time;
 	private int current_time;
 	
-	public ClientFadeEffect(int color, int time){
+	public ClientFadeEffect(int color, int time, String texture){
 		this.color = color;
-		time *=20;
 		this.time = time;
 		this.current_time = time;
-		Minecraft.getMinecraft();
+		this.tex = new ResourceLocation(texture);
 	}
 	
 	public void render(){
@@ -36,12 +36,26 @@ public class ClientFadeEffect {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
 		{
-			int alpha = MathHelper.clamp_int((int) (fade * 255), 0, 255);
-			int mixed = ((alpha & 0xFF) << 24) | (color);
-			Gui.drawRect(-1, -1, 4, 4, mixed);
+			if(tex != null) {
+				GlStateManager.enableTexture2D();
+				Minecraft.getMinecraft().getTextureManager().bindTexture(tex);
+			}
 			
-			// TODO: Implement TEXTURED fade effect
-			// -> Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, 0, 0, 0, 0);
+			// just in case
+			GlStateManager.disableCull();
+			
+			float redF   = (float)((color>>16) & 0xFF) / 255f;
+			float blueF  = (float)((color>>8) & 0xFF) / 255f;
+			float greenF = (float)((color) & 0xFF) / 255f;
+			float alphaF = (float) fade;
+			
+			GL11.glBegin(GL11.GL_QUADS);
+				GL11.glColor4f(redF, greenF, blueF, alphaF);
+				GL11.glTexCoord2f(0, 0); GL11.glVertex2f(0, 0);
+				GL11.glTexCoord2f(1, 0); GL11.glVertex2f(2, 0);
+				GL11.glTexCoord2f(1, 1); GL11.glVertex2f(2, 2);
+				GL11.glTexCoord2f(0, 1); GL11.glVertex2f(0, 2);
+			GL11.glEnd();
 		}
 		RenderHelper.disableStandardItemLighting();
 		current_time--;
