@@ -25,7 +25,7 @@ public final class VisualizationModeCommand extends CommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		final VisualMode mode = VisualMode.valueOf(args[0].toUpperCase());
+		final VisualMode mode = VisualMode.valueOf(args[0]);
 
 		ClientProxy.shedule(new Runnable() {
 			@Override
