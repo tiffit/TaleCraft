@@ -81,4 +81,9 @@ public abstract class QADComponent {
 
 	public abstract void removeFocus();
 
+	public void handleMouseInput()
+	{
+
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import org.lwjgl.input.Mouse;
 
 import com.google.common.collect.Lists;
 
@@ -450,4 +451,16 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 		return height;
 	}
 
+	public void handleMouseInput()
+	{
+		viewportPosition -= Mouse.getEventDWheel();
+
+        if(viewportPosition < 0) {
+			viewportPosition = 0;
+		}
+
+		if(viewportPosition + height >= viewportHeight) {
+			viewportPosition = viewportHeight - height;
+		}
+	}
 }
