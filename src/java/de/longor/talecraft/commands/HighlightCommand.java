@@ -50,7 +50,7 @@ public class HighlightCommand extends TCCommandBase {
 			double duration = parser.consume_double("Couldn't parse duration!", 0.0000000001d, 10d);
 			String selector = parser.consume_string("Couldn't parse entity selector!");
 
-			List<Entity> entities = EntitySelector.matchEntities(sender, selector, EntityPlayerSP.class);
+			List<EntityPlayerSP> entities = EntitySelector.matchEntities(sender, selector, EntityPlayerSP.class);
 
 			Potion potion = Potion.getPotionFromResourceLocation("minecraft:glow");
 			PotionEffect effect = new PotionEffect(potion, (int) duration, 1);

@@ -1,5 +1,6 @@
 package de.longor.talecraft.client.gui.qad;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -473,4 +474,11 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		return this.height;
 	}
 
+	@Override
+	public void handleMouseInput() throws IOException {
+		super.handleMouseInput();
+		for (QADComponent comp : components) {
+			comp.handleMouseInput();
+		}
+	}
 }
