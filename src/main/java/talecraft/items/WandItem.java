@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import talecraft.TaleCraft;
 import talecraft.network.packets.PlayerNBTDataMergePacket;
 
-public class WandItem extends TCItem {
+public class WandItem extends TCItem implements TCITriggerableItem{
 
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -36,11 +36,6 @@ public class WandItem extends TCItem {
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		
-		if(player.isSneaking()) {
-			resetWand(player);
-			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-		}
 		
 		{ // do far-away raytrace...
 			float lerp = 1f;
@@ -73,17 +68,6 @@ public class WandItem extends TCItem {
 
 		// by returning TRUE, we prevent damaging the entity being hit.
 		return true;
-	}
-
-	public static final Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
-		if(partialTicks == 1.0F) {
-			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
-		} else {
-			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
-			double d1 = player.prevPosY + (player.posY - player.prevPosY) * partialTicks + player.getEyeHeight();
-			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
-			return new Vec3d(d0, d1, d2);
-		}
 	}
 	
 	public static final void applyWand(EntityPlayer player, BlockPos pos) {
@@ -127,15 +111,6 @@ public class WandItem extends TCItem {
 			tcWand.setBoolean("flip", !flip);
 		}
 
-		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
-	}
-	
-	public static final void resetWand(EntityPlayer player) {
-		NBTTagCompound compound = player.getEntityData();
-		compound.getCompoundTag("tcWand").setBoolean("enabled", false);
-		compound.getCompoundTag("tcWand").setIntArray("boundsA", new int[]{0, 0, 0});
-		compound.getCompoundTag("tcWand").setIntArray("boundsB", new int[]{0, 0, 0});
-		player.addChatMessage(new TextComponentString("Wand selection has been cleared!"));
 		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), (EntityPlayerMP) player);
 	}
 
@@ -192,6 +167,16 @@ public class WandItem extends TCItem {
 		int y = Math.abs(bounds[4] - bounds[1]);
 		int z = Math.abs(bounds[5] - bounds[2]);
 		return x*y*z;
+	}
+	
+	@Override
+	public void trigger(World world, EntityPlayerMP player, ItemStack stack) {
+		NBTTagCompound compound = player.getEntityData();
+		compound.getCompoundTag("tcWand").setBoolean("enabled", false);
+		compound.getCompoundTag("tcWand").setIntArray("boundsA", new int[]{0, 0, 0});
+		compound.getCompoundTag("tcWand").setIntArray("boundsB", new int[]{0, 0, 0});
+		player.addChatMessage(new TextComponentString("Wand selection has been cleared!"));
+		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), player);
 	}
 
 }

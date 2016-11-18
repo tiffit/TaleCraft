@@ -145,10 +145,10 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		if(!components.isEmpty()) {
 			renderer.offset(x, y);
 			for(QADComponent component : components) {
-				component.draw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
+				if(component != null)component.draw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
 			}
 			for(QADComponent component : components) {
-				component.postDraw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
+				if(component != null)component.postDraw(localMouseX-component.getX(), localMouseY-component.getY(), partialTicks, renderer);
 			}
 			renderer.offset(-x, -y);
 		}

@@ -35,22 +35,25 @@ public class QADDropdownBox extends QADRectangularComponent {
 	
 	public QADDropdownBox(ListModel model, ListModelItem selectedItem) {
 		this.dropbox_model = model;
-		
-		if(model != null && model.hasItems()) {
-			if(selectedItem != null && model.getItems().contains(selectedItem)) {
-				this.fieldbox_text = selectedItem.getText();
-				this.dropbox_selected = selectedItem;
-				this.dropbox_model.onSelection(selectedItem);
-			} else {
-				ListModelItem item = model.getItems().get(0);
-				this.fieldbox_text = item.getText();
-				this.dropbox_selected = item;
-			}
-		}
+		setSelected(selectedItem);
 	}
 	
 	public QADDropdownBox(ListModel model) {
 		this(model, (ListModelItem)null);
+	}
+	
+	public void setSelected(ListModelItem item){
+		if(dropbox_model != null && dropbox_model.hasItems()) {
+			if(item != null && dropbox_model.getItems().contains(item)) {
+				this.fieldbox_text = item.getText();
+				this.dropbox_selected = item;
+				this.dropbox_model.onSelection(item);
+			} else {
+				ListModelItem itm = dropbox_model.getItems().get(0);
+				this.fieldbox_text = itm.getText();
+				this.dropbox_selected = itm;
+			}
+		}
 	}
 	
 	@Override

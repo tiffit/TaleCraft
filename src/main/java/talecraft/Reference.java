@@ -5,6 +5,6 @@ public class Reference {
 	public static final String MOD_NAME = "TaleCraft";
 	public static final String MOD_VERSION = "0.2.17";
 
-	public static final String CLIENT_PROXY = "de.longor.talecraft.proxy.ClientProxy";
-	public static final String SERVER_PROXY = "de.longor.talecraft.proxy.ServerProxy";
+	public static final String CLIENT_PROXY = "talecraft.proxy.ClientProxy";
+	public static final String SERVER_PROXY = "talecraft.proxy.ServerProxy";
 }

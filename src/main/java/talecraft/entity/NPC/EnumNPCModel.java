@@ -1,5 +1,6 @@
 package talecraft.entity.NPC;
 
+import talecraft.client.entity.npc.models.ModifiedModelSkeleton;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelCow;
 import net.minecraft.client.model.ModelCreeper;
@@ -8,7 +9,6 @@ import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelVillager;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import talecraft.client.entity.npc.models.ModifiedModelSkeleton;
 
 public enum EnumNPCModel {
 

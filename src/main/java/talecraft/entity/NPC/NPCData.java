@@ -31,13 +31,17 @@ public class NPCData {
 	private float attackDamage;
 	private double movementspeed;
 	private float health;
+	
+	private String interact_script;
+	private String update_script;
+	private String death_script;
 
 	private NPCShop shop;
 	
 	/**The data for the NPC's inventory*/
 	private NPCInventoryData invdata;
 	
-	private EntityNPC npc;
+	public final EntityNPC npc;
 	
 	public NPCData(EntityNPC npc){
 		this.npc = npc;
@@ -59,6 +63,9 @@ public class NPCData {
 		movementspeed = 0.6D;
 		shop = new NPCShop(npc);
 		invdata = new NPCInventoryData();
+		interact_script = "";
+		death_script = "";
+		update_script = "";
 	}
 	
 	public NPCShop getShop(){
@@ -91,6 +98,30 @@ public class NPCData {
 	
 	public void setName(String str){
 		name = str;
+	}
+	
+	public String getInteractScript(){
+		return interact_script;
+	}
+	
+	public void setInteractScript(String str){
+		interact_script = str;
+	}
+	
+	public String getDeathScript(){
+		return death_script;
+	}
+	
+	public void setDeathScript(String str){
+		death_script = str;
+	}
+	
+	public String getUpdateScript(){
+		return update_script;
+	}
+	
+	public void setUpdateScript(String str){
+		update_script = str;
 	}
 	
 	public String getMessage(){
@@ -234,6 +265,9 @@ public class NPCData {
 		tag.setTag("inventory", invdata.toNBT());
 		tag.setFloat("health", health);
 		tag.setTag("shop", shop.toNBT());
+		tag.setString("interact_script", interact_script);
+		tag.setString("update_script",  update_script);
+		tag.setString("death_script", death_script);
 		return tag;
 	}
 	
@@ -257,6 +291,9 @@ public class NPCData {
 		data.setHealth(tag.getFloat("health"));
 		data.invdata = NPCInventoryData.fromNBT(tag.getCompoundTag("inventory"));
 		data.shop = NPCShop.getShop(tag.getCompoundTag("shop"), npc);
+		data.setInteractScript(tag.getString("interact_script"));
+		data.setUpdateScript(tag.getString("update_script"));
+		data.setDeathScript(tag.getString("death_script"));
 		return data;
 	}
 	

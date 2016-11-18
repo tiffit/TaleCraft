@@ -11,6 +11,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -96,6 +97,18 @@ public class TCItem extends Item {
 		}
 		
 		return comp;
+	}
+	
+	
+	protected Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
+		if(partialTicks == 1.0F) {
+			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
+		} else {
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * partialTicks + player.getEyeHeight();
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
+			return new Vec3d(d0, d1, d2);
+		}
 	}
 	
 	public static final boolean isDoubleCall(ItemStack stack, long currentWorldTime) {

@@ -4,6 +4,7 @@ key.toggleWireframe=Toggle Rendermode
 key.mapSettings=Open Map Settings
 key.nbt=Edit Item NBT
 key.reload=Reload Gun
+key.triggeritem=Activate Item
 
 itemGroup.talecraftTab=TaleCraft [Util]
 itemGroup.talecraftDecoTab=TaleCraft [Decoration]
@@ -30,6 +31,7 @@ item.npceditor.name=NPC Editor
 item.npcclone.name=NPC Cloner
 item.camera.name=Camera
 item.decorator.name=Decorator
+item.trigger.name=Block Triggerer
 
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key

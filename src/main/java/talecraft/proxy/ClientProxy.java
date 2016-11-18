@@ -3,11 +3,12 @@ package talecraft.proxy;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
+import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,10 +29,12 @@ import talecraft.client.ClientSettings;
 import talecraft.client.InfoBar;
 import talecraft.client.InvokeTracker;
 import talecraft.client.commands.TaleCraftClientCommands;
+import talecraft.client.gui.npc.GuiNPCMerchant;
 import talecraft.client.render.metaworld.PasteItemRender;
 import talecraft.client.render.renderables.SelectionBoxRenderer;
 import talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import talecraft.clipboard.ClipboardItem;
+import talecraft.entity.NPC.NPCShop;
 
 public class ClientProxy extends CommonProxy {
 	// All the singletons!
@@ -94,6 +97,21 @@ public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public void worldPass(RenderWorldLastEvent event) {
 		clientRenderer.on_render_world_post(event);
+	}
+	
+	private NPCShop lastOpened;
+	
+	// TODO: Move this method and its associated variable to the ClientProxy.
+	@SubscribeEvent
+	public void npcTradeOpen(GuiOpenEvent event){
+		if(event.getGui() instanceof GuiMerchant){
+			if(((GuiMerchant) event.getGui()).getMerchant() instanceof NPCShop){
+				lastOpened = (NPCShop) ((GuiMerchant) event.getGui()).getMerchant();
+			}else{
+				Minecraft mc = Minecraft.getMinecraft();
+				event.setGui(new GuiNPCMerchant(mc.thePlayer.inventory, lastOpened, mc.theWorld));
+			}
+		}
 	}
 
 	@SubscribeEvent

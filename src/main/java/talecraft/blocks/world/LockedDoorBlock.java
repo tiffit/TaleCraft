@@ -102,7 +102,7 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 			if((heldItem.getItem() == TaleCraftItems.silverKey && te.useSilverKey) || (heldItem.getItem() == TaleCraftItems.goldKey && !te.useSilverKey)){
 				world.setBlockToAir(pos);
 				onBlockDestroyedByPlayer(world, pos, state);
-				heldItem.stackSize--;
+				if(!playerIn.isCreative())heldItem.stackSize--;
 				return true;
 			}
 		}

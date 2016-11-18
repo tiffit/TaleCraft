@@ -15,12 +15,13 @@ import talecraft.items.EraserItem;
 import talecraft.items.FillerItem;
 import talecraft.items.InstaKillItem;
 import talecraft.items.MetaSwapperItem;
-import talecraft.items.NPCCloneItem;
+import talecraft.items.EntityCloneItem;
 import talecraft.items.NPCEditorItem;
 import talecraft.items.NudgeItem;
 import talecraft.items.PasteItem;
 import talecraft.items.SpawnPointItem;
 import talecraft.items.TeleporterItem;
+import talecraft.items.TriggerItem;
 import talecraft.items.VoxelatorItem;
 import talecraft.items.WandItem;
 import talecraft.items.weapon.BombArrowItem;
@@ -54,9 +55,10 @@ public class TaleCraftItems {
 	public static MetaSwapperItem metaswapper;
 	public static SpawnPointItem spawnpoint;
 	public static NPCEditorItem npceditor;
-	public static NPCCloneItem npcclone;
+	public static EntityCloneItem entityclone;
 	public static CameraItem camera;
 	public static DecoratorItem decorator;
+	public static TriggerItem trigger;
 	
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
@@ -95,9 +97,10 @@ public class TaleCraftItems {
 		metaswapper = register(new MetaSwapperItem(), "metaswapper");
 		spawnpoint = register(new SpawnPointItem(), "spawnpoint");
 		npceditor = register(new NPCEditorItem(), "npceditor");
-		npcclone = register(new NPCCloneItem(), "npcclone");
+		entityclone = register(new EntityCloneItem(), "npcclone");
 		camera = register(new CameraItem(), "camera");
 		decorator = register(new DecoratorItem(), "decorator");
+		trigger = register(new TriggerItem(), "trigger");
 		
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");

@@ -25,7 +25,7 @@ import talecraft.decorator.Decoration;
 import talecraft.decorator.Decorator;
 import talecraft.network.packets.DecoratorGuiPacket;
 
-public class DecoratorItem extends TCItem {
+public class DecoratorItem extends TCItem implements TCITriggerableItem{
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
@@ -40,38 +40,31 @@ public class DecoratorItem extends TCItem {
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if(world.isRemote) return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		NBTTagCompound tag = stack.getTagCompound().getCompoundTag("decorator_data");
-		if(!player.isSneaking()){
-			EntityPlayerMP p = (EntityPlayerMP) player;
+		EntityPlayerMP p = (EntityPlayerMP) player;
 			
-			if(!p.capabilities.isCreativeMode || !p.capabilities.allowEdit)return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-			if(tag.hasNoTags()) return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-			
-			Decoration decor = Decorator.getDecorationFromString(tag.getString("decor"));
-			
-			if(decor == null){
-				p.addChatMessage(new TextComponentString(ChatFormatting.RED + "Unknown decoration!"));
-				return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-			}
-			
-			int amount = tag.getInteger("amount");
-			BlockPos offset = new BlockPos(tag.getInteger("xoff"), tag.getInteger("yoff"), tag.getInteger("zoff"));
-			float lerp = 1F;
-			float dist = 256;
-			Vec3d start = this.getPositionEyes(lerp, p);
-			Vec3d direction = p.getLook(lerp);
-			Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
-			RayTraceResult result = p.worldObj.rayTraceBlocks(start, end, false, false, false);
-			BlockPos center = result.getBlockPos().up().add(offset);
-			
-			int changes = decor.plant(p.worldObj, getInRadius(center, tag.getInteger("radius"), amount), tag);
-			
-			p.addChatMessage(new TextComponentString(ChatFormatting.YELLOW + "Changed "+changes+" block/s."));
-		}else{
-			if(player.isSneaking()){
-				TaleCraft.network.sendTo(new DecoratorGuiPacket(Decorator.getAllDecorations(), stack.getTagCompound()), (EntityPlayerMP) player);
-				return ActionResult.newResult(EnumActionResult.PASS, stack);
-			}
+		if(!p.capabilities.isCreativeMode || !p.capabilities.allowEdit)return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+		if(tag.hasNoTags()) return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+		
+		Decoration decor = Decorator.getDecorationFromString(tag.getString("decor"));
+		
+		if(decor == null){
+			p.addChatMessage(new TextComponentString(ChatFormatting.RED + "Unknown decoration!"));
+			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
+			
+		int amount = tag.getInteger("amount");
+		BlockPos offset = new BlockPos(tag.getInteger("xoff"), tag.getInteger("yoff"), tag.getInteger("zoff"));
+		float lerp = 1F;
+		float dist = 256;
+		Vec3d start = this.getPositionEyes(lerp, p);
+		Vec3d direction = p.getLook(lerp);
+		Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
+		RayTraceResult result = p.worldObj.rayTraceBlocks(start, end, false, false, false);
+		BlockPos center = result.getBlockPos().up().add(offset);
+			
+		int changes = decor.plant(p.worldObj, getInRadius(center, tag.getInteger("radius"), amount), tag);
+			
+		p.addChatMessage(new TextComponentString(ChatFormatting.YELLOW + "Changed "+changes+" block/s."));
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 	
@@ -125,6 +118,10 @@ public class DecoratorItem extends TCItem {
 			return new Vec3d(d0, d1, d2);
 		}
 	}
-	
+
+	@Override
+	public void trigger(World world, EntityPlayerMP player, ItemStack stack) {
+		TaleCraft.network.sendTo(new DecoratorGuiPacket(Decorator.getAllDecorations(), stack.getTagCompound()), player);
+	}
 
 }

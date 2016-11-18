@@ -51,9 +51,6 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	private EntityPlayer targetPlayer;
 	private NPCData data;
 	private NBTTagCompound scriptdata;
-	private String interactInvoke;
-	private String updateInvoke;
-	private String deathInvoke;
 	private Scriptable scope;
 	private BossInfoServer bossInfo = new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS);
 	
@@ -68,9 +65,6 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	
 	public EntityNPC(World world) {
 		super(world);
-		interactInvoke = "";
-		updateInvoke = "";
-		deathInvoke = "";
 		scriptdata = new NBTTagCompound();
 	}
 	
@@ -148,18 +142,6 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		return data;
 	}
 	
-	public void setScriptInteractName(String name){
-		interactInvoke = name;
-	}
-	
-	public void setScriptUpdateName(String name){
-		updateInvoke = name;
-	}
-	
-	public void setScriptDeathName(String name){
-		deathInvoke = name;
-	}
-	
    @Override
 	public void addTrackingPlayer(EntityPlayerMP player){
 	   if(!isNonBoss()) return;
@@ -217,7 +199,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 
 	private void handleRegularInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
 		if(server){
-			FileScriptInvoke scriptInvoke = new FileScriptInvoke(interactInvoke);
+			FileScriptInvoke scriptInvoke = new FileScriptInvoke(data.getInteractScript());
 			if(!scriptInvoke.getScriptName().isEmpty()){
 				scope = TaleCraft.globalScriptManager.createNewNPCScope(this, stack, player);
 				Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
@@ -249,7 +231,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	
 	private void handleEditorInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand, boolean server){
 		if(server){
-			TaleCraft.network.sendTo(new NPCOpenPacket(this.getEntityId(), interactInvoke, updateInvoke, deathInvoke), (EntityPlayerMP) player);
+			TaleCraft.network.sendTo(new NPCOpenPacket(this.getEntityId()), (EntityPlayerMP) player);
 		}
 	}
 	
@@ -288,9 +270,6 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		super.readEntityFromNBT(tag);
 		data = NPCData.fromNBT(this, tag.getCompoundTag("npcdata"));
 		scriptdata = tag.getCompoundTag("scriptdata");
-		updateInvoke = tag.getString("updateInvokeStr");
-		interactInvoke = tag.getString("interactInvokeStr");
-		deathInvoke = tag.getString("deathInvokeStr");
 	}
 	
 	@Override
@@ -298,16 +277,13 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		super.writeEntityToNBT(tag);
 		tag.setTag("npcdata", data.toNBT());
 		tag.setTag("scriptdata", scriptdata);
-		tag.setString("updateInvokeStr", updateInvoke);
-		tag.setString("interactInvokeStr", interactInvoke);
-		tag.setString("deathInvokeStr", deathInvoke);
 	}
 	
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
 		if(!this.worldObj.isRemote){
-			FileScriptInvoke scriptInvoke = new FileScriptInvoke(updateInvoke);
+			FileScriptInvoke scriptInvoke = new FileScriptInvoke(data.getUpdateScript());
 			if(!scriptInvoke.getScriptName().isEmpty()){
 				scope = TaleCraft.globalScriptManager.createNewNPCScope(this);
 				Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
@@ -368,9 +344,9 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 
 	@Override
 	public void getInvokes(List<IInvoke> invokes) {
-		invokes.add(new FileScriptInvoke(interactInvoke));
-		invokes.add(new FileScriptInvoke(updateInvoke));
-		invokes.add(new FileScriptInvoke(deathInvoke));
+		invokes.add(new FileScriptInvoke(data.getInteractScript()));
+		invokes.add(new FileScriptInvoke(data.getUpdateScript()));
+		invokes.add(new FileScriptInvoke(data.getDeathScript()));
 	}
 	
 	@Override
@@ -387,9 +363,9 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	
 	@Override
 	public void setDead() {
-		if(deathInvoke != null && deathInvoke.length() > 0){
+		if(data.getDeathScript() != null && data.getDeathScript().length() > 0){
 			scope = TaleCraft.globalScriptManager.createNewNPCScope(this);
-			Invoke.invoke(new FileScriptInvoke(deathInvoke), this, null, EnumTriggerState.IGNORE);
+			Invoke.invoke(new FileScriptInvoke(data.getDeathScript()), this, null, EnumTriggerState.IGNORE);
 		}
 		super.setDead();
 	}

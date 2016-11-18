@@ -1,7 +1,5 @@
 package talecraft;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -14,7 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -30,8 +27,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import talecraft.blocks.world.WorkbenchBlock;
-import talecraft.client.gui.npc.GuiNPCMerchant;
-import talecraft.entity.NPC.NPCShop;
 import talecraft.network.packets.StringNBTCommandPacket;
 import talecraft.server.ServerHandler;
 import talecraft.util.WorkbenchManager;
@@ -95,21 +90,7 @@ public class TaleCraftEventHandler {
 //		if(event instanceof GuiOpenEvent) return;
 //		System.out.println(event.getClass().toString());
 //	}
-	
-	private NPCShop lastOpened;
-	
-	// TODO: Move this method and its associated variable to the ClientProxy.
-	@SubscribeEvent
-	public void npcTradeOpen(GuiOpenEvent event){
-		if(event.getGui() instanceof GuiMerchant){
-			if(((GuiMerchant) event.getGui()).getMerchant() instanceof NPCShop){
-				lastOpened = (NPCShop) ((GuiMerchant) event.getGui()).getMerchant();
-			}else{
-				Minecraft mc = Minecraft.getMinecraft();
-				event.setGui(new GuiNPCMerchant(mc.thePlayer.inventory, lastOpened, mc.theWorld));
-			}
-		}
-	}
+
 	
 	@SubscribeEvent
 	public void villagerInteract(EntityInteractSpecific e){

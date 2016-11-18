@@ -18,6 +18,7 @@ import talecraft.client.gui.nbt.GuiNBTEditor;
 import talecraft.items.weapon.TCGunClipItem;
 import talecraft.items.weapon.TCGunItem;
 import talecraft.network.packets.GunReloadPacket;
+import talecraft.network.packets.TriggerItemPacket;
 import talecraft.proxy.ClientProxy;
 
 public class ClientKeyboardHandler {
@@ -30,7 +31,8 @@ public class ClientKeyboardHandler {
 	private KeyBinding visualizationBinding;
 	private KeyBinding nbt;
 	private KeyBinding reload;
-
+	private KeyBinding triggerItem;
+	
 	public ClientKeyboardHandler(ClientProxy clientProxy) {
 		proxy = clientProxy;
 		mc = Minecraft.getMinecraft();
@@ -40,6 +42,7 @@ public class ClientKeyboardHandler {
 		visualizationBinding = new KeyBinding("key.toggleWireframe", Keyboard.KEY_PERIOD, category);
 		nbt = new KeyBinding("key.nbt", Keyboard.KEY_N, category);
 		reload = new KeyBinding("key.reload", Keyboard.KEY_R, category);
+		triggerItem = new KeyBinding("key.triggeritem", Keyboard.KEY_V, category);
 
 		// register all keybindings
 		ClientRegistry.registerKeyBinding(mapSettingsBinding);
@@ -47,6 +50,7 @@ public class ClientKeyboardHandler {
 		ClientRegistry.registerKeyBinding(visualizationBinding);
 		ClientRegistry.registerKeyBinding(nbt);
 		ClientRegistry.registerKeyBinding(reload);
+		ClientRegistry.registerKeyBinding(triggerItem);
 	}
 
 	public void on_key(KeyInputEvent event) {
@@ -57,7 +61,10 @@ public class ClientKeyboardHandler {
 			else mc.thePlayer.addChatMessage(new TextComponentString(TextFormatting.RED + "You must be holding something to use the NBT Editor"));
 			return;
 		}
-		
+		if(triggerItem.isPressed() && triggerItem.isKeyDown() && mc.theWorld != null && mc.thePlayer != null && !mc.isGamePaused()){
+			TaleCraft.network.sendToServer(new TriggerItemPacket(mc.thePlayer.getUniqueID()));
+			return;
+		}
 		// this toggles between the various visualization modes
 		if(visualizationBinding.isPressed() && visualizationBinding.isKeyDown()) {
 			proxy.getRenderer().setVisualizationMode(proxy.getRenderer().getVisualizationMode().next());

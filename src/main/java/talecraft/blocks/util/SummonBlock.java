@@ -45,23 +45,26 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(heldItem != null && heldItem.getItem() == TaleCraftItems.npcclone){
+		if(heldItem != null && heldItem.getItem() == TaleCraftItems.entityclone){
 			if(heldItem.hasTagCompound()){
-				if(heldItem.getTagCompound().hasKey("npc")){
+				if(heldItem.getTagCompound().hasKey("entity_data")){
 					SummonBlockTileEntity te = (SummonBlockTileEntity) world.getTileEntity(pos);
-					NBTTagCompound npcdat = heldItem.getTagCompound().getCompoundTag("npc");
+					NBTTagCompound entitydat = heldItem.getTagCompound().getCompoundTag("entity_data");
 					SummonOption[] oldArray = te.getSummonOptions();
 					SummonOption[] newArray = new SummonOption[oldArray.length+1];
 					System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
-
-					newArray[oldArray.length] = new SummonOption();
-					newArray[oldArray.length].setWeight(1f);
-					newArray[oldArray.length].setData(new NBTTagCompound());
-					newArray[oldArray.length].getData().setString("id", "talecraft.tc_NPC");
-					newArray[oldArray.length].getData().merge(npcdat);
+					SummonOption option = new SummonOption();
+					option.setWeight(1F);
+					NBTTagCompound tag = new NBTTagCompound();
+					tag.merge(entitydat);
+					option.setData(tag);
+					newArray[oldArray.length] = option;
 					te.setSummonOptions(newArray);
 					te.markDirty();
-					if(!world.isRemote)playerIn.addChatMessage(new TextComponentString("NPC data has been added to summon block!"));
+					if(!world.isRemote)playerIn.addChatMessage(new TextComponentString("Entity data has been added to summon block!"));
+					return true;
+				}else{
+					if(!world.isRemote)playerIn.addChatMessage(new TextComponentString("No entity has been selected!"));
 					return true;
 				}
 			}
@@ -73,7 +76,7 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 			return false;
 		if(playerIn.isSneaking())
 			return true;
-		if(heldItem == null || heldItem.getItem() != TaleCraftItems.npcclone){
+		if(heldItem == null || heldItem.getItem() != TaleCraftItems.entityclone){
 			Minecraft mc = Minecraft.getMinecraft();
 			mc.displayGuiScreen(new GuiSummonBlock((SummonBlockTileEntity)world.getTileEntity(pos)));
 		}

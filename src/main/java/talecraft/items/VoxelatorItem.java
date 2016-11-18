@@ -23,7 +23,7 @@ import talecraft.voxelator.VXPredicate;
 import talecraft.voxelator.VXShape;
 import talecraft.voxelator.Voxelator;
 
-public class VoxelatorItem extends TCItem {
+public class VoxelatorItem extends TCItem implements TCITriggerableItem{
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
@@ -59,11 +59,6 @@ public class VoxelatorItem extends TCItem {
 		}
 		
 		NBTTagCompound data = stack.getTagCompound().getCompoundTag("brush_data");
-		
-		if(player.isSneaking()){
-			TaleCraft.network.sendTo(new VoxelatorGuiPacket(data), (EntityPlayerMP) player);
-			return ActionResult.newResult(EnumActionResult.PASS, stack);
-		}
 		
 		if(data.hasNoTags())
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
@@ -126,6 +121,11 @@ public class VoxelatorItem extends TCItem {
 		tooltip.add(shape.getString("type"));
 		tooltip.add(filter.getString("type"));
 		tooltip.add(action.getString("type"));
+	}
+	
+	@Override
+	public void trigger(World world, EntityPlayerMP player, ItemStack stack) {
+		TaleCraft.network.sendTo(new VoxelatorGuiPacket(stack.getTagCompound().getCompoundTag("brush_data")), player);
 	}
 
 }

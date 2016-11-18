@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.relauncher.Side;
+import scala.swing.Action.Trigger;
 import talecraft.network.packets.DecoratorGuiPacket;
 import talecraft.network.packets.DecoratorPacket;
 import talecraft.network.packets.DoorPacket;
@@ -22,6 +23,7 @@ import talecraft.network.packets.PlayerNBTDataMergePacket;
 import talecraft.network.packets.SoundsPacket;
 import talecraft.network.packets.StringNBTCommandPacket;
 import talecraft.network.packets.StringNBTCommandPacketClient;
+import talecraft.network.packets.TriggerItemPacket;
 import talecraft.network.packets.VoxelatorGuiPacket;
 import talecraft.network.packets.VoxelatorPacket;
 import talecraft.network.packets.WorkbenchCraftingPacket;
@@ -49,6 +51,7 @@ public class TaleCraftNetwork {
 		register(ForceF1Packet.Handler.class, ForceF1Packet.class, CLIENT);
 		register(DecoratorPacket.Handler.class, DecoratorPacket.class, SERVER);
 		register(DecoratorGuiPacket.Handler.class, DecoratorGuiPacket.class, CLIENT);
+		register(TriggerItemPacket.Handler.class, TriggerItemPacket.class, SERVER);
 	}
 	
 	private static <REQ extends IMessage, REPLY extends IMessage> void register(Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side){
