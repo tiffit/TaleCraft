@@ -14,9 +14,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import talecraft.client.gui.items.GuiDecorator;
 import talecraft.decorator.Decoration;
+import talecraft.network.handlers.client.DecoratorGuiPacketHandler;
 
 public class DecoratorGuiPacket implements IMessage {
-	NBTTagCompound tag;
+	public NBTTagCompound tag;
 	
 	public DecoratorGuiPacket() {
 	}
@@ -39,16 +40,12 @@ public class DecoratorGuiPacket implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeTag(buf, tag);
 	}
-
+	
 	public static class Handler implements IMessageHandler<DecoratorGuiPacket, IMessage> {
+		
 		@Override
 		public IMessage onMessage(DecoratorGuiPacket message, MessageContext ctx) {
-			List<String> list = new ArrayList<String>();
-			NBTTagList tl = message.tag.getTagList("decorations_list", 8);
-			for(int i = 0; i < tl.tagCount(); i++){
-				list.add(tl.getStringTagAt(i));
-			}
-			Minecraft.getMinecraft().displayGuiScreen(new GuiDecorator(list, message.tag));
+			DecoratorGuiPacketHandler.handle(message);
 			return null;
 		}
 	}

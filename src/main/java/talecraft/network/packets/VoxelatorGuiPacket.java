@@ -1,17 +1,16 @@
 package talecraft.network.packets;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import talecraft.client.gui.items.voxelator.GuiVoxelator;
+import talecraft.network.handlers.client.VoxelatorGuiPacketHandler;
 
 public class VoxelatorGuiPacket implements IMessage {
 	
-	NBTTagCompound tag;
+	public NBTTagCompound tag;
 	
 	public VoxelatorGuiPacket() {
 	}
@@ -29,12 +28,14 @@ public class VoxelatorGuiPacket implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeTag(buf, tag);
 	}
-
+	
 	public static class Handler implements IMessageHandler<VoxelatorGuiPacket, IMessage> {
 		@Override
 		public IMessage onMessage(VoxelatorGuiPacket message, MessageContext ctx) {
-			Minecraft.getMinecraft().displayGuiScreen(new GuiVoxelator(message.tag));
+			VoxelatorGuiPacketHandler.handle(message);
 			return null;
 		}
 	}
+
+
 }

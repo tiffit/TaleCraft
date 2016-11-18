@@ -4,12 +4,10 @@ import static net.minecraftforge.fml.relauncher.Side.CLIENT;
 import static net.minecraftforge.fml.relauncher.Side.SERVER;
 import static talecraft.TaleCraft.network;
 
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.relauncher.Side;
-import scala.swing.Action.Trigger;
 import talecraft.network.packets.DecoratorGuiPacket;
 import talecraft.network.packets.DecoratorPacket;
 import talecraft.network.packets.DoorPacket;
@@ -35,7 +33,6 @@ public class TaleCraftNetwork {
 	public static void preInit(){
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("TalecraftNet");
 
-		register(StringNBTCommandPacket.Handler.class, StringNBTCommandPacket.class, SERVER);
 		register(PlayerNBTDataMergePacket.Handler.class, PlayerNBTDataMergePacket.class, CLIENT);
 		register(VoxelatorGuiPacket.Handler.class, VoxelatorGuiPacket.class, CLIENT);
 		register(DoorPacket.Handler.class, DoorPacket.class, CLIENT);
@@ -47,6 +44,7 @@ public class TaleCraftNetwork {
 		register(FadePacket.Handler.class, FadePacket.class, CLIENT);
 		register(GunReloadPacket.Handler.class, GunReloadPacket.class, SERVER);
 		register(WorkbenchCraftingPacket.Handler.class, WorkbenchCraftingPacket.class, SERVER);
+		register(StringNBTCommandPacket.Handler.class, StringNBTCommandPacket.class, SERVER);
 		register(StringNBTCommandPacketClient.Handler.class, StringNBTCommandPacketClient.class, CLIENT);
 		register(ForceF1Packet.Handler.class, ForceF1Packet.class, CLIENT);
 		register(DecoratorPacket.Handler.class, DecoratorPacket.class, SERVER);
@@ -55,7 +53,6 @@ public class TaleCraftNetwork {
 	}
 	
 	private static <REQ extends IMessage, REPLY extends IMessage> void register(Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side){
-		if(FMLCommonHandler.instance().getSide() == Side.SERVER && side == Side.CLIENT) return;
 		network.registerMessage(handler, packet, discriminator, side);
 		discriminator++;
 	}

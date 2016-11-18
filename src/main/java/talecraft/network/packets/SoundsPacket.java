@@ -13,14 +13,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import talecraft.TCSoundHandler.SoundEnum;
 import talecraft.client.sound.ConstantSound;
+import talecraft.network.handlers.client.SoundsPacketHandler;
 
 public class SoundsPacket implements IMessage {
 
-	boolean mute;
-	boolean repeat;
-	boolean constant;
-	int delay;
-	SoundEnum sound;
+	public boolean mute;
+	public boolean repeat;
+	public boolean constant;
+	public int delay;
+	public SoundEnum sound;
 	
 	public SoundsPacket() {
 		mute = true;
@@ -59,43 +60,7 @@ public class SoundsPacket implements IMessage {
 
 		@Override
 		public IMessage onMessage(SoundsPacket message, MessageContext ctx) {
-			Minecraft mc = Minecraft.getMinecraft();
-			if(message.mute){
-				mc.getSoundHandler().stopSounds();
-			}else{
-				EntityPlayer player = mc.thePlayer;
-				
-				ISound record = null;
-				
-				ResourceLocation soundName = message.sound.getSoundEvent().getSoundName();
-				SoundCategory category = SoundCategory.MUSIC;
-				boolean repeat = message.repeat;
-				int delay = message.delay;
-				AttenuationType attenuation = message.constant ? AttenuationType.NONE : AttenuationType.LINEAR;
-				
-				if(message.constant) {
-					ConstantSound c = new ConstantSound(soundName);
-					record = c;
-					
-					if(repeat)
-						c.setRepeating(delay);
-					else
-						c.setNonRepeating();
-					
-					c.setVolume(1);
-					c.setPitch(1);
-				} else {
-					record = new PositionedSoundRecord(
-							soundName, category,
-							1F, 1F,
-							repeat, delay, attenuation,
-							(float)player.posX, (float)player.posY, (float)player.posZ
-					);
-				}
-				
-				
-				mc.getSoundHandler().playSound(record);
-			}
+			SoundsPacketHandler.handle(message);
 			return null;
 		}
 	}

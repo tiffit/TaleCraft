@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import talecraft.blocks.world.WorkbenchBlock;
-import talecraft.network.packets.StringNBTCommandPacket;
+import talecraft.network.packets.StringNBTCommandPacketClient;
 import talecraft.server.ServerHandler;
 import talecraft.util.WorkbenchManager;
 import talecraft.util.WorldFileDataHelper;
@@ -59,7 +59,7 @@ public class TaleCraftEventHandler {
 	public void playerLoggedIn(PlayerLoggedInEvent event) {
 		if(event.player instanceof EntityPlayerMP) {
 			ServerHandler.getServerMirror(null).playerList().playerJoin((EntityPlayerMP) event.player);
-			TaleCraft.network.sendTo(new StringNBTCommandPacket("client.network.join"), (EntityPlayerMP) event.player);
+			TaleCraft.network.sendTo(new StringNBTCommandPacketClient("client.network.join"), (EntityPlayerMP) event.player);
 		}
 		
 	}

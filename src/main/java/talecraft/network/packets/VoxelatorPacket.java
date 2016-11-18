@@ -1,9 +1,8 @@
 package talecraft.network.packets;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.UUID;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
