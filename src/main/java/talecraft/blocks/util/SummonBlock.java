@@ -34,7 +34,7 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 	public void trigger(World world, BlockPos position, EnumTriggerState triggerState) {
 		if (world.isRemote)
 			return;
-
+		if(!triggerState.equals(EnumTriggerState.ON)) return;
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof SummonBlockTileEntity) {
