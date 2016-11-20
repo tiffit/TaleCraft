@@ -101,7 +101,7 @@ public class ClientProxy extends CommonProxy {
 	
 	private NPCShop lastOpened;
 	
-	// TODO: Move this method and its associated variable to the ClientProxy.
+	
 	@SubscribeEvent
 	public void npcTradeOpen(GuiOpenEvent event){
 		if(event.getGui() instanceof GuiMerchant){

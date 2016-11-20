@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import talecraft.TaleCraft;
 import talecraft.server.ServerHandler;
 
 public class StringNBTCommandPacket implements IMessage {
@@ -48,10 +47,7 @@ public class StringNBTCommandPacket implements IMessage {
 
 		@Override
 		public IMessage onMessage(StringNBTCommandPacket message, MessageContext ctx) {
-			if(message.data != null){
-				ServerHandler.handleSNBTCommand(ctx.getServerHandler(), message);
-				TaleCraft.asClient().getNetworkHandler().handleClientCommand(message.command, message.data);
-			}
+			ServerHandler.handleSNBTCommand(ctx.getServerHandler(), message);
 			return null;
 		}
 	}

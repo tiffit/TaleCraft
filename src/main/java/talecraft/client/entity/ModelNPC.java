@@ -9,6 +9,7 @@ import net.minecraft.client.model.TextureOffset;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumHandSide;
+import talecraft.client.entity.npc.models.NPCModelToModelBase;
 import talecraft.entity.NPC.EntityNPC;
 
 public class ModelNPC extends ModelBiped {
@@ -61,7 +62,7 @@ public class ModelNPC extends ModelBiped {
     }
     
     public static ModelBase getModelForEntity(EntityNPC npc){
-    	return npc.getNPCData().getModel().getModel();
+    	return NPCModelToModelBase.getModel(npc.getNPCData().getModel());
     }
 
 }

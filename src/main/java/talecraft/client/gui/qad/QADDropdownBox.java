@@ -3,6 +3,7 @@ package talecraft.client.gui.qad;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import talecraft.client.gui.vcui.VCUIRenderer;
 
@@ -24,7 +25,9 @@ public class QADDropdownBox extends QADRectangularComponent {
 	private int dropbox_x = 0;
 	private int dropbox_y = 20;
 	
-	private int dropbox_rowcount = 15;
+	private int dropbox_scroll = 0;
+	
+	private int dropbox_rowcount = 7;
 	private int dropbox_rowheight = 20;
 	private int dropbox_highlight = -1;
 	private ListModel dropbox_model = null;
@@ -53,6 +56,18 @@ public class QADDropdownBox extends QADRectangularComponent {
 				this.fieldbox_text = itm.getText();
 				this.dropbox_selected = itm;
 			}
+		}
+	}
+	
+	@Override
+	public void handleMouseInput() {
+		int amount = Mouse.getEventDWheel()/120;
+		if(amount < 0){
+			dropbox_scroll += amount;
+			if(dropbox_scroll < 0) dropbox_scroll = 0;
+		} else if(amount > 0){
+			dropbox_scroll += amount;
+			if(dropbox_scroll > dropbox_model.getFilteredItems().size() - dropbox_rowcount) dropbox_scroll = dropbox_model.getFilteredItems().size() - dropbox_rowcount < 0 ? 0 : dropbox_model.getFilteredItems().size() - dropbox_rowcount;
 		}
 	}
 	
@@ -198,7 +213,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 			
 			List<ListModelItem> items = dropbox_model.getFilteredItems();
 			if(items != null) {
-				int rows = Math.min(items.size(), this.dropbox_rowcount);
+				int rows = Math.min(items.size(), this.dropbox_rowcount + this.dropbox_scroll);
 				boolean hasIcons = dropbox_model.hasIcons();
 				
 				// hover highlight
@@ -210,8 +225,8 @@ public class QADDropdownBox extends QADRectangularComponent {
 				int xOffset = hasIcons?(20+4):4;
 				
 				boolean light = false;
-				for(int i = 0; i < rows; i++) {
-					yOffset = i * dropbox_rowheight;
+				for(int i = dropbox_scroll; i < rows; i++) {
+					yOffset = (i * dropbox_rowheight) - (this.dropbox_scroll*dropbox_rowheight);
 					light = i == hoverlight;
 					
 					ListModelItem item = items.get(i);
@@ -336,7 +351,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 				int hoverlight = mouseToItemIndex(localMouseY+getY());
 				this.dropbox_highlight = hoverlight;
 				
-				if(hoverlight != -1) {
+				if(hoverlight != -1 && hoverlight < items.size()) {
 					ListModelItem item = items.get(hoverlight);
 					fieldbox_text = item.getText();
 					dropbox_selected = item;
@@ -398,7 +413,6 @@ public class QADDropdownBox extends QADRectangularComponent {
 				if(dropbox_model!=null) {
 					dropbox_model.applyFilter(dropbox_filterstr);
 					recalculateDropbox();
-					
 					if(dropbox_model.getFilteredItems().size() > 0) {
 						dropbox_highlight = 0;
 					}
@@ -433,7 +447,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 		mouseY -= dropbox_y;
 		// mouseY -= dropbox_rowheight;
 		
-		return (mouseY) / dropbox_rowheight;
+		return (mouseY/dropbox_rowheight) +  + dropbox_scroll;
 	}
 
 	@Override
@@ -489,7 +503,8 @@ public class QADDropdownBox extends QADRectangularComponent {
 			// empty model!
 			return;
 		}
-		
+
+		this.dropbox_scroll = 0;
 		if(dropbox_filterstr != null && !dropbox_filterstr.trim().isEmpty())
 			dropbox_model.applyFilter(dropbox_filterstr);
 		

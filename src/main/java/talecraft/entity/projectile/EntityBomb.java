@@ -10,10 +10,13 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import talecraft.TaleCraftItems;
 import talecraft.util.BombExplosion;
 
@@ -48,7 +51,7 @@ public class EntityBomb extends EntityThrowable{
 		if(result.typeOfHit == Type.BLOCK){
 			if(worldObj.getBlockState(result.getBlockPos()).isFullBlock()){
 				updateMovementLogic = false;
-				setVelocity(0, 0, 0);
+				setVelocityNew(0, 0, 0);
 			}
 		}
     }
@@ -67,6 +70,23 @@ public class EntityBomb extends EntityThrowable{
 		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY + .3, posZ, 0, 0, 0, null);
 		if(explosion_delay <= 20) worldObj.spawnParticle(EnumParticleTypes.FLAME, posX, posY+.3, posZ, 0, 0, 0, null);
 	}
+	
+	//For some reason setVelocity(x, y, z) is Client-Side only
+    public void setVelocityNew(double x, double y, double z)
+    {
+        this.motionX = x;
+        this.motionY = y;
+        this.motionZ = z;
+
+        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
+        {
+            float f = MathHelper.sqrt_double(x * x + z * z);
+            this.rotationYaw = (float)(MathHelper.atan2(x, z) * (180D / Math.PI));
+            this.rotationPitch = (float)(MathHelper.atan2(y, (double)f) * (180D / Math.PI));
+            this.prevRotationYaw = this.rotationYaw;
+            this.prevRotationPitch = this.rotationPitch;
+        }
+    }
 	
 	private void explode(){
 		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posX, posY, posZ, 0, 0, 0, null);

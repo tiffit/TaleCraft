@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public enum EnumNPCSkin {
 	Blank1(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank1.png"), null),
@@ -23,7 +25,7 @@ public enum EnumNPCSkin {
 	Blank15(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank15.png"),  null),
 	Blank16(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank16.png"),  null),
 	
-	Steve(new ResourceLocation("minecraft:textures/entity/steve.png"),  EnumNPCModel.Player),
+	Steve(new ResourceLocation("minecraft:textures/entity/steve.png"), EnumNPCModel.Player),
 	Alex(new ResourceLocation("minecraft:textures/entity/alex.png"),  EnumNPCModel.Player),
 	Green_Steve(new ResourceLocation("talecraft:textures/entity/NPC/player/greensteve.png"),  EnumNPCModel.Player),
 	Red_Steve(new ResourceLocation("talecraft:textures/entity/NPC/player/redsteve.png"),  EnumNPCModel.Player),
@@ -100,4 +102,6 @@ public enum EnumNPCSkin {
 		}
 		return skins.toArray(new EnumNPCSkin[0]);
 	}
+	
+
 }

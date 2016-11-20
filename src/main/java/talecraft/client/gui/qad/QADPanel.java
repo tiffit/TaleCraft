@@ -1,5 +1,7 @@
 package talecraft.client.gui.qad;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -73,6 +75,14 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	public boolean canResize() {
 		return true;
 	}
+	
+	@Override
+	public void handleMouseInput(){
+		super.handleMouseInput();
+		for (QADComponent comp : components) {
+			comp.handleMouseInput();
+		}
+	}
 
 	@Override
 	public void setWidth(int w) {
@@ -109,7 +119,7 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 	public void draw(int localMouseX, int localMouseY, float partialTicks, VCUIRenderer renderer) {
 		if(!visible)
 			return;
-
+		
 		if(renderer.getOffsetY()+y > renderer.getHeight()) {
 			return;
 		}
@@ -141,7 +151,6 @@ public class QADPanel extends QADRectangularComponent implements QADComponentCon
 		}
 
 		// renderer.drawRectangle(0, 0, 64, 64, backgroundColor);
-
 		if(!components.isEmpty()) {
 			renderer.offset(x, y);
 			for(QADComponent component : components) {

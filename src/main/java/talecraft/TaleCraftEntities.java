@@ -14,7 +14,6 @@ public class TaleCraftEntities {
 
 		int tc_point_id = "tc_point".hashCode();
 		EntityRegistry.registerModEntity(EntityPoint.class, "tc_point", tc_point_id, "talecraft", 256, 20, false);
-		
 		EntityRegistry.registerModEntity(EntityBomb.class, "tc_bomb", 0, "talecraft", 128, 1, true);
 		EntityRegistry.registerModEntity(EntityNPC.class, "tc_NPC", 1, "talecraft", 128, 1, true);
 		EntityRegistry.registerModEntity(EntityBullet.class, "tc_bullet", 2, "talecraft", 128, 1, true);

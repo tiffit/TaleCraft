@@ -2,7 +2,6 @@ package talecraft.blocks.util;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -29,16 +28,10 @@ public class CollisionTriggerBlock extends TCBlockContainer {
 
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if(entityIn instanceof EntityPlayerSP) {
-			return;
-		}
-
 		if(entityIn instanceof EntityPlayerMP) {
 			EntityPlayerMP p = (EntityPlayerMP) entityIn;
-			if(p.capabilities.isCreativeMode)
-				return;
-		}
-
+			if(p.capabilities.isCreativeMode)return;
+		}else return;
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 
 		if(tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
