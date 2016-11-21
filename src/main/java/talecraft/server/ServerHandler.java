@@ -1,6 +1,8 @@
 package talecraft.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.entity.Entity;
@@ -16,6 +18,10 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import talecraft.TaleCraft;
 import talecraft.blocks.TCIBlockCommandReceiver;
+import talecraft.invoke.EnumTriggerState;
+import talecraft.invoke.IInvoke;
+import talecraft.invoke.IInvokeSource;
+import talecraft.invoke.Invoke;
 import talecraft.network.packets.PlayerNBTDataMergePacket;
 import talecraft.network.packets.StringNBTCommandPacket;
 import talecraft.util.PlayerHelper;
@@ -115,9 +121,21 @@ public class ServerHandler {
 			TileEntity entity = world.getTileEntity(position);
 
 			if(entity != null) {
-				TaleCraft.logger.info("(datamerge) " + position + " -> " + message.data);
-				mergeTileEntityData(entity, message.data);
-				return;
+				if(message.data.hasKey("command") && message.data.getString("command").equals("trigger")){
+					if(entity instanceof IInvokeSource){
+						IInvokeSource iis = (IInvokeSource) entity;
+						List<IInvoke> invokes = new ArrayList<IInvoke>();
+						iis.getInvokes(invokes);
+						for(IInvoke in : invokes){
+							Invoke.invoke(in, iis, null, EnumTriggerState.ON);
+						}
+					}
+					return;
+				}else{
+					TaleCraft.logger.info("(datamerge) " + position + " -> " + message.data);
+					mergeTileEntityData(entity, message.data);
+					return;
+				}
 			} else {
 				player.addChatMessage(new TextComponentString("Error: Failed to merge block data: TileEntity does not exist."));
 				return;
