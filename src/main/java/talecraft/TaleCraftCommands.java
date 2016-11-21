@@ -16,6 +16,7 @@ import talecraft.commands.FadeCommand;
 import talecraft.commands.FileCommand;
 import talecraft.commands.HighlightCommand;
 import talecraft.commands.MountCommand;
+import talecraft.commands.PlayerDataCommand;
 import talecraft.commands.RegionTriggerCommand;
 import talecraft.commands.RenameCommand;
 import talecraft.commands.ScriptCommand;
@@ -51,6 +52,7 @@ public class TaleCraftCommands {
 		commands.add(new FileCommand());
 		commands.add(new FadeCommand());
 		commands.add(new RenameCommand());
+		commands.add(new PlayerDataCommand());
 	}
 
 	public static void register(CommandHandler registry) {
