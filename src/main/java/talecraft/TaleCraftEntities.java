@@ -20,7 +20,6 @@ public class TaleCraftEntities {
 		EntityRegistry.registerModEntity(EntityBombArrow.class, "tc_bombarrow", 3, "talecraft", 128, 1, true);
 		EntityRegistry.registerModEntity(EntityBoomerang.class, "tc_boomerang", 4, "talecraft", 128, 1, true);
 		EntityRegistry.registerModEntity(EntityKnife.class, "tc_knife", 5, "talecraft", 128, 1, true);
-		EntityRegistry.registerEgg(EntityNPC.class, 0x663300, 0x996633);
 		
 	}
 }
