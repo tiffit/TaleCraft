@@ -206,7 +206,7 @@ public class InfoBar {
 			Entity ent = result.entityHit;
 			builder.append(' ');
 			builder.append('[');
-			builder.append(ent.getName());
+			builder.append(TextFormatting.getTextWithoutFormattingCodes(ent.getName()));
 			builder.append(' ');
 			builder.append('(');
 			builder.append((int)ent.lastTickPosX);
