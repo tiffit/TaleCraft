@@ -1,6 +1,29 @@
 {
   "versions": [
     {
+      "version": "v0.2.18",
+      "mc": "1.10.2",
+      "forge": "1.10.2-12.18.0.2007-1.10.0",
+      "libs": "https://raw.githubusercontent.com/MinecraftForge/MinecraftForge/1.10.x/jsons/1.10.2-rel.json",
+      "id": 2347528,
+      "type": "Beta",
+      "assets": "1.10",
+      "reddit": "https://www.reddit.com/r/talecraft/comments/5e2wg6/update_talecraftv0218/",
+      "changelog": [
+        "Changed NPC cloner to the entity cloner and it now works for all entites",
+        "Redone the NPC gui",
+        "Fixed server not working",
+        "Added the \"Activate Item\" keybind. Voxelator, Decorator, and Wand all use this now.",
+        "Added the Block Triggerer. Trigger types can be changed with the activate item keybind",
+        "Door keys no longer get used when in creative",
+        "Dropdown boxes can now be scrolled through using the scroll wheel",
+        "Added tc_playerdata command to be able to edit a player's NBT",
+        "NPC Editor can now spawn NPCs when right-clicking on a block",
+        "Fixed the \"trigger this invoke.\" button not working",
+        "Other minor changes"
+      ]
+    },
+    {
       "version": "v0.2.17",
       "mc": "1.10.2",
       "forge": "1.10.2-12.18.0.2007-1.10.0",
@@ -10,16 +33,11 @@
       "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/4tz5kp/update_talecraftv0216/",
       "changelog": [
-        "Eraser Tool can now selectively erase",
-        "Added replace functionality to the fill tool",
-        "Redid the voxelator",
-        "Added the Decorator Tool",
-        "Modified the music blocks",
-        "Paste Tool no longer places structure-void blocks",
-        "Fixed bugs with the NPC gui",
-        "Added the tc_rename command",
-        "A whole bunch of bug fixes",
-        "Other minor changes"
+        "NPC Trades can now have limited stock",
+        "The name of an NPC will now change color according to its type",
+        "Added workbench",
+        "Added throwable knife",
+        "Added camera block and camera item"
       ]
     },
     {
@@ -32,11 +50,16 @@
       "assets": "1.10",
       "reddit": "https://www.reddit.com/r/talecraft/comments/525idb/update_talecraftv0217/",
       "changelog": [
-        "NPC Trades can now have limited stock",
-        "The name of an NPC will now change color according to its type",
-        "Added workbench",
-        "Added throwable knife",
-        "Added camera block and camera item"
+        "Eraser Tool can now selectively erase",
+        "Added replace functionality to the fill tool",
+        "Redid the voxelator",
+        "Added the Decorator Tool",
+        "Modified the music blocks",
+        "Paste Tool no longer places structure-void blocks",
+        "Fixed bugs with the NPC gui",
+        "Added the tc_rename command",
+        "A whole bunch of bug fixes",
+        "Other minor changes"
       ]
     },
     {
