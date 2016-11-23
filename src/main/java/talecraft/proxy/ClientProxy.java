@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
@@ -50,6 +51,9 @@ public class ClientProxy extends CommonProxy {
 	private ClientKeyboardHandler clientKeyboardHandler;
 	private ClientRenderer clientRenderer;
 	private ConcurrentLinkedDeque<Runnable> clientTickQeue;
+	
+	//Client settings
+	public GameRules gamerules;
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -92,6 +96,8 @@ public class ClientProxy extends CommonProxy {
 		invokeTracker = new InvokeTracker();
 		
 		ItemMetaWorldRenderer.ITEM_RENDERS.put(TaleCraftItems.paste, new PasteItemRender());
+		
+		gamerules = new GameRules();
 	}
 
 	@SubscribeEvent
@@ -154,9 +160,7 @@ public class ClientProxy extends CommonProxy {
 			while(!clientTickQeue.isEmpty())
 				clientTickQeue.poll().run();
 			
-			// Stop music from playing if a specific tag is set.
-			// This is temporary until something better can be implemented.
-			if(mc.thePlayer != null && mc.thePlayer.getEntityData().getBoolean("no-music")) {
+			if((mc.thePlayer != null && mc.thePlayer.getEntityData().getBoolean("no-music")) || !gamerules.getBoolean("tc_playDefaultMusic")) {
 				mc.getMusicTicker().stopMusic();
 			}
 		}

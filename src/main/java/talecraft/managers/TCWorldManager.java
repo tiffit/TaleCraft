@@ -3,6 +3,7 @@ package talecraft.managers;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -12,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import talecraft.TaleCraft;
+import talecraft.network.packets.GameruleSyncPacket;
 
 public class TCWorldManager {
 	private final World world;
@@ -35,6 +37,8 @@ public class TCWorldManager {
 		TaleCraft.logger.info("Disposing of TCWorldManager -> " + this + " @" + world.getWorldInfo());
 	}
 
+	private NBTTagCompound gamerules = null;
+	
 	public void tickWorld(WorldTickEvent event) {
 		if(!(event.world instanceof WorldServer))
 			return;
@@ -43,11 +47,16 @@ public class TCWorldManager {
 		// TaleCraft.proxy.tick(event);
 
 		GameRules rules = event.world.getGameRules();
-		if(rules.getBoolean("disableWeather")) {
+		//TODO: Fix this
+		if(rules.getBoolean("tc_disableWeather")) {
 			// Clear the weather for 5 seconds.
 			event.world.getWorldInfo().setCleanWeatherTime(20*5);
 		}
-
+		NBTTagCompound current = rules.writeToNBT();
+		if(!current.equals(gamerules)){
+			gamerules = current;
+			TaleCraft.network.sendToServer(new GameruleSyncPacket(current));
+		}
 	}
 
 	public void joinWorld(Entity entity) {

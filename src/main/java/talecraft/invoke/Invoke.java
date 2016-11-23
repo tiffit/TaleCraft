@@ -37,7 +37,7 @@ import talecraft.util.WorldHelper.BlockRegionIterator;
 public class Invoke {
 
 	public static final void invoke(IInvoke invoke, IInvokeSource source, Map<String,Object> scopeParams, EnumTriggerState triggerStateOverride) {
-		if(source.getInvokeWorld() != null && source.getInvokeWorld().getGameRules().getBoolean("disableTCInvokeSystem")) {
+		if(source.getInvokeWorld() != null && source.getInvokeWorld().getGameRules().getBoolean("tc_disableInvokeSystem")) {
 			TaleCraft.logger.info("Tried to execute invoke {"+invoke+"}, but the invoke system is disabled!");
 			return;
 		}
@@ -74,7 +74,7 @@ public class Invoke {
 
 			TaleCraft.globalScriptManager.interpret(script, source.toString(), scope);
 
-			if(source.getInvokeWorld().getGameRules().getBoolean("visualEventDebugging")) {
+			if(source.getInvokeWorld().getGameRules().getBoolean("tc_visualEventDebugging")) {
 				// This could possibly create a crapton of lag if many events are fired.
 				NBTTagCompound pktdata = new NBTTagCompound();
 				pktdata.setString("type", "pos-marker");
@@ -94,7 +94,7 @@ public class Invoke {
 			String command = ((CommandInvoke) invoke).getCommand();
 			commandManager.executeCommand(sender, command);
 
-			if(source.getInvokeWorld().getGameRules().getBoolean("visualEventDebugging")) {
+			if(source.getInvokeWorld().getGameRules().getBoolean("tc_visualEventDebugging")) {
 				// This could possibly create a crapton of lag if many events are fired.
 				NBTTagCompound pktdata = new NBTTagCompound();
 				pktdata.setString("type", "pos-marker");
@@ -143,7 +143,7 @@ public class Invoke {
 
 		World world = source.getInvokeWorld();
 
-		if(world.getGameRules().getBoolean("visualEventDebugging")) {
+		if(world.getGameRules().getBoolean("tc_visualEventDebugging")) {
 			// Send a packet to all players that a BlockRegionTrigger just happened.
 			// This could possibly create a crapton of lag if many events are fired.
 			NBTTagCompound pktdata = new NBTTagCompound();

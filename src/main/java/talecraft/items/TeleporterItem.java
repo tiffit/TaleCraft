@@ -24,7 +24,7 @@ public class TeleporterItem extends TCItem {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
 		
-		if(world.getGameRules().hasRule("disableTCTeleporter") && world.getGameRules().getBoolean("disableTCTeleporter")) {
+		if(world.getGameRules().hasRule("tc_disableTeleporter") && world.getGameRules().getBoolean("tc_disableTeleporter")) {
 			return EnumActionResult.PASS;
 		}
 		
@@ -75,7 +75,7 @@ public class TeleporterItem extends TCItem {
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		
-		if(world.getGameRules().hasRule("disableTCTeleporter") && world.getGameRules().getBoolean("disableTCTeleporter")) {
+		if(world.getGameRules().hasRule("tc_disableTeleporter") && world.getGameRules().getBoolean("tc_disableTeleporter")) {
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		}
 
@@ -151,7 +151,7 @@ public class TeleporterItem extends TCItem {
 	@Override
 	// Warning: Forge Method
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-		if(player.worldObj.getGameRules().getBoolean("disableTCTeleporter")) {
+		if(player.worldObj.getGameRules().getBoolean("tc_disableTeleporter")) {
 			return false;
 		}
 

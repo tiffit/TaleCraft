@@ -142,15 +142,14 @@ public class TaleCraft {
 	}
 
 	@Mod.EventHandler
-	public void serverStarted(FMLServerStartedEvent event)
-	{
-		// logger.info("Server started: " + event + " [TCINFO]");
+	public void serverStarted(FMLServerStartedEvent event){
+		 logger.info("Server started: " + event + " [TCINFO]");
+		 TaleCraftGameRules.registerGameRules(FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(0).getGameRules());
 	}
 
 	@Mod.EventHandler
-	public void serverStopped(FMLServerStoppedEvent event)
-	{
-		// logger.info("Server stopped: " + event + " [TCINFO]");
+	public void serverStopped(FMLServerStoppedEvent event){
+		 //logger.info("Server stopped: " + event + " [TCINFO]");
 	}
 
 	@SideOnly(Side.CLIENT)
