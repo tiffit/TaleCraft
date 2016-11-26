@@ -18,12 +18,14 @@ public class NPCEditorGui extends QADGuiScreen {
 	private PanelDrops dropspan;
 	private PanelTrades tradespan;
 	private PanelEquips equipspan;
+	private PanelQuests questspan;
 	
 	private QADButton GENERAL_BUTTON;
 	private QADButton AI_BUTTON;
 	private QADButton TRADES_BUTTON;
 	private QADButton DROPS_BUTTON;
 	private QADButton EQUIPS_BUTTON;
+	private QADButton QUESTS_BUTTON;
 	
 	private UUID uuid;
 	
@@ -31,7 +33,6 @@ public class NPCEditorGui extends QADGuiScreen {
 		this.data = data;
 		this.uuid = uuid;
 	}
-	//General, AI, Trades, Drops, Equips, Save
 	
 	@Override
 	public void buildGui() {
@@ -42,29 +43,42 @@ public class NPCEditorGui extends QADGuiScreen {
 		master.setBounds(0, 17, getWidth(), getHeight() - 40);
 		master.setBackgroundColor(2);
 		addComponent(master);
-		final int width_div = getWidth()/6;
+		final int width_div = getWidth()/5;
 		final int forward = 8;
 		GENERAL_BUTTON = new QADButton(forward, 5, width_div, "General");
 		genpan = new PanelGeneral(data, getWidth(), getHeight());
 		TabRunnable genrunnable = new TabRunnable(GENERAL_BUTTON, genpan);
 		GENERAL_BUTTON.setAction(genrunnable);
 		tabs.addComponent(GENERAL_BUTTON);
-		AI_BUTTON = new QADButton(forward + width_div + (width_div/5), 5, width_div, "AI");
+		AI_BUTTON = new QADButton(forward + width_div + (width_div/4), 5, width_div, "AI");
 		aipan = new PanelAI(data, getWidth(), getHeight());
 		AI_BUTTON.setAction(new TabRunnable(AI_BUTTON, aipan));
 		tabs.addComponent(AI_BUTTON);
-		TRADES_BUTTON = new QADButton(forward + width_div*2 + (width_div/5)*2, 5, width_div, "Trades");
+		TRADES_BUTTON = new QADButton(forward + width_div*2 + (width_div/4)*2, 5, width_div, "Trades");
 		tradespan = new PanelTrades(data, getWidth(), getHeight());
 		TRADES_BUTTON.setAction(new TabRunnable(TRADES_BUTTON, tradespan));
 		tabs.addComponent(TRADES_BUTTON);
-		DROPS_BUTTON = new QADButton(forward + width_div*3 + (width_div/5)*3, 5, width_div, "Drops");
+		DROPS_BUTTON = new QADButton(forward + width_div*3 + (width_div/4)*3, 5, width_div, "Drops");
 		dropspan = new PanelDrops(data, getWidth(), getHeight());
 		DROPS_BUTTON.setAction(new TabRunnable(DROPS_BUTTON, dropspan));
 		tabs.addComponent(DROPS_BUTTON);
-		EQUIPS_BUTTON = new QADButton(forward + width_div*4 + (width_div/5)*4, 5, width_div, "Equipment");
+		EQUIPS_BUTTON = new QADButton(forward, 18, width_div, "Equipment");
 		equipspan = new PanelEquips(data, getWidth(), getHeight());
 		EQUIPS_BUTTON.setAction(new TabRunnable(EQUIPS_BUTTON, equipspan));
 		tabs.addComponent(EQUIPS_BUTTON);
+		QUESTS_BUTTON = new QADButton(forward + width_div + (width_div/4), 18, width_div, "Quests");
+		questspan = new PanelQuests(data, getWidth(), getHeight());
+		QUESTS_BUTTON.setAction(new TabRunnable(QUESTS_BUTTON, questspan));
+		tabs.addComponent(QUESTS_BUTTON);
+		
+		int height = 10;
+		GENERAL_BUTTON.setHeight(height);
+		AI_BUTTON.setHeight(height);
+		TRADES_BUTTON.setHeight(height);
+		DROPS_BUTTON.setHeight(height);
+		EQUIPS_BUTTON.setHeight(height);
+		QUESTS_BUTTON.setHeight(height);
+		
 		addComponent(tabs);
 		genrunnable.run();
 		
@@ -77,6 +91,7 @@ public class NPCEditorGui extends QADGuiScreen {
 				dropspan.save(data);
 				tradespan.save(data);
 				equipspan.save(data);
+				questspan.save(data);
 				TaleCraft.network.sendToServer(new NPCDataPacket(uuid, data.toNBT()));
 				
 			}
@@ -101,6 +116,7 @@ public class NPCEditorGui extends QADGuiScreen {
 			TRADES_BUTTON.setEnabled(true);
 			DROPS_BUTTON.setEnabled(true);
 			EQUIPS_BUTTON.setEnabled(true);
+			QUESTS_BUTTON.setEnabled(true);
 			button.setEnabled(false);
 			master.removeAllComponents();
 			master.addComponent(panel);

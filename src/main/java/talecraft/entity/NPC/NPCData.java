@@ -1,13 +1,17 @@
 package talecraft.entity.NPC;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import talecraft.entity.NPC.EntityNPC.NPCType;
 import talecraft.entity.NPC.NPCInventoryData.NPCDrop;
+import talecraft.entity.NPC.dialogue.NPCDialogue;
+import talecraft.entity.NPC.quest.NPCQuest;
 
 /** The class that stores all of the data for each NPC*/
 public class NPCData {
@@ -37,6 +41,7 @@ public class NPCData {
 	private String death_script;
 
 	private NPCShop shop;
+	private NPCQuest quest;
 	
 	/**The data for the NPC's inventory*/
 	private NPCInventoryData invdata;
@@ -244,6 +249,14 @@ public class NPCData {
 	
 	public void setDrops(List<NPCDrop> drops){
 		invdata.setDrops(drops);
+	}
+	
+	public boolean hasQuest(){
+		return quest != null;
+	}
+	
+	public void setQuest(NPCQuest quest){
+		this.quest = quest;
 	}
 	
 	public NBTTagCompound toNBT(){

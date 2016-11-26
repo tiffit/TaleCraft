@@ -8,14 +8,17 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.relauncher.Side;
+import talecraft.entity.NPC.dialogue.NPCDialogue.NPCDialogueOption;
 import talecraft.network.packets.DecoratorGuiPacket;
 import talecraft.network.packets.DecoratorPacket;
+import talecraft.network.packets.DialogueOpenPacket;
 import talecraft.network.packets.DoorPacket;
 import talecraft.network.packets.FadePacket;
 import talecraft.network.packets.ForceF1Packet;
 import talecraft.network.packets.GunReloadPacket;
 import talecraft.network.packets.NPCDataPacket;
 import talecraft.network.packets.NPCDataUpdatePacket;
+import talecraft.network.packets.NPCDialogueOptionPacket;
 import talecraft.network.packets.NPCOpenPacket;
 import talecraft.network.packets.PlayerNBTDataMergePacket;
 import talecraft.network.packets.SoundsPacket;
@@ -50,6 +53,8 @@ public class TaleCraftNetwork {
 		register(DecoratorPacket.Handler.class, DecoratorPacket.class, SERVER);
 		register(DecoratorGuiPacket.Handler.class, DecoratorGuiPacket.class, CLIENT);
 		register(TriggerItemPacket.Handler.class, TriggerItemPacket.class, SERVER);
+		register(DialogueOpenPacket.Handler.class, DialogueOpenPacket.class, CLIENT);
+		register(NPCDialogueOptionPacket.Handler.class, NPCDialogueOptionPacket.class, SERVER);
 	}
 	
 	private static <REQ extends IMessage, REPLY extends IMessage> void register(Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side){
