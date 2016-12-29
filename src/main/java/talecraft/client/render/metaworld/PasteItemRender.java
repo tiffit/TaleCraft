@@ -1,23 +1,48 @@
 package talecraft.client.render.metaworld;
 
+import static talecraft.clipboard.ClipboardTagNames.$REGION_DATA;
+import static talecraft.clipboard.ClipboardTagNames.$REGION_PALLET;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RegionRenderCacheBuilder;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraftforge.client.model.pipeline.LightUtil;
 import talecraft.TaleCraft;
 import talecraft.client.ClientResources;
 import talecraft.client.render.renderers.BoxRenderer;
 import talecraft.clipboard.ClipboardItem;
 import talecraft.clipboard.ClipboardTagNames;
 import talecraft.proxy.ClientProxy;
+import talecraft.util.GObjectTypeHelper;
 import talecraft.util.NBTHelper;
 
 public class PasteItemRender implements IMetadataRender {
@@ -63,14 +88,14 @@ public class PasteItemRender implements IMetadataRender {
 		}
 
 		float color = 0;
-
+		
 		if(blocks != null) {
 			color = -2;
 
 			dimX = blocks.getInteger(ClipboardTagNames.$REGION_WIDTH);
 			dimY = blocks.getInteger(ClipboardTagNames.$REGION_HEIGHT);
 			dimZ = blocks.getInteger(ClipboardTagNames.$REGION_LENGTH);
-
+			
 			plantPos = new Vec3d(
 					Math.floor(plantPos.xCoord),
 					Math.floor(plantPos.yCoord),
@@ -108,9 +133,40 @@ public class PasteItemRender implements IMetadataRender {
 		maxZ += error;
 
 		ClientProxy.mc.renderEngine.bindTexture(ClientResources.textureSelectionBoxFF);
-		// BoxRenderer.renderBox(tessellator, worldrenderer, minX, minY, minZ, maxX, maxY, maxZ, 0, 1, 0, 1);
 		BoxRenderer.renderSelectionBox(tessellator, buffer, minX, minY, minZ, maxX, maxY, maxZ, color);
-
+		if(blocks != null){
+			int regionWidth = blocks.getInteger(ClipboardTagNames.$REGION_WIDTH);
+			int regionHeight = blocks.getInteger(ClipboardTagNames.$REGION_HEIGHT);
+			int regionLength = blocks.getInteger(ClipboardTagNames.$REGION_LENGTH);
+			int[] blockData = blocks.getIntArray($REGION_DATA);
+			NBTTagList pallet = blocks.getTagList($REGION_PALLET, new NBTTagString().getId());
+			IBlockState[] palletRaw = new IBlockState[pallet.tagCount()];
+			for(int i = 0; i < pallet.tagCount(); i++) {
+				String typeString = pallet.getStringTagAt(i);
+				IBlockState state = palletRaw[i] = GObjectTypeHelper.findBlockState(typeString);
+				
+				if(state != null) {
+					// Dont do a thing.
+				} else {
+					System.out.println("Could not locate block type: " + typeString + " -> " + i);
+				}
+			}
+			for(int Yx = 0; Yx < regionHeight; Yx++) {
+				for(int Zx = 0; Zx < regionLength; Zx++) {
+					for(int Xx = 0; Xx < regionWidth; Xx++) {
+						int index = (Yx*regionWidth*regionLength) + (Zx*regionWidth) + (Xx);
+						int type = blockData[index];
+						IBlockState state = palletRaw[type];
+						int blockY = Yx + (int)minY + 1;
+						int blockZ = Zx + (int)minZ;
+						int blockX = Xx + (int)minX;
+						BlockPos pos = new BlockPos(blockX, blockY, blockZ);
+						IBakedModel model = ClientProxy.mc.getBlockRendererDispatcher().getModelForState(state);
+						
+					}
+				}
+			}
+		}
 		if(snap > 1) {
 			final int s = (int) snap;
 			final int r = 1 * s;
@@ -143,8 +199,8 @@ public class PasteItemRender implements IMetadataRender {
 					}
 				}
 			}
-			tessellator.draw();
 		}
 	}
-
+	
+ 
 }

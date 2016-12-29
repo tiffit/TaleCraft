@@ -1,5 +1,7 @@
 package talecraft.blocks.util;
 
+import java.util.UUID;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -43,13 +45,13 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(heldItem != null && heldItem.getItem() == TaleCraftItems.entityclone){
+		if(heldItem != null && heldItem.getItem() == TaleCraftItems.entityclone && !world.isRemote){
 			if(heldItem.hasTagCompound()){
 				if(heldItem.getTagCompound().hasKey("entity_data")){
 					SummonBlockTileEntity te = (SummonBlockTileEntity) world.getTileEntity(pos);
 					NBTTagCompound entitydat = heldItem.getTagCompound().getCompoundTag("entity_data");
+					entitydat.setUniqueId("UUID", UUID.randomUUID());
 					SummonOption[] oldArray = te.getSummonOptions();
 					SummonOption[] newArray = new SummonOption[oldArray.length+1];
 					System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
@@ -72,6 +74,11 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 		if(!world.isRemote){
 			return true;
 		}
+		return openGui(world, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private boolean openGui(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
 		if(!TaleCraft.proxy.isBuildMode())
 			return false;
 		if(playerIn.isSneaking())
@@ -80,7 +87,6 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 			Minecraft mc = Minecraft.getMinecraft();
 			mc.displayGuiScreen(new GuiSummonBlock((SummonBlockTileEntity)world.getTileEntity(pos)));
 		}
-
 		return true;
 	}
 

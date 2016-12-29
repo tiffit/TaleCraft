@@ -83,14 +83,13 @@ public class EmitterBlockTileEntity extends TCTileEntity{
 		}
 
 		if(command.equals("set_vars")) {
-			System.out.println(data);
 			data.removeTag("command");
 
 			if(emitterData == null)
 				emitterData = new NBTTagCompound();
 
 			emitterData.merge(data);
-
+			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0);
 			return;
 		}
 

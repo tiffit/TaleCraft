@@ -14,12 +14,14 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteractSpecific;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class EntityCloneItem extends TCItem {
 	
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer attacker, Entity target) {
-		if(!attacker.worldObj.isRemote){
+		if(!attacker.getEntityWorld().isRemote){
 			if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 			NBTTagCompound tag = stack.getTagCompound();
 			tag.setTag("entity_data", new NBTTagCompound());

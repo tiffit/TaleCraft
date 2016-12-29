@@ -3,6 +3,7 @@ package talecraft.tileentity;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -12,6 +13,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.Constants.NBT;
 import talecraft.TaleCraft;
 import talecraft.blocks.TCTileEntity;
@@ -155,6 +157,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 
 		// Create the entity, merge the existing NBT into it, then spawn the entity.
 		NBTTagCompound entityNBT = option.getData();
+		entityNBT.setUniqueId("UUID", UUID.randomUUID());
 		Entity entity = EntityList.createEntityFromNBT(entityNBT, worldObj);
 
 		if(entity == null) {
@@ -163,7 +166,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 		}
 
 		entity.setLocationAndAngles(posX, posY, posZ, entity.rotationYaw, entity.rotationPitch);
-		worldObj.spawnEntityInWorld(entity);
+		((WorldServer)worldObj).spawnEntityInWorld(entity);
 		
 		// This takes care of 'riding' entities.
 		{

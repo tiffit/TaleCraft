@@ -44,7 +44,6 @@ public class ServerProxy extends CommonProxy
 	@Override
 	public void tickWorld(WorldTickEvent event) {
 		super.tickWorld(event);
-		System.out.println("tick_ world");
 	}
 
 	@Override
