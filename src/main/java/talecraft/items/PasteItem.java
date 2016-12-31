@@ -39,7 +39,7 @@ public class PasteItem extends TCItem {
 				plantPos.xCoord*lenMul,
 				plantPos.yCoord*lenMul,
 				plantPos.zCoord*lenMul
-				).add(player.getPositionEyes(1));
+				).add(new Vec3d(player.posX, player.posY + (double)player.getEyeHeight(), player.posZ));
 
 		// PLANT!
 		String keyString = "player."+player.getGameProfile().getId().toString();

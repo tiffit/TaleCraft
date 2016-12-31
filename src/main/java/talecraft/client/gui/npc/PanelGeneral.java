@@ -22,9 +22,6 @@ public class PanelGeneral extends NPCPanel{
 	private QADTickBox NAME_SHOWN;
 	private QADTextField MSG_FIELD;
 	private QADTickBox INCLUDE_NAME;
-	private QADNumberTextField YAW_FIELD;
-	private QADNumberTextField PITCH_FIELD;
-	private QADTickBox LOOK_AT_PLAYER;
 	private EnumNPCModel MODEL;
 	private QADDropdownBox SKIN_SELECTOR;
 	private EnumNPCSkin SKIN;
@@ -32,9 +29,7 @@ public class PanelGeneral extends NPCPanel{
 	private QADTickBox INVERLNERABLE;
 	private QADTickBox MOVABLE;
 	private QADTickBox BOSS;
-	private QADTextField SCRIPT_INTERACT;
-	private QADTextField SCRIPT_UPDATE;
-	private QADTextField SCRIPT_DEATH;
+
 	
 	public PanelGeneral(NPCData data, int width, int height){
 		super(data, width, height);
@@ -50,26 +45,13 @@ public class PanelGeneral extends NPCPanel{
 		
 		addComponent(new QADLabel("Message", 82, 0));
 		MSG_FIELD = new QADTextField(80, 10, width - 105 - 45, 20);
-		MSG_FIELD.setText(data.getMessage());
 		MSG_FIELD.setMaxStringLength(1024);
+		MSG_FIELD.setText(data.getMessage());
 		addComponent(MSG_FIELD);
 		INCLUDE_NAME = new QADTickBox(105 + width - 105 - 40, 10, 20, 20);
 		INCLUDE_NAME.getModel().setState(data.shouldIncludeNameInMessage());
 		INCLUDE_NAME.setTooltip("Should the name be included in the message?");
 		addComponent(INCLUDE_NAME);
-		
-		addComponent(new QADLabel("Yaw", 4, 35));
-		YAW_FIELD = new QADNumberTextField(2, 45, 50, 20, data.getYaw(), NumberType.DECIMAL);
-		YAW_FIELD.setRange(0D, 360D);
-		addComponent(YAW_FIELD);
-		addComponent(new QADLabel("Pitch", 57, 35));
-		PITCH_FIELD = new QADNumberTextField(55, 45, 50, 20, data.getYaw(), NumberType.DECIMAL);
-		PITCH_FIELD.setRange(-90D, 90D);
-		addComponent(PITCH_FIELD);
-		LOOK_AT_PLAYER = new QADTickBox(110, 45, 20, 20);
-		LOOK_AT_PLAYER.getModel().setState(data.doEyesFollow());
-		LOOK_AT_PLAYER.setTooltip("Should the NPC look at the player?");
-		addComponent(LOOK_AT_PLAYER);
 		
 		addComponent(new QADLabel("Model", 152, 35));
 		QADDropdownBox model_selector = new QADDropdownBox(new ModelListModel(), new ModelListModelItem(data.getModel()));
@@ -97,21 +79,6 @@ public class PanelGeneral extends NPCPanel{
 		BOSS.getModel().setState(data.isBoss());
 		BOSS.setTooltip("Is the NPC a boss?");
 		addComponent(BOSS);
-		
-		addComponent(new QADLabel("Interact Script", 4, 105));
-		SCRIPT_INTERACT = new QADTextField(2, 115, width/4, 20);
-		SCRIPT_INTERACT.setText(data.getInteractScript());
-		addComponent(SCRIPT_INTERACT);
-		
-		addComponent(new QADLabel("Update Script", 4 + width/4 + 5, 105));
-		SCRIPT_UPDATE = new QADTextField(2 + width/4 + 5, 115, width/4, 20);
-		SCRIPT_UPDATE.setText(data.getUpdateScript());
-		addComponent(SCRIPT_UPDATE);
-		
-		addComponent(new QADLabel("Death Script", 4 + width/4 + width/4 + 10, 105));
-		SCRIPT_DEATH = new QADTextField(2 + width/4 + width/4 + 10, 115, width/4, 20);
-		SCRIPT_DEATH.setText(data.getDeathScript());
-		addComponent(SCRIPT_DEATH);
 	}
 
 	@Override
@@ -120,18 +87,13 @@ public class PanelGeneral extends NPCPanel{
 		data.setMessage(MSG_FIELD.getText());
 		data.setShowName(NAME_SHOWN.getState());
 		data.setNameInMessage(INCLUDE_NAME.getState());
-		data.setYaw(YAW_FIELD.getValue().floatValue());
-		data.setPitch(PITCH_FIELD.getValue().floatValue());
-		data.setEyesFollow(LOOK_AT_PLAYER.getState());
 		data.setModel(MODEL);
 		data.setSkin(SKIN);
 		data.setHealth(HEALTH_FIELD.getValue().floatValue());
 		data.setInvulnerable(INVERLNERABLE.getState());
 		data.setMovable(MOVABLE.getState());
 		data.setBoss(BOSS.getState());
-		data.setInteractScript(SCRIPT_INTERACT.getText());
-		data.setUpdateScript(SCRIPT_UPDATE.getText());
-		data.setDeathScript(SCRIPT_DEATH.getText());
+
 	}
 	
 	private class ModelListModel implements ListModel{

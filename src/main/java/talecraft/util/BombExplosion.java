@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.BlockStoneBrick.EnumType;
@@ -25,9 +28,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 public class BombExplosion{ //The same thing as a normal explosion, except it doesn't destroy all blocks
     /** whether or not the explosion sets fire to blocks around it */
@@ -147,8 +147,6 @@ public class BombExplosion{ //The same thing as a normal explosion, except it do
         
         for(BlockPos pos : destroyBlocks){
         	worldObj.setBlockToAir(pos);
-//        ParticleBlockDust e;
-//        IBlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CRACKED);
         }
     }
     

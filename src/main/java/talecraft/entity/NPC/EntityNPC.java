@@ -65,10 +65,11 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	
 	public EntityNPC(World world) {
 		super(world);
+		bossInfo.setVisible(false);
 		scriptdata = new NBTTagCompound();
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(1, new EntityAIAttackMelee(this, data.getSpeed(), true));
@@ -124,9 +125,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	}
 	
 	@Override
-	protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
-		//DO NOTHING
-	}
+	protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {}
 
 	@Override
 	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slot) {
@@ -242,7 +241,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	
 	@Override
 	public String getName(){
-		return data.getType().color + data.getName();
+		return data.getNameColor() + data.getName();
 	}
 	
 	@Override
@@ -290,8 +289,10 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 			}
 		}
 		EntityPlayer lookPlayer = lookAtPlayer(5, 2);
-		if(data.doEyesFollow() && lookPlayer != null){
-			this.getLookHelper().setLookPositionWithEntity(lookPlayer, 30.0F, 30.0F);
+		EntityLivingBase attackTarget = getAttackTarget();
+		if((data.doEyesFollow() && lookPlayer != null) || attackTarget != null){
+			if(attackTarget != null)this.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
+			else this.getLookHelper().setLookPositionWithEntity(lookPlayer, 30.0F, 30.0F);
 		}else{
 			this.rotationYaw = data.getYaw();
 			this.setRotationYawHead(data.getYaw());

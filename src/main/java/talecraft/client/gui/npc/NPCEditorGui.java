@@ -18,14 +18,14 @@ public class NPCEditorGui extends QADGuiScreen {
 	private PanelDrops dropspan;
 	private PanelTrades tradespan;
 	private PanelEquips equipspan;
-	private PanelQuests questspan;
+	private PanelScripts scriptspan;
 	
 	private QADButton GENERAL_BUTTON;
 	private QADButton AI_BUTTON;
 	private QADButton TRADES_BUTTON;
 	private QADButton DROPS_BUTTON;
 	private QADButton EQUIPS_BUTTON;
-	private QADButton QUESTS_BUTTON;
+	private QADButton SCRIPTS_BUTTON;
 	
 	private UUID uuid;
 	
@@ -66,18 +66,17 @@ public class NPCEditorGui extends QADGuiScreen {
 		equipspan = new PanelEquips(data, getWidth(), getHeight());
 		EQUIPS_BUTTON.setAction(new TabRunnable(EQUIPS_BUTTON, equipspan));
 		tabs.addComponent(EQUIPS_BUTTON);
-		QUESTS_BUTTON = new QADButton(forward + width_div + (width_div/4), 18, width_div, "Quests");
-		questspan = new PanelQuests(data, getWidth(), getHeight());
-		QUESTS_BUTTON.setAction(new TabRunnable(QUESTS_BUTTON, questspan));
-		tabs.addComponent(QUESTS_BUTTON);
-		
+		SCRIPTS_BUTTON = new QADButton(forward + width_div*2 + (width_div/4)*2, 18, width_div, "Scripts");
+		scriptspan = new PanelScripts(data, getWidth(), getHeight());
+		SCRIPTS_BUTTON.setAction(new TabRunnable(SCRIPTS_BUTTON, scriptspan));
+		tabs.addComponent(SCRIPTS_BUTTON);
 		int height = 10;
 		GENERAL_BUTTON.setHeight(height);
 		AI_BUTTON.setHeight(height);
 		TRADES_BUTTON.setHeight(height);
 		DROPS_BUTTON.setHeight(height);
 		EQUIPS_BUTTON.setHeight(height);
-		QUESTS_BUTTON.setHeight(height);
+		SCRIPTS_BUTTON.setHeight(height);
 		
 		addComponent(tabs);
 		genrunnable.run();
@@ -91,7 +90,7 @@ public class NPCEditorGui extends QADGuiScreen {
 				dropspan.save(data);
 				tradespan.save(data);
 				equipspan.save(data);
-				questspan.save(data);
+				scriptspan.save(data);
 				TaleCraft.network.sendToServer(new NPCDataPacket(uuid, data.toNBT()));
 				
 			}
@@ -116,7 +115,7 @@ public class NPCEditorGui extends QADGuiScreen {
 			TRADES_BUTTON.setEnabled(true);
 			DROPS_BUTTON.setEnabled(true);
 			EQUIPS_BUTTON.setEnabled(true);
-			QUESTS_BUTTON.setEnabled(true);
+			SCRIPTS_BUTTON.setEnabled(true);
 			button.setEnabled(false);
 			master.removeAllComponents();
 			master.addComponent(panel);

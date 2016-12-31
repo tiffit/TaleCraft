@@ -48,7 +48,7 @@ public class ClientKeyboardHandler {
 		ClientRegistry.registerKeyBinding(mapSettingsBinding);
 		ClientRegistry.registerKeyBinding(buildModeBinding);
 		ClientRegistry.registerKeyBinding(visualizationBinding);
-		ClientRegistry.registerKeyBinding(nbt);
+		//ClientRegistry.registerKeyBinding(nbt);
 		ClientRegistry.registerKeyBinding(reload);
 		ClientRegistry.registerKeyBinding(triggerItem);
 	}
@@ -75,8 +75,6 @@ public class ClientKeyboardHandler {
 				TCGunItem gun = (TCGunItem) stack.getItem();
 				int index = gun.getClipInInventory(mc.thePlayer.inventory);
 				if(index != -1){
-					// XXX: Why is clip unused?
-					TCGunClipItem clip = (TCGunClipItem) mc.thePlayer.inventory.getStackInSlot(index).getItem();
 					if(stack.getItemDamage() > 0){
 						mc.theWorld.playSound(mc.thePlayer, mc.thePlayer.getPosition(), gun.reloadSound(), SoundCategory.AMBIENT, 5F, 1F);
 						TaleCraft.network.sendToServer(new GunReloadPacket(mc.thePlayer.getUniqueID()));
@@ -88,22 +86,6 @@ public class ClientKeyboardHandler {
 		if(buildModeBinding.isPressed() && buildModeBinding.isKeyDown() && mc.theWorld != null && mc.thePlayer != null && !mc.isGamePaused()) {
 			TaleCraft.logger.info("Switching GameMode using the buildmode-key.");
 			mc.thePlayer.sendChatMessage("/gamemode " + (proxy.isBuildMode() ? "2" : "1"));
-
-			// these bunch of lines delete all display lists,
-			// thus forcing the renderer to reupload the world to the GPU
-			// (this process only takes several milliseconds)
-			TaleCraft.timedExecutor.executeLater(new Runnable() {
-				@Override public void run() {
-					mc.addScheduledTask(new Runnable(){
-						@Override
-						public void run() {
-							mc.renderGlobal.deleteAllDisplayLists();
-						}
-					});
-				}
-			}, 250);
-		}
-
 		if(
 				mapSettingsBinding.isPressed() &&
 				mapSettingsBinding.isKeyDown() &&
@@ -116,5 +98,5 @@ public class ClientKeyboardHandler {
 		}
 
 	}
-
+	}
 }

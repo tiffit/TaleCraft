@@ -8,6 +8,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.text.TextFormatting;
 import talecraft.entity.NPC.EntityNPC.NPCType;
 import talecraft.entity.NPC.NPCInventoryData.NPCDrop;
 import talecraft.entity.NPC.dialogue.NPCDialogue;
@@ -35,6 +36,7 @@ public class NPCData {
 	private float attackDamage;
 	private double movementspeed;
 	private float health;
+	private TextFormatting nameColor;
 	
 	private String interact_script;
 	private String update_script;
@@ -66,6 +68,7 @@ public class NPCData {
 		attackDamage = 2f;
 		health = 10f;
 		movementspeed = 0.6D;
+		nameColor = NPCType.Passive.color;
 		shop = new NPCShop(npc);
 		invdata = new NPCInventoryData();
 		interact_script = "";
@@ -226,6 +229,14 @@ public class NPCData {
 		type = typ;
 	}
 	
+	public TextFormatting getNameColor(){
+		return nameColor;
+	}
+	
+	public void setNameColor(TextFormatting nameCol){
+		nameColor = nameCol;
+	}
+	
 	public double getSpeed(){
 		return movementspeed;
 	}
@@ -277,10 +288,12 @@ public class NPCData {
 		tag.setDouble("movementspeed", movementspeed);
 		tag.setTag("inventory", invdata.toNBT());
 		tag.setFloat("health", health);
+		tag.setString("namecolor", nameColor.name());
 		tag.setTag("shop", shop.toNBT());
 		tag.setString("interact_script", interact_script);
 		tag.setString("update_script",  update_script);
 		tag.setString("death_script", death_script);
+		tag.setBoolean("movable", movable);
 		return tag;
 	}
 	
@@ -297,6 +310,8 @@ public class NPCData {
 		data.setSkin(EnumNPCSkin.values()[tag.getInteger("skin_id")]);
 		data.setModel(EnumNPCModel.values()[tag.getInteger("model_id")]);
 		data.setType(NPCType.values()[tag.getInteger("type_id")]);
+		if(!tag.hasKey("namecolor")) tag.setString("namecolor", data.type.color.name());
+		data.setNameColor(TextFormatting.valueOf(tag.getString("namecolor")));
 		data.setDamage(tag.getFloat("attackdamage"));
 		data.setSpeed(tag.getDouble("movementspeed"));
 		data.setBoss(tag.getBoolean("boss"));
@@ -307,6 +322,7 @@ public class NPCData {
 		data.setInteractScript(tag.getString("interact_script"));
 		data.setUpdateScript(tag.getString("update_script"));
 		data.setDeathScript(tag.getString("death_script"));
+		data.setMovable(tag.getBoolean("movable"));
 		return data;
 	}
 	
