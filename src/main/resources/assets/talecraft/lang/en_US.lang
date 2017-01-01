@@ -32,6 +32,7 @@ item.npcclone.name=Entity Cloner
 item.camera.name=Camera
 item.decorator.name=Decorator
 item.trigger.name=Block Triggerer
+item.custompainting.name=Custom Painting
 
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key

@@ -9,6 +9,7 @@ import net.minecraftforge.event.world.NoteBlockEvent.Instrument;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import talecraft.items.CameraItem;
 import talecraft.items.CopyItem;
+import talecraft.items.CustomPaintingItem;
 import talecraft.items.CutItem;
 import talecraft.items.DecoratorItem;
 import talecraft.items.EraserItem;
@@ -59,6 +60,7 @@ public class TaleCraftItems {
 	public static CameraItem camera;
 	public static DecoratorItem decorator;
 	public static TriggerItem trigger;
+	public static CustomPaintingItem custompainting;
 	
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
@@ -101,6 +103,7 @@ public class TaleCraftItems {
 		camera = register(new CameraItem(), "camera");
 		decorator = register(new DecoratorItem(), "decorator");
 		trigger = register(new TriggerItem(), "trigger");
+		custompainting = register(new CustomPaintingItem(), "custompainting");
 		
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");

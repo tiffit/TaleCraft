@@ -31,6 +31,7 @@ import talecraft.client.InfoBar;
 import talecraft.client.InvokeTracker;
 import talecraft.client.commands.TaleCraftClientCommands;
 import talecraft.client.gui.npc.GuiNPCMerchant;
+import talecraft.client.render.metaworld.CustomPaintingRender;
 import talecraft.client.render.metaworld.PasteItemRender;
 import talecraft.client.render.renderables.SelectionBoxRenderer;
 import talecraft.client.render.renderers.ItemMetaWorldRenderer;
@@ -96,6 +97,7 @@ public class ClientProxy extends CommonProxy {
 		invokeTracker = new InvokeTracker();
 		
 		ItemMetaWorldRenderer.ITEM_RENDERS.put(TaleCraftItems.paste, new PasteItemRender());
+		ItemMetaWorldRenderer.ITEM_RENDERS.put(TaleCraftItems.custompainting, new CustomPaintingRender());
 		
 		gamerules = new GameRules();
 	}

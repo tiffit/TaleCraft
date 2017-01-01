@@ -103,7 +103,7 @@ public class ClientRenderer {
 		}
 	}
 
-	private final ConcurrentLinkedDeque<ITemporaryRenderable> temporaryRenderers;;
+	private final ConcurrentLinkedDeque<ITemporaryRenderable> temporaryRenderers;
 	private final ConcurrentLinkedDeque<IRenderable> staticRenderers;
 
 	public ClientRenderer(ClientProxy clientProxy) {

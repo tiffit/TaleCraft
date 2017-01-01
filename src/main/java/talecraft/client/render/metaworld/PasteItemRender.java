@@ -3,39 +3,22 @@ package talecraft.client.render.metaworld;
 import static talecraft.clipboard.ClipboardTagNames.$REGION_DATA;
 import static talecraft.clipboard.ClipboardTagNames.$REGION_PALLET;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RegionRenderCacheBuilder;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraftforge.client.model.pipeline.LightUtil;
 import talecraft.TaleCraft;
 import talecraft.client.ClientResources;
 import talecraft.client.render.renderers.BoxRenderer;
