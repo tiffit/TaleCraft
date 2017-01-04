@@ -191,7 +191,6 @@ public class Voxelator {
 			offset.set(pos);
 			offset.__sub(center);
 			if(shape.test(pos, center, offset, fworld)) {
-				System.out.println("shape");
 				if(predicate.test(pos, center, offset, fworld)){
 					action.apply(pos, center, offset, fworld);
 				}

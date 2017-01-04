@@ -38,17 +38,19 @@ import talecraft.client.render.tileentity.GenericTileEntityRenderer;
 import talecraft.client.render.tileentity.ImageHologramBlockTileEntityEXTRenderer;
 import talecraft.client.render.tileentity.StorageBlockTileEntityEXTRenderer;
 import talecraft.client.render.tileentity.SummonBlockTileEntityEXTRenderer;
+import talecraft.entity.EntityMovingBlock;
+import talecraft.entity.EntityMovingBlock.EntityMovingBlockRenderFactory;
 import talecraft.entity.EntityPoint;
 import talecraft.entity.NPC.EntityNPC;
 import talecraft.entity.projectile.EntityBomb;
-import talecraft.entity.projectile.EntityBombArrow;
-import talecraft.entity.projectile.EntityBoomerang;
-import talecraft.entity.projectile.EntityBullet;
-import talecraft.entity.projectile.EntityKnife;
 import talecraft.entity.projectile.EntityBomb.EntityBombRenderFactory;
+import talecraft.entity.projectile.EntityBombArrow;
 import talecraft.entity.projectile.EntityBombArrow.EntityBombArrowRenderFactory;
+import talecraft.entity.projectile.EntityBoomerang;
 import talecraft.entity.projectile.EntityBoomerang.EntityBoomerangFactory;
+import talecraft.entity.projectile.EntityBullet;
 import talecraft.entity.projectile.EntityBullet.EntityBulletRenderFactory;
+import talecraft.entity.projectile.EntityKnife;
 import talecraft.entity.projectile.EntityKnife.EntityKnifeRenderFactory;
 import talecraft.proxy.ClientProxy;
 import talecraft.tileentity.BlockUpdateDetectorTileEntity;
@@ -117,7 +119,7 @@ public class ClientRenderer {
 		staticRenderers = new ConcurrentLinkedDeque<IRenderable>();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void preInit() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, PointEntityRenderer.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new EntityBulletRenderFactory());
@@ -126,6 +128,7 @@ public class ClientRenderer {
 		RenderingRegistry.registerEntityRenderingHandler(EntityBombArrow.class, new EntityBombArrowRenderFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBoomerang.class, new EntityBoomerangFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityKnife.class, new EntityKnifeRenderFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMovingBlock.class, new EntityMovingBlockRenderFactory());
 	}
 	
 	public void init() {

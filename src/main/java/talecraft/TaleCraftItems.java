@@ -16,6 +16,7 @@ import talecraft.items.EraserItem;
 import talecraft.items.FillerItem;
 import talecraft.items.InstaKillItem;
 import talecraft.items.MetaSwapperItem;
+import talecraft.items.MovingBlockCreator;
 import talecraft.items.EntityCloneItem;
 import talecraft.items.NPCEditorItem;
 import talecraft.items.NudgeItem;
@@ -61,6 +62,7 @@ public class TaleCraftItems {
 	public static DecoratorItem decorator;
 	public static TriggerItem trigger;
 	public static CustomPaintingItem custompainting;
+	public static MovingBlockCreator movingblockcreator;
 	
 	public static KeyItem silverKey;
 	public static KeyItem goldKey;
@@ -104,6 +106,7 @@ public class TaleCraftItems {
 		decorator = register(new DecoratorItem(), "decorator");
 		trigger = register(new TriggerItem(), "trigger");
 		custompainting = register(new CustomPaintingItem(), "custompainting");
+		movingblockcreator = register(new MovingBlockCreator(), "movingblockcreator");
 		
 		silverKey = register(new KeyItem(), "silverkey");
 		goldKey = register(new KeyItem(), "goldkey");

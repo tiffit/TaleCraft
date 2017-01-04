@@ -92,6 +92,20 @@ public class QADTextField extends QADRectangularComponent {
 		this.onMouseClicked(2, height/2, 0);
 		this.isFocused = false;
 	}
+	
+	public QADTextField(int xPos, int yPos, int width, int height, String text) {
+		// this.ID = __id__;
+		this.model = new DefaultTextFieldModel(text);
+		this.fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
+		this.xPosition = xPos;
+		this.yPosition = yPos;
+		this.width = width;
+		this.height = height;
+
+		// Tiny ugly bug fix
+		this.onMouseClicked(2, height/2, 0);
+		this.isFocused = false;
+	}
 
 	public QADTextField(String text) {
 		// this.ID = __id__;

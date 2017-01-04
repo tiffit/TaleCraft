@@ -1,4 +1,4 @@
-package talecraft.client.gui.npc;
+package talecraft.client.gui.entity.npc;
 
 import java.util.List;
 import java.util.UUID;

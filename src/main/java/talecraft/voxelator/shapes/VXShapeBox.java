@@ -37,7 +37,6 @@ public class VXShapeBox extends VXShape {
 			int h = shapeData.getInteger("height");
 			int l = shapeData.getInteger("length");
 			boolean hollow = shapeData.getBoolean("hollow");
-			System.out.println(w + ", " + h + ", " + l);
 			return new VXShapeBox(new BlockPos(px, py, pz), w, h, l, hollow);
 		}
 		

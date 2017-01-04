@@ -1,4 +1,4 @@
-package talecraft.client.gui.npc;
+package talecraft.client.gui.entity.npc;
 
 import talecraft.client.gui.qad.QADPanel;
 import talecraft.entity.NPC.NPCData;

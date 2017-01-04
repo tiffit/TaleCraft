@@ -1,4 +1,4 @@
-package talecraft.client.gui.npc;
+package talecraft.client.gui.entity.npc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,22 +19,20 @@ import talecraft.client.gui.qad.QADLabel;
 import talecraft.client.gui.qad.QADNumberTextField;
 import talecraft.client.gui.qad.QADNumberTextField.NumberType;
 import talecraft.client.gui.qad.QADPanel;
-import talecraft.client.gui.qad.QADSlider;
-import talecraft.client.gui.qad.QADSlider.SliderModel;
 import talecraft.client.gui.qad.QADTextField;
 import talecraft.client.gui.qad.QADTextField.TextChangeListener;
 import talecraft.client.gui.vcui.VCUIRenderer;
 import talecraft.entity.NPC.NPCData;
-import talecraft.entity.NPC.NPCInventoryData.NPCDrop;
+import talecraft.entity.NPC.NPCShop.NPCTrade;
 
-public class PanelDrops extends NPCPanel{
+public class PanelTrades extends NPCPanel{
 	
-	private List<NPCDrop> drops;
+	private List<NPCTrade> trades;
 	private int index = 0;
 	
-	public PanelDrops(NPCData data, int width, int height){
+	public PanelTrades(NPCData data, int width, int height){
 		super(data, width, height);
-		drops = new ArrayList<NPCDrop>(data.getDrops());
+		trades = new ArrayList<NPCTrade>(data.getShop().getTrades());
 		addComponent(getPanel());
 	}
 	
@@ -42,17 +40,18 @@ public class PanelDrops extends NPCPanel{
 		QADPanel panel = new QADPanel();
 		panel.setBackgroundColor(1);
 		panel.setBounds(0, 0, width, height);
-		QADButton addtrade = new QADButton("Add Drop");
+		
+		QADButton addtrade = new QADButton("Add Trade");
 		addtrade.setBounds(width/4 + 1, 5, width/2, 20);
 		addtrade.setAction(new Runnable() {
 			@Override
 			public void run() {
-				drops.add(new NPCDrop(new ItemStack(Items.ROTTEN_FLESH), 1.0F));
+				trades.add(new NPCTrade(new ItemStack(Items.DIAMOND), new ItemStack(Items.APPLE)));
 				resetPanel();
 			}
 		});
 		panel.addComponent(addtrade);
-		QADButton moveDown = new QADButton("<- Prev Drop");
+		QADButton moveDown = new QADButton("<- Prev Trade");
 		moveDown.setBounds(1, 5, width/4, 20);
 		moveDown.setAction(new Runnable() {
 			@Override
@@ -62,7 +61,7 @@ public class PanelDrops extends NPCPanel{
 		});
 		panel.addComponent(moveDown);
 		if(index <= 0) moveDown.setEnabled(false);
-		QADButton moveUp = new QADButton("Next Drop ->");
+		QADButton moveUp = new QADButton("Next Trade ->");
 		moveUp.setBounds(width - width/4, 5, width/4 - 1, 20);
 		moveUp.setAction(new Runnable() {
 			@Override
@@ -70,34 +69,45 @@ public class PanelDrops extends NPCPanel{
 				moveIndex(true);
 			}
 		});
-		if(index + 1 >= drops.size()) moveUp.setEnabled(false);
+		if(index + 1 >= trades.size()) moveUp.setEnabled(false);
 		panel.addComponent(moveUp);
 		
-		
-		if(drops.size() > 0){
-			panel.addComponent(new QADLabel("Drop #" + (index + 1) + "/" + drops.size(), 4, 30));
+		if(trades.size() > 0){
+			panel.addComponent(new QADLabel("Trade #" + (index + 1) + "/" + trades.size(), 4, 30));
 			
-			QADDropdownBox itemSelect = new QADDropdownBox(new ListItemListModel(), new ItemItem(drops.get(index).stack));
-			panel.addComponent(new QADLabel("Item", 4, 50));
-			itemSelect.setBounds(4, 60, 200, 20);
-			panel.addComponent(itemSelect);
-			
-			QADSlider chanceSlider = new QADSlider(new ChanceSliderModel());
-			chanceSlider.setBounds(4, 90, 200, 20);
-			panel.addComponent(chanceSlider);
+			QADDropdownBox itemSelectBuying = new QADDropdownBox(new ListItemListModel(trades.get(index).getBuying()), new ItemItem(trades.get(index).getBuying()));
+			panel.addComponent(new QADLabel("Item (Buying)", 4, 50));
+			itemSelectBuying.setBounds(4, 60, 200, 20);
+			panel.addComponent(itemSelectBuying);
 			
 			panel.addComponent(new QADLabel("Amount", 207, 50));
-			QADNumberTextField sizeField = new QADNumberTextField(207, 60, 30, 20, drops.get(index).stack.stackSize, NumberType.INTEGER);
-			sizeField.textChangedListener = new SizeFieldChangeListener();
-			sizeField.setRange(0, drops.get(index).stack.getMaxStackSize());
-			panel.addComponent(sizeField);
+			QADNumberTextField sizeFieldBuying = new QADNumberTextField(207, 60, 30, 20, trades.get(index).getBuying().stackSize, NumberType.INTEGER);
+			sizeFieldBuying.textChangedListener = new SizeFieldChangeListener(trades.get(index).getBuying());
+			sizeFieldBuying.setRange(0, trades.get(index).getBuying().getMaxStackSize());
+			panel.addComponent(sizeFieldBuying);
 			
-			if(!drops.get(index).stack.hasTagCompound())drops.get(index).stack.setTagCompound(new NBTTagCompound());
+			if(!trades.get(index).getBuying().hasTagCompound())trades.get(index).getBuying().setTagCompound(new NBTTagCompound());
 			panel.addComponent(new QADLabel("NBT", 4, 120));
-			QADTextField nbtField = new QADTextField(drops.get(index).stack.getTagCompound().toString());
-			nbtField.textChangedListener = new NBTFieldChangeListener();
-			nbtField.setBounds(4, 130, 200, 20);
-			panel.addComponent(nbtField);
+			QADTextField nbtFieldBuying = new QADTextField(trades.get(index).getBuying().getTagCompound().toString());
+			nbtFieldBuying.textChangedListener = new NBTFieldChangeListener(trades.get(index).getBuying());
+			nbtFieldBuying.setBounds(4, 130, 200, 20);
+			panel.addComponent(nbtFieldBuying);
+			
+			QADDropdownBox itemSelectSelling = new QADDropdownBox(new ListItemListModel(trades.get(index).getSelling()), new ItemItem(trades.get(index).getSelling()));
+			panel.addComponent(new QADLabel("Item (Selling)", 4, this.height/2));
+			itemSelectSelling.setBounds(4, this.height/2 + 10, 200, 20);
+			panel.addComponent(itemSelectSelling);
+			
+			panel.addComponent(new QADLabel("Amount", 207, this.height/2));
+			QADNumberTextField sizeFieldSelling = new QADNumberTextField(207, this.height/2 + 10, 30, 20, trades.get(index).getSelling().stackSize, NumberType.INTEGER);
+			sizeFieldSelling.textChangedListener = new SizeFieldChangeListener(trades.get(index).getSelling());
+			sizeFieldSelling.setRange(0, trades.get(index).getSelling().getMaxStackSize());
+			panel.addComponent(sizeFieldSelling);
+			
+			QADTextField nbtFieldSelling = new QADTextField(trades.get(index).getBuying().getTagCompound().toString());
+			nbtFieldSelling.textChangedListener = new NBTFieldChangeListener(trades.get(index).getSelling());
+			nbtFieldSelling.setBounds(4, this.height/2 + 70, 200, 20);
+			panel.addComponent(nbtFieldSelling);
 		}
 		
 		
@@ -106,10 +116,16 @@ public class PanelDrops extends NPCPanel{
 	
 	private class NBTFieldChangeListener implements TextChangeListener{
 
+		private ItemStack stack;
+		
+		public NBTFieldChangeListener(ItemStack stack) {
+			this.stack = stack;
+		}
+		
 		@Override
 		public void call(QADTextField field, String text) {
 			try{
-				drops.get(index).stack.setTagCompound(JsonToNBT.getTagFromJson(text));
+				stack.setTagCompound(JsonToNBT.getTagFromJson(text));
 				field.setTextColor(0xffffff);
 			}catch (NBTException e){
 				field.setTextColor(0xff0000);
@@ -120,6 +136,12 @@ public class PanelDrops extends NPCPanel{
 	
 	private class SizeFieldChangeListener implements TextChangeListener{
 
+		private ItemStack stack;
+		
+		public SizeFieldChangeListener(ItemStack stack) {
+			this.stack = stack;
+		}
+		
 		@Override
 		public void call(QADTextField qadTextField, String text) {
 			int amount = -1;
@@ -128,43 +150,14 @@ public class PanelDrops extends NPCPanel{
 			}catch(NumberFormatException e){
 				return;
 			}
-			drops.get(index).stack.stackSize = amount;
-		}
-		
-	}
-	
-	private class ChanceSliderModel implements SliderModel<Float>{
-
-		@Override
-		public void setValue(Float value) {
-			drops.get(index).chance = value;
-		}
-
-		@Override
-		public Float getValue() {
-			return drops.get(index).chance;
-		}
-
-		@Override
-		public String getValueAsText() {
-			return "Chance: " + ItemStack.DECIMALFORMAT.format(drops.get(index).chance);
-		}
-
-		@Override
-		public void setSliderValue(float sliderValue) {
-			drops.get(index).chance = sliderValue;
-		}
-
-		@Override
-		public float getSliderValue() {
-			return drops.get(index).chance;
+			stack.stackSize = amount;
 		}
 		
 	}
 	
 	private void moveIndex(boolean up){
 		if(up){
-			if(index == drops.size() - 1) return;
+			if(index == trades.size() - 1) return;
 			index++;
 			resetPanel();
 		}else{
@@ -179,17 +172,14 @@ public class PanelDrops extends NPCPanel{
 		removeAllComponents();
 		addComponent(getPanel());
 	}
-
-	@Override
-	public void save(NPCData data) {
-		data.setDrops(drops);
-	}
 	
 	class ListItemListModel implements ListModel {
 		private List<ListModelItem> items;
 		private List<ListModelItem> filtered;
+		private ItemStack stack;
 		
-		public ListItemListModel() {
+		public ListItemListModel(ItemStack is) {
+			stack = is;
 			items = new ArrayList<ListModelItem>();
 			filtered = new ArrayList<ListModelItem>();
 			List<ItemStack> stacks = new ArrayList<ItemStack>();
@@ -251,7 +241,7 @@ public class PanelDrops extends NPCPanel{
 		@Override
 		public void onSelection(ListModelItem selected) {
 			ItemItem ii = (ItemItem) selected;
-			drops.get(index).stack.setItem(ii.stack.getItem());
+			stack.setItem(ii.stack.getItem());
 		}
 	}
 		
@@ -279,5 +269,11 @@ public class PanelDrops extends NPCPanel{
 			return stack.hashCode();
 		}
 			
+	}
+
+	@Override
+	public void save(NPCData data) {
+		data.getShop().getTrades().clear();
+		data.getShop().getTrades().addAll(trades);
 	}
 }

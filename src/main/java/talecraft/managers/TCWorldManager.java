@@ -55,7 +55,7 @@ public class TCWorldManager {
 		NBTTagCompound current = rules.writeToNBT();
 		if(!current.equals(gamerules)){
 			gamerules = current;
-			//TaleCraft.network.sendToServer(new GameruleSyncPacket(current));
+			TaleCraft.network.sendToAll(new GameruleSyncPacket(current));
 		}
 	}
 

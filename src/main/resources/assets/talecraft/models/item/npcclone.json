@@ -2,5 +2,13 @@
     "parent": "item/generated",
     "textures": {
         "layer0": "talecraft:items/npcclone"
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "full": 1
+            },
+            "model": "talecraft:item/npcclone_full"
+        }
+    ]
 }

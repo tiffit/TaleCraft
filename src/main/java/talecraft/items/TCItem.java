@@ -11,6 +11,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -110,6 +111,13 @@ public class TCItem extends Item {
 			return new Vec3d(d0, d1, d2);
 		}
 	}
+	
+    public RayTraceResult rayTrace(double blockReachDistance, EntityPlayer player){
+        Vec3d vec3d = getPositionEyes(1.0F, player);
+        Vec3d vec3d1 = player.getLook(1.0F);
+        Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * blockReachDistance, vec3d1.yCoord * blockReachDistance, vec3d1.zCoord * blockReachDistance);
+        return player.worldObj.rayTraceBlocks(vec3d, vec3d2, false, false, true);
+    }
 	
 	public static final boolean isDoubleCall(ItemStack stack, long currentWorldTime) {
 		NBTTagCompound compound = stack.getTagCompound();

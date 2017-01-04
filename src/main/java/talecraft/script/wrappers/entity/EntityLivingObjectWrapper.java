@@ -24,16 +24,16 @@ public class EntityLivingObjectWrapper extends EntityObjectWrapper {
 		return TaleCraft.globalScriptManager.getOwnPropertyNames(this);
 	}
 
-	public void navigateTo(double x, double y, double z) {
-		entity.getNavigator().tryMoveToXYZ(x, y, z, 0.5D);
+	public boolean navigateTo(double x, double y, double z) {
+		return entity.getNavigator().tryMoveToXYZ(x, y, z, 0.3D);
 	}
 	
-	public void navigateTo(double x, double y, double z, double speed) {
-		entity.getNavigator().tryMoveToXYZ(x, y, z, speed);
+	public boolean navigateTo(double x, double y, double z, double speed) {
+		return entity.getNavigator().tryMoveToXYZ(x, y, z, speed);
 	}
 
-	public void navigateTo(EntityObjectWrapper entity2, double speed) {
-		entity.getNavigator().tryMoveToEntityLiving(entity2.internal(), speed);
+	public boolean navigateTo(EntityObjectWrapper entity2, double speed) {
+		return entity.getNavigator().tryMoveToEntityLiving(entity2.internal(), speed);
 	}
 
 	public void setHealth(float health) {

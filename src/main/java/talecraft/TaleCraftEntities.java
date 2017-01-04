@@ -1,6 +1,7 @@
 package talecraft;
 
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import talecraft.entity.EntityMovingBlock;
 import talecraft.entity.EntityPoint;
 import talecraft.entity.NPC.EntityNPC;
 import talecraft.entity.projectile.EntityBomb;
@@ -20,6 +21,6 @@ public class TaleCraftEntities {
 		EntityRegistry.registerModEntity(EntityBombArrow.class, "tc_bombarrow", 3, "talecraft", 128, 1, true);
 		EntityRegistry.registerModEntity(EntityBoomerang.class, "tc_boomerang", 4, "talecraft", 128, 1, true);
 		EntityRegistry.registerModEntity(EntityKnife.class, "tc_knife", 5, "talecraft", 128, 1, true);
-		
+		EntityRegistry.registerModEntity(EntityMovingBlock.class, "tc_movingblock", 6, "talecraft", 128, 1, true);
 	}
 }

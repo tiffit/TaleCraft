@@ -13,6 +13,7 @@ import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,9 +22,12 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import talecraft.TaleCraft;
+import talecraft.entity.EntityMovingBlock;
 import talecraft.entity.NPC.EntityNPC;
 import talecraft.proxy.CommonProxy;
 import talecraft.script.wrappers.IObjectWrapper;
+import talecraft.script.wrappers.entity.EntityObjectWrapper;
+import talecraft.script.wrappers.entity.MovingBlockObjectWrapper;
 import talecraft.script.wrappers.entity.NPCObjectWrapper;
 import talecraft.script.wrappers.entity.PlayerObjectWrapper;
 import talecraft.script.wrappers.item.ItemStackObjectWrapper;
@@ -92,6 +96,54 @@ public class GlobalScriptManager {
 
 		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(blockpos), newScope));
 		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(world), newScope));
+
+		Context.exit();
+
+		return newScope;
+	}
+	
+
+	public Scriptable createNewMovingBlock(EntityMovingBlock moving) {
+		Context cx = Context.enter();
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
+		newScope.setParentScope(null);
+
+		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "entity", Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
+
+		Context.exit();
+
+		return newScope;
+	}
+	
+	public Scriptable createNewMovingBlock(EntityMovingBlock moving, Entity entity) {
+		Context cx = Context.enter();
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
+		newScope.setParentScope(null);
+
+		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "entity", Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
+		ScriptableObject.putProperty(newScope, "collide", Context.javaToJS(new EntityObjectWrapper(entity), newScope));
+
+		Context.exit();
+
+		return newScope;
+	}
+	
+	public Scriptable createNewMovingBlock(EntityMovingBlock moving, EntityPlayer entity) {
+		Context cx = Context.enter();
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
+		newScope.setParentScope(null);
+
+		ScriptableObject.putProperty(newScope, "position", Context.javaToJS(new MutableBlockPos(moving.getPosition()), newScope));
+		ScriptableObject.putProperty(newScope, "world", Context.javaToJS(new WorldObjectWrapper(moving.getEntityWorld()), newScope));
+		ScriptableObject.putProperty(newScope, "entity", Context.javaToJS(new MovingBlockObjectWrapper(moving), newScope));
+		ScriptableObject.putProperty(newScope, "player", Context.javaToJS(new PlayerObjectWrapper(entity), newScope));
 
 		Context.exit();
 

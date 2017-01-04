@@ -14,7 +14,6 @@ public class GrassDecoration extends StaticDecoration {
 	public int plant(World world, BlockPos[] positions, NBTTagCompound options) {
 		int updated = 0;
 		for(BlockPos pos : positions){
-			System.out.println(pos);
 			if(world.getBlockState(pos.down()) != null && world.getBlockState(pos.down()).isFullCube()){
 				world.setBlockState(pos, Blocks.TALLGRASS.getStateFromMeta(1));
 				updated++;

@@ -13,6 +13,7 @@ itemGroup.talecraftWeaponTab=TaleCraft [Weapon]
 
 entity.talecraft.tc_point.name=Point Entity
 entity.talecraft.tc_NPC.name=NPC
+entity.talecraft.tc_movingblock.name=Moving Block
 
 item.wand.name=Wand
 item.filler.name=Filler
@@ -33,6 +34,7 @@ item.camera.name=Camera
 item.decorator.name=Decorator
 item.trigger.name=Block Triggerer
 item.custompainting.name=Custom Painting
+item.movingblockcreator.name=Moving Block Creator
 
 item.silverkey.name=Silver Key
 item.goldkey.name=Gold Key

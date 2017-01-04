@@ -1,4 +1,4 @@
-package talecraft.client.gui.npc;
+package talecraft.client.gui.entity.npc;
 
 import java.io.IOException;
 import java.util.List;

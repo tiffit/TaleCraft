@@ -20,10 +20,17 @@ import net.minecraft.util.math.RayTraceResult.Type;
 
 public class CustomPaintingRender implements IMetadataRender{
 
+	private final RenderPainting RENDER;
+	private final Minecraft mc;
+	
+	public CustomPaintingRender() {
+		mc = Minecraft.getMinecraft();
+		RENDER = new RenderPainting(mc.getRenderManager());
+	}
+	
 	@Override
 	public void render(Item item, ItemStack stack, Tessellator tessellator, VertexBuffer buffer, double partialTick, BlockPos playerPos, EntityPlayerSP player, WorldClient world) {
 		EnumArt painting = EnumArt.valueOf(stack.getTagCompound().getString("art"));
-		Minecraft mc = Minecraft.getMinecraft();
 		RayTraceResult result = player.rayTrace(5, (float)partialTick);
 		if(result.typeOfHit == Type.BLOCK){
 			BlockPos pos = result.getBlockPos();
@@ -42,7 +49,7 @@ public class CustomPaintingRender implements IMetadataRender{
 				if(facing.getOpposite() == EnumFacing.NORTH)xMove -= 1;
 			}
 			double yMove = (painting.sizeY == 16  || painting.sizeY == 16*3 ? 0 : 0.5);
-			new RenderPainting(mc.getRenderManager()).doRender(ent, ent.posX + facing.getFrontOffsetX()*2 + xMove, ent.posY + yMove, ent.posZ + facing.getFrontOffsetZ()*2 + zMove, ent.rotationYaw, (float)partialTick);
+			RENDER.doRender(ent, ent.posX + facing.getFrontOffsetX()*2 + xMove, ent.posY + yMove, ent.posZ + facing.getFrontOffsetZ()*2 + zMove, ent.rotationYaw, (float)partialTick);
 		}
 	}
 

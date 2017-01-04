@@ -8,14 +8,16 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.relauncher.Side;
-import talecraft.entity.NPC.dialogue.NPCDialogue.NPCDialogueOption;
+import talecraft.network.packets.CreateMovingBlockPacket;
 import talecraft.network.packets.DecoratorGuiPacket;
 import talecraft.network.packets.DecoratorPacket;
 import talecraft.network.packets.DialogueOpenPacket;
 import talecraft.network.packets.DoorPacket;
 import talecraft.network.packets.FadePacket;
 import talecraft.network.packets.ForceF1Packet;
+import talecraft.network.packets.GameruleSyncPacket;
 import talecraft.network.packets.GunReloadPacket;
+import talecraft.network.packets.MovingBlockDataUpdatePacket;
 import talecraft.network.packets.NPCDataPacket;
 import talecraft.network.packets.NPCDataUpdatePacket;
 import talecraft.network.packets.NPCDialogueOptionPacket;
@@ -43,6 +45,7 @@ public class TaleCraftNetwork {
 		register(NPCDataPacket.Handler.class, NPCDataPacket.class, SERVER);
 		register(NPCOpenPacket.Handler.class, NPCOpenPacket.class, CLIENT);
 		register(NPCDataUpdatePacket.Handler.class, NPCDataUpdatePacket.class, CLIENT);
+		register(MovingBlockDataUpdatePacket.Handler.class, MovingBlockDataUpdatePacket.class, CLIENT);
 		register(SoundsPacket.Handler.class, SoundsPacket.class, CLIENT);
 		register(FadePacket.Handler.class, FadePacket.class, CLIENT);
 		register(GunReloadPacket.Handler.class, GunReloadPacket.class, SERVER);
@@ -55,6 +58,8 @@ public class TaleCraftNetwork {
 		register(TriggerItemPacket.Handler.class, TriggerItemPacket.class, SERVER);
 		register(DialogueOpenPacket.Handler.class, DialogueOpenPacket.class, CLIENT);
 		register(NPCDialogueOptionPacket.Handler.class, NPCDialogueOptionPacket.class, SERVER);
+		register(CreateMovingBlockPacket.Handler.class, CreateMovingBlockPacket.class, SERVER);
+		register(GameruleSyncPacket.Handler.class, GameruleSyncPacket.class, CLIENT);
 	}
 	
 	private static <REQ extends IMessage, REPLY extends IMessage> void register(Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side){

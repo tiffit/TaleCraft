@@ -74,8 +74,6 @@ public class VoxelBrushCommand extends CommandBase {
 		if(arg0.equalsIgnoreCase("shape")) {
 			exec_shape(sender, args, vbData);
 		}//"shape"
-
-		System.out.println("-> " + itemStackNbtTagCompound);
 	}
 
 	private void exec_action(ICommandSender sender, String[] args, NBTTagCompound vbData) throws CommandException {

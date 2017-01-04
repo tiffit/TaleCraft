@@ -30,7 +30,7 @@ import talecraft.client.ClientSettings;
 import talecraft.client.InfoBar;
 import talecraft.client.InvokeTracker;
 import talecraft.client.commands.TaleCraftClientCommands;
-import talecraft.client.gui.npc.GuiNPCMerchant;
+import talecraft.client.gui.entity.npc.GuiNPCMerchant;
 import talecraft.client.render.metaworld.CustomPaintingRender;
 import talecraft.client.render.metaworld.PasteItemRender;
 import talecraft.client.render.renderables.SelectionBoxRenderer;
@@ -153,7 +153,7 @@ public class ClientProxy extends CommonProxy {
 	public boolean isBuildMode() {
 		return mc.playerController != null && mc.playerController.isInCreativeMode();
 	}
-
+	
 	@Override
 	public void tick(TickEvent event) {
 		super.tick(event);
@@ -161,12 +161,7 @@ public class ClientProxy extends CommonProxy {
 		if(event instanceof ClientTickEvent) {
 			while(!clientTickQeue.isEmpty())
 				clientTickQeue.poll().run();
-			
-			if((mc.thePlayer != null && mc.thePlayer.getEntityData().getBoolean("no-music")) || !gamerules.getBoolean("tc_playDefaultMusic")) {
-				mc.getMusicTicker().stopMusic();
-			}
 		}
-
 		if(event instanceof RenderTickEvent) {
 			RenderTickEvent revt = (RenderTickEvent) event;
 

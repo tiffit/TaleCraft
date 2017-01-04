@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListWorldSelectionEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSummary;
 import net.minecraftforge.fml.common.eventhandler.IEventListener;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ReflectionUtil {
 	
@@ -79,6 +82,24 @@ public class ReflectionUtil {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void replaceMusicTicker(){
+		Minecraft mc = Minecraft.getMinecraft();
+		try {
+			Field musicTickerF = Minecraft.class.getDeclaredField("mcMusicTicker");
+			musicTickerF.setAccessible(true);
+			musicTickerF.set(mc, new TCMusicTicker(mc));
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

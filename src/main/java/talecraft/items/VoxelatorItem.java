@@ -77,7 +77,6 @@ public class VoxelatorItem extends TCItem implements TCITriggerableItem{
 		NBTTagCompound NBTshape = data.getCompoundTag("shape");
 		NBTTagCompound NBTfilter = data.getCompoundTag("filter");
 		NBTTagCompound NBTaction = data.getCompoundTag("action");
-		System.out.println(data);
 		VXShape shape = Voxelator.newShape(NBTshape, result.getBlockPos());
 		VXPredicate filter = Voxelator.newFilter(NBTfilter);
 		VXAction action = Voxelator.newAction(NBTaction);

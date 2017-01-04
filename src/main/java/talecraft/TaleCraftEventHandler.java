@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import talecraft.blocks.world.WorkbenchBlock;
+import talecraft.network.packets.GameruleSyncPacket;
 import talecraft.network.packets.StringNBTCommandPacketClient;
 import talecraft.server.ServerHandler;
 import talecraft.util.WorkbenchManager;
@@ -60,6 +61,7 @@ public class TaleCraftEventHandler {
 		if(event.player instanceof EntityPlayerMP) {
 			ServerHandler.getServerMirror(null).playerList().playerJoin((EntityPlayerMP) event.player);
 			TaleCraft.network.sendTo(new StringNBTCommandPacketClient("client.network.join"), (EntityPlayerMP) event.player);
+			TaleCraft.network.sendTo(new GameruleSyncPacket(event.player.getEntityWorld().getGameRules().writeToNBT()), (EntityPlayerMP) event.player);
 		}
 		
 	}
@@ -67,6 +69,7 @@ public class TaleCraftEventHandler {
 	//CAN BE USED TO FIND CERTAIN EVENTS
 //	@SubscribeEvent
 //	public void event(Event event){
+//      \/ FILTER SPAM EVENTS \/
 //		if(event instanceof BiomeEvent) return;
 //		if(event instanceof RenderGameOverlayEvent) return;
 //		if(event instanceof GuiScreenEvent) return;
@@ -88,6 +91,8 @@ public class TaleCraftEventHandler {
 //		if(event instanceof BlockEvent) return;
 //		if(event instanceof AttachCapabilitiesEvent) return;
 //		if(event instanceof GuiOpenEvent) return;
+//      /\ FILTER SPAM EVENTS /\
+	
 //		System.out.println(event.getClass().toString());
 //	}
 

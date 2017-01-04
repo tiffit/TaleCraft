@@ -90,7 +90,7 @@ public class EntityBullet extends EntityThrowable {
 		original = BlockPos.fromLong(tag.getLong("double"));
 	}
 	
-	@SuppressWarnings("rawtypes")
+
 	public static class EntityBulletRenderFactory implements IRenderFactory {
 		
 		@Override

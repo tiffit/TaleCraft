@@ -1,4 +1,4 @@
-package talecraft.client.gui.npc;
+package talecraft.client.gui.entity.npc;
 
 import talecraft.client.gui.qad.QADLabel;
 import talecraft.client.gui.qad.QADTextField;

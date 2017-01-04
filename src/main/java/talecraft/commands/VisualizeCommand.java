@@ -90,8 +90,6 @@ public class VisualizeCommand extends TCCommandBase {
 			int sh = 1;//y-size
 			int sl = 1;//z-size
 
-			System.out.println(":: " + parser.remaining());
-
 			if(parser.remaining() == 1) {
 				int i = parser.consume_int("Could not parse extent.", 0, 1024);
 				sw = sh = sl = i;
@@ -132,8 +130,6 @@ public class VisualizeCommand extends TCCommandBase {
 	public void execute_es(ICommandSender sender, String[] args, CommandArgumentParser parser) throws CommandException {
 		String selector = parser.consume_string("Could not parse selector.");
 		String color = parser.consume_string("Could not parse color.");
-
-		System.out.println("Selector: " + selector);
 
 		NBTTagCompound pktdata = new NBTTagCompound();
 		pktdata.setString("type", "selector");

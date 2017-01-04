@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import talecraft.client.gui.npc.GuiNPCDialogue;
+import talecraft.client.gui.entity.npc.GuiNPCDialogue;
 import talecraft.entity.NPC.dialogue.NPCDialogue;
 import talecraft.network.packets.DialogueOpenPacket;
 

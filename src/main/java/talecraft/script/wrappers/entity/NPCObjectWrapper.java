@@ -76,15 +76,5 @@ public class NPCObjectWrapper extends EntityLivingObjectWrapper{
 		created_dialogues_map.put(id, created_dialogues);
 		TaleCraft.network.sendTo(new DialogueOpenPacket(dialogue_name, id, created_dialogues, npc.getUniqueID()), (EntityPlayerMP)player.internal());
 	}
-	
-	@Deprecated //Use navigateTo(double x, double y, double z) instead
-	public boolean moveToBlock(double x, double y, double z){
-		return moveToBlock(x, y, z, 0.5f);
-	}
-	
-	@Deprecated //Use navigateTo(double x, double y, double z, double speed) instead
-	public boolean moveToBlock(double x, double y, double z, float speed){
-		return npc.moveToPos(x, y, z, speed);
-	}
 
 }

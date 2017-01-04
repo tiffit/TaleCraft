@@ -1,7 +1,7 @@
 package talecraft.network.handlers.client;
 
 import net.minecraft.client.Minecraft;
-import talecraft.client.gui.npc.NPCEditorGui;
+import talecraft.client.gui.entity.npc.NPCEditorGui;
 import talecraft.entity.NPC.EntityNPC;
 import talecraft.entity.NPC.NPCData;
 import talecraft.network.packets.NPCOpenPacket;
