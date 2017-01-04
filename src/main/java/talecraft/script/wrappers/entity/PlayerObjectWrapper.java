@@ -13,7 +13,7 @@ public class PlayerObjectWrapper extends EntityObjectWrapper{
 	}
 	
 	public void sendMessage(String message){
-		player.addChatComponentMessage(new TextComponentString(message));
+		player.sendMessage(new TextComponentString(message));
 	}
 	
 	@Override

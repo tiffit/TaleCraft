@@ -23,7 +23,7 @@ import talecraft.network.packets.PlayerNBTDataMergePacket;
 public class WandItem extends TCItem implements TCITriggerableItem{
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
 		
@@ -33,7 +33,8 @@ public class WandItem extends TCItem implements TCITriggerableItem{
 	}
 	
 	@Override //Clears the wand selection
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		
@@ -60,7 +61,7 @@ public class WandItem extends TCItem implements TCITriggerableItem{
 	// Warning: Forge Method
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
 		// Check if we are on the server-side.
-		if(!player.worldObj.isRemote) {
+		if(!player.world.isRemote) {
 			EntityPlayerMP playerMP = (EntityPlayerMP) player;
 			String cmd = "/tc_editentity " + entity.getUniqueID().toString();
 			FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(playerMP, cmd);
@@ -83,7 +84,7 @@ public class WandItem extends TCItem implements TCITriggerableItem{
 		
 		{
 			// Double Call Prevention Hack
-			long timeNow = player.worldObj.getTotalWorldTime();
+			long timeNow = player.world.getTotalWorldTime();
 			long timePre = tcWand.getLong("DCPH");
 			
 			if(timeNow == timePre) {
@@ -175,7 +176,7 @@ public class WandItem extends TCItem implements TCITriggerableItem{
 		compound.getCompoundTag("tcWand").setBoolean("enabled", false);
 		compound.getCompoundTag("tcWand").setIntArray("boundsA", new int[]{0, 0, 0});
 		compound.getCompoundTag("tcWand").setIntArray("boundsB", new int[]{0, 0, 0});
-		player.addChatMessage(new TextComponentString("Wand selection has been cleared!"));
+		player.sendMessage(new TextComponentString("Wand selection has been cleared!"));
 		TaleCraft.network.sendTo(new PlayerNBTDataMergePacket(compound), player);
 	}
 

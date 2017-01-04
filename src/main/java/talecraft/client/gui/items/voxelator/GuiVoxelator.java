@@ -57,7 +57,7 @@ public class GuiVoxelator extends QADGuiScreen {
 	
 	public void applyChanges() {
 		System.out.println("Applying NBT: " + data);
-		VoxelatorPacket packet = new VoxelatorPacket(mc.thePlayer.getUniqueID(), data);
+		VoxelatorPacket packet = new VoxelatorPacket(mc.player.getUniqueID(), data);
 		TaleCraft.network.sendToServer(packet);
 	}
 	
@@ -249,7 +249,7 @@ public class GuiVoxelator extends QADGuiScreen {
 				panel.setBackgroundColor(2);
 				for(int i = 0; i < taglist.tagCount(); i++){
 					NBTTagCompound sing = taglist.getCompoundTagAt(i);
-					QADDropdownBox box = new QADDropdownBox(new ListBlockStateListModel(sing), new ListBlockStateListModel.BlockStateItem(ItemStack.loadItemStackFromNBT(sing)));
+					QADDropdownBox box = new QADDropdownBox(new ListBlockStateListModel(sing), new ListBlockStateListModel.BlockStateItem(new ItemStack(sing)));
 					box.setBounds(0, i*22, width, 20);
 					box.setColor(0xFFFFFFFF);
 					panel.addComponent(box);

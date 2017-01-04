@@ -14,19 +14,19 @@ import net.minecraft.util.math.BlockPos;
 public class MountCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_mount";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<rider> <mount>";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length != 2) {
-			throw new WrongUsageException(getCommandUsage(sender), sender, args);
+			throw new WrongUsageException(getUsage(sender), sender, args);
 		}
 
 		Entity rider = fetchEntity(sender, args[0]);
@@ -71,7 +71,7 @@ public class MountCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length <= 1) {
 			return getListOfStringsMatchingLastWord(args, new String[] {"this", "@a", "@p", "@r", "@e"});
 		}

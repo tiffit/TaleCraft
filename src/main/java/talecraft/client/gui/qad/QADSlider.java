@@ -113,7 +113,7 @@ public class QADSlider extends QADRectangularComponent {
 		// this.mouseDragged(mc, mouseX, mouseY);
 
 		int sliderPos = (int) (model.getSliderValue() * width);
-		sliderPos = MathHelper.clamp_int(sliderPos, 2, width-3);
+		sliderPos = MathHelper.clamp(sliderPos, 2, width-3);
 
 		renderer.drawVerticalLine(xPos + sliderPos-1, yPos+2, yPos+height-3, 0xFF7F7F7F);
 		renderer.drawVerticalLine(xPos + sliderPos  , yPos+1, yPos+height-2, 0xFFFFFFFF);

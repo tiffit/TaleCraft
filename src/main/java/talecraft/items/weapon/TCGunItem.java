@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
@@ -26,20 +27,21 @@ public abstract class TCGunItem extends TCWeaponItem {
 	}
 	
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 		list.add(new ItemStack(item, 1, item.getMaxDamage()));
 		list.add(new ItemStack(item));
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		int max = stack.getMaxDamage();
 		int ammo = stack.getMaxDamage() - stack.getItemDamage();
 		tooltip.add("Ammo: " + ammo + "/" + max);
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote || hand == EnumHand.OFF_HAND)return ActionResult.newResult(EnumActionResult.PASS, stack);
 		if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound tag = stack.getTagCompound();
@@ -70,7 +72,7 @@ public abstract class TCGunItem extends TCWeaponItem {
 		EntityBullet bullet = new EntityBullet(world, player, getDamage(), range());
 		world.playSound(null, player.getPosition(), fireSound(), SoundCategory.AMBIENT, 3F, 1F);
 		bullet.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
-		world.spawnEntityInWorld(bullet);
+		world.spawnEntity(bullet);
 	}
 	
     @Override

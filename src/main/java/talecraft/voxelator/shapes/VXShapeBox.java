@@ -86,9 +86,9 @@ public class VXShapeBox extends VXShape {
 
 	@Override
 	public boolean test(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld) {
-		int diffx = MathHelper.abs_int(pos.getX() - position.getX());
-		int diffy = MathHelper.abs_int(pos.getY() - position.getY());
-		int diffz = MathHelper.abs_int(pos.getZ() - position.getZ());
+		int diffx = MathHelper.abs(pos.getX() - position.getX());
+		int diffy = MathHelper.abs(pos.getY() - position.getY());
+		int diffz = MathHelper.abs(pos.getZ() - position.getZ());
 		return diffx < width && diffy < height && diffz < length && (hollow ? !(new VXShapeBox(position, width-1, height-1, length-1, false).test(pos, center, offset, fworld)) : true);
 	}
 

@@ -60,14 +60,14 @@ public class StorageBlockTileEntity extends TCTileEntity {
 			this.bounds[4] = Math.max(bounds[1], bounds[4]);
 			this.bounds[5] = Math.max(bounds[2], bounds[5]);
 
-			this.item = ClipboardItem.copyRegion(bounds, worldObj, getName(), this);
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			this.item = ClipboardItem.copyRegion(bounds, world, getName(), this);
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 			return;
 		}
 
 		if(command.equals("store")) {
-			this.item = ClipboardItem.copyRegion(bounds, worldObj, getName(), this);
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			this.item = ClipboardItem.copyRegion(bounds, world, getName(), this);
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 			return;
 		}
 
@@ -81,7 +81,7 @@ public class StorageBlockTileEntity extends TCTileEntity {
 
 			if(item != null && bounds != null) {
 				BlockPos pos = new BlockPos(bounds[0], bounds[1], bounds[2]);
-				ClipboardItem.pasteRegion(item, pos, worldObj, this);
+				ClipboardItem.pasteRegion(item, pos, world, this);
 			}
 			return;
 		}

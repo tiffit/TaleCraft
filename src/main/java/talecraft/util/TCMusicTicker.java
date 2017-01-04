@@ -15,7 +15,7 @@ public class TCMusicTicker extends MusicTicker {
 	
 	@Override
 	public void playMusic(MusicType song) {
-		if(mc.theWorld != null && mc.thePlayer != null && (mc.thePlayer.getEntityData().getBoolean("no-music")  || !TaleCraft.proxy.asClient().gamerules.getBoolean("tc_playDefaultMusic"))){
+		if(mc.world != null && mc.player != null && (mc.player.getEntityData().getBoolean("no-music")  || !TaleCraft.proxy.asClient().gamerules.getBoolean("tc_playDefaultMusic"))){
 			return;
 		}
 		super.playMusic(song);
@@ -23,7 +23,7 @@ public class TCMusicTicker extends MusicTicker {
 	
 	@Override
 	public void update() {
-		if(mc.theWorld != null && mc.thePlayer != null && (mc.thePlayer.getEntityData().getBoolean("no-music")  || !TaleCraft.proxy.asClient().gamerules.getBoolean("tc_playDefaultMusic"))){
+		if(mc.world != null && mc.player != null && (mc.player.getEntityData().getBoolean("no-music")  || !TaleCraft.proxy.asClient().gamerules.getBoolean("tc_playDefaultMusic"))){
 			stopMusic();
 		}
 		super.update();

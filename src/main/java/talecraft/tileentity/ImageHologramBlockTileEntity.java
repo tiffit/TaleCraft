@@ -34,14 +34,14 @@ public class ImageHologramBlockTileEntity extends TCTileEntity {
 	public void commandReceived(String command, NBTTagCompound data) {
 		if(command.equals("trigger")) {
 			state ^= true;
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 			return;
 		}
 
 		if(command.equals("set_vars")) {
 			data.removeTag("command");
 			holodata.merge(data);
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 			return;
 		}
 
@@ -91,12 +91,12 @@ public class ImageHologramBlockTileEntity extends TCTileEntity {
 
 	public void toggleActive() {
 		state ^= true;
-		this.worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 	}
 
 	public void setActive(boolean active) {
 		state = active;
-		this.worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 	}
 
 	public boolean isActive() {

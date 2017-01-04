@@ -22,8 +22,8 @@ public class PlayerNBTDataMergePacketHandler{
 		cproxy.sheduleClientTickTask(new Runnable(){
 			Minecraft micr = ClientProxy.mc;
 			@Override public void run() {
-				if(micr.thePlayer != null) {
-					micr.thePlayer.getEntityData().merge((mpakDataMerge.data));
+				if(micr.player != null) {
+					micr.player.getEntityData().merge((mpakDataMerge.data));
 				}
 			}
 		});

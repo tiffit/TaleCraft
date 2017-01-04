@@ -16,12 +16,12 @@ import talecraft.util.CommandArgumentParser;
 public class VisualizeCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_vz";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "< ? >";
 	}
 
@@ -61,8 +61,8 @@ public class VisualizeCommand extends TCCommandBase {
 
 		if(shape.equals("chunk")) {
 			BlockPos pos = sender.getPosition();
-			int chunkX = MathHelper.floor_float(pos.getX() / 16f);
-			int chunkZ = MathHelper.floor_float(pos.getZ() / 16f);
+			int chunkX = MathHelper.floor(pos.getX() / 16f);
+			int chunkZ = MathHelper.floor(pos.getZ() / 16f);
 			chunkX *= 16;
 			chunkZ *= 16;
 
@@ -142,7 +142,7 @@ public class VisualizeCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length <= 1) {
 			return getListOfStringsMatchingLastWord(args, "clear", "sh", "es");
 		}

@@ -36,23 +36,23 @@ public class SpikeBlock extends TCWorldBlock implements TCITriggerableBlock{
 	}
 	
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
         EnumFacing enumfacing = placer.getHorizontalFacing();
         if(hitY == 0f) enumfacing = EnumFacing.UP;
         else if(hitY == 1f) enumfacing = EnumFacing.DOWN;
         try{
-            return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, enumfacing).withProperty(ACTIVE, true);
+            return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, enumfacing).withProperty(ACTIVE, true);
         }
         catch (IllegalArgumentException var11){
             if (!worldIn.isRemote){
                 LOGGER.warn(String.format("Invalid spike block data @ " + pos.toString() + " in " + worldIn.provider.getDimension()));
 
                 if (placer instanceof EntityPlayer){
-                    ((EntityPlayer)placer).addChatMessage(new TextComponentString("Invalid spike block data!"));
+                    ((EntityPlayer)placer).sendMessage(new TextComponentString("Invalid spike block data!"));
                 }
             }
 
-            return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, 0, placer).withProperty(FACING, EnumFacing.UP).withProperty(ACTIVE, true);
+            return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, 0, placer).withProperty(FACING, EnumFacing.UP).withProperty(ACTIVE, true);
         }
     }
 	
@@ -103,7 +103,7 @@ public class SpikeBlock extends TCWorldBlock implements TCITriggerableBlock{
 	
 	@Deprecated
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	}
 
@@ -121,7 +121,7 @@ public class SpikeBlock extends TCWorldBlock implements TCITriggerableBlock{
 	
 	@Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn){
-        if(state.getValue(ACTIVE)) entityIn.attackEntityFrom(DamageSource.cactus, 2.5F);
+        if(state.getValue(ACTIVE)) entityIn.attackEntityFrom(DamageSource.CACTUS, 2.5F);
     }
 
 	@Override

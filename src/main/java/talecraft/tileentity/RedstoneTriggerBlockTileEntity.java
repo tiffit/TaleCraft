@@ -34,7 +34,7 @@ public class RedstoneTriggerBlockTileEntity extends TCTileEntity {
 	}
 
 	public void invokeFromUpdateTick(EnumTriggerState triggerState) {
-		if(this.worldObj.isRemote)
+		if(this.world.isRemote)
 			return;
 
 		Invoke.invoke(triggerInvoke, this, null, triggerState);

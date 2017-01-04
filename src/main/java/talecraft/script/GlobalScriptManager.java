@@ -227,7 +227,7 @@ public class GlobalScriptManager {
 		} catch(Throwable e) {
 			e.printStackTrace();
 			TextComponentString text = new TextComponentString("Script Error: " + e.getMessage());
-			FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendChatMsg(text);
+			FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(text);
 		} finally {
 			Context.exit();
 		}

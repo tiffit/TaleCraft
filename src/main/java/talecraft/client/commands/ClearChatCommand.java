@@ -9,12 +9,12 @@ import talecraft.proxy.ClientProxy;
 
 public final class ClearChatCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_clearchat";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "";
 	}
 
@@ -28,7 +28,7 @@ public final class ClearChatCommand extends CommandBase {
 		ClientProxy.shedule(new Runnable() {
 			@Override
 			public void run() {
-				Minecraft.getMinecraft().ingameGUI.getChatGUI().clearChatMessages();
+				Minecraft.getMinecraft().ingameGUI.getChatGUI().clearChatMessages(true);
 			}
 		});
 	}

@@ -72,7 +72,7 @@ public class VXShapeSphere extends VXShape {
 
 	@Override
 	public BlockRegion getRegion() {
-		return new BlockRegion(position, MathHelper.ceiling_float_int(radius));
+		return new BlockRegion(position, MathHelper.ceil(radius));
 	}
 
 	@Override

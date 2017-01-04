@@ -11,7 +11,8 @@ import net.minecraft.world.World;
 public class HeartItem extends TCWorldItem {
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)return ActionResult.newResult(EnumActionResult.PASS, stack);
 		int amount = 2;
 		boolean heal = true;
@@ -19,8 +20,8 @@ public class HeartItem extends TCWorldItem {
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("heal")) heal = stack.getTagCompound().getBoolean("heal");
 		player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + amount);
 		if(heal)player.heal(amount);
-		stack.stackSize--;
-		if(stack.stackSize <= 0) player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+		stack.shrink(1);
+		if(stack.getCount() <= 0) player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 	

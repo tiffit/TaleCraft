@@ -52,7 +52,7 @@ public class BlockUpdateDetectorTileEntity extends TCTileEntity {
 	}
 
 	public void triggerUpdateInvoke(EnumTriggerState triggerState) {
-		if(this.worldObj.isRemote)
+		if(this.world.isRemote)
 			return;
 
 		Invoke.invoke(detectorInvoke, this, null, triggerState);

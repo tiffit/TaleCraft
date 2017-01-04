@@ -10,12 +10,12 @@ import talecraft.proxy.ClientProxy;
 
 public final class TeleportToOriginCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_tpo";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "";
 	}
 
@@ -29,9 +29,9 @@ public final class TeleportToOriginCommand extends CommandBase {
 		ClientProxy.shedule(new Runnable() {
 			@Override
 			public void run() {
-				EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-				if(thePlayer != null) {
-					thePlayer.sendChatMessage("/tp 0 255 0");
+				EntityPlayerSP player = Minecraft.getMinecraft().player;
+				if(player != null) {
+					player.sendChatMessage("/tp 0 255 0");
 				}
 			}
 		});

@@ -42,7 +42,7 @@ public class MovingBlockDataUpdatePacket implements IMessage {
 		public IMessage onMessage(MovingBlockDataUpdatePacket message, MessageContext ctx) {
 			Minecraft mc = Minecraft.getMinecraft();
 			
-			EntityMovingBlock moving = (EntityMovingBlock) mc.theWorld.getEntityByID(message.id);
+			EntityMovingBlock moving = (EntityMovingBlock) mc.world.getEntityByID(message.id);
 			if(moving != null)moving.updateData(message.data);
 			return null;
 		}

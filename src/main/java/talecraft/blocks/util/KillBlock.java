@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -61,37 +62,37 @@ public class KillBlock extends TCBlock {
 		switch(type) {
 		case 1: if(entity instanceof EntityNPC) {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.outOfWorld, 999999999F);
+			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
 		} break;
 
 		case 2: if(entity instanceof EntityItem) {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.outOfWorld, 999999999F);
+			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
 		} break;
 
 		case 3: if(entity instanceof EntityLivingBase) {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.outOfWorld, 999999999F);
+			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
 		} break;
 
 		case 4: if(entity instanceof EntityPlayer) {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.outOfWorld, 999999999F);
+			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
 		} break;
 
 		case 5: if(entity instanceof EntityMob) {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.outOfWorld, 999999999F);
+			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
 		} break;
 
 		case 6: if(!(entity instanceof EntityPlayer)) {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.outOfWorld, 999999999F);
+			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
 		} break;
 
 		case 0: default: {
 			entity.setPosition(entity.posX, -1024, entity.posZ);
-			entity.attackEntityFrom(DamageSource.outOfWorld, 999999999F);
+			entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 999999999F);
 		} break;
 		}
 
@@ -141,7 +142,7 @@ public class KillBlock extends TCBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 		for(int j = 0; j < 7; ++j) {
 			list.add(new ItemStack(item, 1, j));
 		}

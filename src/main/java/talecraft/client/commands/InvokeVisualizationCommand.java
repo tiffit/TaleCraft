@@ -9,12 +9,12 @@ import talecraft.proxy.ClientProxy;
 
 public final class InvokeVisualizationCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_invokeviz";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<true/false>";
 	}
 
@@ -26,7 +26,7 @@ public final class InvokeVisualizationCommand extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length != 1) {
-			sender.addChatMessage(new TextComponentString("Enables/Disables the invoke visualization."));
+			sender.sendMessage(new TextComponentString("Enables/Disables the invoke visualization."));
 			return;
 		}
 

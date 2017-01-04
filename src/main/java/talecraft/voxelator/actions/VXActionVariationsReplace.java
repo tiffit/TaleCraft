@@ -36,7 +36,7 @@ public class VXActionVariationsReplace extends VXAction {
 			
 			for(int i = 0; i < l; i++) {
 				NBTTagCompound tag = list.getCompoundTagAt(i);
-				ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
+				ItemStack stack = new ItemStack(tag);
 				Block block = Block.getBlockFromItem(stack.getItem());
 				a[i] = block.getStateFromMeta(stack.getMetadata());
 			}

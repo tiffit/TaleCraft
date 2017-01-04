@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import talecraft.TaleCraft;
 import talecraft.client.gui.qad.QADButton;
 import talecraft.client.gui.qad.QADDropdownBox;
@@ -87,7 +88,7 @@ public class MovingBlockGui extends QADGuiScreen {
 			@Override
 			public void run() {
 				TaleCraft.network.sendToServer(new CreateMovingBlockPacket(
-						x, y, z, mc.theWorld.provider.getDimension(), //Location to place
+						x, y, z, mc.world.provider.getDimension(), //Location to place
 						STATE, //Type of block
 						INVISIBLE.getState(), PUSHABLE.getState(), COLLISION.getState(), NO_GRAVITY.getState(), //Boolean settings
 						MOUNT_Y_OFFSET.getValue().floatValue(), //Numbers
@@ -112,7 +113,7 @@ public class MovingBlockGui extends QADGuiScreen {
 			for(ItemStack item : stacks){
 				Item itm = item.getItem();
 				if(itm == null) continue;
-				List<ItemStack> subitems = new ArrayList<ItemStack>();
+				NonNullList<ItemStack> subitems = NonNullList.create();
 				itm.getSubItems(itm, CreativeTabs.INVENTORY, subitems);
 				for(final ItemStack stack : subitems){
 					items.add(new BlockStateItem(stack));

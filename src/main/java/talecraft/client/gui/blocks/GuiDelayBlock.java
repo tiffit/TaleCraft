@@ -41,7 +41,7 @@ public class GuiDelayBlock extends QADGuiScreen {
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "set");
-				commandData.setInteger("delay", MathHelper.clamp_int(newValue, 1, maximum));
+				commandData.setInteger("delay", MathHelper.clamp(newValue, 1, maximum));
 				TaleCraft.network.sendToServer(new StringNBTCommandPacket(commandString, commandData));
 			}
 		});

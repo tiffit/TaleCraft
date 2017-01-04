@@ -37,7 +37,8 @@ public class DecoratorItem extends TCItem implements TCITriggerableItem{
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote) return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		NBTTagCompound tag = stack.getTagCompound().getCompoundTag("decorator_data");
 		EntityPlayerMP p = (EntityPlayerMP) player;
@@ -48,7 +49,7 @@ public class DecoratorItem extends TCItem implements TCITriggerableItem{
 		Decoration decor = Decorator.getDecorationFromString(tag.getString("decor"));
 		
 		if(decor == null){
-			p.addChatMessage(new TextComponentString(ChatFormatting.RED + "Unknown decoration!"));
+			p.sendMessage(new TextComponentString(ChatFormatting.RED + "Unknown decoration!"));
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
 			
@@ -59,12 +60,12 @@ public class DecoratorItem extends TCItem implements TCITriggerableItem{
 		Vec3d start = this.getPositionEyes(lerp, p);
 		Vec3d direction = p.getLook(lerp);
 		Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
-		RayTraceResult result = p.worldObj.rayTraceBlocks(start, end, false, false, false);
+		RayTraceResult result = p.world.rayTraceBlocks(start, end, false, false, false);
 		BlockPos center = result.getBlockPos().up().add(offset);
 			
-		int changes = decor.plant(p.worldObj, getInRadius(center, tag.getInteger("radius"), amount), tag);
+		int changes = decor.plant(p.world, getInRadius(center, tag.getInteger("radius"), amount), tag);
 			
-		p.addChatMessage(new TextComponentString(ChatFormatting.YELLOW + "Changed "+changes+" block/s."));
+		p.sendMessage(new TextComponentString(ChatFormatting.YELLOW + "Changed "+changes+" block/s."));
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 	

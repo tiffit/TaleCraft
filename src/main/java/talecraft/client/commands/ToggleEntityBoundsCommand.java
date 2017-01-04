@@ -10,12 +10,12 @@ import talecraft.proxy.ClientProxy;
 
 public final class ToggleEntityBoundsCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_bounds";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "";
 	}
 

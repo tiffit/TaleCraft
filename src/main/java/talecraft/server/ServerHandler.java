@@ -63,7 +63,7 @@ public class ServerHandler {
 
 		if(message.command.equals("server.data.entity.merge")) {
 			if(!PlayerHelper.isOp(player)) {
-				player.addChatMessage(new TextComponentString("Error: 'server.data.entity.merge' is a operator only command."));
+				player.sendMessage(new TextComponentString("Error: 'server.data.entity.merge' is a operator only command."));
 				return;
 			}
 
@@ -82,7 +82,7 @@ public class ServerHandler {
 			}
 
 			if(theEntity == null) {
-				player.addChatMessage(new TextComponentString("Error: Entity not found. (Possibly dead)"));
+				player.sendMessage(new TextComponentString("Error: Entity not found. (Possibly dead)"));
 				return;
 			}
 
@@ -110,7 +110,7 @@ public class ServerHandler {
 
 		if(message.command.startsWith("server.data.block.merge:")) {
 			if(!PlayerHelper.isOp(player)) {
-				player.addChatMessage(new TextComponentString("Error: 'blockdatamerge' is a operator only command."));
+				player.sendMessage(new TextComponentString("Error: 'blockdatamerge' is a operator only command."));
 				return;
 			}
 
@@ -137,14 +137,14 @@ public class ServerHandler {
 					return;
 				}
 			} else {
-				player.addChatMessage(new TextComponentString("Error: Failed to merge block data: TileEntity does not exist."));
+				player.sendMessage(new TextComponentString("Error: Failed to merge block data: TileEntity does not exist."));
 				return;
 			}
 		}
 
 		if(message.command.startsWith("server.data.block.command:")) {
 			if(!PlayerHelper.isOp(player)) {
-				player.addChatMessage(new TextComponentString("Error: 'blockcommand' is a operator only command."));
+				player.sendMessage(new TextComponentString("Error: 'blockcommand' is a operator only command."));
 				return;
 			}
 
@@ -162,7 +162,7 @@ public class ServerHandler {
 					return;
 				}
 			} else {
-				player.addChatMessage(new TextComponentString("Error: Failed to run block-command: TileEntity does not exist."));
+				player.sendMessage(new TextComponentString("Error: Failed to run block-command: TileEntity does not exist."));
 				return;
 			}
 		}

@@ -100,7 +100,7 @@ public class ClientRenderer {
 			int current = ordinal();
 			current++;
 			if(current >= values().length) current = 0;
-			Minecraft.getMinecraft().thePlayer.getActivePotionEffects().clear();
+			Minecraft.getMinecraft().player.getActivePotionEffects().clear();
 			return values()[current];
 		}
 	}
@@ -345,7 +345,7 @@ public class ClientRenderer {
 		}
 
 		// If the world and the player exist, call the worldPostRender-method.
-		if(mc.theWorld != null && mc.thePlayer != null) {
+		if(mc.world != null && mc.player != null) {
 			GlStateManager.pushMatrix();
 
 			Tessellator tessellator = Tessellator.getInstance();
@@ -363,9 +363,9 @@ public class ClientRenderer {
 	private void on_render_world_post_sub(double partialTicks, Tessellator tessellator, VertexBuffer vertexbuffer) {
 
 		// Translate into World-Space
-		double px = mc.thePlayer.prevPosX + (mc.thePlayer.posX - mc.thePlayer.prevPosX) * partialTicks;
-		double py = mc.thePlayer.prevPosY + (mc.thePlayer.posY - mc.thePlayer.prevPosY) * partialTicks;
-		double pz = mc.thePlayer.prevPosZ + (mc.thePlayer.posZ - mc.thePlayer.prevPosZ) * partialTicks;
+		double px = mc.player.prevPosX + (mc.player.posX - mc.player.prevPosX) * partialTicks;
+		double py = mc.player.prevPosY + (mc.player.posY - mc.player.prevPosY) * partialTicks;
+		double pz = mc.player.prevPosZ + (mc.player.posZ - mc.player.prevPosZ) * partialTicks;
 		GL11.glTranslated(-px, -py, -pz);
 
 		GlStateManager.disableCull();
@@ -401,8 +401,8 @@ public class ClientRenderer {
 		RenderHelper.enableStandardItemLighting();
 
 		// Render Item Meta Renderables
-		if(mc.thePlayer != null && mc.thePlayer.getHeldItemMainhand() != null) {
-			ItemStack stack = mc.thePlayer.getHeldItemMainhand();
+		if(mc.player != null && mc.player.getHeldItemMainhand() != null) {
+			ItemStack stack = mc.player.getHeldItemMainhand();
 			Item item = stack.getItem();
 
 			ItemMetaWorldRenderer.tessellator = tessellator;
@@ -410,14 +410,14 @@ public class ClientRenderer {
 			ItemMetaWorldRenderer.partialTicks = partialTicks;
 			ItemMetaWorldRenderer.partialTicksF = (float) partialTicks;
 			ItemMetaWorldRenderer.clientProxy = proxy;
-			ItemMetaWorldRenderer.world = mc.theWorld;
-			ItemMetaWorldRenderer.player = mc.thePlayer;
+			ItemMetaWorldRenderer.world = mc.world;
+			ItemMetaWorldRenderer.player = mc.player;
 			ItemMetaWorldRenderer.playerPosition = new BlockPos(px, py, pz);
 			ItemMetaWorldRenderer.render(item, stack);
 		}
 
-		if(mc.thePlayer != null && mc.thePlayer.getHeldItemOffhand() != null) {
-			ItemStack stack = mc.thePlayer.getHeldItemOffhand();
+		if(mc.player != null && mc.player.getHeldItemOffhand() != null) {
+			ItemStack stack = mc.player.getHeldItemOffhand();
 			Item item = stack.getItem();
 
 			ItemMetaWorldRenderer.tessellator = tessellator;
@@ -425,8 +425,8 @@ public class ClientRenderer {
 			ItemMetaWorldRenderer.partialTicks = partialTicks;
 			ItemMetaWorldRenderer.partialTicksF = (float) partialTicks;
 			ItemMetaWorldRenderer.clientProxy = proxy;
-			ItemMetaWorldRenderer.world = mc.theWorld;
-			ItemMetaWorldRenderer.player = mc.thePlayer;
+			ItemMetaWorldRenderer.world = mc.world;
+			ItemMetaWorldRenderer.player = mc.player;
 			ItemMetaWorldRenderer.playerPosition = new BlockPos(px, py, pz);
 			ItemMetaWorldRenderer.render(item, stack);
 		}
@@ -444,7 +444,7 @@ public class ClientRenderer {
 	}
 	
 	public void on_render_world_terrain_pre(RenderTickEvent revt) {
-		if(mc.theWorld != null) {
+		if(mc.world != null) {
 			// Which VisualMode should we use?
 			VisualMode visMode = visualizationMode;
 			
@@ -454,29 +454,29 @@ public class ClientRenderer {
 			}
 			
 			// this takes care of the CUSTOM SKY RENDERING
-			if(mc.theWorld.provider != null) {
+			if(mc.world.provider != null) {
 				boolean debugSkyActive = visMode != VisualMode.Default;
 				
 				if(debugSkyActive) {
 					CustomSkyRenderer.instance.setDebugSky(true);
-					mc.theWorld.provider.setSkyRenderer(CustomSkyRenderer.instance);
+					mc.world.provider.setSkyRenderer(CustomSkyRenderer.instance);
 				} else {
 					CustomSkyRenderer.instance.setDebugSky(false);
-					mc.theWorld.provider.setSkyRenderer(null);
+					mc.world.provider.setSkyRenderer(null);
 				}
 			}
 			
 			// handle currently active VisualMode
-			if(mc.thePlayer != null) {
+			if(mc.player != null) {
 				RenderModeHelper.ENABLE(visMode);
 			}
 		}
 	}
 
 	public void on_render_world_terrain_post(RenderTickEvent revt) {
-		if(mc.ingameGUI != null && mc.theWorld != null) {
+		if(mc.ingameGUI != null && mc.world != null) {
 			if(proxy.getInfoBar().canDisplayInfoBar(mc, proxy)) {
-				proxy.getInfoBar().display(mc, mc.theWorld, proxy);
+				proxy.getInfoBar().display(mc, mc.world, proxy);
 
 				// XXX: Move this to its own IF
 				proxy.getInvokeTracker().display(mc, proxy);

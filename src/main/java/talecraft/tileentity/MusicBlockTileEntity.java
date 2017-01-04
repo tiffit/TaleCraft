@@ -34,7 +34,7 @@ public class MusicBlockTileEntity extends TCTileEntity {
 			mute = data.getBoolean("mute");
 			repeat = data.getBoolean("repeat");
 			repeat_delay = data.getInteger("repeat_delay");
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0);
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0);
 			return;
 		}
 		super.commandReceived(command, data);
@@ -87,14 +87,14 @@ public class MusicBlockTileEntity extends TCTileEntity {
 	}
 
 	public void trigger(EnumTriggerState triggerState){
-		if(worldObj.isRemote) return;
+		if(world.isRemote) return;
 		SoundsPacket packet = null;
 		if(mute){
 			packet = new SoundsPacket();
 		}else{
 			packet = new SoundsPacket(getSound(), isRepeat(), repeatDelay(), true);
 		}
-		TaleCraft.network.sendToDimension(packet, worldObj.provider.getDimension());
+		TaleCraft.network.sendToDimension(packet, world.provider.getDimension());
 	}
 	
 	

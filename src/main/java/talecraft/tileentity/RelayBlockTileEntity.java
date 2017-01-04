@@ -59,12 +59,12 @@ public class RelayBlockTileEntity extends TCTileEntity {
 			} while(invokes.containsKey(keyString));
 
 			invokes.put(keyString, BlockTriggerInvoke.ZEROINSTANCE);
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 		}
 
 		if(command.equals("invoke_remove")) {
 			invokes.remove(data.getString("invokeToRemove"));
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 		}
 
 		super.commandReceived(command, data);

@@ -17,7 +17,7 @@ public class DefaultSliderModel implements SliderModel<Integer> {
 	@Override
 	public void setSliderValue(float newSliderValue) {
 		value = Math.round(newSliderValue * maximum) / (float)maximum;
-		current = MathHelper.clamp_int((int)(newSliderValue*maximum+0.5f), 0, maximum);
+		current = MathHelper.clamp((int)(newSliderValue*maximum+0.5f), 0, maximum);
 	}
 
 	@Override

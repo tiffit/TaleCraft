@@ -43,7 +43,7 @@ public class EntityCloneItem extends TCItem{
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer attacker, Entity target) {
 		if(!attacker.getEntityWorld().isRemote){
 			if(attacker.isSneaking()){
-				Entity ent = spawnEntity(stack, attacker.worldObj, attacker);
+				Entity ent = spawnEntity(stack, attacker.world, attacker);
 				if(target.isBeingRidden())target.dismountRidingEntity();
 				ent.startRiding(target, true);
 			}else{
@@ -52,14 +52,15 @@ public class EntityCloneItem extends TCItem{
 				tag.setTag("entity_data", new NBTTagCompound());
 				NBTTagCompound data = tag.getCompoundTag("entity_data");
 				target.writeToNBTAtomically(data);
-				attacker.addChatMessage(new TextComponentString("Copied Entity \"" + target.getName() + ChatFormatting.RESET + "\"!"));
+				attacker.sendMessage(new TextComponentString("Copied Entity \"" + target.getName() + ChatFormatting.RESET + "\"!"));
 			}
 		}
 		return true;
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		if(stack.hasTagCompound()){
@@ -74,11 +75,11 @@ public class EntityCloneItem extends TCItem{
 		tag.setUniqueId("UUID", UUID.randomUUID());
 		Entity entity = EntityList.createEntityFromNBT(tag, world);
 		if(entity == null){
-			player.addChatMessage(new TextComponentString(ChatFormatting.RED + "An error occured while trying to clone that entity!"));
+			player.sendMessage(new TextComponentString(ChatFormatting.RED + "An error occured while trying to clone that entity!"));
 			return null;
 		}
 		entity.setPosition(player.posX, player.posY, player.posZ);
-		world.spawnEntityInWorld(entity);
+		world.spawnEntity(entity);
 		return entity;
 	}
 	

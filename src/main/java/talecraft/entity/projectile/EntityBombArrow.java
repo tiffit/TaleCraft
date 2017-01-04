@@ -33,10 +33,10 @@ public class EntityBombArrow extends EntityArrow {
 	@Override
 	protected void onHit(RayTraceResult result) {
 		super.onHit(result);
-		if(!worldObj.isRemote){
-			EntityBomb bomb = new EntityBomb(worldObj, this.posX, this.posY, this.posZ);
+		if(!world.isRemote){
+			EntityBomb bomb = new EntityBomb(world, this.posX, this.posY, this.posZ);
 			bomb.setFuse(0);
-			worldObj.spawnEntityInWorld(bomb);
+			world.spawnEntity(bomb);
 			setDead();
 		}
 	}

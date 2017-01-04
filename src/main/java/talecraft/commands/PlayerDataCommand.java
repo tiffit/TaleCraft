@@ -19,19 +19,19 @@ import net.minecraft.util.math.BlockPos;
 public class PlayerDataCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_playerdata";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<selector> {merge-data}";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length < 2) {
-			throw new WrongUsageException(getCommandUsage(sender), sender, args);
+			throw new WrongUsageException(getUsage(sender), sender, args);
 		}
 		List<EntityPlayerMP> list = EntitySelector.matchEntities(sender, args[0], EntityPlayerMP.class);
 
@@ -78,7 +78,7 @@ public class PlayerDataCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length <= 1) {
 			return getListOfStringsMatchingLastWord(args, new String[] {"@a", "@p", "@r", "@e"});
 		}

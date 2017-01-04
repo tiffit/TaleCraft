@@ -7,6 +7,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.google.gson.JsonParseException;
 
+import net.minecraft.command.CommandException;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,7 +39,7 @@ public class MessageBlockTileEntity extends TCTileEntity {
 	}
 
 	private void trigger() {
-		if(this.worldObj.isRemote) {
+		if(this.world.isRemote) {
 			return;
 		}
 
@@ -74,7 +75,12 @@ public class MessageBlockTileEntity extends TCTileEntity {
 			}
 		}
 
-		List<EntityPlayer> players = EntitySelector.matchEntities(this, playerSelector, EntityPlayer.class);
+		List<EntityPlayer> players = null;
+		try {
+			players = EntitySelector.matchEntities(this, playerSelector, EntityPlayer.class);
+		} catch (CommandException e) {
+			e.printStackTrace();
+		}
 
 		if(players == null) {
 			return;
@@ -87,7 +93,7 @@ public class MessageBlockTileEntity extends TCTileEntity {
 		// SEND THE MESSAGE(S) TO ALL PLAYERS
 		for(EntityPlayer player : players) {
 			for(ITextComponent component : textComponent) {
-				player.addChatMessage(component);
+				player.sendMessage(component);
 			}
 		}
 	}

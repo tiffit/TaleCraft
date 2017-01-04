@@ -42,7 +42,7 @@ public class NPCInventoryData {
 		}
 		
 		public static NPCDrop fromNBT(NBTTagCompound tag){
-			return new NPCDrop(ItemStack.loadItemStackFromNBT(tag.getCompoundTag("stack")), tag.getFloat("chance"));
+			return new NPCDrop(new ItemStack(tag.getCompoundTag("stack")), tag.getFloat("chance"));
 		}
 	}
 	
@@ -142,7 +142,7 @@ public class NPCInventoryData {
 	public static NPCInventoryData fromNBT(NBTTagCompound tag){
 		NPCInventoryData data = new NPCInventoryData();
 		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values()){
-			if(tag.hasKey(slot.toString())) data.setItem(slot, ItemStack.loadItemStackFromNBT(tag.getCompoundTag(slot.toString())));
+			if(tag.hasKey(slot.toString())) data.setItem(slot, new ItemStack(tag.getCompoundTag(slot.toString())));
 		}
 		NBTTagCompound drops = tag.getCompoundTag("drops");
 		for(int i = 0; i < drops.getInteger("size"); i++){

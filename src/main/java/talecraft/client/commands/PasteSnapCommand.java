@@ -8,12 +8,12 @@ import talecraft.proxy.ClientProxy;
 
 public final class PasteSnapCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_pastesnap";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<0..64>";
 	}
 

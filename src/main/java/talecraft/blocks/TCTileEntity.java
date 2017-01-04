@@ -32,7 +32,7 @@ public abstract class TCTileEntity extends TileEntity implements IInvokeSource, 
 		super.setPos(pos);
 
 		if(!isTileEntityInitialized) {
-			nativeObject = TaleCraft.globalScriptManager.createNewBlockScope(this.worldObj, this.pos);
+			nativeObject = TaleCraft.globalScriptManager.createNewBlockScope(getEntityWorld(), this.pos);
 			this.init();
 			isTileEntityInitialized = true;
 		}
@@ -83,14 +83,14 @@ public abstract class TCTileEntity extends TileEntity implements IInvokeSource, 
 	public ITextComponent getDisplayName() {
 		return new TextComponentString(getName());
 	}
-
+	
 	@Override
-	public void addChatMessage(ITextComponent message) {
+	public void sendMessage(ITextComponent message) {
 		// nope!
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+	public boolean canUseCommand(int permLevel, String commandName) {
 		return true;
 	}
 
@@ -111,12 +111,12 @@ public abstract class TCTileEntity extends TileEntity implements IInvokeSource, 
 
 	@Override
 	public World getInvokeWorld() {
-		return this.worldObj;
+		return this.getEntityWorld();
 	}
 
 	@Override
 	public World getEntityWorld() {
-		return this.worldObj;
+		return this.getWorld();
 	}
 
 	@Override

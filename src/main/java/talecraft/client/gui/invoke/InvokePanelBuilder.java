@@ -158,7 +158,7 @@ public class InvokePanelBuilder {
 	private static void build_blocktrigger(QADComponentContainer container, int ox, int oy, final BlockTriggerInvoke invoke, final IInvokeHolder holder) {
 		container.addComponent(QADFACTORY.createButton("Set Region", ox, oy, 100, new Runnable() {
 			@Override public void run() {
-				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+				EntityPlayer player = Minecraft.getMinecraft().player;
 				int[] bounds = WandItem.getBoundsFromPlayerOrNull(player);
 
 				if(bounds == null){

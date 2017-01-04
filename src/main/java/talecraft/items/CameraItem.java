@@ -18,28 +18,29 @@ import talecraft.tileentity.CameraBlockTileEntity.CameraPos;
 public class CameraItem extends TCItem {
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote) return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
 		if(stack.getTagCompound() == null || !stack.getTagCompound().hasKey("selected")){
-			player.addChatComponentMessage(new TextComponentString(TextFormatting.RED + "No camera block selected!"));
+			player.sendMessage(new TextComponentString(TextFormatting.RED + "No camera block selected!"));
 			return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
 		}else{
 			BlockPos pos = BlockPos.fromLong(stack.getTagCompound().getLong("selected"));
 			TileEntity te = world.getTileEntity(pos);
 			if(te == null || !(te instanceof CameraBlockTileEntity)){
-				player.addChatComponentMessage(new TextComponentString(TextFormatting.RED + "No camera block found!"));
+				player.sendMessage(new TextComponentString(TextFormatting.RED + "No camera block found!"));
 				return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
 			}else{
 				CameraBlockTileEntity camera = (CameraBlockTileEntity) te;
 				CameraPos cpos = camera.addPos(player);
-				player.addChatComponentMessage(new TextComponentString("Added Camera Pos: " + cpos.toString()));
+				player.sendMessage(new TextComponentString("Added Camera Pos: " + cpos.toString()));
 				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 			}
 		}
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("selected")){
 			BlockPos pos = BlockPos.fromLong(stack.getTagCompound().getLong("selected"));
 			int x = pos.getX();

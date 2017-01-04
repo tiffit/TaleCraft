@@ -23,19 +23,19 @@ public class LightBlockTileEntity extends TCTileEntity {
 
 	public void setLightValue(int value) {
 		lightValue = value < 15 ? (value > 0 ? value : 0) : 15;
-		worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+		world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 	}
 
 	public void setLightActive(boolean flag) {
 		if(lightActive != flag) {
 			lightActive = flag;
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 		}
 	}
 
 	public void toggleLightActive() {
 		lightActive ^= true;
-		worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+		world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 	}
 
 	@Override
@@ -85,8 +85,8 @@ public class LightBlockTileEntity extends TCTileEntity {
 		lightValue = comp.getInteger("lightValue");
 		lightActive = comp.getBoolean("lightActive");
 
-		if(worldObj != null)
-			worldObj.checkLight(getPos());
+		if(world != null)
+			world.checkLight(getPos());
 	}
 
 	@Override

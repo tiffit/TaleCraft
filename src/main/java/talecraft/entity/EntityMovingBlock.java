@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.RenderFallingBlock;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -54,7 +55,7 @@ public class EntityMovingBlock extends EntityFallingBlock implements IEntityAddi
 	
 	public void updateData(NBTTagCompound data){
 		readEntityFromNBT(data);
-		if(!worldObj.isRemote)TaleCraft.network.sendToDimension(new MovingBlockDataUpdatePacket(this.getEntityId(), data), getEntityWorld().provider.getDimension());
+		if(!getWorldObj().isRemote)TaleCraft.network.sendToDimension(new MovingBlockDataUpdatePacket(this.getEntityId(), data), getEntityWorld().provider.getDimension());
 	}
     
     private void onCreate(){
@@ -166,13 +167,13 @@ public class EntityMovingBlock extends EntityFallingBlock implements IEntityAddi
     }
     
     @Override
-    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
+    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
     	if(onInteract != null && !onInteract.equals("") && !getEntityWorld().isRemote){
     		FileScriptInvoke scriptInvoke = new FileScriptInvoke(onInteract);
     		scope = TaleCraft.globalScriptManager.createNewMovingBlock(this, player);
     		Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
     	}
-    	return super.applyPlayerInteraction(player, vec, stack, hand);
+    	return super.applyPlayerInteraction(player, vec, hand);
     }
     
     @Override
@@ -204,22 +205,22 @@ public class EntityMovingBlock extends EntityFallingBlock implements IEntityAddi
             this.prevPosX = this.posX;
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
-            if (!this.func_189652_ae())
+            if (!this.hasNoGravity())
             {
                 this.motionY -= 0.03999999910593033D;
             }
             if(onGround || no_gravity)this.motionY = 0;
-            this.moveEntity(this.motionX, this.motionY, this.motionZ);
+            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             this.motionX *= 0.9800000190734863D;
             this.motionY *= 0.9800000190734863D;
             this.motionZ *= 0.9800000190734863D;
 
-            if (!this.worldObj.isRemote){
+            if (!this.getEntityWorld().isRemote){
                 BlockPos blockpos1 = new BlockPos(this);
                 if (this.onGround){
-                    IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
-                    if (this.worldObj.isAirBlock(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))) //Forge: Don't indent below.
-                    if (BlockFalling.canFallThrough(this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))) && !no_gravity){
+                    IBlockState iblockstate = this.getEntityWorld().getBlockState(blockpos1);
+                    if (this.getEntityWorld().isAirBlock(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))) //Forge: Don't indent below.
+                    if (BlockFalling.canFallThrough(this.getEntityWorld().getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))) && !no_gravity){
                         this.onGround = false;
                         return;
                     }

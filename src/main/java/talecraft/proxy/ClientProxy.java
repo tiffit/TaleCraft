@@ -117,7 +117,7 @@ public class ClientProxy extends CommonProxy {
 				lastOpened = (NPCShop) ((GuiMerchant) event.getGui()).getMerchant();
 			}else{
 				Minecraft mc = Minecraft.getMinecraft();
-				event.setGui(new GuiNPCMerchant(mc.thePlayer.inventory, lastOpened, mc.theWorld));
+				event.setGui(new GuiNPCMerchant(mc.player.inventory, lastOpened, mc.world));
 			}
 		}
 	}
@@ -229,7 +229,7 @@ public class ClientProxy extends CommonProxy {
 
 	/****/
 	public void sendChatMessage(String message) {
-		mc.thePlayer.sendChatMessage(message);
+		mc.player.sendChatMessage(message);
 	}
 
 	public void sheduleClientTickTask(Runnable runnable) {

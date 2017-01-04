@@ -30,7 +30,7 @@ public class GuiWorkbench extends GuiContainer {
 	@Override
 	public void initGui() {
 		super.initGui();
-		if(Minecraft.getMinecraft().thePlayer.isCreative()){
+		if(Minecraft.getMinecraft().player.isCreative()){
 			this.buttonList.add(new GuiButton(0, this.guiLeft + xSize + 5, this.guiTop, 100, 20,"Add Recipe"));
 			this.buttonList.add(new GuiButton(1, this.guiLeft + xSize + 5, this.guiTop + 30, 100, 20,"Remove Recipe"));
 			this.buttonList.add(new GuiButton(2, this.guiLeft + xSize + 5, this.guiTop + 60, 100, 20,"Clear Recipes"));

@@ -30,7 +30,7 @@ public class WorldCommandSender implements ICommandSender {
 	}
 
 	@Override
-	public void addChatMessage(ITextComponent message) {
+	public void sendMessage(ITextComponent message) {
 		TaleCraft.logger.info("WorldCommandSender :: " + message.getUnformattedText());
 	}
 	@Override
@@ -64,7 +64,7 @@ public class WorldCommandSender implements ICommandSender {
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+	public boolean canUseCommand(int permLevel, String commandName) {
 		return true;
 	}
 

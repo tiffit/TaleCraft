@@ -33,7 +33,7 @@ public class RenderModeHelper {
 			GlStateManager.disableTexture2D();
 			GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
 			GlStateManager.disableFog();
-			Minecraft.getMinecraft().thePlayer.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, Integer.MAX_VALUE));
+			Minecraft.getMinecraft().player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, Integer.MAX_VALUE));
 			break;
 		case Wireframe:
 			GL11.glLineWidth(0.25f);

@@ -17,19 +17,19 @@ import net.minecraft.util.math.MathHelper;
 public class VelocityCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_velocity";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<set|add|multiply> <this|entity> <x> <y> <z>";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length != 5) {
-			throw new WrongUsageException(getCommandUsage(sender), new Object[0]);
+			throw new WrongUsageException(getUsage(sender), new Object[0]);
 		}
 
 		// Parse action
@@ -119,7 +119,7 @@ public class VelocityCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length == 1) {
 			return getListOfStringsMatchingLastWord(args, new String[] {"set", "add", "multiply", "viewadd"});
 		}

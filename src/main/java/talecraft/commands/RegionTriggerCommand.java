@@ -14,12 +14,12 @@ import talecraft.invoke.Invoke;
 public class RegionTriggerCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_triggerregion";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<min-x> <min-y> <min-z> <max-x> <max-y> <max-z>";
 	}
 
@@ -49,7 +49,7 @@ public class RegionTriggerCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		return getListOfStringsMatchingLastWord(args, new String[]{"~","0"});
 	}
 

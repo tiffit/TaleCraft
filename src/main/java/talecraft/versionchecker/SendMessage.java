@@ -22,9 +22,9 @@ public class SendMessage {
 					Minecraft mc = ClientProxy.mc;
 					@Override
 					public void run() {
-						while(mc.thePlayer == null){}
+						while(mc.player == null){}
 						String message = TextFormatting.YELLOW + "TaleCraft version is outdated! Your version is " + TextFormatting.GOLD + current + TextFormatting.YELLOW + ". The latest is " + TextFormatting.GOLD + latest.getVersion() + TextFormatting.YELLOW + ".";
-						mc.thePlayer.addChatMessage(new TextComponentString(message));
+						mc.player.sendMessage(new TextComponentString(message));
 						TaleCraft.logger.warn(TextFormatting.getTextWithoutFormattingCodes(message));
 					}
 				});

@@ -50,7 +50,7 @@ public class DelayBlockTileEntity extends TCTileEntity {
 
 	public void trigger(EnumTriggerState triggerState) {
 		if(triggerState.getBooleanValue()) {
-			worldObj.scheduleUpdate(getPos(), getBlockType(), delay);
+			world.scheduleUpdate(getPos(), getBlockType(), delay);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class DelayBlockTileEntity extends TCTileEntity {
 	public void commandReceived(String command, NBTTagCompound data) {
 		if(command.equals("set")) {
 			delay = data.getInteger("delay");
-			worldObj.notifyBlockUpdate(pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 			return;
 		}
 

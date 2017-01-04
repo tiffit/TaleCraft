@@ -16,12 +16,12 @@ import talecraft.network.packets.StringNBTCommandPacket;
 public class SwitchShaderCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_switchShader";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<player> <shader>";
 	}
 
@@ -49,7 +49,7 @@ public class SwitchShaderCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		return Collections.emptyList();
 	}
 

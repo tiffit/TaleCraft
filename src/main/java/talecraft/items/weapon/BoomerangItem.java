@@ -41,7 +41,7 @@ public class BoomerangItem extends TCWeaponItem {
 	
 	@SubscribeEvent
 	public void onItemDrop(ItemTossEvent event){
-		if(!event.getPlayer().worldObj.isRemote){
+		if(!event.getPlayer().world.isRemote){
 			if(isThrown(event.getEntityItem().getEntityItem())){
 				event.getEntityItem().getEntityItem().getTagCompound().setBoolean("thrown", false);
 			}
@@ -49,7 +49,8 @@ public class BoomerangItem extends TCWeaponItem {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.AMBIENT, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 		if (!world.isRemote) {
 			if(!isThrown(stack)){
@@ -58,7 +59,7 @@ public class BoomerangItem extends TCWeaponItem {
 				EntityBoomerang boomerang = new EntityBoomerang(world, player);
 				boomerang.setItemStack(stack);
 				boomerang.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
-				world.spawnEntityInWorld(boomerang);
+				world.spawnEntity(boomerang);
 			}
 		}
 

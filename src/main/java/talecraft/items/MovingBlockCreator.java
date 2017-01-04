@@ -15,6 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import talecraft.client.gui.entity.MovingBlockGui;
 import talecraft.entity.EntityMovingBlock;
 import talecraft.util.MutableBlockPos;
@@ -22,9 +24,11 @@ import talecraft.util.MutableBlockPos;
 public class MovingBlockCreator extends TCItem {
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	@SideOnly(Side.CLIENT)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)Minecraft.getMinecraft().displayGuiScreen(new MovingBlockGui(pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ));
-		return super.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
+		return super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
 	}
 	
 }

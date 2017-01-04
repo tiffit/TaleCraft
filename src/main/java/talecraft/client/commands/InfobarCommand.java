@@ -8,12 +8,12 @@ import talecraft.proxy.ClientProxy;
 
 public final class InfobarCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_infobar";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<true/false>";
 	}
 

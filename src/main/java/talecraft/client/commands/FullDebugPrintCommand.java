@@ -14,6 +14,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.NonNullList;
 import talecraft.Reference;
 import talecraft.TaleCraft;
 import talecraft.TaleCraftBlocks;
@@ -23,12 +24,12 @@ import talecraft.proxy.ClientProxy;
 
 public final class FullDebugPrintCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_fulldebugprint";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "";
 	}
 
@@ -80,7 +81,7 @@ public final class FullDebugPrintCommand extends CommandBase {
 		for(Item item : items) {
 			TaleCraft.logger.info("Item -> " + item + " / " + item.getUnlocalizedName());
 
-			List<ItemStack> stacks = Lists.newArrayList();
+			NonNullList<ItemStack> stacks = NonNullList.create();
 			item.getSubItems(item, null, stacks);
 
 			for(ItemStack stack : stacks) {
@@ -101,7 +102,7 @@ public final class FullDebugPrintCommand extends CommandBase {
 		commands.addAll(TaleCraftClientCommands.getCommandList());
 
 		for(CommandBase command : commands) {
-			TaleCraft.logger.info("Command -> " + command.getCommandName() + ", " + command.getRequiredPermissionLevel());
+			TaleCraft.logger.info("Command -> " + command.getName() + ", " + command.getRequiredPermissionLevel());
 		}
 
 		TaleCraft.logger.info("--------------------------------------------------");

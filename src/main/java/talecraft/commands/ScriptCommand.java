@@ -22,12 +22,12 @@ import talecraft.util.PlayerHelper;
 public class ScriptCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_script";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<[?]> (use tab completion)";
 	}
 
@@ -88,7 +88,7 @@ public class ScriptCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length == 0) {
 			return getListOfStringsMatchingLastWord(args, new String[]{"run","edit"});
 		}

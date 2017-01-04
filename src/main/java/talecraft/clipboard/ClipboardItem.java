@@ -218,8 +218,8 @@ public class ClipboardItem {
 			builder.append("Copied ").append(regionVolume).append(regionVolume==1?" block":" blocks").append(" to the clipboard. ");
 			builder.append("(").append(pallet_list.size()).append(" types)");
 
-			player.addChatMessage(new TextComponentString(builder.toString()));
-			player.addChatMessage(new TextComponentString("Key: " + name));
+			player.sendMessage(new TextComponentString(builder.toString()));
+			player.sendMessage(new TextComponentString("Key: " + name));
 		}
 
 		ClipboardItem item = new ClipboardItem();
@@ -269,7 +269,7 @@ public class ClipboardItem {
 		String typeStr = entityNBT.getString("id");
 		Entity entity = EntityList.createEntityFromNBT(entityNBT, worldIn);
 		entity.setLocationAndAngles(posX, posY, posZ, entity.rotationYaw, entity.rotationPitch);
-		worldIn.spawnEntityInWorld(entity);
+		worldIn.spawnEntity(entity);
 
 		int spawnCount = 1;
 
@@ -286,7 +286,7 @@ public class ClipboardItem {
 
 				if (ridingEntity != null) {
 					ridingEntity.setLocationAndAngles(posX, posY, posZ, ridingEntity.rotationYaw, ridingEntity.rotationPitch);
-					worldIn.spawnEntityInWorld(ridingEntity);
+					worldIn.spawnEntity(ridingEntity);
 					mountEntity.startRiding(ridingEntity);
 					spawnCount++;
 				}
@@ -309,7 +309,7 @@ public class ClipboardItem {
 	}
 
 	private static void chat(EntityPlayer player, ITextComponent message) {
-		player.addChatMessage(message);
+		player.sendMessage(message);
 	}
 
 	public static ClipboardItem fromNBT(NBTTagCompound compoundTag) {

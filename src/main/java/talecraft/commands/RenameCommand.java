@@ -12,12 +12,12 @@ import net.minecraft.server.MinecraftServer;
 public class RenameCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName(){
 		return "tc_rename";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "/tc_rename <name>";
 	}
 

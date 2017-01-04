@@ -16,12 +16,12 @@ import talecraft.network.packets.FadePacket;
 public class FadeCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_fade";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<player> [color:ARGB] [time:Ticks] [texture:ResourceLocation]";
 	}
 

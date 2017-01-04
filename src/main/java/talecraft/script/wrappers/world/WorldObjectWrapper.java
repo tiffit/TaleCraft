@@ -3,9 +3,11 @@ package talecraft.script.wrappers.world;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -52,8 +54,8 @@ public class WorldObjectWrapper implements IObjectWrapper {
 		if(identifier == null)
 			return null;
 
-		Entity entity = EntityList.createEntityByName(identifier, world);
-		this.world.spawnEntityInWorld(entity);
+		Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(identifier), world);
+		this.world.spawnEntity(entity);
 		if(entity == null)
 			return null;
 		return EntityObjectWrapper.transform(entity);
@@ -77,7 +79,7 @@ public class WorldObjectWrapper implements IObjectWrapper {
 		if(nbt == null)
 			return null;
 
-		Entity entity = EntityList.createEntityByName(identifier, world);
+		Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(identifier), world);
 
 		if(entity == null)
 			return null;
@@ -108,7 +110,12 @@ public class WorldObjectWrapper implements IObjectWrapper {
 			worldCommandSender = new WorldCommandSender(world);
 		}
 
-		List<Entity> entities = EntitySelector.matchEntities(worldCommandSender, selector, Entity.class);
+		List<Entity> entities = null;
+		try {
+			entities = EntitySelector.matchEntities(worldCommandSender, selector, Entity.class);
+		} catch (CommandException e) {
+			e.printStackTrace();
+		}
 		return EntityObjectWrapper.transform(entities);
 	}
 	
@@ -121,7 +128,12 @@ public class WorldObjectWrapper implements IObjectWrapper {
 			worldCommandSender = new WorldCommandSender(world);
 		}
 
-		List<Entity> entities = EntitySelector.matchEntities(worldCommandSender, selector, Entity.class);
+		List<Entity> entities = null;
+		try {
+			entities = EntitySelector.matchEntities(worldCommandSender, selector, Entity.class);
+		} catch (CommandException e) {
+			e.printStackTrace();
+		}
 		return EntityObjectWrapper.transform(entities.get(0));
 	}
 

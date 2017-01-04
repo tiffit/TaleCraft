@@ -20,12 +20,12 @@ import talecraft.network.packets.StringNBTCommandPacketClient;
 public class EditEntityCommand extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_editentity";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<uuid|entity-selector|SELF>";
 	}
 
@@ -90,7 +90,7 @@ public class EditEntityCommand extends CommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		return getListOfStringsMatchingLastWord(args, new String[]{"@e","self"});
 	}
 

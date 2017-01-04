@@ -36,7 +36,7 @@ public class LockedDoorTileEntity extends TileEntity{
 	
 	public void toggleKey(){
 		useSilverKey = useSilverKey ? false : true;
-		TaleCraft.network.sendToDimension(new DoorPacket(pos, useSilverKey), worldObj.provider.getDimension());
+		TaleCraft.network.sendToDimension(new DoorPacket(pos, useSilverKey), world.provider.getDimension());
 		markDirty();
 	}
 	

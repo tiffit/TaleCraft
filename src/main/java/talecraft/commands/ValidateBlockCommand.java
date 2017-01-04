@@ -15,12 +15,12 @@ import talecraft.util.GObjectTypeHelper;
 public class ValidateBlockCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_isblock";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<block>";
 	}
 
@@ -36,11 +36,11 @@ public class ValidateBlockCommand extends TCCommandBase {
 			throw new CommandException("Block type does not exist: " + args[0]);
 		}
 
-		sender.addChatMessage(new TextComponentString("Block type exists: " + args[0]));
+		sender.sendMessage(new TextComponentString("Block type exists: " + args[0]));
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length == 0) {
 			return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
 		}

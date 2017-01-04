@@ -1,5 +1,7 @@
 package talecraft;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import talecraft.entity.EntityMovingBlock;
 import talecraft.entity.EntityPoint;
@@ -12,15 +14,20 @@ import talecraft.entity.projectile.EntityKnife;
 
 public class TaleCraftEntities {
 	public static void init() {
-
 		int tc_point_id = "tc_point".hashCode();
-		EntityRegistry.registerModEntity(EntityPoint.class, "tc_point", tc_point_id, "talecraft", 256, 20, false);
-		EntityRegistry.registerModEntity(EntityBomb.class, "tc_bomb", 0, "talecraft", 128, 1, true);
-		EntityRegistry.registerModEntity(EntityNPC.class, "tc_NPC", 1, "talecraft", 128, 1, true);
-		EntityRegistry.registerModEntity(EntityBullet.class, "tc_bullet", 2, "talecraft", 128, 1, true);
-		EntityRegistry.registerModEntity(EntityBombArrow.class, "tc_bombarrow", 3, "talecraft", 128, 1, true);
-		EntityRegistry.registerModEntity(EntityBoomerang.class, "tc_boomerang", 4, "talecraft", 128, 1, true);
-		EntityRegistry.registerModEntity(EntityKnife.class, "tc_knife", 5, "talecraft", 128, 1, true);
-		EntityRegistry.registerModEntity(EntityMovingBlock.class, "tc_movingblock", 6, "talecraft", 128, 1, true);
+		register("point", EntityPoint.class, 256, 20, false);
+		register("bomb", EntityBomb.class, 128, 1, true);
+		register("npc", EntityNPC.class, 128, 1, true);
+		register("bullet", EntityBullet.class, 128, 1, true);
+		register("bombarrow", EntityBombArrow.class, 128, 1, true);
+		register("boomerang", EntityBoomerang.class, 128, 1, true);
+		register("knife", EntityKnife.class, 128, 1, true);
+		register("movingblock", EntityMovingBlock.class, 128, 1, true);
+	}
+	
+	private static int ID = 0;
+	
+	private static void register(String name, Class<? extends Entity> entity, int trackingrange, int updatefrequency, boolean sendVelocityUpdates){
+		EntityRegistry.registerModEntity(new ResourceLocation("talecraft", name), entity, "tc_" + name, ID++, "talecraft", trackingrange, updatefrequency, sendVelocityUpdates);
 	}
 }

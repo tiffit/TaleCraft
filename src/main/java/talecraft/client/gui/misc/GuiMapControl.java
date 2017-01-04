@@ -10,8 +10,8 @@ public class GuiMapControl extends QADGuiScreen {
 
 	public void buildGui(ArrayList<QADComponent> components) {
 
-		addComponent(new QADLabel("World: " + mc.theWorld.getClass().getSimpleName(), 2, 2));
-		addComponent(new QADLabel("Player: " + mc.thePlayer.getName(), 2, 12));
+		addComponent(new QADLabel("World: " + mc.world.getClass().getSimpleName(), 2, 2));
+		addComponent(new QADLabel("Player: " + mc.player.getName(), 2, 12));
 
 		//		QADTextField field = new QADTextField(fontRendererObj, 32, 32, 120, 20);
 		//		field.autoCompleteOptions = new String[]{"This","Is","Text","Great!","abcdefghijklmnopqrstuvwxyz"};

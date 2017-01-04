@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import talecraft.client.gui.qad.QADDropdownBox.ListModel;
 import talecraft.client.gui.qad.QADDropdownBox.ListModelItem;
 import talecraft.client.gui.vcui.VCUIRenderer;
@@ -28,7 +29,7 @@ public class BlockStateListModel implements ListModel {
 		this.tag = compound;
 		name = param.getName();
 		tag.setTag(name, new ItemStack(Blocks.STONE).serializeNBT());
-		if(tag.hasKey(name))current = ItemStack.loadItemStackFromNBT(tag.getCompoundTag(name));
+		if(tag.hasKey(name))current = new ItemStack(tag.getCompoundTag(name));
 		items = new ArrayList<ListModelItem>();
 		filtered = new ArrayList<ListModelItem>();
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
@@ -38,7 +39,7 @@ public class BlockStateListModel implements ListModel {
 		for(ItemStack item : stacks){
 			Item itm = item.getItem();
 			if(itm == null) continue;
-			List<ItemStack> subitems = new ArrayList<ItemStack>();
+			NonNullList<ItemStack> subitems = NonNullList.create();
 			itm.getSubItems(itm, CreativeTabs.INVENTORY, subitems);
 			for(final ItemStack stack : subitems){
 				items.add(new BlockStateItem(stack));

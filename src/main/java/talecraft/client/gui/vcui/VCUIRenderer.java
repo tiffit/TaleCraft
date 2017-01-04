@@ -436,8 +436,8 @@ public class VCUIRenderer {
 			GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		}
 
-		float factorX = MathHelper.ceiling_float_int((float)Display.getWidth() / (float)minecraft.currentScreen.width);
-		float factorY = MathHelper.ceiling_float_int((float)Display.getHeight() / (float)minecraft.currentScreen.height);
+		float factorX = MathHelper.ceil((float)Display.getWidth() / (float)minecraft.currentScreen.width);
+		float factorY = MathHelper.ceil((float)Display.getHeight() / (float)minecraft.currentScreen.height);
 
 		y = minecraft.currentScreen.height - y - height;
 

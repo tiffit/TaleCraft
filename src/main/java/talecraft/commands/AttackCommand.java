@@ -49,12 +49,12 @@ public class AttackCommand extends TCCommandBase {
 	}
 	
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_attack";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<entity-selector> <damage-type> <damage-amount>";
 	}
 
@@ -63,7 +63,7 @@ public class AttackCommand extends TCCommandBase {
 		// check if we have all needed parameters
 		// If not throw a syntax error.
 		if(args.length != 3) {
-			throw new SyntaxErrorException("Syntax: " + getCommandUsage(sender));
+			throw new SyntaxErrorException("Syntax: " + getUsage(sender));
 		}
 
 		// fetch
@@ -97,7 +97,7 @@ public class AttackCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length == 1) {
 			return getListOfStringsMatchingLastWord(args, new String[]{"@e","@a","@p","@r"});
 		}

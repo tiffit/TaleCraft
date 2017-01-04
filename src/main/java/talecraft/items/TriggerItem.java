@@ -22,6 +22,7 @@ public class TriggerItem extends TCItem implements TCITriggerableItem{
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		
 		NBTTagCompound comp = stack.getTagCompound();
 		if(comp == null) {
 			comp = new NBTTagCompound();
@@ -31,7 +32,8 @@ public class TriggerItem extends TCItem implements TCITriggerableItem{
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		if(stack.hasTagCompound()){
@@ -61,7 +63,7 @@ public class TriggerItem extends TCItem implements TCITriggerableItem{
 		int current = tag.getInteger("trigger");
 		current++;
 		if(current >= EnumTriggerState.values().length) current = 0;
-		player.addChatMessage(new TextComponentString("Changed trigger to: " + EnumTriggerState.values()[current]));
+		player.sendMessage(new TextComponentString("Changed trigger to: " + EnumTriggerState.values()[current]));
 		tag.setInteger("trigger", current);
 	}
 	

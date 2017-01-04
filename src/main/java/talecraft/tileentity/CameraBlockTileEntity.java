@@ -71,7 +71,7 @@ public class CameraBlockTileEntity extends TCTileEntity {
 	}
 
 	public void trigger(EnumTriggerState triggerState){
-		if(triggerState != EnumTriggerState.OFF && !worldObj.isRemote){
+		if(triggerState != EnumTriggerState.OFF && !world.isRemote){
 			CameraThread thread = new CameraThread();
 			thread.attemptStart();
 		}
@@ -144,7 +144,7 @@ public class CameraBlockTileEntity extends TCTileEntity {
 			if(cpos == null) str = "ArrayList is null! This is a bug!";
 			else if(cpos.size() <= 0) str = "Camera block has no positions to run!";
 			if(str == null){ //This is to prioritize
-				EntityPlayer player = worldObj.getClosestPlayer(getPos().getX(), getPos().getY(), getPos().getZ(), -1, false);
+				EntityPlayer player = world.getClosestPlayer(getPos().getX(), getPos().getY(), getPos().getZ(), -1, false);
 				if(player == null){
 					str = "No player to execute upon!";
 				}else{

@@ -71,10 +71,10 @@ public class WorkbenchManager extends ArrayList<IRecipe> {
 				items[i] = null;
 				continue;
 			}else{
-				items[i] = ItemStack.loadItemStackFromNBT(stackTag);
+				items[i] = new ItemStack(stackTag);
 			}
 		}
-		ItemStack output = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("output"));
+		ItemStack output = new ItemStack(tag.getCompoundTag("output"));
 		return new ShapedRecipes(width, height, items, output);
 	}
 	

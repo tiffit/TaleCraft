@@ -10,6 +10,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import talecraft.client.gui.qad.QADDropdownBox.ListModel;
 import talecraft.client.gui.qad.QADDropdownBox.ListModelItem;
 import talecraft.client.gui.vcui.VCUIRenderer;
@@ -30,7 +31,7 @@ public class ListBlockStateListModel implements ListModel {
 		for(ItemStack item : stacks){
 			Item itm = item.getItem();
 			if(itm == null) continue;
-			List<ItemStack> subitems = new ArrayList<ItemStack>();
+			NonNullList<ItemStack> subitems = NonNullList.create();
 			itm.getSubItems(itm, CreativeTabs.INVENTORY, subitems);
 			for(final ItemStack stack : subitems){
 				items.add(new BlockStateItem(stack));

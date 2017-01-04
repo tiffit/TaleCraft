@@ -2,6 +2,7 @@ package talecraft.tileentity;
 
 import java.util.List;
 
+import net.minecraft.command.CommandException;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,7 +62,13 @@ public class URLBlockTileEntity extends TCTileEntity {
 
 	public void trigger(EnumTriggerState triggerState) {
 		if(triggerState.getBooleanValue()) {
-			List<EntityPlayerMP> players = EntitySelector.matchEntities(this, selector, EntityPlayerMP.class);
+			List<EntityPlayerMP> players = null;
+			try {
+				players = EntitySelector.matchEntities(this, selector, EntityPlayerMP.class);
+			} catch (CommandException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			StringNBTCommandPacketClient command = new StringNBTCommandPacketClient();
 			command.command = "client.gui.openurl";
 			command.data = NBTHelper.newSingleStringCompound("url",url);

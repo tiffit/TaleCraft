@@ -13,15 +13,16 @@ import talecraft.entity.EntityPoint;
 public class SpawnPointItem extends TCItem {
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
-		onItemRightClick(stack, world, player, hand);
+		onItemRightClick(world, player, hand);
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
@@ -41,7 +42,7 @@ public class SpawnPointItem extends TCItem {
 
 		EntityPoint pointEntity = new EntityPoint(world);
 		pointEntity.setPositionAndRotation(x, y - pointEntity.height/2, z, yaw, pitch);
-		world.spawnEntityInWorld(pointEntity);
+		world.spawnEntity(pointEntity);
 
 		if(stack.hasDisplayName()) {
 			String name = stack.getDisplayName();

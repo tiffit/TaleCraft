@@ -40,7 +40,7 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 
 	@Deprecated
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos from) {
 		if (!worldIn.isRemote) {
 			boolean flag = worldIn.isBlockPowered(pos);
 			boolean flag1 = state.getValue(TRIGGERED).booleanValue();
@@ -68,7 +68,7 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote)
 			return true;
 		if(!TaleCraft.proxy.isBuildMode())
@@ -106,7 +106,7 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return this.getDefaultState().withProperty(TRIGGERED, Boolean.valueOf(false));
 	}
 

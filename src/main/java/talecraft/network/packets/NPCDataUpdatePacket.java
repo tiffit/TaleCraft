@@ -41,7 +41,7 @@ public class NPCDataUpdatePacket implements IMessage {
 		public IMessage onMessage(NPCDataUpdatePacket message, MessageContext ctx) {
 			Minecraft mc = Minecraft.getMinecraft();
 			
-			EntityNPC npc = (EntityNPC) mc.theWorld.getEntityByID(message.id);
+			EntityNPC npc = (EntityNPC) mc.world.getEntityByID(message.id);
 			npc.setNPCData(message.data);
 			return null;
 		}

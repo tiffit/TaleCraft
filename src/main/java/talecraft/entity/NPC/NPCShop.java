@@ -8,11 +8,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.world.World;
 
 public class NPCShop implements IMerchant {
 	
@@ -96,6 +98,16 @@ public class NPCShop implements IMerchant {
 		return shop;
 	}
 	
+	@Override
+	public World getWorld() {
+		return npc.getEntityWorld();
+	}
+
+	@Override
+	public BlockPos getPos() {
+		return npc.getPosition();
+	}
+	
 	public static class NPCTrade{
 	
 		private ItemStack item1;
@@ -163,8 +175,8 @@ public class NPCShop implements IMerchant {
 		}
 		
 		public static NPCTrade fromNBT(NBTTagCompound tag){
-			ItemStack item1 = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("item1"));
-			ItemStack item2 = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("item2"));
+			ItemStack item1 = new ItemStack(tag.getCompoundTag("item1"));
+			ItemStack item2 = new ItemStack(tag.getCompoundTag("item2"));
 			return new NPCTrade(item1, item2, tag.getInteger("stock"));
 		}
 		
@@ -184,5 +196,7 @@ public class NPCShop implements IMerchant {
 			return !npctrade.inStock();
 		}
 	}
+
+
 
 }

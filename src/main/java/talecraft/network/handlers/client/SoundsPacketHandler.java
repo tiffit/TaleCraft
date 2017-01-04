@@ -22,7 +22,7 @@ public class SoundsPacketHandler{
 		if (message.mute) {
 			mc.getSoundHandler().stopSounds();
 		} else {
-			EntityPlayer player = mc.thePlayer;
+			EntityPlayer player = mc.player;
 
 			ISound record = null;
 

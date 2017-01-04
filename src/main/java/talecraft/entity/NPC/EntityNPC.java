@@ -18,6 +18,7 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketEntity.S16PacketEntityLook;
@@ -129,7 +130,9 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 
 	@Override
 	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slot) {
-		return data.getInvStack(slot);
+		ItemStack stack = data.getInvStack(slot);
+		if(stack == null)return new ItemStack((Item)null);
+		return stack;
 	}
 	
 	@Override
@@ -162,12 +165,12 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	public void setNPCData(NBTTagCompound tag){
 		data = NPCData.fromNBT(this, tag);
 		setHealth(getMaxHealth());
-		if(worldObj.isRemote) return;
-		for(Entity ent : this.worldObj.getEntities(EntityPlayerMP.class, Predicates.notNull())){
+		if(world.isRemote) return;
+		for(Entity ent : this.world.getEntities(EntityPlayerMP.class, Predicates.notNull())){
 			EntityPlayerMP player = (EntityPlayerMP) ent;
 			player.connection.sendPacket(new S16PacketEntityLook(this.getEntityId(), (byte) this.rotationYaw, (byte) this.rotationPitch, this.onGround));
 		}
-		TaleCraft.network.sendToDimension(new NPCDataUpdatePacket(getEntityId(), tag), worldObj.provider.getDimension());
+		TaleCraft.network.sendToDimension(new NPCDataUpdatePacket(getEntityId(), tag), world.provider.getDimension());
 	}
 	
 	@Override
@@ -187,12 +190,13 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	}
 
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand){
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand){
+		ItemStack stack = player.getHeldItem(hand);
 		if(stack == null || stack.getItem() != TaleCraftItems.npceditor){
-			handleRegularInteraction(player, vec, stack, hand, !player.worldObj.isRemote);
+			handleRegularInteraction(player, vec, stack, hand, !player.world.isRemote);
 			return EnumActionResult.SUCCESS;
 		}
-		handleEditorInteraction(player, vec, stack, hand, !player.worldObj.isRemote);
+		handleEditorInteraction(player, vec, stack, hand, !player.world.isRemote);
 		return EnumActionResult.SUCCESS;
 	}
 
@@ -207,7 +211,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 			if(!message.isEmpty()){
 				message = message.replace("%player%", player.getName());
 				if(data.shouldIncludeNameInMessage()) message = data.getName() + ": " + message;
-				player.addChatMessage(new TextComponentString(message));
+				player.sendMessage(new TextComponentString(message));
 			}
 		}
 		if(data.getShop().getRecipes(player).size() > 0){
@@ -236,7 +240,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	
 	@Override
     public boolean isEntityInvulnerable(DamageSource source){
-        return data.isInvulnerable() && source != DamageSource.outOfWorld && !source.isCreativePlayer();
+        return data.isInvulnerable() && source != DamageSource.OUT_OF_WORLD && !source.isCreativePlayer();
     }
 	
 	@Override
@@ -281,7 +285,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-		if(!this.worldObj.isRemote){
+		if(!this.world.isRemote){
 			FileScriptInvoke scriptInvoke = new FileScriptInvoke(data.getUpdateScript());
 			if(!scriptInvoke.getScriptName().isEmpty()){
 				scope = TaleCraft.globalScriptManager.createNewNPCScope(this);
@@ -301,7 +305,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	}
 
 	private EntityPlayer lookAtPlayer(int range, int rangeY){
-		List<Entity> closeEntities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.posX - range, this.posY - rangeY, this.posZ - range, this.posX + range, this.posY + rangeY, this.posZ + range));
+		List<Entity> closeEntities = this.world.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.posX - range, this.posY - rangeY, this.posZ - range, this.posX + range, this.posY + rangeY, this.posZ + range));
 		for(Entity ent : closeEntities){
 			if(ent instanceof EntityPlayer){
 				return (EntityPlayer) ent;

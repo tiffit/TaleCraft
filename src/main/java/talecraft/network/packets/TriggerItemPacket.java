@@ -43,7 +43,7 @@ public class TriggerItemPacket implements IMessage {
 			
 			ItemStack item = player.inventory.getCurrentItem();
 			if(item != null && item.getItem() instanceof TCITriggerableItem){
-				((TCITriggerableItem)item.getItem()).trigger(player.worldObj, player, item);
+				((TCITriggerableItem)item.getItem()).trigger(player.world, player, item);
 			}
 			return null;
 		}

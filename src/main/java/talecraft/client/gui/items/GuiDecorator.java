@@ -71,7 +71,7 @@ public class GuiDecorator extends QADGuiScreen {
 			@Override
 			public void run() {
 				TaleCraft.network.sendToServer(
-						new DecoratorPacket(mc.thePlayer.getUniqueID(),
+						new DecoratorPacket(mc.player.getUniqueID(),
 								X_OFFSET.getValue().intValue(), (int)Y_OFFSET.getValue().intValue(), (int)Z_OFFSET.getValue().intValue(),
 								selected_decoration, AMOUNT.getValue().intValue(), RADIUS.getValue().intValue()));
 			}

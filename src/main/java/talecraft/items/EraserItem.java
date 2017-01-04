@@ -18,7 +18,8 @@ import talecraft.util.MutableBlockPos;
 public class EraserItem extends TCItem {
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return EnumActionResult.PASS;
 		
@@ -35,12 +36,13 @@ public class EraserItem extends TCItem {
 			else
 				return EnumActionResult.SUCCESS;
 		} else {
-			return onItemRightClick(stack, world, player, hand).getType();
+			return onItemRightClick(world, player, hand).getType();
 		}
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		
@@ -63,7 +65,7 @@ public class EraserItem extends TCItem {
 			// Woopsy!
 			if(player instanceof EntityPlayerMP) {
 				String msg = TextFormatting.RED + "ERROR: NO BLOCKS SELECTED.";
-				((EntityPlayerMP)player).addChatMessage(new TextComponentString(msg));
+				((EntityPlayerMP)player).sendMessage(new TextComponentString(msg));
 			}
 			return false;
 		}
@@ -75,7 +77,7 @@ public class EraserItem extends TCItem {
 			// HELL NO!
 			if(player instanceof EntityPlayerMP) {
 				String msg = TextFormatting.RED + "ERROR: TOO MANY BLOCKS TO ERASE -> " + volume + " >= " + maxvolume;
-				((EntityPlayerMP)player).addChatMessage(new TextComponentString(msg));
+				((EntityPlayerMP)player).sendMessage(new TextComponentString(msg));
 			}
 			return false;
 		}

@@ -107,7 +107,7 @@ public class ClientNetworkHandler {
 				public void run() {
 					CopyItem copy = TaleCraftItems.copy;
 					ItemStack stack = new ItemStack(copy);
-					copy.onItemRightClick(stack, ClientProxy.mc.theWorld, ClientProxy.mc.thePlayer, EnumHand.MAIN_HAND);
+					copy.onItemRightClick(ClientProxy.mc.world, ClientProxy.mc.player, EnumHand.MAIN_HAND);
 				}
 			});
 		}

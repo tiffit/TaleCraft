@@ -246,7 +246,7 @@ public class GObjectTypeHelper {
 		return Item.REGISTRY.getKeys();
 	}
 
-	public static Collection<String> getEntityNameList() {
+	public static Collection<ResourceLocation> getEntityNameList() {
 		return Lists.newArrayList(EntityList.getEntityNameList());
 	}
 

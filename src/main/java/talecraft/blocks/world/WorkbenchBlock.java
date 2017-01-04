@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import talecraft.TaleCraft;
@@ -25,8 +26,8 @@ public class WorkbenchBlock extends TCWorldBlock{
 	}
 	
     @Override
-		public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack helditem, EnumFacing side, float hitX, float hitY, float hitZ){
-    	player.openGui(TaleCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    	playerIn.openGui(TaleCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
     	return true;
     }
     
@@ -43,7 +44,8 @@ public class WorkbenchBlock extends TCWorldBlock{
     public static ItemStack[] getRemainingItems(InventoryCrafting craftMatrix, World worldIn){
         for (IRecipe irecipe : recipes){
             if (irecipe.matches(craftMatrix, worldIn)){
-                return irecipe.getRemainingItems(craftMatrix);
+            	NonNullList<ItemStack> list = irecipe.getRemainingItems(craftMatrix);
+                return list.toArray(new ItemStack[list.size()]);
             }
         }
         ItemStack[] aitemstack = new ItemStack[craftMatrix.getSizeInventory()];

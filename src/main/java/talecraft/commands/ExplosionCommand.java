@@ -10,12 +10,12 @@ import net.minecraft.util.math.BlockPos;
 public class ExplosionCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_explode";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return ">this< OR <entity> OR <x> <y> <z>";
 	}
 

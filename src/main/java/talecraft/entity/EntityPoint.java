@@ -62,7 +62,7 @@ public class EntityPoint extends Entity {
 	}
 
 	public boolean interactFirst(EntityPlayer player) {
-		if(player.worldObj.isRemote)
+		if(player.world.isRemote)
 			return false;
 
 		ItemStack stack = player.getHeldItemMainhand();
@@ -80,7 +80,7 @@ public class EntityPoint extends Entity {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if(worldObj.isRemote)
+		if(world.isRemote)
 			return false;
 
 		if(source.isCreativePlayer()) {

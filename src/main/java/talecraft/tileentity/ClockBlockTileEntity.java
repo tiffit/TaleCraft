@@ -126,7 +126,7 @@ public class ClockBlockTileEntity extends TCTileEntity  {
 	@Override
 	public void update() {
 		super.update();
-		if(worldObj.isRemote)
+		if(world.isRemote)
 			return;
 
 		// UPDATE!
@@ -138,7 +138,7 @@ public class ClockBlockTileEntity extends TCTileEntity  {
 
 				// execute
 				clockTick();
-				worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+				world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 
 				// repeat?
 				if(repeat > 0 || repeat == -1) {
@@ -172,7 +172,7 @@ public class ClockBlockTileEntity extends TCTileEntity  {
 			clockStop();
 		}
 
-		worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+		world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 
 		super.commandReceived(command, data);
 	}

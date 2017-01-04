@@ -21,7 +21,8 @@ public class TCInstrumentItem extends TCWorldItem {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemstack, World world, EntityPlayer player,EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack itemstack = player.getHeldItem(hand);
 		if(world.isRemote) return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
 		int note = world.rand.nextInt(25);
 		byte b = (byte)(note % 25);

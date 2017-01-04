@@ -40,7 +40,7 @@ public class SelectionBoxRenderer implements IRenderable {
 		GlStateManager.blendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ZERO);
 
 		// Wand Selection Rendering
-		NBTTagCompound playerData = mc.thePlayer.getEntityData();
+		NBTTagCompound playerData = mc.player.getEntityData();
 		if(playerData.hasKey("tcWand")) {
 			NBTTagCompound tcWand = playerData.getCompoundTag("tcWand");
 
@@ -79,7 +79,7 @@ public class SelectionBoxRenderer implements IRenderable {
 				if(sv < 1024 && sv > 0) {
 					boolean showVoid = false;
 					
-					ItemStack IS = mc.thePlayer.getHeldItemMainhand();
+					ItemStack IS = mc.player.getHeldItemMainhand();
 					Item I = IS!=null?IS.getItem():null;
 					
 					if(I!=null) {
@@ -106,7 +106,7 @@ public class SelectionBoxRenderer implements IRenderable {
 						final int b = 255;
 						final int a = 255;
 						
-						WorldHelper.foreach(mc.theWorld, ix, iy, iz, ax, ay, az, new BlockRegionIterator() {
+						WorldHelper.foreach(mc.world, ix, iy, iz, ax, ay, az, new BlockRegionIterator() {
 							@Override public void $(World world, IBlockState state, BlockPos pos) {
 								if(!state.equals(stvoid))
 									return;

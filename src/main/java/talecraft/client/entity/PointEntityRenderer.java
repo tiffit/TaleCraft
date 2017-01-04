@@ -96,7 +96,7 @@ public class PointEntityRenderer extends Render<Entity> {
 			GlStateManager.translate(0, .75f, 0);
 			GlStateManager.rotate(180, 1, 0, 0);
 			GlStateManager.scale(HEX, HEX, HEX);
-			GlStateManager.rotate(Minecraft.getMinecraft().thePlayer.rotationYawHead + 180, 0, 1, 0);
+			GlStateManager.rotate(Minecraft.getMinecraft().player.rotationYawHead + 180, 0, 1, 0);
 			fntrnd.drawString(TEXT, -TEXT_W/2, 0, 0xFFFFFFFF);
 			GlStateManager.popMatrix();
 		}

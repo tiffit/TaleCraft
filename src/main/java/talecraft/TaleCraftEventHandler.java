@@ -145,7 +145,7 @@ public class TaleCraftEventHandler {
 
 	@SubscribeEvent
 	public void onLivingAttacked(LivingAttackEvent event) {
-		World world = event.getEntity().worldObj;
+		World world = event.getEntity().getEntityWorld();
 
 		if(world.isRemote) return;
 
@@ -154,32 +154,32 @@ public class TaleCraftEventHandler {
 			return;
 		}
 
-		if(event.getSource() == DamageSource.fall && world.getGameRules().getBoolean("disable.damage.fall")) {
+		if(event.getSource() == DamageSource.FALL && world.getGameRules().getBoolean("disable.damage.fall")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.drown && world.getGameRules().getBoolean("disable.damage.drown")) {
+		if(event.getSource() == DamageSource.DROWN && world.getGameRules().getBoolean("disable.damage.drown")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.lava && world.getGameRules().getBoolean("disable.damage.lava")) {
+		if(event.getSource() == DamageSource.LAVA && world.getGameRules().getBoolean("disable.damage.lava")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.magic && world.getGameRules().getBoolean("disable.damage.magic")) {
+		if(event.getSource() == DamageSource.MAGIC && world.getGameRules().getBoolean("disable.damage.magic")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.inFire && world.getGameRules().getBoolean("disable.damage.fire")) {
+		if(event.getSource() == DamageSource.IN_FIRE && world.getGameRules().getBoolean("disable.damage.fire")) {
 			event.setCanceled(true);
 			return;
 		}
 
-		if(event.getSource() == DamageSource.inWall && world.getGameRules().getBoolean("disable.damage.suffocate")) {
+		if(event.getSource() == DamageSource.IN_WALL && world.getGameRules().getBoolean("disable.damage.suffocate")) {
 			event.setCanceled(true);
 			return;
 		}
@@ -236,12 +236,12 @@ public class TaleCraftEventHandler {
 					return player;
 				}
 				@Override
-				public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+				public boolean canUseCommand(int permLevel, String commandName) {
 					return true;
 				}
 				@Override
-				public void addChatMessage(ITextComponent component) {
-					event.getEntityPlayer().addChatMessage(component);
+				public void sendMessage(ITextComponent component) {
+					event.getEntityPlayer().sendMessage(component);
 				}
 			}, command);
 		}

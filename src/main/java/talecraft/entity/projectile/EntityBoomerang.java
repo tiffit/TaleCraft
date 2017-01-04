@@ -38,7 +38,7 @@ public class EntityBoomerang extends EntityThrowable {
 	
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (worldObj.isRemote)
+		if (world.isRemote)
 			return;
 		if (result.typeOfHit == Type.ENTITY) {
 			Entity ent = result.entityHit;

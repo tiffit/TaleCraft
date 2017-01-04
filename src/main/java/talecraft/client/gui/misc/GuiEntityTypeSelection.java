@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
 import talecraft.client.gui.qad.QADButton;
 import talecraft.client.gui.qad.QADFACTORY;
 import talecraft.client.gui.qad.QADGuiScreen;
@@ -36,14 +37,14 @@ public class GuiEntityTypeSelection extends QADGuiScreen {
 
 		final int rowHeight = 12;
 
-		Collection<String> names = GObjectTypeHelper.getEntityNameList();
+		Collection<ResourceLocation> names = GObjectTypeHelper.getEntityNameList();
 
 		// Sort dat list
 		{
-			List<String> names2 = Lists.newArrayList(names);
-			names2.sort(new Comparator<String>() {
-				@Override public int compare(String o1, String o2) {
-					return o1.compareTo(o2);
+			List<ResourceLocation> names2 = Lists.newArrayList(names);
+			names2.sort(new Comparator<ResourceLocation>() {
+				@Override public int compare(ResourceLocation o1, ResourceLocation o2) {
+					return o1.toString().compareTo(o2.toString());
 				}
 			});
 			names = names2;
@@ -53,13 +54,13 @@ public class GuiEntityTypeSelection extends QADGuiScreen {
 		panel.allowLeftMouseButtonScrolling = true;
 
 		int yOff = 1;
-		for(final String typeName : names) {
-			QADButton component = QADFACTORY.createButton(typeName, 2, yOff, width);
+		for(final ResourceLocation typeName : names) {
+			QADButton component = QADFACTORY.createButton(typeName.toString(), 2, yOff, width);
 			component.simplified = true;
 			component.textAlignment = 0;
 			component.setHeight(12);
 			component.setAction( new Runnable() {
-				final String pt = typeName;
+				final String pt = typeName.toString();
 				@Override public void run() {
 					dataLink.setType(pt);
 					displayGuiScreen(getBehind());

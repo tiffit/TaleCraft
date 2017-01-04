@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import talecraft.TaleCraft;
 import talecraft.script.wrappers.IObjectWrapper;
 import talecraft.script.wrappers.nbt.CompoundTagWrapper;
@@ -15,10 +16,10 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 		this.stack = stack;
 	}
 	
-	public static ItemStackObjectWrapper[] createArray(ItemStack[] stacks){
-		ItemStackObjectWrapper[] newList = new ItemStackObjectWrapper[stacks.length];
-		for(int i = 0; i < stacks.length; i++){
-			newList[i] = new ItemStackObjectWrapper(stacks[i]);
+	public static ItemStackObjectWrapper[] createArray(NonNullList<ItemStack> stacks){
+		ItemStackObjectWrapper[] newList = new ItemStackObjectWrapper[stacks.size()];
+		for(int i = 0; i < stacks.size(); i++){
+			newList[i] = new ItemStackObjectWrapper(stacks.get(i));
 		}
 		return newList;
 	}
@@ -55,11 +56,11 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 	}
 
 	public int getStackSize() {
-		return stack.stackSize;
+		return stack.getCount();
 	}
 
 	public void setStackSize(int size) {
-		stack.stackSize = size;
+		stack.setCount(size);
 	}
 	
 	public void incStackSize(int amount){
@@ -90,7 +91,7 @@ public class ItemStackObjectWrapper implements IObjectWrapper {
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		stack.writeToNBT(tagCompound);
 		tagCompound.merge(tagwrap.internal());
-		stack.readFromNBT(tagCompound);
+		stack = new ItemStack(tagCompound);
 	}
 
 	public CompoundTagWrapper getNBT(){

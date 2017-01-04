@@ -21,19 +21,19 @@ import talecraft.util.Either;
 public class FileCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_file";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<action> <directory|   >";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(!(sender instanceof EntityPlayerMP)) {
-			sender.addChatMessage(new TextComponentString(TextFormatting.RED+"This command can only be used by players."));
+			sender.sendMessage(new TextComponentString(TextFormatting.RED+"This command can only be used by players."));
 			return;
 		}
 
@@ -75,7 +75,7 @@ public class FileCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		return Collections.emptyList();
 	}
 

@@ -36,7 +36,7 @@ public class GuiLightBlock extends QADGuiScreen {
 				String commandString = ClientNetworkHandler.makeBlockCommand(position);
 				NBTTagCompound commandData = new NBTTagCompound();
 				commandData.setString("command", "set");
-				commandData.setInteger("lightValue", MathHelper.clamp_int(newValue, 0, 15));
+				commandData.setInteger("lightValue", MathHelper.clamp(newValue, 0, 15));
 				TaleCraft.network.sendToServer(new StringNBTCommandPacket(commandString, commandData));
 			}
 		});

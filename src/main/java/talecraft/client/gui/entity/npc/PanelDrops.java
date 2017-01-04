@@ -5,11 +5,13 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import talecraft.client.gui.qad.QADButton;
 import talecraft.client.gui.qad.QADDropdownBox;
@@ -87,7 +89,7 @@ public class PanelDrops extends NPCPanel{
 			panel.addComponent(chanceSlider);
 			
 			panel.addComponent(new QADLabel("Amount", 207, 50));
-			QADNumberTextField sizeField = new QADNumberTextField(207, 60, 30, 20, drops.get(index).stack.stackSize, NumberType.INTEGER);
+			QADNumberTextField sizeField = new QADNumberTextField(207, 60, 30, 20, drops.get(index).stack.getCount(), NumberType.INTEGER);
 			sizeField.textChangedListener = new SizeFieldChangeListener();
 			sizeField.setRange(0, drops.get(index).stack.getMaxStackSize());
 			panel.addComponent(sizeField);
@@ -128,7 +130,7 @@ public class PanelDrops extends NPCPanel{
 			}catch(NumberFormatException e){
 				return;
 			}
-			drops.get(index).stack.stackSize = amount;
+			drops.get(index).stack.setCount(amount);
 		}
 		
 	}
@@ -200,7 +202,7 @@ public class PanelDrops extends NPCPanel{
 			for(ItemStack item : stacks){
 				Item itm = item.getItem();
 				if(itm == null) continue;
-				List<ItemStack> subitems = new ArrayList<ItemStack>();
+				NonNullList<ItemStack> subitems = NonNullList.create();
 				itm.getSubItems(itm, CreativeTabs.INVENTORY, subitems);
 				for(final ItemStack stack : subitems){
 					items.add(new ItemItem(stack));
@@ -251,7 +253,9 @@ public class PanelDrops extends NPCPanel{
 		@Override
 		public void onSelection(ListModelItem selected) {
 			ItemItem ii = (ItemItem) selected;
-			drops.get(index).stack.setItem(ii.stack.getItem());
+			NBTTagCompound oldStack = drops.get(index).stack.serializeNBT();
+			oldStack.setString("id", ii.stack.serializeNBT().getString("id"));
+			drops.get(index).stack = new ItemStack(oldStack);
 		}
 	}
 		

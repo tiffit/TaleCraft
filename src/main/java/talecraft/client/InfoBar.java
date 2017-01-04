@@ -47,8 +47,8 @@ public class InfoBar {
 		builder.setLength(0);
 		writeModVersionInfo();
 
-		if(mc.thePlayer.inventory.getCurrentItem() != null && ClientProxy.settings.getBoolean("client.infobar.heldItemInfo")) {
-			writeHeldItemInfo(mc.thePlayer.inventory.getCurrentItem());
+		if(mc.player.inventory.getCurrentItem() != null && ClientProxy.settings.getBoolean("client.infobar.heldItemInfo")) {
+			writeHeldItemInfo(mc.player.inventory.getCurrentItem());
 		}
 
 		if(mc.objectMouseOver != null && ClientProxy.settings.getBoolean("client.infobar.movingObjectPosition")) {
@@ -80,8 +80,8 @@ public class InfoBar {
 		mc.fontRendererObj.drawString(builder.toString(), 1, 1, 14737632);
 		lastHeight = mc.fontRendererObj.FONT_HEIGHT+1;
 
-		if(mc.thePlayer != null && mc.thePlayer.getEntityData().hasKey("tcWand") && ClientProxy.settings.getBoolean("client.infobar.showWandInfo")) {
-			NBTTagCompound tcWand = mc.thePlayer.getEntityData().getCompoundTag("tcWand");
+		if(mc.player != null && mc.player.getEntityData().hasKey("tcWand") && ClientProxy.settings.getBoolean("client.infobar.showWandInfo")) {
+			NBTTagCompound tcWand = mc.player.getEntityData().getCompoundTag("tcWand");
 
 			builder.setLength(0);
 
@@ -132,7 +132,7 @@ public class InfoBar {
 		builder.append(' ');
 		builder.append(TextFormatting.ITALIC);
 
-		if(Minecraft.getMinecraft().thePlayer.isSneaking())
+		if(Minecraft.getMinecraft().player.isSneaking())
 			builder.append(item);
 		else
 			builder.append(item.getDisplayName());
@@ -171,7 +171,7 @@ public class InfoBar {
 				builder.append(' ');
 
 				boolean b = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL);
-				IBlockState state = mc.theWorld.getBlockState(lookAt);
+				IBlockState state = mc.world.getBlockState(lookAt);
 
 				if(b && state.getBlock().getRegistryName() != null) {
 					ResourceLocation identifier = state.getBlock().getRegistryName();
@@ -228,7 +228,7 @@ public class InfoBar {
 		// Look Direction
 		if(ClientProxy.settings.getBoolean("client.infobar.showLookDirectionInfo"))
 		{
-			EntityPlayer playerIn = mc.thePlayer;
+			EntityPlayer playerIn = mc.player;
 
 			EnumFacing directionSky = playerIn.getHorizontalFacing();
 			EnumFacing directionFull = null;

@@ -98,10 +98,10 @@ public class JavascriptDecoration implements Decoration{
 		}
 
 		@Override
-		public void addChatMessage(ITextComponent component) {}
+		public void sendMessage(ITextComponent component) {}
 
 		@Override
-		public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+		public boolean canUseCommand(int permLevel, String commandName) {
 			return false;
 		}
 

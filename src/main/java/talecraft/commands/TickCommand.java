@@ -17,12 +17,12 @@ import talecraft.util.CommandArgumentParser;
 public class TickCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_tickblock";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<x> <y> <z>";
 	}
 
@@ -44,7 +44,7 @@ public class TickCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length == 0) {
 			return getListOfStringsMatchingLastWord(args, new String[]{"~","0"});
 		}

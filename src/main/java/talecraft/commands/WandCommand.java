@@ -49,12 +49,12 @@ public class WandCommand extends TCCommandBase {
 	};
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_wand";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "? (Use tab-completion!)";
 	}
 
@@ -387,11 +387,11 @@ public class WandCommand extends TCCommandBase {
 
 				AxisAlignedBB aabb = new AxisAlignedBB(bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5]);
 				aabb = aabb.expand(1, 1, 1);
-				List<Entity> entities = player.worldObj.getEntitiesWithinAABB(Entity.class, aabb);
+				List<Entity> entities = player.getEntityWorld().getEntitiesWithinAABB(Entity.class, aabb);
 
 				for(Entity entity : entities) {
 					if(entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer))
-						entity.attackEntityFrom(DamageSource.outOfWorld, 10000f);
+						entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, 10000f);
 					else if(entity instanceof EntityItem)
 						entity.setDead();
 				}
@@ -411,7 +411,7 @@ public class WandCommand extends TCCommandBase {
 			throw new WrongUsageException("You didn't select a region with your wand.");
 		}
 
-		WorldHelper.fill(player.worldObj, bounds, Blocks.AIR.getDefaultState());
+		WorldHelper.fill(player.getEntityWorld(), bounds, Blocks.AIR.getDefaultState());
 	}
 
 	/****/
@@ -424,16 +424,16 @@ public class WandCommand extends TCCommandBase {
 				throw new WrongUsageException("You didn't select a region with your wand.");
 			}
 
-			ClipboardItem item = ClipboardItem.copyRegion(bounds, player.worldObj, name, player);
+			ClipboardItem item = ClipboardItem.copyRegion(bounds, player.getEntityWorld(), name, player);
 
 			if(item != null) {
 				ServerMirror.instance().getClipboard().put(name, item);
-				player.addChatMessage(new TextComponentString(TextFormatting.GREEN+"Copied region to clipboard as '"+name+"'!"));
+				player.sendMessage(new TextComponentString(TextFormatting.GREEN+"Copied region to clipboard as '"+name+"'!"));
 			}
 		} else {
 			CopyItem copy = TaleCraftItems.copy;
 			ItemStack stack = new ItemStack(copy);
-			copy.onItemRightClick(stack, player.worldObj, player, EnumHand.MAIN_HAND);
+			copy.onItemRightClick(player.getEntityWorld(), player, EnumHand.MAIN_HAND);
 			TaleCraft.network.sendTo(new StringNBTCommandPacket("item.copy.trigger"), player);
 		}
 	}
@@ -450,8 +450,8 @@ public class WandCommand extends TCCommandBase {
 			ClipboardItem item = ServerMirror.instance().getClipboard().get(name);
 
 			if(item != null) {
-				ClipboardItem.pasteRegion(item, new BlockPos(bounds[0], bounds[1], bounds[2]), player.worldObj, player);
-				player.addChatMessage(new TextComponentString(TextFormatting.GREEN+"Copied region to world: '"+name+"'."));
+				ClipboardItem.pasteRegion(item, new BlockPos(bounds[0], bounds[1], bounds[2]), player.getEntityWorld(), player);
+				player.sendMessage(new TextComponentString(TextFormatting.GREEN+"Copied region to world: '"+name+"'."));
 			} else {
 				throw new CommandException("There is no record with the name '"+name+"' in the clipboard.");
 			}
@@ -469,8 +469,8 @@ public class WandCommand extends TCCommandBase {
 			ClipboardItem item = ServerMirror.instance().getClipboard().get(name);
 
 			if(item != null) {
-				ClipboardItem.pasteRegion(item, new BlockPos(bounds[0], bounds[1], bounds[2]), player.worldObj, player);
-				player.addChatMessage(new TextComponentString(TextFormatting.GREEN+"Copied region to world: '"+name+"'."));
+				ClipboardItem.pasteRegion(item, new BlockPos(bounds[0], bounds[1], bounds[2]), player.getEntityWorld(), player);
+				player.sendMessage(new TextComponentString(TextFormatting.GREEN+"Copied region to world: '"+name+"'."));
 			} else {
 				throw new CommandException("There is no record with the name '"+name+"' in the clipboard.");
 			}
@@ -510,7 +510,7 @@ public class WandCommand extends TCCommandBase {
 				throw new WrongUsageException("You didn't select a region with your wand.");
 			}
 
-			WorldHelper.fill(player.worldObj, bounds, replace);
+			WorldHelper.fill(player.getEntityWorld(), bounds, replace);
 			return;
 		} else {
 			throw new WrongUsageException("Missing parameters! /tc_wand region fill <block>");
@@ -536,7 +536,7 @@ public class WandCommand extends TCCommandBase {
 				throw new WrongUsageException("You didn't select a region with your wand.");
 			}
 
-			WorldHelper.replace(player.worldObj, bounds, replace, mask);
+			WorldHelper.replace(player.getEntityWorld(), bounds, replace, mask);
 			return;
 		} else {
 			throw new WrongUsageException("Missing parameters! /tc_wand region fill <block>");
@@ -598,14 +598,14 @@ public class WandCommand extends TCCommandBase {
 			int ay = bounds[4];
 			int az = bounds[5];
 
-			if(f_down)  WorldHelper.fill(player.worldObj, ix, iy, iz, ax, iy, az, replace);
-			if(f_up)    WorldHelper.fill(player.worldObj, ix, ay, iz, ax, ay, az, replace);
-			if(f_north) WorldHelper.fill(player.worldObj, ix, iy, iz, ax, ay, iz, replace);
-			if(f_east)  WorldHelper.fill(player.worldObj, ax, iy, iz, ax, ay, az, replace);
-			if(f_south) WorldHelper.fill(player.worldObj, ix, iy, az, ax, ay, az, replace);
-			if(f_west)  WorldHelper.fill(player.worldObj, ix, iy, iz, ix, ay, az, replace);
+			if(f_down)  WorldHelper.fill(player.getEntityWorld(), ix, iy, iz, ax, iy, az, replace);
+			if(f_up)    WorldHelper.fill(player.getEntityWorld(), ix, ay, iz, ax, ay, az, replace);
+			if(f_north) WorldHelper.fill(player.getEntityWorld(), ix, iy, iz, ax, ay, iz, replace);
+			if(f_east)  WorldHelper.fill(player.getEntityWorld(), ax, iy, iz, ax, ay, az, replace);
+			if(f_south) WorldHelper.fill(player.getEntityWorld(), ix, iy, az, ax, ay, az, replace);
+			if(f_west)  WorldHelper.fill(player.getEntityWorld(), ix, iy, iz, ix, ay, az, replace);
 
-			// WorldHelper.fill(player.worldObj, bounds, replace);
+			// WorldHelper.fill(player.getEntityWorld(), bounds, replace);
 			return;
 		} else {
 			throw new WrongUsageException("Missing parameters! /tc_wand region room <UDNESW BA> <block>");
@@ -629,7 +629,7 @@ public class WandCommand extends TCCommandBase {
 			int sizeY = bounds[4] - bounds[1] + 1;
 			int sizeZ = bounds[5] - bounds[2] + 1;
 
-			ClipboardItem item = ClipboardItem.copyRegion(bounds, player.worldObj, null, player);
+			ClipboardItem item = ClipboardItem.copyRegion(bounds, player.getEntityWorld(), null, player);
 			int originX = bounds[0];
 			int originY = bounds[1];
 			int originZ = bounds[2];
@@ -655,7 +655,7 @@ public class WandCommand extends TCCommandBase {
 				curX += addX;
 				curY += addY;
 				curZ += addZ;
-				ClipboardItem.pasteRegion(item, new BlockPos(curX, curY, curZ), player.worldObj, player);
+				ClipboardItem.pasteRegion(item, new BlockPos(curX, curY, curZ), player.getEntityWorld(), player);
 			}
 		} else {
 			throw new WrongUsageException("Missing parameters! /tc_wand region repeat <count> [direction]");
@@ -669,7 +669,7 @@ public class WandCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length <= 1) {
 			return getListOfStringsMatchingLastWord(args, new String[] {
 					"region",

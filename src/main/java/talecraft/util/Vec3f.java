@@ -98,7 +98,7 @@ public class Vec3f {
 	}
 
 	public MutableBlockPos getAsBlockPos() {
-		return new MutableBlockPos(MathHelper.floor_float(x), MathHelper.floor_float(y), MathHelper.floor_float(z));
+		return new MutableBlockPos(MathHelper.floor(x), MathHelper.floor(y), MathHelper.floor(z));
 	}
 
 }

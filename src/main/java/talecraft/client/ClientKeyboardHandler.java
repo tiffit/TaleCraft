@@ -55,14 +55,14 @@ public class ClientKeyboardHandler {
 
 	public void on_key(KeyInputEvent event) {
 		//opens the NBT editor
-		if(nbt.isPressed() && nbt.isKeyDown() && mc.theWorld != null && mc.thePlayer != null && !mc.isGamePaused()){
-			InventoryPlayer player = mc.thePlayer.inventory;
+		if(nbt.isPressed() && nbt.isKeyDown() && mc.player != null && mc.player != null && !mc.isGamePaused()){
+			InventoryPlayer player = mc.player.inventory;
 			if(player.getCurrentItem() != null) FMLCommonHandler.instance().showGuiScreen(new GuiNBTEditor(player.getCurrentItem().getTagCompound()));
-			else mc.thePlayer.addChatMessage(new TextComponentString(TextFormatting.RED + "You must be holding something to use the NBT Editor"));
+			else mc.player.sendMessage(new TextComponentString(TextFormatting.RED + "You must be holding something to use the NBT Editor"));
 			return;
 		}
-		if(triggerItem.isPressed() && triggerItem.isKeyDown() && mc.theWorld != null && mc.thePlayer != null && !mc.isGamePaused()){
-			TaleCraft.network.sendToServer(new TriggerItemPacket(mc.thePlayer.getUniqueID()));
+		if(triggerItem.isPressed() && triggerItem.isKeyDown() && mc.world != null && mc.player != null && !mc.isGamePaused()){
+			TaleCraft.network.sendToServer(new TriggerItemPacket(mc.player.getUniqueID()));
 			return;
 		}
 		// this toggles between the various visualization modes
@@ -70,28 +70,28 @@ public class ClientKeyboardHandler {
 			proxy.getRenderer().setVisualizationMode(proxy.getRenderer().getVisualizationMode().next());
 		}
 		if(reload.isPressed() && reload.isKeyDown()) {
-			ItemStack stack = mc.thePlayer.inventory.getCurrentItem();
+			ItemStack stack = mc.player.inventory.getCurrentItem();
 			if(stack != null && stack.getItem() instanceof TCGunItem){
 				TCGunItem gun = (TCGunItem) stack.getItem();
-				int index = gun.getClipInInventory(mc.thePlayer.inventory);
+				int index = gun.getClipInInventory(mc.player.inventory);
 				if(index != -1){
 					if(stack.getItemDamage() > 0){
-						mc.theWorld.playSound(mc.thePlayer, mc.thePlayer.getPosition(), gun.reloadSound(), SoundCategory.AMBIENT, 5F, 1F);
-						TaleCraft.network.sendToServer(new GunReloadPacket(mc.thePlayer.getUniqueID()));
+						mc.world.playSound(mc.player, mc.player.getPosition(), gun.reloadSound(), SoundCategory.AMBIENT, 5F, 1F);
+						TaleCraft.network.sendToServer(new GunReloadPacket(mc.player.getUniqueID()));
 					}
 				}
 			}
 		}
 		// this toggles between buildmode and adventuremode
-		if(buildModeBinding.isPressed() && buildModeBinding.isKeyDown() && mc.theWorld != null && mc.thePlayer != null && !mc.isGamePaused()) {
+		if(buildModeBinding.isPressed() && buildModeBinding.isKeyDown() && mc.world != null && mc.player != null && !mc.isGamePaused()) {
 			TaleCraft.logger.info("Switching GameMode using the buildmode-key.");
-			mc.thePlayer.sendChatMessage("/gamemode " + (proxy.isBuildMode() ? "2" : "1"));
+			mc.player.sendChatMessage("/gamemode " + (proxy.isBuildMode() ? "2" : "1"));
 		if(
 				mapSettingsBinding.isPressed() &&
 				mapSettingsBinding.isKeyDown() &&
 				proxy.isBuildMode() &&
-				mc.thePlayer != null &&
-				mc.theWorld != null
+				mc.player != null &&
+				mc.world != null
 				) {
 			// XXX: Disabled functionality.
 			// mc.displayGuiScreen(new GuiMapControl());

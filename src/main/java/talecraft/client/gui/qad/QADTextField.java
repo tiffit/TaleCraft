@@ -727,7 +727,7 @@ public class QADTextField extends QADRectangularComponent {
 				this.lineScrollOffset -= this.lineScrollOffset - p_146199_1_;
 			}
 
-			this.lineScrollOffset = MathHelper.clamp_int(this.lineScrollOffset, 0, j);
+			this.lineScrollOffset = MathHelper.clamp(this.lineScrollOffset, 0, j);
 		}
 	}
 
@@ -755,7 +755,7 @@ public class QADTextField extends QADRectangularComponent {
 	{
 		this.cursorPosition = p_146190_1_;
 		int j = model.getTextLength();
-		this.cursorPosition = MathHelper.clamp_int(this.cursorPosition, 0, j);
+		this.cursorPosition = MathHelper.clamp(this.cursorPosition, 0, j);
 		this.setSelectionPos(this.cursorPosition);
 	}
 

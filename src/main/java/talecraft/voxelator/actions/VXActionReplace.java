@@ -24,7 +24,7 @@ public class VXActionReplace extends VXAction {
 		}
 		
 		@Override public VXAction newAction(NBTTagCompound actionData) {
-			ItemStack stack = ItemStack.loadItemStackFromNBT(actionData.getCompoundTag("state"));
+			ItemStack stack = new ItemStack(actionData.getCompoundTag("state"));
 			Block block = Block.getBlockFromItem(stack.getItem());
 			return new VXActionReplace(block.getStateFromMeta(stack.getMetadata()));
 		}

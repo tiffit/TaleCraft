@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -26,7 +27,7 @@ public class TCItem extends Item {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
 
@@ -36,11 +37,11 @@ public class TCItem extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		if(world.isRemote)
-			return ActionResult.newResult(EnumActionResult.PASS, stack);
+			return ActionResult.newResult(EnumActionResult.PASS, player.getHeldItem(hand));
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
 
 	@Override
@@ -65,12 +66,7 @@ public class TCItem extends Item {
 	public boolean isFull3D() {
 		return true;
 	}
-
-	@Override
-	public boolean isItemTool(ItemStack stack) {
-		return true;
-	}
-
+	
 	@Override
 	public boolean canHarvestBlock(IBlockState state) {
 		return false;
@@ -83,7 +79,7 @@ public class TCItem extends Item {
 
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
-		player.worldObj.notifyBlockUpdate(pos, player.worldObj.getBlockState(pos), player.worldObj.getBlockState(pos), 0);
+		player.world.notifyBlockUpdate(pos, player.world.getBlockState(pos), player.world.getBlockState(pos), 0);
 		return false;
 	}
 	
@@ -116,7 +112,7 @@ public class TCItem extends Item {
         Vec3d vec3d = getPositionEyes(1.0F, player);
         Vec3d vec3d1 = player.getLook(1.0F);
         Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * blockReachDistance, vec3d1.yCoord * blockReachDistance, vec3d1.zCoord * blockReachDistance);
-        return player.worldObj.rayTraceBlocks(vec3d, vec3d2, false, false, true);
+        return player.world.rayTraceBlocks(vec3d, vec3d2, false, false, true);
     }
 	
 	public static final boolean isDoubleCall(ItemStack stack, long currentWorldTime) {

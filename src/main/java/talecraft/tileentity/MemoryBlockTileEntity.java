@@ -61,7 +61,7 @@ public class MemoryBlockTileEntity extends TCTileEntity {
 
 		if(command.equals("reset")) {
 			triggered = false;
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 			return;
 		}
 
@@ -78,7 +78,7 @@ public class MemoryBlockTileEntity extends TCTileEntity {
 				// reset
 				if(triggered) {
 					triggered = false;
-					worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+					world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 				}
 				break;
 			case OFF:
@@ -88,7 +88,7 @@ public class MemoryBlockTileEntity extends TCTileEntity {
 				if(!triggered) {
 					Invoke.invoke(triggerInvoke, this, null, triggerState);
 					triggered = true;
-					worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+					world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 				}
 				break;
 			default:

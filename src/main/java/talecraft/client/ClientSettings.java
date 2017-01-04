@@ -94,7 +94,7 @@ public class ClientSettings {
 	}
 
 	public void send() {
-		if(mc.thePlayer == null) return;
+		if(mc.player == null) return;
 
 		String tccommand = "server.client.settings.update";
 		NBTTagCompound settingsForServer = new NBTTagCompound();

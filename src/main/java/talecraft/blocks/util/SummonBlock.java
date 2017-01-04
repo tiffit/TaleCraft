@@ -45,7 +45,8 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
 		if(heldItem != null && heldItem.getItem() == TaleCraftItems.entityclone && !world.isRemote){
 			if(heldItem.hasTagCompound()){
 				if(heldItem.getTagCompound().hasKey("entity_data")){
@@ -63,10 +64,10 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 					newArray[oldArray.length] = option;
 					te.setSummonOptions(newArray);
 					te.markDirty();
-					if(!world.isRemote)playerIn.addChatMessage(new TextComponentString("Entity data has been added to summon block!"));
+					if(!world.isRemote)playerIn.sendMessage(new TextComponentString("Entity data has been added to summon block!"));
 					return true;
 				}else{
-					if(!world.isRemote)playerIn.addChatMessage(new TextComponentString("No entity has been selected!"));
+					if(!world.isRemote)playerIn.sendMessage(new TextComponentString("No entity has been selected!"));
 					return true;
 				}
 			}
@@ -74,7 +75,7 @@ public class SummonBlock extends TCBlockContainer implements TCITriggerableBlock
 		if(!world.isRemote){
 			return true;
 		}
-		return openGui(world, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+		return openGui(world, pos, state, playerIn, hand, heldItem, facing, hitX, hitY, hitZ);
 	}
 	
 	@SideOnly(Side.CLIENT)

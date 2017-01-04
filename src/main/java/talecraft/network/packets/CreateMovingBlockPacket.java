@@ -96,7 +96,7 @@ public class CreateMovingBlockPacket implements IMessage{
 			tag.setString("onDeath", message.SCRIPTS[3]);
 			ent.updateData(tag);
 			ent.setPosition(message.x, message.y, message.z);
-			world.spawnEntityInWorld(ent);
+			world.spawnEntity(ent);
 			return null;
 		}
 	}

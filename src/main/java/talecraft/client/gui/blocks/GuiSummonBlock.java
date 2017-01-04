@@ -117,7 +117,7 @@ public class GuiSummonBlock extends QADGuiScreen {
 
 			button.setAction(new Runnable() {
 				@Override public void run() {
-					EntityPlayerSP playerSP = Minecraft.getMinecraft().thePlayer;
+					EntityPlayerSP playerSP = Minecraft.getMinecraft().player;
 					int[] bounds = WandItem.getBoundsFromPlayerOrNull(playerSP);
 
 					if(bounds != null) {

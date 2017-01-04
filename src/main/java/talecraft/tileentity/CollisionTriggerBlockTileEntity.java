@@ -77,7 +77,7 @@ public class CollisionTriggerBlockTileEntity extends TCTileEntity{
 	}
 
 	private void propagateCollisionStart(Entity entityIn, BlockPos pos) {
-		TileEntity tileEntity = worldObj.getTileEntity(pos);
+		TileEntity tileEntity = world.getTileEntity(pos);
 
 		if(tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
 			Map<Entity,MutableInteger> otherMap = ((CollisionTriggerBlockTileEntity)tileEntity).collidingEntities;
@@ -110,7 +110,7 @@ public class CollisionTriggerBlockTileEntity extends TCTileEntity{
 	}
 
 	private void propagateCollisionStop(Entity entityIn, BlockPos pos) {
-		TileEntity tileEntity = worldObj.getTileEntity(pos);
+		TileEntity tileEntity = world.getTileEntity(pos);
 
 		if(tileEntity != null && tileEntity instanceof CollisionTriggerBlockTileEntity) {
 			Map<Entity,MutableInteger> otherMap = ((CollisionTriggerBlockTileEntity)tileEntity).collidingEntities;

@@ -10,8 +10,8 @@ public class NPCOpenPacketHandler{
 	
 	public static void handle(NPCOpenPacket message) {
 		Minecraft mc = Minecraft.getMinecraft();
-		EntityNPC npc = (EntityNPC) mc.theWorld.getEntityByID(message.id);
-		EntityNPC newNPC = new EntityNPC(npc.worldObj);
+		EntityNPC npc = (EntityNPC) mc.world.getEntityByID(message.id);
+		EntityNPC newNPC = new EntityNPC(npc.world);
 		mc.displayGuiScreen(new NPCEditorGui(npc.getUniqueID(), NPCData.fromNBT(newNPC, npc.getNPCData().toNBT())));
 	}
 	

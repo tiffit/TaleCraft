@@ -36,7 +36,8 @@ import talecraft.invoke.NullInvoke;
 public class ScriptItem extends TCItem {
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return EnumActionResult.PASS;
 
@@ -50,13 +51,14 @@ public class ScriptItem extends TCItem {
 		if(invoke instanceof NullInvoke) return EnumActionResult.PASS;
 
 		// execute invoke
-		Invoke.invoke(invoke, new TempItemStackInvokeSource(world, new BlockPos(hitX, hitY, hitZ), player), null, EnumTriggerState.ON);
+		Invoke.invoke(invoke, new TempstackvokeSource(world, new BlockPos(hitX, hitY, hitZ), player), null, EnumTriggerState.ON);
 
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
@@ -70,7 +72,7 @@ public class ScriptItem extends TCItem {
 		if(invoke instanceof NullInvoke) return ActionResult.newResult(EnumActionResult.PASS, stack);
 
 		// execute invoke
-		Invoke.invoke(invoke, new TempItemStackInvokeSource(world, player.getPosition(), player), null, EnumTriggerState.ON);
+		Invoke.invoke(invoke, new TempstackvokeSource(world, player.getPosition(), player), null, EnumTriggerState.ON);
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
@@ -87,7 +89,7 @@ public class ScriptItem extends TCItem {
 		if(invoke instanceof NullInvoke) return false;
 
 		// execute invoke
-		Invoke.invoke(invoke, new TempItemStackInvokeSource(player.worldObj, player.getPosition(), player), null, EnumTriggerState.ON);
+		Invoke.invoke(invoke, new TempstackvokeSource(player.world, player.getPosition(), player), null, EnumTriggerState.ON);
 
 		return false;
 	}
@@ -99,7 +101,7 @@ public class ScriptItem extends TCItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		NBTTagCompound compound = getNBT(stack);
 
 		NBTTagList lore = compound.getTagList("lore", NBT.TAG_STRING);
@@ -121,13 +123,13 @@ public class ScriptItem extends TCItem {
 		return comp;
 	}
 
-	private static class TempItemStackInvokeSource implements IInvokeSource, ICommandSender {
+	private static class TempstackvokeSource implements IInvokeSource, ICommandSender {
 		World world;
 		Entity holder;
 		BlockPos position;
 		Scriptable scriptScope;
 
-		public TempItemStackInvokeSource(World worldIn, BlockPos positionIn, Entity holderIn) {
+		public TempstackvokeSource(World worldIn, BlockPos positionIn, Entity holderIn) {
 			this.world = worldIn;
 			this.holder = holderIn;
 			this.position = positionIn;
@@ -176,13 +178,13 @@ public class ScriptItem extends TCItem {
 		}
 
 		@Override
-		public void addChatMessage(ITextComponent message) {
+		public void sendMessage(ITextComponent message) {
 			if(holder != null)
-				holder.addChatMessage(message);
+				holder.sendMessage(message);
 		}
 
 		@Override
-		public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+		public boolean canUseCommand(int permLevel, String commandName) {
 			return true;
 		}
 

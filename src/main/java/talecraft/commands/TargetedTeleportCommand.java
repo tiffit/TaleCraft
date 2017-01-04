@@ -21,12 +21,12 @@ import net.minecraft.world.World;
 public class TargetedTeleportCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_tp";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "tc_tp <entity> <target>";
 	}
 
@@ -40,7 +40,7 @@ public class TargetedTeleportCommand extends TCCommandBase {
 		// tc_tp <name> <x> <y> <z>
 
 		if(args.length < 1) {
-			throw new CommandException(getCommandUsage(sender));
+			throw new CommandException(getUsage(sender));
 		}
 
 		// Player to Entity teleport

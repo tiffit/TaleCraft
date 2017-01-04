@@ -2,6 +2,8 @@ package talecraft.container;
 
 import javax.annotation.Nullable;
 
+import org.apache.logging.log4j.core.appender.rolling.OnStartupTriggeringPolicy;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerWorkbench;
@@ -65,25 +67,25 @@ public class WorkbenchContainer extends ContainerWorkbench {
     public static class SlotWorkbenchCrafting extends SlotCrafting{
 
     	private InventoryCrafting craftMatrix;
-    	private EntityPlayer thePlayer;
+    	private EntityPlayer player;
     	
 		public SlotWorkbenchCrafting(EntityPlayer player, InventoryCrafting craftingInventory, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
 			super(player, craftingInventory, inventoryIn, slotIndex, xPosition, yPosition);
 			craftMatrix = craftingInventory;
-			thePlayer = player;
+			player = player;
 		}
 		
 	    @Override
 			public boolean isItemValid(@Nullable ItemStack stack){
-	        return thePlayer.isCreative();
+	        return player.isCreative();
 	    }
-		
+	    
 		 @Override
-		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack){
+		public ItemStack onTake(EntityPlayer playerIn, ItemStack stack){
 		        net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(playerIn, stack, craftMatrix);
 		        this.onCrafting(stack);
 		        net.minecraftforge.common.ForgeHooks.setCraftingPlayer(playerIn);
-		        ItemStack[] aitemstack = WorkbenchBlock.getRemainingItems(this.craftMatrix, playerIn.worldObj);
+		        ItemStack[] aitemstack = WorkbenchBlock.getRemainingItems(this.craftMatrix, playerIn.getEntityWorld());
 		        net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
 
 		        for (int i = 0; i < aitemstack.length; ++i)
@@ -105,15 +107,16 @@ public class WorkbenchContainer extends ContainerWorkbench {
 		                }
 		                else if (ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1))
 		                {
-		                    itemstack1.stackSize += itemstack.stackSize;
+		                    itemstack1.grow(itemstack.getCount());
 		                    this.craftMatrix.setInventorySlotContents(i, itemstack1);
 		                }
-		                else if (!this.thePlayer.inventory.addItemStackToInventory(itemstack1))
+		                else if (!this.player.inventory.addItemStackToInventory(itemstack1))
 		                {
-		                    this.thePlayer.dropItem(itemstack1, false);
+		                    this.player.dropItem(itemstack1, false);
 		                }
 		            }
 		        }
+		        return stack;
 		    }
     	
     }

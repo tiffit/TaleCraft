@@ -17,7 +17,8 @@ import talecraft.util.WorldHelper;
 public class FillerItem extends TCItem {
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return EnumActionResult.PASS;
 		
@@ -32,14 +33,14 @@ public class FillerItem extends TCItem {
 				getNBTfromItemStack(stack).setInteger("mask_id", maskID);
 				if(player instanceof EntityPlayerMP) {
 					String msg = TextFormatting.AQUA + "Replacement mask set: " + mask;
-					((EntityPlayerMP)player).addChatMessage(new TextComponentString(msg));
+					((EntityPlayerMP)player).sendMessage(new TextComponentString(msg));
 				}
 			} else {
 				// Remove Mask
 				getNBTfromItemStack(stack).removeTag("mask_id");
 				if(player instanceof EntityPlayerMP) {
 					String msg = TextFormatting.AQUA + "Replacement mask unset.";
-					((EntityPlayerMP)player).addChatMessage(new TextComponentString(msg));
+					((EntityPlayerMP)player).sendMessage(new TextComponentString(msg));
 				}
 			}
 			return EnumActionResult.SUCCESS;
@@ -69,7 +70,7 @@ public class FillerItem extends TCItem {
 			// HELL NO!
 			if(player instanceof EntityPlayerMP) {
 				String msg = TextFormatting.RED + "ERROR: TOO MANY BLOCKS TO FILL -> " + volume + " >= " + maxvolume;
-				((EntityPlayerMP)player).addChatMessage(new TextComponentString(msg));
+				((EntityPlayerMP)player).sendMessage(new TextComponentString(msg));
 			}
 			return EnumActionResult.FAIL;
 		}

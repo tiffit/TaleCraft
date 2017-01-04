@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -133,7 +134,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 			{
 				for(SummonOption option : summonOptions) {
 					for(int j = 0; j < option.getWeight(); j++) {
-						if(!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), worldObj), (int) option.getWeight()))summonEntity(option);
+						if(!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), world), (int) option.getWeight()))summonEntity(option);
 					}
 				}
 			}
@@ -142,7 +143,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 			// ...entities randomly selecting them from a weighted list.
 			for(int i = 0; i < summonCount; i++) {
 				SummonOption option = selectRandomWeightedOption();
-				if(!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), worldObj), summonCount))summonEntity(option);
+				if(!option.isStable() || stableCheck(EntityList.createEntityFromNBT(option.getData(), world), summonCount))summonEntity(option);
 			}
 		}
 	}
@@ -158,7 +159,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 		// Create the entity, merge the existing NBT into it, then spawn the entity.
 		NBTTagCompound entityNBT = option.getData();
 		entityNBT.setUniqueId("UUID", UUID.randomUUID());
-		Entity entity = EntityList.createEntityFromNBT(entityNBT, worldObj);
+		Entity entity = EntityList.createEntityFromNBT(entityNBT, world);
 
 		if(entity == null) {
 			TaleCraft.logger.error("FAILED TO SUMMON ENTITY: " + option.getData());
@@ -166,7 +167,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 		}
 
 		entity.setLocationAndAngles(posX, posY, posZ, entity.rotationYaw, entity.rotationPitch);
-		((WorldServer)worldObj).spawnEntityInWorld(entity);
+		((WorldServer)world).spawnEntity(entity);
 		
 		// This takes care of 'riding' entities.
 		{
@@ -177,11 +178,11 @@ public class SummonBlockTileEntity extends TCTileEntity {
 					mountEntity != null && mountEntityNBT.hasKey("Riding", 10);
 					mountEntityNBT = mountEntityNBT.getCompoundTag("Riding")
 					) {
-				Entity ridingEntity = EntityList.createEntityFromNBT(mountEntityNBT.getCompoundTag("Riding"), worldObj);
+				Entity ridingEntity = EntityList.createEntityFromNBT(mountEntityNBT.getCompoundTag("Riding"), world);
 
 				if (ridingEntity != null) {
 					ridingEntity.setLocationAndAngles(posX, posY, posZ, ridingEntity.rotationYaw, ridingEntity.rotationPitch);
-					worldObj.spawnEntityInWorld(ridingEntity);
+					world.spawnEntity(ridingEntity);
 					mountEntity.startRiding(ridingEntity);
 				}
 
@@ -194,7 +195,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 	private boolean stableCheck(Entity entity, int max){
 		BlockPos bp1 = new BlockPos(summonRegionBounds[0], summonRegionBounds[1], summonRegionBounds[2]);
 		BlockPos bp2 = new BlockPos(summonRegionBounds[3], summonRegionBounds[4], summonRegionBounds[5]);
-		List<Entity> entities = worldObj.getEntitiesWithinAABB(entity.getClass(), new AxisAlignedBB(bp1, bp2));
+		List<Entity> entities = world.getEntitiesWithinAABB(entity.getClass(), new AxisAlignedBB(bp1, bp2));
 		int count = 0;
 		for(Entity ent: entities){
 			if(ent.getClass().equals(entity.getClass())) count++;
@@ -204,7 +205,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 	}
 
 	public Vec3d selectRandomBoundedLocation() {
-		Random random = worldObj.rand;
+		Random random = world.rand;
 		double error = 0.5d;
 
 		double minX = summonRegionBounds[0] + error;
@@ -214,10 +215,9 @@ public class SummonBlockTileEntity extends TCTileEntity {
 		double maxX = summonRegionBounds[3] + 1 - error;
 		double maxY = summonRegionBounds[4] - error;
 		double maxZ = summonRegionBounds[5] + 1 - error;
-
-		double posX = MathHelper.getRandomDoubleInRange(random, minX, maxX);
-		double posY = MathHelper.getRandomDoubleInRange(random, minY, maxY);
-		double posZ = MathHelper.getRandomDoubleInRange(random, minZ, maxZ);
+		double posX = MathHelper.nextDouble(random, minX, maxX);
+		double posY = MathHelper.nextDouble(random, minY, maxY);
+		double posZ = MathHelper.nextDouble(random, minZ, maxZ);
 
 		return new Vec3d(posX, posY, posZ);
 	}
@@ -297,7 +297,7 @@ public class SummonBlockTileEntity extends TCTileEntity {
 			String ID = summonData.getString("id");
 
 			if(ID != null && !ID.isEmpty() && summonData.getKeySet().size() < 3) {
-				Entity entity = EntityList.createEntityByName(ID, null);
+				Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(ID), null);
 				if(entity != null) {
 					NBTTagCompound mergecompound = new NBTTagCompound();
 					entity.writeToNBT(mergecompound);

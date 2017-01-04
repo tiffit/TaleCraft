@@ -78,7 +78,7 @@ public class EmitterBlockTileEntity extends TCTileEntity{
 		if(command.equals("trigger")) {
 			// toggle state
 			state ^= true;
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 			return;
 		}
 
@@ -89,7 +89,7 @@ public class EmitterBlockTileEntity extends TCTileEntity{
 				emitterData = new NBTTagCompound();
 
 			emitterData.merge(data);
-			worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0);
+			world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0);
 			return;
 		}
 
@@ -100,7 +100,7 @@ public class EmitterBlockTileEntity extends TCTileEntity{
 	public void update() {
 		super.update();
 		if(emitterData == null) return;
-		if(!worldObj.isRemote) return;
+		if(!world.isRemote) return;
 		if(!state) return;
 
 		float var_offsetX = emitterData.getFloat("var_offsetX");
@@ -155,7 +155,7 @@ public class EmitterBlockTileEntity extends TCTileEntity{
 			float yVelocity = var_velocityRandY == 0 ? var_velocityY : (var_velocityY*var_velocityRandY);
 			float zVelocity = var_velocityRandZ == 0 ? var_velocityZ : (var_velocityZ*var_velocityRandZ);
 
-			worldObj.spawnParticle(particleType, xCoord, yCoord, zCoord, xVelocity, yVelocity, zVelocity, params);
+			world.spawnParticle(particleType, xCoord, yCoord, zCoord, xVelocity, yVelocity, zVelocity, params);
 		}
 	}
 
@@ -217,12 +217,12 @@ public class EmitterBlockTileEntity extends TCTileEntity{
 
 	public void setActive(boolean onoff) {
 		this.state = onoff;
-		this.worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 	}
 
 	public void toggleActive() {
 		this.state ^= true;
-		this.worldObj.notifyBlockUpdate(this.pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0); //TODO Confirm
+		this.world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 	}
 
 }

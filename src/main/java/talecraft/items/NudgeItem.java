@@ -15,14 +15,15 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 public class NudgeItem extends TCItem {
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
@@ -36,7 +37,7 @@ public class NudgeItem extends TCItem {
 			return;
 
 		// Get WORLD
-		World world = player.worldObj;
+		World world = player.world;
 
 		if(world.isRemote)
 			return;
@@ -61,18 +62,18 @@ public class NudgeItem extends TCItem {
 		int[] bounds = WandItem.getBoundsFromPlayerOrNull(player);
 
 		if(bounds == null) {
-			player.addChatMessage(new TextComponentString(TextFormatting.RED+"Bounds invalid."));
+			player.sendMessage(new TextComponentString(TextFormatting.RED+"Bounds invalid."));
 			return;
 		}
 
 		long bounds_volume = WandItem.getBoundsVolume(bounds);
 
 		if(bounds_volume > (32*32*32)) {
-			player.addChatMessage(new TextComponentString(TextFormatting.RED+"Selection is too big: " + bounds_volume));
+			player.sendMessage(new TextComponentString(TextFormatting.RED+"Selection is too big: " + bounds_volume));
 			return;
 		}
 
-		// playerIn.addChatMessage(new ChatComponentText(TextFormatting.AQUA+"Nudge: " + direction + " " + bounds_volume));
+		// player.sendMessage(new ChatComponentText(TextFormatting.AQUA+"Nudge: " + direction + " " + bounds_volume));
 		
 		// Selection Bounds
 		int ix = bounds[0];
@@ -148,7 +149,7 @@ public class NudgeItem extends TCItem {
 		builder.append(' ');
 		builder.append("move");
 
-		// playerIn.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+builder.toString()));
+		// player.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD+builder.toString()));
 		FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(player, builder.toString());
 
 		ix += moveX;

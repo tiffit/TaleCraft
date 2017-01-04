@@ -20,7 +20,7 @@ import talecraft.entity.EntityPoint;
 public class TeleporterItem extends TCItem {
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 			return EnumActionResult.PASS;
 		
@@ -64,14 +64,15 @@ public class TeleporterItem extends TCItem {
 				riding.velocityChanged = true;
 			}
 
-			player.worldObj.playSound(null, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random()*0.1));
+			player.world.playSound(null, pos, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random()*0.1));
 		}
 
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 		
@@ -141,7 +142,7 @@ public class TeleporterItem extends TCItem {
 					riding.velocityChanged = true;
 				}
 
-				player.worldObj.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random()*0.1));
+				player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.1f, (float) (1f + Math.random()*0.1));
 			}
 		}
 
@@ -151,7 +152,7 @@ public class TeleporterItem extends TCItem {
 	@Override
 	// Warning: Forge Method
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-		if(player.worldObj.getGameRules().getBoolean("tc_disableTeleporter")) {
+		if(player.world.getGameRules().getBoolean("tc_disableTeleporter")) {
 			return false;
 		}
 

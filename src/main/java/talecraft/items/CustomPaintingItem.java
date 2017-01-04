@@ -26,16 +26,17 @@ import talecraft.tileentity.CameraBlockTileEntity.CameraPos;
 public class CustomPaintingItem extends TCItem implements TCITriggerableItem{
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		BlockPos blockpos = pos.offset(facing);
-        if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && playerIn.canPlayerEdit(blockpos, facing, stack)){
+        if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && player.canPlayerEdit(blockpos, facing, stack)){
         	EntityPainting painting = new EntityPainting(worldIn, blockpos, facing);
 
             if (painting != null && painting.onValidSurface()){
                 if (!worldIn.isRemote){
                 	painting.playPlaceSound();
                     painting.art = EnumArt.valueOf(stack.getTagCompound().getString("art"));
-                    worldIn.spawnEntityInWorld(painting);
+                    worldIn.spawnEntity(painting);
                 }
             }
 
@@ -47,7 +48,7 @@ public class CustomPaintingItem extends TCItem implements TCITriggerableItem{
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		if(!stack.hasTagCompound())return;
 		EnumArt painting = EnumArt.valueOf(stack.getTagCompound().getString("art"));
 		tooltip.add("Painting: " + painting.title);
@@ -71,7 +72,7 @@ public class CustomPaintingItem extends TCItem implements TCITriggerableItem{
 		if(current >= EnumArt.values().length)current = 0;
 		EnumArt art = EnumArt.values()[current];
 		stack.getTagCompound().setString("art", art.name());
-		player.addChatMessage(new TextComponentString("Changed painting to " + TextFormatting.GOLD + art.title + TextFormatting.GREEN + " (" + art.sizeX/16 + "x" + art.sizeY/16 + ")"));
+		player.sendMessage(new TextComponentString("Changed painting to " + TextFormatting.GOLD + art.title + TextFormatting.GREEN + " (" + art.sizeX/16 + "x" + art.sizeY/16 + ")"));
 	}
 	
 }

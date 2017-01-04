@@ -8,12 +8,12 @@ import talecraft.proxy.ClientProxy;
 
 public final class PasteReachCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_pastereach";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<0..64>";
 	}
 

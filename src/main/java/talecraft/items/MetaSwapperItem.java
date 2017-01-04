@@ -46,7 +46,8 @@ public class MetaSwapperItem extends TCItem {
 	};
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(worldIn.isRemote)
 			return EnumActionResult.PASS;
 		
@@ -65,7 +66,8 @@ public class MetaSwapperItem extends TCItem {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
@@ -73,7 +75,7 @@ public class MetaSwapperItem extends TCItem {
 			int[] bounds = WandItem.getBoundsFromPlayerOrNull(player);
 
 			if(bounds == null) {
-				player.addChatMessage(new TextComponentString("No region selected with wand."));
+				player.sendMessage(new TextComponentString("No region selected with wand."));
 			}
 			
 			WorldHelper.foreach(world, bounds, hand.equals(EnumHand.OFF_HAND) ? swapFunctionDECR : swapFunctionINCR);

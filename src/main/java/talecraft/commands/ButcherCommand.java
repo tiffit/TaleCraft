@@ -15,12 +15,12 @@ import net.minecraft.util.math.BlockPos;
 public class ButcherCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_butcher";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "[filter]";
 	}
 
@@ -62,7 +62,7 @@ public class ButcherCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		return getListOfStringsMatchingLastWord(args, new String[]{"items", "livings"});
 	}
 

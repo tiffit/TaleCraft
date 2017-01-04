@@ -34,7 +34,7 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		LockedDoorTileEntity te = (LockedDoorTileEntity) world.getTileEntity(pos);
 		DoorCorner corner = te.corner;
 		if(playerIn.isSneaking() && playerIn.isCreative() && !world.isRemote){
@@ -89,9 +89,10 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 			}
 			LockedDoorTileEntity tehere = (LockedDoorTileEntity)world.getTileEntity(pos);
 			String keyName = tehere.useSilverKey ? TextFormatting.DARK_GRAY + "silver " : TextFormatting.GOLD + "gold ";
-			playerIn.addChatComponentMessage(new TextComponentString("This door now takes the " + keyName + TextFormatting.RESET + "key."));
+			playerIn.sendMessage(new TextComponentString("This door now takes the " + keyName + TextFormatting.RESET + "key."));
 			return true;
 		}
+		ItemStack heldItem = playerIn.getHeldItem(hand);
 		if(world.isRemote){
 			if(heldItem != null && heldItem.getItem() instanceof KeyItem){
 				if((heldItem.getItem() == TaleCraftItems.silverKey && te.useSilverKey) || (heldItem.getItem() == TaleCraftItems.goldKey && !te.useSilverKey))world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 100f, 1f, false);
@@ -102,7 +103,7 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 			if((heldItem.getItem() == TaleCraftItems.silverKey && te.useSilverKey) || (heldItem.getItem() == TaleCraftItems.goldKey && !te.useSilverKey)){
 				world.setBlockToAir(pos);
 				onBlockDestroyedByPlayer(world, pos, state);
-				if(!playerIn.isCreative())heldItem.stackSize--;
+				if(!playerIn.isCreative())heldItem.shrink(1);
 				return true;
 			}
 		}
@@ -110,7 +111,7 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 	}
 	
 	@Override
-	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
 		facing = EnumFacing.fromAngle(placer.rotationYawHead);
 		boolean ZAxis = facing == EnumFacing.WEST || facing == EnumFacing.EAST;
 		

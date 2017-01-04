@@ -39,7 +39,7 @@ public class EntityBullet extends EntityThrowable {
 	
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (worldObj.isRemote)
+		if (world.isRemote)
 			return;
 		boolean kill = true;
 		if (result.typeOfHit == Type.ENTITY) {
@@ -52,7 +52,7 @@ public class EntityBullet extends EntityThrowable {
 						damage);
 		}
 		if (result.typeOfHit == Type.BLOCK) {
-			if (!worldObj.getBlockState(result.getBlockPos()).isFullBlock()) {
+			if (!world.getBlockState(result.getBlockPos()).isFullBlock()) {
 				kill = false;
 			}
 		}
@@ -69,7 +69,7 @@ public class EntityBullet extends EntityThrowable {
 	public void onUpdate() {
 		super.onUpdate();
 		if (getPosition().distanceSq(original) >= (distance * distance)
-				&& !worldObj.isRemote) {
+				&& !world.isRemote) {
 			setDead();
 		}
 	}

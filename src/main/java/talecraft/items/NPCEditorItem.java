@@ -17,7 +17,8 @@ import talecraft.entity.NPC.EntityNPC;
 public class NPCEditorItem extends TCItem {
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		float lerp = 1F;
 		float dist = 7;
 		Vec3d start = this.getPositionEyes(lerp, player);
@@ -27,9 +28,9 @@ public class NPCEditorItem extends TCItem {
 		RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
 		if(result.typeOfHit == Type.BLOCK){
 			spawnNPC(world, result.getBlockPos());
-			if(!world.isRemote) player.addChatComponentMessage(new TextComponentString("NPC spawned!"));
+			if(!world.isRemote) player.sendMessage(new TextComponentString("NPC spawned!"));
 		}
-		return super.onItemRightClick(stack, world, player, hand);
+		return super.onItemRightClick(world, player, hand);
 	}
 	
 	private void spawnNPC(World world, BlockPos pos){
@@ -39,7 +40,7 @@ public class NPCEditorItem extends TCItem {
 			npc.rotationYawHead = npc.rotationYaw;
 			npc.renderYawOffset = npc.rotationYaw;
 			npc.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(npc)), (IEntityLivingData)null);
-            world.spawnEntityInWorld(npc);
+            world.spawnEntity(npc);
             npc.playLivingSound();
 		}
 	}

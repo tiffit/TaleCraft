@@ -9,6 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import talecraft.client.gui.qad.QADDropdownBox;
 import talecraft.client.gui.qad.QADLabel;
@@ -82,7 +83,7 @@ public class PanelEquips extends NPCPanel{
 			for(ItemStack item : stacks){
 				Item itm = item.getItem();
 				if(itm == null) continue;
-				List<ItemStack> subitems = new ArrayList<ItemStack>();
+				NonNullList<ItemStack> subitems = NonNullList.create();
 				itm.getSubItems(itm, CreativeTabs.INVENTORY, subitems);
 				for(final ItemStack stack : subitems){
 					if(slot != null){
@@ -156,7 +157,7 @@ public class PanelEquips extends NPCPanel{
 		@Override
 		public boolean equals(Object obj) {
 			if(!(obj instanceof ItemItem))return false;
-			return ItemStack.areItemStacksEqual(stack, ((ItemItem)obj).stack);
+			return ItemStack.areItemStacksEqual(stack == null ? new ItemStack((Item)null) : stack, ((ItemItem)obj).stack == null ? new ItemStack((Item)null) : ((ItemItem)obj).stack);
 		}
 
 		@Override

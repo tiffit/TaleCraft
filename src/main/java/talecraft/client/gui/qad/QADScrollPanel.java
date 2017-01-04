@@ -87,12 +87,12 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 	@Override
 	public void setHeight(int newHeight) {
 		this.height = newHeight;
-		this.viewportPosition = MathHelper.clamp_int(viewportPosition, 0, height);
+		this.viewportPosition = MathHelper.clamp(viewportPosition, 0, height);
 	}
 
 	public void setViewportHeight(int height) {
 		this.viewportHeight = height;
-		this.viewportPosition = MathHelper.clamp_int(viewportPosition, 0, height);
+		this.viewportPosition = MathHelper.clamp(viewportPosition, 0, height);
 	}
 
 	public int getViewportPosition() {
@@ -109,7 +109,7 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 	public void setSize(int w, int h) {
 		this.width = w;
 		this.height = h;
-		this.viewportPosition = MathHelper.clamp_int(viewportPosition, 0, height);
+		this.viewportPosition = MathHelper.clamp(viewportPosition, 0, height);
 	}
 
 	public boolean getDoesViewportFit() {

@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import talecraft.client.gui.qad.QADButton;
 import talecraft.client.gui.qad.QADDropdownBox;
@@ -81,7 +82,7 @@ public class PanelTrades extends NPCPanel{
 			panel.addComponent(itemSelectBuying);
 			
 			panel.addComponent(new QADLabel("Amount", 207, 50));
-			QADNumberTextField sizeFieldBuying = new QADNumberTextField(207, 60, 30, 20, trades.get(index).getBuying().stackSize, NumberType.INTEGER);
+			QADNumberTextField sizeFieldBuying = new QADNumberTextField(207, 60, 30, 20, trades.get(index).getBuying().getCount(), NumberType.INTEGER);
 			sizeFieldBuying.textChangedListener = new SizeFieldChangeListener(trades.get(index).getBuying());
 			sizeFieldBuying.setRange(0, trades.get(index).getBuying().getMaxStackSize());
 			panel.addComponent(sizeFieldBuying);
@@ -99,7 +100,7 @@ public class PanelTrades extends NPCPanel{
 			panel.addComponent(itemSelectSelling);
 			
 			panel.addComponent(new QADLabel("Amount", 207, this.height/2));
-			QADNumberTextField sizeFieldSelling = new QADNumberTextField(207, this.height/2 + 10, 30, 20, trades.get(index).getSelling().stackSize, NumberType.INTEGER);
+			QADNumberTextField sizeFieldSelling = new QADNumberTextField(207, this.height/2 + 10, 30, 20, trades.get(index).getSelling().getCount(), NumberType.INTEGER);
 			sizeFieldSelling.textChangedListener = new SizeFieldChangeListener(trades.get(index).getSelling());
 			sizeFieldSelling.setRange(0, trades.get(index).getSelling().getMaxStackSize());
 			panel.addComponent(sizeFieldSelling);
@@ -150,7 +151,7 @@ public class PanelTrades extends NPCPanel{
 			}catch(NumberFormatException e){
 				return;
 			}
-			stack.stackSize = amount;
+			stack.setCount(amount);
 		}
 		
 	}
@@ -190,7 +191,7 @@ public class PanelTrades extends NPCPanel{
 			for(ItemStack item : stacks){
 				Item itm = item.getItem();
 				if(itm == null) continue;
-				List<ItemStack> subitems = new ArrayList<ItemStack>();
+				NonNullList<ItemStack> subitems = NonNullList.create();
 				itm.getSubItems(itm, CreativeTabs.INVENTORY, subitems);
 				for(final ItemStack stack : subitems){
 					items.add(new ItemItem(stack));
@@ -241,7 +242,9 @@ public class PanelTrades extends NPCPanel{
 		@Override
 		public void onSelection(ListModelItem selected) {
 			ItemItem ii = (ItemItem) selected;
-			stack.setItem(ii.stack.getItem());
+			NBTTagCompound oldStack = stack.serializeNBT();
+			oldStack.setString("id", ii.stack.serializeNBT().getString("id"));
+			stack = new ItemStack(oldStack);
 		}
 	}
 		

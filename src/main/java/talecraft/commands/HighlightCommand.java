@@ -23,12 +23,12 @@ import talecraft.util.CommandArgumentParser;
 public class HighlightCommand extends TCCommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tc_highlight";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "< ? >";
 	}
 
@@ -41,7 +41,7 @@ public class HighlightCommand extends TCCommandBase {
 
 		if(action.equals("clear")) {
 			// TODO: clear highlights!
-			sender.addChatMessage(new TextComponentString(TextFormatting.RED+"ERROR: highlight clearing not yet implemented."));
+			sender.sendMessage(new TextComponentString(TextFormatting.RED+"ERROR: highlight clearing not yet implemented."));
 			return;
 		}
 
@@ -82,7 +82,7 @@ public class HighlightCommand extends TCCommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if(args.length <= 1) {
 			return getListOfStringsMatchingLastWord(args, new String[]{"entity","block","clear"});
 		}

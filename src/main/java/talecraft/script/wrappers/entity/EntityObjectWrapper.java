@@ -138,7 +138,7 @@ public class EntityObjectWrapper implements IObjectWrapper {
 
 	public void kill() {
 		// TODO: This might not work correctly... ?
-		entity.attackEntityFrom(DamageSource.generic, 1000000F);
+		entity.attackEntityFrom(DamageSource.GENERIC, 1000000F);
 	}
 	
 	public EntityLivingObjectWrapper getAsLiving(){
@@ -175,7 +175,7 @@ public class EntityObjectWrapper implements IObjectWrapper {
 	}
 	
 	public PlayerObjectWrapper getClosestPlayer(double distance){
-		return new PlayerObjectWrapper(entity.worldObj.getClosestPlayerToEntity(entity, distance));
+		return new PlayerObjectWrapper(entity.world.getClosestPlayerToEntity(entity, distance));
 	}
 
 }

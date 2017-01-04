@@ -26,7 +26,7 @@ public class GuiStorageBlock extends QADGuiScreen {
 		addComponent(QADFACTORY.createButton("Set Region & Store", 2, 16 + (22*0), 100, new Runnable() {
 			@Override
 			public void run() {
-				int[] bounds = WandItem.getBoundsFromPlayerOrNull(mc.thePlayer);
+				int[] bounds = WandItem.getBoundsFromPlayerOrNull(mc.player);
 
 				if(bounds == null)
 					return;

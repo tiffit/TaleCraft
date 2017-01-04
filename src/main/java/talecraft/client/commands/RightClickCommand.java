@@ -17,12 +17,12 @@ import talecraft.proxy.ClientProxy;
 
 public class RightClickCommand extends CommandBase {
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "tcc_click";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "<x> <y> <z>";
 	}
 
@@ -54,14 +54,13 @@ public class RightClickCommand extends CommandBase {
 		ClientProxy.shedule(new Runnable() {
 			@Override
 			public void run() {
-				WorldClient world = Minecraft.getMinecraft().theWorld;
-				EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+				WorldClient world = Minecraft.getMinecraft().world;
+				EntityPlayerSP player = Minecraft.getMinecraft().player;
 
 				IBlockState state = world.getBlockState(pos);
 				Block block = state.getBlock();
-				ItemStack heldItem = new ItemStack(block);
 
-				block.onBlockActivated(world, pos, state, player, EnumHand.MAIN_HAND, heldItem, EnumFacing.UP, 0, 0, 0);
+				block.onBlockActivated(world, pos, state, player, EnumHand.MAIN_HAND, EnumFacing.UP, 0, 0, 0);
 			}
 		});
 	}
