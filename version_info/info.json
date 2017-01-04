@@ -1,6 +1,26 @@
 {
   "versions": [
     {
+      "version": "v0.2.19",
+      "mc": "1.10.2",
+      "forge": "1.10.2-12.18.0.2007-1.10.0",
+      "libs": "https://raw.githubusercontent.com/MinecraftForge/MinecraftForge/1.10.x/jsons/1.10.2-rel.json",
+      "id": 2364005,
+      "type": "Beta",
+      "assets": "1.10",
+      "reddit": "https://www.reddit.com/r/talecraft/comments/5lw20u/update_talecraftv0219/",
+      "changelog": [
+        "Added loads of gamerules",
+        "Added scriptable NPC dialogues",
+        "NPCs can now have custom name colors",
+        "Added the Custom Painting item",
+        "Added Moving Blocks",
+        "Sneak-hitting an entity with an entity cloner will cause the stored entity to ride the attacked entity",
+        "Changed/Fixed many textures",
+        "Lots of bug fixes"
+      ]
+    },
+    {
       "version": "v0.2.18",
       "mc": "1.10.2",
       "forge": "1.10.2-12.18.0.2007-1.10.0",
