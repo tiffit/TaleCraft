@@ -15,7 +15,7 @@
         "NPCs can now have custom name colors",
         "Added the Custom Painting item",
         "Added Moving Blocks",
-        "Sneak-hitting an entity with an entity cloner will cause the stored entity to ride the attacked entity",
+        "Sneak with entity cloner can mount entities",
         "Changed/Fixed many textures",
         "Lots of bug fixes"
       ]
