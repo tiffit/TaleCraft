@@ -116,7 +116,7 @@ public class MovingBlockGui extends QADGuiScreen {
 				NonNullList<ItemStack> subitems = NonNullList.create();
 				itm.getSubItems(itm, CreativeTabs.INVENTORY, subitems);
 				for(final ItemStack stack : subitems){
-					items.add(new BlockStateItem(stack));
+					if(!stack.isEmpty())items.add(new BlockStateItem(stack));
 				}
 			}
 		}
