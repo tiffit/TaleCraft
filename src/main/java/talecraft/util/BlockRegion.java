@@ -77,22 +77,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 	}
 
 	public BlockRegion(BlockPos position, int width, int height, int length) {
-		this.center = position;
-		this.centerX = center.getX();
-		this.centerY = center.getY();
-		this.centerZ = center.getZ();
-		this.width  = width/2;
-		this.height = height/2;
-		this.length = length/2;
-
-		this.min = new BlockPos(centerX-width, centerY-height, centerZ-length);
-		this.max = new BlockPos(centerX+width, centerY+height, centerZ+length);
-		this.minX = min.getX();
-		this.minY = min.getY();
-		this.minZ = min.getZ();
-		this.maxX = max.getX();
-		this.maxY = max.getY();
-		this.maxZ = max.getZ();
+		this(position.getX(), position.getY(), position.getZ(), position.getX() + width, position.getY() + height, position.getZ() + length);
 	}
 
 	public final int getMinX() {
@@ -154,6 +139,10 @@ public final class BlockRegion implements Iterable<BlockPos>{
 	public final int getLength() {
 		return length;
 	}
+	
+	public final int getVolume(){
+		return getWidth()*getHeight()*getLength();
+	}
 
 	@Override
 	public Iterator<BlockPos> iterator() {
@@ -177,7 +166,7 @@ public final class BlockRegion implements Iterable<BlockPos>{
 			int z = this.XYZ.getZ();
 
 			// Compute next step!
-			if (x < region.maxX) {
+			if (x < maxX) {
 				++x;
 			} else if (y < maxY) {
 				x = minX;
@@ -186,6 +175,8 @@ public final class BlockRegion implements Iterable<BlockPos>{
 				x = minX;
 				y = minY;
 				++z;
+			}else{
+				return false;
 			}
 
 			// Mutate position.

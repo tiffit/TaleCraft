@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -30,6 +31,7 @@ import talecraft.blocks.world.WorkbenchBlock;
 import talecraft.network.packets.GameruleSyncPacket;
 import talecraft.network.packets.StringNBTCommandPacketClient;
 import talecraft.server.ServerHandler;
+import talecraft.util.UndoTask;
 import talecraft.util.WorkbenchManager;
 import talecraft.util.WorldFileDataHelper;
 
@@ -115,17 +117,21 @@ public class TaleCraftEventHandler {
 			ServerHandler.getServerMirror(null).playerList().playerLeave((EntityPlayerMP) event.player);
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void worldLoad(WorldEvent.Load event) {
 		TaleCraft.worldsManager.registerWorld(event.getWorld());
-		WorkbenchBlock.recipes = WorkbenchManager.fromNBT(WorldFileDataHelper.getTagFromFile(event.getWorld(), "tc_workbench"));
+		if(event.getWorld().isRemote)return;
+		WorkbenchBlock.recipes = WorkbenchManager.fromNBT(WorldFileDataHelper.getTagFromFile(event.getWorld(), "workbench"));
+		UndoTask.loadFromNBT(WorldFileDataHelper.getTagFromFile(event.getWorld(), "undo"));
 	}
 
 	@SubscribeEvent
 	public void worldUnload(WorldEvent.Unload event) {
 		TaleCraft.worldsManager.unregisterWorld(event.getWorld());
-		WorldFileDataHelper.saveNBTToWorld(event.getWorld(), "tc_workbench", WorkbenchBlock.recipes.toNBT());
+		if(event.getWorld().isRemote)return;
+		WorldFileDataHelper.saveNBTToWorld(event.getWorld(), "workbench", WorkbenchBlock.recipes.toNBT());
+		WorldFileDataHelper.saveNBTToWorld(event.getWorld(), "undo", UndoTask.toNBT());
 	}
 
 	/*

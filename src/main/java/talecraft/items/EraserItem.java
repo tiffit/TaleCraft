@@ -13,7 +13,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import talecraft.util.BlockRegion;
 import talecraft.util.MutableBlockPos;
+import talecraft.util.UndoRegion;
+import talecraft.util.UndoTask;
 
 public class EraserItem extends TCItem {
 
@@ -81,8 +84,10 @@ public class EraserItem extends TCItem {
 			}
 			return false;
 		}
-		
+		UndoRegion before = new UndoRegion(new BlockRegion(bounds), world);
 		applyEraser(world, mask, bounds);
+		UndoRegion after = new UndoRegion(new BlockRegion(bounds), world);
+		UndoTask.TASKS.add(new UndoTask(before, after, "Eraser", player.getName()));
 		return true;
 	}
 	

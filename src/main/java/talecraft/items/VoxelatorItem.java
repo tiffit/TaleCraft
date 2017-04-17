@@ -81,7 +81,7 @@ public class VoxelatorItem extends TCItem implements TCITriggerableItem{
 		VXShape shape = Voxelator.newShape(NBTshape, result.getBlockPos());
 		VXPredicate filter = Voxelator.newFilter(NBTfilter);
 		VXAction action = Voxelator.newAction(NBTaction);
-		Voxelator.apply(shape, filter, action, world);
+		Voxelator.apply(shape, filter, action, world, player);
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 

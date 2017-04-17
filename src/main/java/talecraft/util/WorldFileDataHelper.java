@@ -6,12 +6,16 @@ import java.io.IOException;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.SaveHandler;
 
 public class WorldFileDataHelper {
 
 	public static NBTTagCompound getTagFromFile(World world, String name){
-		File worldF = world.getSaveHandler().getWorldDirectory();
+		//if(!world.getSaveHandler().getWorldDirectory().getParent().equals("saves"))return null;
+		File worldF = new File(world.getSaveHandler().getWorldDirectory(), "talecraft");
+		worldF.mkdir();
 		File dat = new File(worldF, name + ".dat");
+		System.out.println("save folder: " + dat);
 		if(!dat.exists()){
 			return new NBTTagCompound();
 		}else{
@@ -25,7 +29,9 @@ public class WorldFileDataHelper {
 	}
 	
 	public static void saveNBTToWorld(World world, String name, NBTTagCompound tag){
-		File worldF = world.getSaveHandler().getWorldDirectory();
+		//if(!world.getSaveHandler().getWorldDirectory().getParent().equals("saves"))return;
+		File worldF = new File(world.getSaveHandler().getWorldDirectory(), "talecraft");
+		worldF.mkdir();
 		File dat = new File(worldF, name + ".dat");
 		if(!dat.exists()){
 			try {

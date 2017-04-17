@@ -61,7 +61,9 @@ public class WorkbenchContainer extends ContainerWorkbench {
     
     @Override
 		public void onCraftMatrixChanged(IInventory inventoryIn){
-        this.craftResult.setInventorySlotContents(0, WorkbenchBlock.findMatchingRecipe(this.craftMatrix, this.worldObj));
+    	ItemStack stack = WorkbenchBlock.findMatchingRecipe(this.craftMatrix, this.worldObj);
+    	if(stack == null)stack = ItemStack.EMPTY;
+        this.craftResult.setInventorySlotContents(0, stack);
     }
     
     public static class SlotWorkbenchCrafting extends SlotCrafting{
@@ -72,7 +74,7 @@ public class WorkbenchContainer extends ContainerWorkbench {
 		public SlotWorkbenchCrafting(EntityPlayer player, InventoryCrafting craftingInventory, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
 			super(player, craftingInventory, inventoryIn, slotIndex, xPosition, yPosition);
 			craftMatrix = craftingInventory;
-			player = player;
+			this.player = player;
 		}
 		
 	    @Override

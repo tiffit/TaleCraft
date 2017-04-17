@@ -12,6 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import talecraft.util.BlockRegion;
+import talecraft.util.UndoRegion;
+import talecraft.util.UndoTask;
 import talecraft.util.WorldHelper;
 
 public class FillerItem extends TCItem {
@@ -74,14 +77,15 @@ public class FillerItem extends TCItem {
 			}
 			return EnumActionResult.FAIL;
 		}
-		
+		UndoRegion before = new UndoRegion(new BlockRegion(bounds), world);
 		if(mask != null) {
 			WorldHelper.replace(world, bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5], fill, mask);
 			return EnumActionResult.SUCCESS;
 		}
 		
 		WorldHelper.fill(world, bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5], fill);
-		
+		UndoRegion after = new UndoRegion(new BlockRegion(bounds), world);
+		UndoTask.TASKS.add(new UndoTask(before, after, "Filler", player.getName()));
 		return EnumActionResult.SUCCESS;
 	}
 

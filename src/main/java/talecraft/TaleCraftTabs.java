@@ -39,7 +39,7 @@ public class TaleCraftTabs {
 		public ItemStack getTabIconItem() {
 			return new ItemStack(Items.DYE, 1, this.getIconItemDamage());
 		}
-
+		
 		@SideOnly(Side.CLIENT)
 		public int getIconItemDamage() {
 			return (int) ((Minecraft.getSystemTime() / 100D) % 16);

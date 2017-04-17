@@ -22,6 +22,7 @@ import talecraft.commands.RenameCommand;
 import talecraft.commands.ScriptCommand;
 import talecraft.commands.TargetedTeleportCommand;
 import talecraft.commands.TriggerCommand;
+import talecraft.commands.UndoCommand;
 import talecraft.commands.ValidateBlockCommand;
 import talecraft.commands.VelocityCommand;
 import talecraft.commands.VisualizeCommand;
@@ -53,6 +54,7 @@ public class TaleCraftCommands {
 		commands.add(new FadeCommand());
 		commands.add(new RenameCommand());
 		commands.add(new PlayerDataCommand());
+		commands.add(new UndoCommand());
 	}
 
 	public static void register(CommandHandler registry) {

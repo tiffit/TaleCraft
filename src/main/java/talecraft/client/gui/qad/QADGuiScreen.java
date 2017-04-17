@@ -129,7 +129,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	}
 
 	@Override
-	protected final void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		for(QADComponent component : lastUpdateComponents) {
 			if(component.focusInput()){
 				component.onMouseClicked(mouseX-component.getX(), mouseY-component.getY(), mouseButton);
@@ -476,6 +476,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 
 	@Override
 	public void handleMouseInput() throws IOException {
+		if(this.mc == null)return;
 		super.handleMouseInput();
 		for (QADComponent comp : components) {
 			comp.handleMouseInput();

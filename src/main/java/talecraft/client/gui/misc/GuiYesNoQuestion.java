@@ -28,7 +28,6 @@ public class GuiYesNoQuestion extends QADGuiScreen {
 		QyesButton.setAction(new Runnable() {
 			@Override
 			public void run() {
-				mc.displayGuiScreen(getBehind());
 				yesAction.run();
 			}
 		});
@@ -46,16 +45,16 @@ public class GuiYesNoQuestion extends QADGuiScreen {
 	@Override
 	public void layoutGui() {
 
-		int centerH = width / 2;
-		int centerV = height / 2;
+		int centerH = getWidth() / 2;
+		int centerV = getHeight() / 2;
 
-		Qquestion.setX(centerH - fontRendererObj.getStringWidth(question));
+		Qquestion.setX(centerH - fontRendererObj.getStringWidth(question)/2);
 		Qquestion.setY(centerV - 30);
 
-		QyesButton.setX(centerH - QyesButton.getButtonWidth()/2 - 4);
+		QyesButton.setX(centerH - QyesButton.getButtonWidth() - 10);
 		QyesButton.setY(centerV + 5);
 
-		QnoButton.setX(centerH + QnoButton.getButtonWidth()/2 + 4);
+		QnoButton.setX(centerH + 10);
 		QnoButton.setY(centerV + 5);
 	}
 

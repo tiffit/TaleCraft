@@ -27,6 +27,8 @@ import talecraft.network.packets.SoundsPacket;
 import talecraft.network.packets.StringNBTCommandPacket;
 import talecraft.network.packets.StringNBTCommandPacketClient;
 import talecraft.network.packets.TriggerItemPacket;
+import talecraft.network.packets.UndoGuiPacket;
+import talecraft.network.packets.UndoPacket;
 import talecraft.network.packets.VoxelatorGuiPacket;
 import talecraft.network.packets.VoxelatorPacket;
 import talecraft.network.packets.WorkbenchCraftingPacket;
@@ -60,6 +62,8 @@ public class TaleCraftNetwork {
 		register(NPCDialogueOptionPacket.Handler.class, NPCDialogueOptionPacket.class, SERVER);
 		register(CreateMovingBlockPacket.Handler.class, CreateMovingBlockPacket.class, SERVER);
 		register(GameruleSyncPacket.Handler.class, GameruleSyncPacket.class, CLIENT);
+		register(UndoGuiPacket.Handler.class, UndoGuiPacket.class, CLIENT);
+		register(UndoPacket.Handler.class, UndoPacket.class, SERVER);
 	}
 	
 	private static <REQ extends IMessage, REPLY extends IMessage> void register(Class<? extends IMessageHandler<REQ, REPLY>> handler, Class<REQ> packet, Side side){

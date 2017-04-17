@@ -10,12 +10,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import talecraft.TaleCraft;
 import talecraft.clipboard.ClipboardItem;
 import talecraft.clipboard.ClipboardTagNames;
 import talecraft.server.ServerHandler;
 import talecraft.server.ServerMirror;
+import talecraft.util.BlockRegion;
+import talecraft.util.UndoRegion;
+import talecraft.util.UndoTask;
 
 public class PasteItem extends TCItem {
 
@@ -66,7 +70,16 @@ public class PasteItem extends TCItem {
 			}
 
 			if(item.getData().hasKey(ClipboardTagNames.$REGION)) {
-				ClipboardItem.pasteRegion(item, new BlockPos(plantPos), world, player);
+				NBTTagCompound regionTag = item.getData().getCompoundTag(ClipboardTagNames.$REGION);
+				int width = regionTag.getInteger(ClipboardTagNames.$REGION_WIDTH);
+				int height = regionTag.getInteger(ClipboardTagNames.$REGION_HEIGHT);
+				int length = regionTag.getInteger(ClipboardTagNames.$REGION_LENGTH);
+				BlockPos pos = new BlockPos(plantPos);
+				System.out.println("pos: " + pos + "; width: " + width + "; height: " + height + "; length: " + length );
+				UndoRegion before = new UndoRegion(new BlockRegion(pos, width, height, length), world);
+				ClipboardItem.pasteRegion(item, pos, world, player);
+				UndoRegion after = new UndoRegion(new BlockRegion(pos, width, height, length), world);
+				UndoTask.TASKS.add(new UndoTask(before, after, "Paste", player.getName()));
 			}
 
 			if(item.getData().hasKey(ClipboardTagNames.$ENTITY)) {

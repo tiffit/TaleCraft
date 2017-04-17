@@ -20,6 +20,7 @@ public class QADLabel extends QADRectangularComponent {
 	int lastKnownWidth = 0;
 	int lastKnownHeight = 0;
 	boolean shadow = true;
+	boolean centered = false;
 
 	public QADLabel(String text) {
 		this.model = new DefaultLabelModel(text);
@@ -51,6 +52,10 @@ public class QADLabel extends QADRectangularComponent {
 		this.x = x;
 		this.y = y;
 		this.shadow = shadow;
+	}
+	
+	public void setCentered(){
+		centered = true;
 	}
 
 	@Override
@@ -98,7 +103,11 @@ public class QADLabel extends QADRectangularComponent {
 
 		lastKnownWidth = renderer.getFontRenderer().stringWidth(model.getText());
 		lastKnownHeight = renderer.getFontRenderer().fr.FONT_HEIGHT;
-		renderer.drawString(model.getText(), x, y, model.getColor(), shadow);
+		if(centered){
+			renderer.drawCenteredString(model.getText(), x, y, model.getColor(), shadow);
+		}else{
+			renderer.drawString(model.getText(), x, y, model.getColor(), shadow);
+		}
 
 		renderer.getFontRenderer().fr.FONT_HEIGHT = normFontHeight;
 	}

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -13,6 +14,8 @@ import net.minecraftforge.common.util.BlockSnapshot;
 import talecraft.util.BlockRegion;
 import talecraft.util.MissingNBTTagException;
 import talecraft.util.MutableBlockPos;
+import talecraft.util.UndoRegion;
+import talecraft.util.UndoTask;
 import talecraft.voxelator.actions.*;
 import talecraft.voxelator.predicates.*;
 import talecraft.voxelator.shapes.*;
@@ -176,7 +179,7 @@ public class Voxelator {
 		return null;
 	}
 	
-	public static void apply(VXShape shape, VXPredicate predicate, VXAction action, World world) {
+	public static void apply(VXShape shape, VXPredicate predicate, VXAction action, World world, EntityPlayer player) {
 
 		final BlockPos center = shape.getCenter();
 		final BlockRegion region = shape.getRegion();
@@ -186,6 +189,8 @@ public class Voxelator {
 		final List<BlockSnapshot> changes = Lists.newArrayList();
 
 		final CachedWorldDiff fworld = new CachedWorldDiff(world, previous, changes);
+		
+		UndoRegion before = new UndoRegion(region, world);
 
 		for(final BlockPos pos : BlockPos.getAllInBox(region.getMin(), region.getMax())) {
 			offset.set(pos);
@@ -198,6 +203,9 @@ public class Voxelator {
 		}
 
 		fworld.applyChanges(true);
+		
+		UndoRegion after = new UndoRegion(region, world);
+		UndoTask.TASKS.add(new UndoTask(before, after, "Voxelator", player.getName()));
 	}
 
 }

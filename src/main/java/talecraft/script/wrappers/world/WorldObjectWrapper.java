@@ -2,6 +2,10 @@ package talecraft.script.wrappers.world;
 
 import java.util.List;
 
+import org.mozilla.javascript.Scriptable;
+
+import com.google.common.base.Predicate;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.EntitySelector;
@@ -19,15 +23,10 @@ import talecraft.script.wrappers.block.WorkbenchObjectWrapper;
 import talecraft.script.wrappers.entity.EntityObjectWrapper;
 import talecraft.script.wrappers.nbt.CompoundTagWrapper;
 import talecraft.script.wrappers.scoreboard.ScoreboardObjectWrapper;
-import talecraft.util.CustomWorldData;
 import talecraft.util.GObjectTypeHelper;
 import talecraft.util.MutableBlockPos;
 import talecraft.util.WorkbenchManager;
 import talecraft.util.WorldCommandSender;
-
-import org.mozilla.javascript.Scriptable;
-
-import com.google.common.base.Predicate;
 
 public class WorldObjectWrapper implements IObjectWrapper {
 	private World world;
@@ -259,10 +258,6 @@ public class WorldObjectWrapper implements IObjectWrapper {
 
 	public WorldBorderObjectWrapper getWorldBorder() {
 		return new WorldBorderObjectWrapper(world.getWorldBorder());
-	}
-	
-	public CompoundTagWrapper getData(){
-		return new CompoundTagWrapper(CustomWorldData.forWorld(world).customdata);
 	}
 
 }

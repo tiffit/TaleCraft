@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.gui.GuiListWorldSelectionEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSummary;
@@ -88,11 +89,16 @@ public class ReflectionUtil {
 	public static void replaceMusicTicker(){
 		Minecraft mc = Minecraft.getMinecraft();
 		try {
-			Field musicTickerF = Minecraft.class.getDeclaredField("mcMusicTicker");
+			Field[] fields = Minecraft.class.getDeclaredFields();
+			Field musicTickerF = null;
+			for(Field f : fields){
+				if(f.getType() == MusicTicker.class){
+					musicTickerF = f;
+					break;
+				}
+			}
 			musicTickerF.setAccessible(true);
 			musicTickerF.set(mc, new TCMusicTicker(mc));
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
