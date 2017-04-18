@@ -3,6 +3,7 @@ package talecraft.client.gui.entity.npc;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.util.ResourceLocation;
 import talecraft.client.gui.qad.QADDropdownBox;
 import talecraft.client.gui.qad.QADDropdownBox.ListModel;
 import talecraft.client.gui.qad.QADDropdownBox.ListModelItem;
@@ -25,6 +26,7 @@ public class PanelGeneral extends NPCPanel{
 	private EnumNPCModel MODEL;
 	private QADDropdownBox SKIN_SELECTOR;
 	private EnumNPCSkin SKIN;
+	private QADTextField CUSTOMSKIN;
 	private QADNumberTextField HEALTH_FIELD;
 	private QADTickBox INVERLNERABLE;
 	private QADTickBox MOVABLE;
@@ -57,10 +59,19 @@ public class PanelGeneral extends NPCPanel{
 		QADDropdownBox model_selector = new QADDropdownBox(new ModelListModel(), new ModelListModelItem(data.getModel()));
 		model_selector.setBounds(150, 45, width/5, 20);
 		addComponent(model_selector);
+		
 		addComponent(new QADLabel("Skin", 157 + width/5, 35));
 		SKIN_SELECTOR = new QADDropdownBox(new SkinListModel(), new SkinListModelItem(data.getSkin()));
 		SKIN_SELECTOR.setBounds(155 + width/5, 45, width - (155 + width/5) - 5, 20);
 		addComponent(SKIN_SELECTOR);
+		CUSTOMSKIN = new QADTextField(155 + width/5, 70, width - (155 + width/5) - 5, 20);
+		EnumNPCSkin slec_skin = ((SkinListModelItem)SKIN_SELECTOR.getSelected()).skin;
+		if(slec_skin == EnumNPCSkin.Custom)CUSTOMSKIN.setText(data.getCustomSkin());
+		else{
+			CUSTOMSKIN.setText(formatSkinLocation(slec_skin.getResourceLocation()));
+			CUSTOMSKIN.setEnabled(false);
+		}
+		addComponent(CUSTOMSKIN);
 		
 		addComponent(new QADLabel("Max Health", 4, 70));
 		HEALTH_FIELD = new QADNumberTextField(2, 80, 100, 20, data.getHealth(), NumberType.DECIMAL);
@@ -93,7 +104,15 @@ public class PanelGeneral extends NPCPanel{
 		data.setInvulnerable(INVERLNERABLE.getState());
 		data.setMovable(MOVABLE.getState());
 		data.setBoss(BOSS.getState());
-
+		data.setCustomSkin(CUSTOMSKIN.getText());
+	}
+	
+	private String formatSkinLocation(ResourceLocation loc){
+		String locStr = loc.toString();
+		locStr = locStr.replace("minecraft:", "mc:");
+		locStr = locStr.replace("talecraft:", "");
+		locStr = locStr.replace("textures/entity/", "");
+		return locStr;
 	}
 	
 	private class ModelListModel implements ListModel{
@@ -181,6 +200,17 @@ public class PanelGeneral extends NPCPanel{
 		@Override
 		public void onSelection(ListModelItem item) {
 			SKIN = ((SkinListModelItem) item).skin;
+			if(CUSTOMSKIN != null){
+				if(SKIN == EnumNPCSkin.Custom){
+					CUSTOMSKIN.setText("");
+					CUSTOMSKIN.setEnabled(true);
+				}else{
+					CUSTOMSKIN.setEnabled(false);
+					if(SKIN == EnumNPCSkin.Invisible) CUSTOMSKIN.setText("null");
+					else CUSTOMSKIN.setText(formatSkinLocation(SKIN.getResourceLocation()));
+				}
+				
+			}
 		}
 
 		@Override

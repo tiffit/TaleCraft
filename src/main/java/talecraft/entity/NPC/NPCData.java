@@ -32,6 +32,7 @@ public class NPCData {
 	private float yaw;
 	private boolean eyesfollow;
 	private EnumNPCSkin skin;
+	private String customskin;
 	private EnumNPCModel model;
 	private float attackDamage;
 	private double movementspeed;
@@ -63,6 +64,7 @@ public class NPCData {
 		yaw = 0f;
 		eyesfollow = true;
 		skin = EnumNPCSkin.Steve;
+		customskin = "";
 		type = NPCType.Passive;
 		model = EnumNPCModel.Player;
 		attackDamage = 2f;
@@ -213,6 +215,14 @@ public class NPCData {
 		skin = skn;
 	}
 	
+	public String getCustomSkin(){
+		return customskin;
+	}
+	
+	public void setCustomSkin(String cskn){
+		customskin = cskn;
+	}
+	
 	public EnumNPCModel getModel(){
 		return model;
 	}
@@ -281,6 +291,7 @@ public class NPCData {
 		tag.setFloat("yaw", yaw);
 		tag.setBoolean("eyesfollow", eyesfollow);
 		tag.setInteger("skin_id", skin.ordinal()); 
+		tag.setString("customskin", customskin);
 		tag.setInteger("model_id", model.ordinal()); 
 		tag.setInteger("type_id", type.ordinal());
 		tag.setFloat("attackdamage", attackDamage);
@@ -308,6 +319,7 @@ public class NPCData {
 		data.setYaw(tag.getFloat("yaw"));
 		data.setEyesFollow(tag.getBoolean("eyesfollow"));
 		data.setSkin(EnumNPCSkin.values()[tag.getInteger("skin_id")]);
+		data.setCustomSkin(tag.getString("customskin"));
 		data.setModel(EnumNPCModel.values()[tag.getInteger("model_id")]);
 		data.setType(NPCType.values()[tag.getInteger("type_id")]);
 		if(!tag.hasKey("namecolor")) tag.setString("namecolor", data.type.color.name());

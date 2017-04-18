@@ -8,23 +8,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
 public enum EnumNPCSkin {
-	Blank1(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank1.png"), null),
-	Blank2(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank2.png"),  null),
-	Blank3(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank3.png"),  null),
-	Blank4(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank4.png"),  null),
-	Blank5(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank5.png"),  null),
-	Blank6(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank6.png"),  null),
-	Blank7(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank7.png"),  null),
-	Blank8(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank8.png"),  null),
-	Blank9(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank9.png"),  null),
-	Blank10(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank10.png"),  null),
-	Blank11(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank11.png"),  null),
-	Blank12(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank12.png"),  null),
-	Blank13(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank13.png"),  null),
-	Blank14(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank14.png"),  null),
-	Blank15(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank15.png"),  null),
-	Blank16(new ResourceLocation("talecraft:textures/entity/NPC/blank/Blank16.png"),  null),
-	
+	Custom(null, null),
 	Steve(new ResourceLocation("minecraft:textures/entity/steve.png"), EnumNPCModel.Player),
 	Alex(new ResourceLocation("minecraft:textures/entity/alex.png"),  EnumNPCModel.Player),
 	Green_Steve(new ResourceLocation("talecraft:textures/entity/NPC/player/greensteve.png"),  EnumNPCModel.Player),

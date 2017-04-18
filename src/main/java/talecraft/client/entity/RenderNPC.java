@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import talecraft.entity.NPC.EntityNPC;
+import talecraft.entity.NPC.EnumNPCSkin;
 
 public class RenderNPC extends RenderLivingBase<EntityNPC> {
 	
@@ -19,6 +20,7 @@ public class RenderNPC extends RenderLivingBase<EntityNPC> {
 	
 	@Override
 	protected ResourceLocation getEntityTexture(EntityNPC entity) {
+		if(entity.getNPCData().getSkin() == EnumNPCSkin.Custom)return new ResourceLocation("talecraft:textures/entity/" + entity.getNPCData().getCustomSkin());
 		return entity.getNPCData().getSkin().getResourceLocation();
 	}
 	
