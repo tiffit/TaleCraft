@@ -75,14 +75,14 @@ public class MemoryBlockTileEntity extends TCTileEntity {
 				// no op
 				break;
 			case INVERT:
+				trigger(triggered ? EnumTriggerState.OFF : EnumTriggerState.ON);
+				break;
+			case OFF:
 				// reset
 				if(triggered) {
 					triggered = false;
 					world.notifyBlockUpdate(this.pos, world.getBlockState(pos), world.getBlockState(pos), 0); //TODO Confirm
 				}
-				break;
-			case OFF:
-				// no op
 				break;
 			case ON:
 				if(!triggered) {
