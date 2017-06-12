@@ -29,7 +29,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 	
 	private int dropbox_rowcount = 7;
 	private int dropbox_rowheight = 20;
-	private int dropbox_highlight = -1;
+	// private int dropbox_highlight = -1;
 	private ListModel dropbox_model = null;
 	private String dropbox_filterstr = "";
 	private ListModelItem dropbox_selected = null;
@@ -218,7 +218,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 				
 				// hover highlight
 				int hoverlight = hover?mouseToItemIndex(localMouseY+getY()):-1;
-				this.dropbox_highlight = hoverlight;
+				// this.dropbox_highlight = hoverlight;
 				
 				// list render
 				int yOffset = 0;
@@ -349,7 +349,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 			List<ListModelItem> items = dropbox_model.getFilteredItems();
 			if(items != null) {
 				int hoverlight = mouseToItemIndex(localMouseY+getY());
-				this.dropbox_highlight = hoverlight;
+				// this.dropbox_highlight = hoverlight;
 				
 				if(hoverlight != -1 && hoverlight < items.size()) {
 					ListModelItem item = items.get(hoverlight);
@@ -414,7 +414,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 					dropbox_model.applyFilter(dropbox_filterstr);
 					recalculateDropbox();
 					if(dropbox_model.getFilteredItems().size() > 0) {
-						dropbox_highlight = 0;
+						// dropbox_highlight = 0;
 					}
 				}
 			}
