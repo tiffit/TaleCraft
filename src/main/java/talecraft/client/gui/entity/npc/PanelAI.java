@@ -146,6 +146,12 @@ public class PanelAI extends NPCPanel{
 			if(!(obj instanceof AggroListModelItem)) return false;
 			return ((AggroListModelItem)obj).type.equals(type);
 		}
+
+		@Override
+		public int hashCode() {
+			// TODO Auto-generated method stub
+			return super.hashCode();
+		}
 		
 	}
 	
@@ -212,6 +218,12 @@ public class PanelAI extends NPCPanel{
 		public boolean equals(Object obj) {
 			if(!(obj instanceof ColorListModelItem)) return false;
 			return ((ColorListModelItem)obj).color.equals(color);
+		}
+
+		@Override
+		public int hashCode() {
+			// TODO Auto-generated method stub
+			return super.hashCode();
 		}
 		
 	}

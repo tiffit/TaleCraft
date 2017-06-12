@@ -1,7 +1,6 @@
 package talecraft.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -48,7 +47,6 @@ public class UndoRegion{
 	}
 	
 	private void runIterator(){
-		Iterator<BlockPos> iterator = region.iterator();
 		ArrayList<IBlockState> stateList = new ArrayList<IBlockState>();
 		for(BlockPos pos : BlockPos.getAllInBox(new BlockPos(region.getMinX(), region.getMinY(), region.getMinZ()), new BlockPos(region.getMaxX(), region.getMaxY(), region.getMaxZ()))){
 			IBlockState state = world.getBlockState(pos);

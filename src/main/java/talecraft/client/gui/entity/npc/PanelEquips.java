@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -12,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import talecraft.client.gui.qad.QADDropdownBox;
-import talecraft.client.gui.qad.QADLabel;
 import talecraft.client.gui.qad.QADDropdownBox.ListModel;
 import talecraft.client.gui.qad.QADDropdownBox.ListModelItem;
+import talecraft.client.gui.qad.QADLabel;
 import talecraft.client.gui.vcui.VCUIRenderer;
 import talecraft.entity.NPC.NPCData;
 
@@ -68,10 +67,10 @@ public class PanelEquips extends NPCPanel{
 	class ListItemListModel implements ListModel {
 		private List<ListModelItem> items;
 		private List<ListModelItem> filtered;
-		private EntityEquipmentSlot slot;
+		// private EntityEquipmentSlot slot;
 		
 		public ListItemListModel(EntityEquipmentSlot slot) {
-			this.slot = slot;
+			// this.slot = slot;
 			items = new ArrayList<ListModelItem>();
 			filtered = new ArrayList<ListModelItem>();
 			List<ItemStack> stacks = new ArrayList<ItemStack>();

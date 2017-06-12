@@ -5,9 +5,6 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import talecraft.client.gui.items.GuiDecorator;
 import talecraft.network.packets.DecoratorGuiPacket;
 

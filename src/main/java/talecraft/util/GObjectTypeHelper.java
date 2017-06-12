@@ -40,7 +40,7 @@ public class GObjectTypeHelper {
 
 	public static final Item findItem(String fully_qualified_name) {
 		String typeString = fully_qualified_name;
-		int indexOfSlash = typeString.indexOf('/');
+		// int indexOfSlash = typeString.indexOf('/');
 
 		String typeMID = typeString;
 
@@ -48,14 +48,14 @@ public class GObjectTypeHelper {
 
 		int indexOfDot = typeMID.indexOf(':');
 
-		String typeMod = null;
+		// String typeMod = null;
 		String typeID = null;
 
 		if(indexOfDot == -1) {
-			typeMod = "minecraft";
+			// typeMod = "minecraft";
 			typeID = typeMID;
 		} else {
-			typeMod = typeMID.substring(0, indexOfDot);
+			// typeMod = typeMID.substring(0, indexOfDot);
 			typeID = typeMID.substring(indexOfDot+1);
 		}
 
@@ -125,14 +125,14 @@ public class GObjectTypeHelper {
 
 		int indexOfDot = typeMID.indexOf(':');
 
-		String typeMod = null;
+		// String typeMod = null;
 		String typeID = null;
 
 		if(indexOfDot == -1) {
-			typeMod = "minecraft";
+			// typeMod = "minecraft";
 			typeID = typeMID;
 		} else {
-			typeMod = typeMID.substring(0, indexOfDot);
+			// typeMod = typeMID.substring(0, indexOfDot);
 			typeID = typeMID.substring(indexOfDot+1);
 		}
 
@@ -143,13 +143,13 @@ public class GObjectTypeHelper {
 		String typeString = fully_qualified_name;
 		int indexOfSlash = typeString.indexOf('/');
 
-		String typeMID = null;
+		// String typeMID = null;
 		int typeMeta = 0;
 
 		if(indexOfSlash == -1) {
-			typeMID = typeString;
+			// typeMID = typeString;
 		} else {
-			typeMID = typeString.substring(0, indexOfSlash);
+			// typeMID = typeString.substring(0, indexOfSlash);
 			typeMeta = Integer.valueOf(typeString.substring(indexOfSlash+1));
 		}
 
@@ -202,13 +202,13 @@ public class GObjectTypeHelper {
 		int indexOfSlash = typeString.indexOf('/');
 
 		String typeMID = null;
-		int typeMeta = 0;
+		// int typeMeta = 0;
 
 		if(indexOfSlash == -1) {
 			typeMID = typeString;
 		} else {
 			typeMID = typeString.substring(0, indexOfSlash);
-			typeMeta = Integer.valueOf(typeString.substring(indexOfSlash+1));
+			// typeMeta = Integer.valueOf(typeString.substring(indexOfSlash+1));
 		}
 
 		int indexOfDot = typeMID.indexOf(':');

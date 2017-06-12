@@ -1,29 +1,16 @@
 package talecraft.client.gui.misc;
 
-import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.input.Mouse;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import talecraft.TaleCraft;
-import talecraft.client.gui.qad.QADBoxLabel;
-import talecraft.client.gui.qad.QADButton;
 import talecraft.client.gui.qad.QADComponent;
 import talecraft.client.gui.qad.QADDevider;
-import talecraft.client.gui.qad.QADDropdownBox;
 import talecraft.client.gui.qad.QADGuiScreen;
 import talecraft.client.gui.qad.QADLabel;
-import talecraft.client.gui.qad.QADNumberTextField;
 import talecraft.client.gui.qad.QADPanel;
-import talecraft.client.gui.qad.QADDropdownBox.ListModel;
-import talecraft.client.gui.qad.QADDropdownBox.ListModelItem;
-import talecraft.client.gui.qad.QADNumberTextField.NumberType;
 import talecraft.client.gui.vcui.VCUIRenderer;
-import talecraft.network.packets.DecoratorPacket;
 import talecraft.network.packets.UndoPacket;
 
 public class GuiUndo extends QADGuiScreen {

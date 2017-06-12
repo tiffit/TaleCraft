@@ -1,7 +1,6 @@
 package talecraft.entity.NPC.quest;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import talecraft.entity.NPC.EntityNPC;
 

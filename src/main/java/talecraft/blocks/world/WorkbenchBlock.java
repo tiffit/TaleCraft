@@ -1,7 +1,5 @@
 package talecraft.blocks.world;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,34 +23,34 @@ public class WorkbenchBlock extends TCWorldBlock{
 		setSoundType(SoundType.WOOD);
 	}
 	
-    @Override
+	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-    	playerIn.openGui(TaleCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
-    	return true;
-    }
-    
+		playerIn.openGui(TaleCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+		return true;
+	}
+	
 
 	public static ItemStack findMatchingRecipe(InventoryCrafting craftMatrix, World worldIn){
-        for(IRecipe irecipe : recipes){
-            if (irecipe.matches(craftMatrix, worldIn)){
-                return irecipe.getCraftingResult(craftMatrix);
-            }
-        }
-        return null;
-    }
+		for(IRecipe irecipe : recipes){
+			if (irecipe.matches(craftMatrix, worldIn)){
+				return irecipe.getCraftingResult(craftMatrix);
+			}
+		}
+		return null;
+	}
 	
-    public static ItemStack[] getRemainingItems(InventoryCrafting craftMatrix, World worldIn){
-        for (IRecipe irecipe : recipes){
-            if (irecipe.matches(craftMatrix, worldIn)){
-            	NonNullList<ItemStack> list = irecipe.getRemainingItems(craftMatrix);
-                return list.toArray(new ItemStack[list.size()]);
-            }
-        }
-        ItemStack[] aitemstack = new ItemStack[craftMatrix.getSizeInventory()];
-        for (int i = 0; i < aitemstack.length; ++i){
-            aitemstack[i] = craftMatrix.getStackInSlot(i);
-        }
-        return aitemstack;
-    }
+	public static ItemStack[] getRemainingItems(InventoryCrafting craftMatrix, World worldIn){
+		for (IRecipe irecipe : recipes){
+			if (irecipe.matches(craftMatrix, worldIn)){
+				NonNullList<ItemStack> list = irecipe.getRemainingItems(craftMatrix);
+				return list.toArray(new ItemStack[list.size()]);
+			}
+		}
+		ItemStack[] aitemstack = new ItemStack[craftMatrix.getSizeInventory()];
+		for (int i = 0; i < aitemstack.length; ++i){
+			aitemstack[i] = craftMatrix.getStackInSlot(i);
+		}
+		return aitemstack;
+	}
 
 }

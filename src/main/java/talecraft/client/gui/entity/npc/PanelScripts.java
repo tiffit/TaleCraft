@@ -2,7 +2,6 @@ package talecraft.client.gui.entity.npc;
 
 import talecraft.client.gui.qad.QADLabel;
 import talecraft.client.gui.qad.QADTextField;
-import talecraft.client.gui.qad.QADTickBox;
 import talecraft.entity.NPC.NPCData;
 
 public class PanelScripts extends NPCPanel {

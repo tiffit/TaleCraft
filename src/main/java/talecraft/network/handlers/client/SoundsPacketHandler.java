@@ -1,17 +1,12 @@
 package talecraft.network.handlers.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.ISound.AttenuationType;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import talecraft.client.gui.items.GuiDecorator;
 import talecraft.client.sound.ConstantSound;
 import talecraft.network.packets.SoundsPacket;
 

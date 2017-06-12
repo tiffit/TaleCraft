@@ -78,7 +78,7 @@ public class PushRenderableFactory {
 			}
 
 			// Get and then cut off the selector operator.
-			char selectorChar = selector.charAt(1);
+			// char selectorChar = selector.charAt(1);
 			selector = selector.substring(2).trim();
 
 			// Cut off the [ ] pair.

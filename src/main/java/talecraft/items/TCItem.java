@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -108,12 +107,12 @@ public class TCItem extends Item {
 		}
 	}
 	
-    public RayTraceResult rayTrace(double blockReachDistance, EntityPlayer player){
-        Vec3d vec3d = getPositionEyes(1.0F, player);
-        Vec3d vec3d1 = player.getLook(1.0F);
-        Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * blockReachDistance, vec3d1.yCoord * blockReachDistance, vec3d1.zCoord * blockReachDistance);
-        return player.world.rayTraceBlocks(vec3d, vec3d2, false, false, true);
-    }
+	public RayTraceResult rayTrace(double blockReachDistance, EntityPlayer player){
+		Vec3d vec3d = getPositionEyes(1.0F, player);
+		Vec3d vec3d1 = player.getLook(1.0F);
+		Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * blockReachDistance, vec3d1.yCoord * blockReachDistance, vec3d1.zCoord * blockReachDistance);
+		return player.world.rayTraceBlocks(vec3d, vec3d2, false, false, true);
+	}
 	
 	public static final boolean isDoubleCall(ItemStack stack, long currentWorldTime) {
 		NBTTagCompound compound = stack.getTagCompound();

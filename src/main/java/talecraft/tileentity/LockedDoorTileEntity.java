@@ -26,7 +26,6 @@ public class LockedDoorTileEntity extends TileEntity{
 	public DoorCorner corner;
 	public boolean isCorner;
 	public boolean useSilverKey = true;
-	private int delayUntilUpdate = 200;
 	
 	public void setDoorCorner(DoorCorner corner){
 		this.corner = corner;

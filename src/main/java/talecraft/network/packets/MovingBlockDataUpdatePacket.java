@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import talecraft.entity.EntityMovingBlock;
-import talecraft.entity.NPC.EntityNPC;
 
 public class MovingBlockDataUpdatePacket implements IMessage {
 

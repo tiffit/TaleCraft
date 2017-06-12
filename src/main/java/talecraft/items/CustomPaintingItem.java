@@ -3,25 +3,19 @@ package talecraft.items;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.item.EntityPainting.EnumArt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import talecraft.tileentity.CameraBlockTileEntity;
-import talecraft.tileentity.CameraBlockTileEntity.CameraPos;
 
 public class CustomPaintingItem extends TCItem implements TCITriggerableItem{
 	
@@ -29,22 +23,22 @@ public class CustomPaintingItem extends TCItem implements TCITriggerableItem{
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
 		BlockPos blockpos = pos.offset(facing);
-        if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && player.canPlayerEdit(blockpos, facing, stack)){
-        	EntityPainting painting = new EntityPainting(worldIn, blockpos, facing);
+		if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && player.canPlayerEdit(blockpos, facing, stack)){
+			EntityPainting painting = new EntityPainting(worldIn, blockpos, facing);
 
-            if (painting != null && painting.onValidSurface()){
-                if (!worldIn.isRemote){
-                	painting.playPlaceSound();
-                    painting.art = EnumArt.valueOf(stack.getTagCompound().getString("art"));
-                    worldIn.spawnEntity(painting);
-                }
-            }
+			if (painting != null && painting.onValidSurface()){
+				if (!worldIn.isRemote){
+					painting.playPlaceSound();
+					painting.art = EnumArt.valueOf(stack.getTagCompound().getString("art"));
+					worldIn.spawnEntity(painting);
+				}
+			}
 
-            return EnumActionResult.SUCCESS;
-        }
-        else{
-            return EnumActionResult.FAIL;
-        }
+			return EnumActionResult.SUCCESS;
+		}
+		else{
+			return EnumActionResult.FAIL;
+		}
 	}
 	
 	@Override

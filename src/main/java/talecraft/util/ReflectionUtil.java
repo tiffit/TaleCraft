@@ -44,6 +44,7 @@ public class ReflectionUtil {
 	
 	private static Map<World, List<IEventListener>> eventlisteners = new HashMap<World, List<IEventListener>>();
 	
+	@SuppressWarnings("unchecked")
 	public static List<IEventListener> getEventListeners(World world){
 		if(eventlisteners.containsKey(world)) return eventlisteners.get(world);
 		try{

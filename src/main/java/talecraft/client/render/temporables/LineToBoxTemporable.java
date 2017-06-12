@@ -26,8 +26,8 @@ public class LineToBoxTemporable implements ITemporaryRenderable {
 			Tessellator tessellator, VertexBuffer vertexbuffer,
 			double partialTicks) {
 
-		float timeUntilRemoval = deletionTimepoint - System.currentTimeMillis();
-		float fade = timeUntilRemoval / 1000f;
+		// float timeUntilRemoval = deletionTimepoint - System.currentTimeMillis();
+		// float fade = timeUntilRemoval / 1000f;
 
 		float ERROR = 1f / 16f;
 

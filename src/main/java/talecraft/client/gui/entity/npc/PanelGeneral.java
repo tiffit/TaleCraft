@@ -181,6 +181,11 @@ public class PanelGeneral extends NPCPanel{
 			if(!(obj instanceof ModelListModelItem)) return false;
 			return ((ModelListModelItem)obj).model.equals(model);
 		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
+		}
 		
 	}
 	
@@ -264,6 +269,12 @@ public class PanelGeneral extends NPCPanel{
 		public boolean equals(Object obj) {
 			if(!(obj instanceof SkinListModelItem)) return false;
 			return ((SkinListModelItem)obj).skin.equals(skin);
+		}
+
+		@Override
+		public int hashCode() {
+			// TODO Auto-generated method stub
+			return super.hashCode();
 		}
 		
 	}

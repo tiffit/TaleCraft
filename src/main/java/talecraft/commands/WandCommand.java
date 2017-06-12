@@ -15,7 +15,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -100,7 +99,7 @@ public class WandCommand extends TCCommandBase {
 		}
 
 		if(args[0].equals(".c")) {
-			BlockPos position = player.getPosition();
+			// BlockPos position = player.getPosition();
 
 			int ix = player.chunkCoordX * 16;
 			int iy = 0;
@@ -432,7 +431,7 @@ public class WandCommand extends TCCommandBase {
 			}
 		} else {
 			CopyItem copy = TaleCraftItems.copy;
-			ItemStack stack = new ItemStack(copy);
+			// ItemStack stack = new ItemStack(copy);
 			copy.onItemRightClick(player.getEntityWorld(), player, EnumHand.MAIN_HAND);
 			TaleCraft.network.sendTo(new StringNBTCommandPacket("item.copy.trigger"), player);
 		}

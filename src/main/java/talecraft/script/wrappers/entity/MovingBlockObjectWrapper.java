@@ -1,20 +1,10 @@
 package talecraft.script.wrappers.entity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import talecraft.TaleCraft;
 import talecraft.entity.EntityMovingBlock;
-import talecraft.entity.NPC.EntityNPC;
-import talecraft.entity.NPC.NPCData;
-import talecraft.entity.NPC.dialogue.NPCDialogue;
-import talecraft.network.packets.DialogueOpenPacket;
-import talecraft.script.wrappers.nbt.CompoundTagWrapper;
 
 public class MovingBlockObjectWrapper extends EntityObjectWrapper{
 	private EntityMovingBlock moving;
@@ -41,6 +31,7 @@ public class MovingBlockObjectWrapper extends EntityObjectWrapper{
 		moving.updateData(tag);
 	}
 	
+	@Override
 	public void setInvisible(boolean bool){
 		setFieldBoolean("invisible", bool);
 	}

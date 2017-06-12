@@ -14,7 +14,6 @@ import talecraft.entity.projectile.EntityKnife;
 
 public class TaleCraftEntities {
 	public static void init() {
-		int tc_point_id = "tc_point".hashCode();
 		register("point", EntityPoint.class, 256, 20, false);
 		register("bomb", EntityBomb.class, 128, 1, true);
 		register("npc", EntityNPC.class, 128, 1, true);

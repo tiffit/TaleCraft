@@ -1,16 +1,7 @@
 package talecraft.network.handlers.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import talecraft.TaleCraft;
-import talecraft.client.gui.items.GuiDecorator;
-import talecraft.network.packets.DecoratorGuiPacket;
 import talecraft.network.packets.PlayerNBTDataMergePacket;
 import talecraft.proxy.ClientProxy;
 

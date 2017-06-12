@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import talecraft.network.handlers.client.UndoGuiPacketHandler;
-import talecraft.network.handlers.client.VoxelatorGuiPacketHandler;
 
 public class UndoGuiPacket implements IMessage {
 	

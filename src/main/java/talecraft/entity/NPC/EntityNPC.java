@@ -49,7 +49,7 @@ import talecraft.network.packets.NPCOpenPacket;
 
 public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnData, IInvokeSource{
 
-	private EntityPlayer targetPlayer;
+	// private EntityPlayer targetPlayer;
 	private NPCData data;
 	private NBTTagCompound scriptdata;
 	private Scriptable scope;
@@ -83,13 +83,13 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		return getNavigator().tryMoveToXYZ(x, y, z, speed);
 	}
 	
-    @Override
+	@Override
 		protected void applyEntityAttributes(){
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(data.getSpeed());
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
-    }
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(data.getSpeed());
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
+	}
 	
 	@Override
 	public EntityLivingBase getAttackTarget() {
@@ -107,7 +107,7 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		super.entityInit();
 		data = new NPCData(this);
 		enablePersistence();
-        this.stepHeight = 1f;
+		this.stepHeight = 1f;
 	}
 	
 	public NBTTagCompound getScriptData(){
@@ -144,18 +144,18 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		return data;
 	}
 	
-   @Override
+@Override
 	public void addTrackingPlayer(EntityPlayerMP player){
-	   if(!isNonBoss()) return;
-       super.addTrackingPlayer(player);
-       this.bossInfo.addPlayer(player);
-   }
+	if(!isNonBoss()) return;
+	super.addTrackingPlayer(player);
+	this.bossInfo.addPlayer(player);
+}
 
-   @Override
+@Override
 	public void removeTrackingPlayer(EntityPlayerMP player){
-       super.removeTrackingPlayer(player);
-       this.bossInfo.removePlayer(player);
-   }
+	super.removeTrackingPlayer(player);
+	this.bossInfo.removePlayer(player);
+}
 	
 	@Override
 	public boolean isNonBoss() {
@@ -239,9 +239,9 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	}
 	
 	@Override
-    public boolean isEntityInvulnerable(DamageSource source){
-        return data.isInvulnerable() && source != DamageSource.OUT_OF_WORLD && !source.isCreativePlayer();
-    }
+	public boolean isEntityInvulnerable(DamageSource source){
+		return data.isInvulnerable() && source != DamageSource.OUT_OF_WORLD && !source.isCreativePlayer();
+	}
 	
 	@Override
 	public String getName(){
@@ -254,9 +254,9 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 	}
 	
 	@Override
-    protected void collideWithEntity(Entity entity){
+	protected void collideWithEntity(Entity entity){
 		if(data.isMovable())entity.applyEntityCollision(this);
-    }
+	}
 	
 	@Override
 	public void applyEntityCollision(Entity entity){

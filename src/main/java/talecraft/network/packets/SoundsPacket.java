@@ -1,18 +1,10 @@
 package talecraft.network.packets;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.ISound.AttenuationType;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import talecraft.TCSoundHandler.SoundEnum;
-import talecraft.client.sound.ConstantSound;
 import talecraft.network.handlers.client.SoundsPacketHandler;
 
 public class SoundsPacket implements IMessage {

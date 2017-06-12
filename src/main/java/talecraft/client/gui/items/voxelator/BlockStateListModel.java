@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -20,7 +19,7 @@ public class BlockStateListModel implements ListModel {
 
 	private final NBTTagCompound tag;
 	private String name;
-	private ItemStack current;
+	// private ItemStack current;
 	
 	private List<ListModelItem> items;
 	private List<ListModelItem> filtered;
@@ -29,7 +28,7 @@ public class BlockStateListModel implements ListModel {
 		this.tag = compound;
 		name = param.getName();
 		tag.setTag(name, new ItemStack(Blocks.STONE).serializeNBT());
-		if(tag.hasKey(name))current = new ItemStack(tag.getCompoundTag(name));
+		// if(tag.hasKey(name))current = new ItemStack(tag.getCompoundTag(name));
 		items = new ArrayList<ListModelItem>();
 		filtered = new ArrayList<ListModelItem>();
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
@@ -102,10 +101,12 @@ public class BlockStateListModel implements ListModel {
 			this.stack = stack;
 		}
 		
+		/*
 		public BlockStateItem(IBlockState state){
 			Block block = state.getBlock();
 			stack = new ItemStack(block, 1, block.getMetaFromState(state));
 		}
+		*/
 		
 		@Override
 		public String getText() {

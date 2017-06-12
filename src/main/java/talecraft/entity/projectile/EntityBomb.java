@@ -15,8 +15,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import talecraft.TaleCraftItems;
 import talecraft.util.BombExplosion;
 
@@ -26,35 +24,35 @@ public class EntityBomb extends EntityThrowable{
 	private boolean should_play_sound = true;
 	private boolean updateMovementLogic = true;
 	
-    public EntityBomb(World world){
-        super(world);
-    }
+	public EntityBomb(World world){
+		super(world);
+	}
 
-    public EntityBomb(World world, EntityLivingBase thrower){
-        super(world, thrower);
-    }
+	public EntityBomb(World world, EntityLivingBase thrower){
+		super(world, thrower);
+	}
 
-    public EntityBomb(World world, double x, double y, double z){
-        super(world, x, y, z);
-    }
-    
-    public void setFuse(int fuse){
-    	explosion_delay = fuse;
-    }
+	public EntityBomb(World world, double x, double y, double z){
+		super(world, x, y, z);
+	}
+	
+	public void setFuse(int fuse){
+		explosion_delay = fuse;
+	}
 	
 	@Override
-    protected void onImpact(RayTraceResult result){
-        if (result.entityHit != null){
-            explode(); //explode on impact
-            updateMovementLogic = false;
-        }
+	protected void onImpact(RayTraceResult result){
+		if (result.entityHit != null){
+			explode(); //explode on impact
+			updateMovementLogic = false;
+		}
 		if(result.typeOfHit == Type.BLOCK){
 			if(world.getBlockState(result.getBlockPos()).isFullBlock()){
 				updateMovementLogic = false;
 				setVelocityNew(0, 0, 0);
 			}
 		}
-    }
+	}
 	
 	@Override
 	public void onUpdate(){
@@ -72,21 +70,21 @@ public class EntityBomb extends EntityThrowable{
 	}
 	
 	//For some reason setVelocity(x, y, z) is Client-Side only
-    public void setVelocityNew(double x, double y, double z)
-    {
-        this.motionX = x;
-        this.motionY = y;
-        this.motionZ = z;
+	public void setVelocityNew(double x, double y, double z)
+	{
+		this.motionX = x;
+		this.motionY = y;
+		this.motionZ = z;
 
-        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
-        {
-            float f = MathHelper.sqrt(x * x + z * z);
-            this.rotationYaw = (float)(MathHelper.atan2(x, z) * (180D / Math.PI));
-            this.rotationPitch = (float)(MathHelper.atan2(y, (double)f) * (180D / Math.PI));
-            this.prevRotationYaw = this.rotationYaw;
-            this.prevRotationPitch = this.rotationPitch;
-        }
-    }
+		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
+		{
+			float f = MathHelper.sqrt(x * x + z * z);
+			this.rotationYaw = (float)(MathHelper.atan2(x, z) * (180D / Math.PI));
+			this.rotationPitch = (float)(MathHelper.atan2(y, (double)f) * (180D / Math.PI));
+			this.prevRotationYaw = this.rotationYaw;
+			this.prevRotationPitch = this.rotationPitch;
+		}
+	}
 	
 	private void explode(){
 		world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posX, posY, posZ, 0, 0, 0, null);
@@ -98,17 +96,17 @@ public class EntityBomb extends EntityThrowable{
 		}
 	}
 	
-	 @Override
+	@Override
 	public void writeEntityToNBT(NBTTagCompound tag){
-	        super.writeEntityToNBT(tag);
-	        tag.setInteger("explosion_delay", explosion_delay);
-	    }
+			super.writeEntityToNBT(tag);
+			tag.setInteger("explosion_delay", explosion_delay);
+		}
 
-	    @Override
+		@Override
 			public void readEntityFromNBT(NBTTagCompound tag){
-	       super.readEntityFromNBT(tag);
-	       explosion_delay = tag.getInteger("explosion_delay");
-	    }
+		   super.readEntityFromNBT(tag);
+		   explosion_delay = tag.getInteger("explosion_delay");
+		}
 	
 	
 	@SuppressWarnings("rawtypes")

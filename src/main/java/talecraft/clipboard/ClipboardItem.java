@@ -266,7 +266,7 @@ public class ClipboardItem {
 
 		// Create the entity, merge the existing NBT into it, then spawn the entity.
 		NBTTagCompound entityNBT = item.getData().getCompoundTag($ENTITY);
-		String typeStr = entityNBT.getString("id");
+		// String typeStr = entityNBT.getString("id");
 		Entity entity = EntityList.createEntityFromNBT(entityNBT, worldIn);
 		entity.setLocationAndAngles(posX, posY, posZ, entity.rotationYaw, entity.rotationPitch);
 		worldIn.spawnEntity(entity);

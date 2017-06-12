@@ -98,6 +98,7 @@ public class VoxelatorItem extends TCItem implements TCITriggerableItem{
 		super.addInformation(stack, player, tooltip, advanced);
 	}
 
+	@Override
 	public Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
 		if(partialTicks == 1.0F) {
 			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);

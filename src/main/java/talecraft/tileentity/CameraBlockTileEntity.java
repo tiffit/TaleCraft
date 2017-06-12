@@ -18,7 +18,7 @@ import talecraft.network.packets.ForceF1Packet;
 
 public class CameraBlockTileEntity extends TCTileEntity {
 	private List<CameraPos> cpos;
-	private boolean mute;
+	// private boolean mute;
 	private static final double moveSpeed = 0.01;
 
 	public CameraBlockTileEntity() {

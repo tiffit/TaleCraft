@@ -18,7 +18,7 @@ public class NPCEditorItem extends TCItem {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-		ItemStack stack = player.getHeldItem(hand);
+		// ItemStack stack = player.getHeldItem(hand);
 		float lerp = 1F;
 		float dist = 7;
 		Vec3d start = this.getPositionEyes(lerp, player);
@@ -40,11 +40,11 @@ public class NPCEditorItem extends TCItem {
 			npc.rotationYawHead = npc.rotationYaw;
 			npc.renderYawOffset = npc.rotationYaw;
 			npc.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(npc)), (IEntityLivingData)null);
-            world.spawnEntity(npc);
-            npc.playLivingSound();
+			world.spawnEntity(npc);
+			npc.playLivingSound();
 		}
 	}
 	
-   
+
 	
 }

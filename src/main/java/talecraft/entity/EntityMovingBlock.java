@@ -5,11 +5,8 @@ import java.util.List;
 import org.mozilla.javascript.Scriptable;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
-import net.minecraft.block.BlockStone;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderFallingBlock;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -18,7 +15,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -57,183 +53,181 @@ public class EntityMovingBlock extends EntityFallingBlock implements IEntityAddi
 		readEntityFromNBT(data);
 		if(!getWorldObj().isRemote)TaleCraft.network.sendToDimension(new MovingBlockDataUpdatePacket(this.getEntityId(), data), getEntityWorld().provider.getDimension());
 	}
-    
-    private void onCreate(){
+	
+	private void onCreate(){
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setString("Block", "minecraft:stone");
 		readEntityFromNBT(tag);
-    }
-    
-    @Override
-    public double getMountedYOffset() {
-    	return super.getMountedYOffset() + mount_y_offset;
-    }
-    
-    @Override
-    public boolean isInRangeToRenderDist(double distance) {
-    	return invisible ? false : super.isInRangeToRenderDist(distance);
-    }
-    
-    @Override
-    public void fall(float distance, float damageMultiplier) {
-    	if(!no_gravity)super.fall(distance, damageMultiplier);
-    }
-    
-    public void setPosition(double x, double y, double z){
-        if(getBlock() != null){
-            this.posX = x;
-            this.posY = y;
-            this.posZ = z;
-        	AxisAlignedBB aabb = getBlock().getBoundingBox(getEntityWorld(), getPosition());
-            this.width = (float) (aabb.maxX - aabb.minX);
-            this.height = (float) (aabb.maxY - aabb.minY);
-        }
-        super.setPosition(x, y, z);
-    }
-    
-    @Override
-    protected void readEntityFromNBT(NBTTagCompound compound) {
-    	super.readEntityFromNBT(compound);
-    	collision = compound.getBoolean("collision");
-    	invisible = compound.getBoolean("invisible");
-    	pushable = compound.getBoolean("pushable");
-    	no_gravity = compound.getBoolean("no_gravity");
-    	onTick = compound.getString("onTick");
-    	onCollide = compound.getString("onCollide");
-    	onInteract = compound.getString("onInteract");
-    	onDeath = compound.getString("onDeath");
-    	mount_y_offset = compound.getFloat("mount_y_offset");
-    	setInvisible(invisible);
-    }
-    
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-    	super.writeEntityToNBT(compound);
-    	compound.setBoolean("collision", collision);
-    	compound.setBoolean("invisible", invisible);
-    	compound.setBoolean("pushable", pushable);
-    	compound.setBoolean("no_gravity", no_gravity);
-    	compound.setString("onTick", onTick);
-    	compound.setString("onCollide", onCollide);
-    	compound.setString("onInteract", onInteract);
-    	compound.setString("onDeath", onDeath);
-    	compound.setFloat("mount_y_offset", mount_y_offset);
-    }
-    
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox() {
-    	if(!collision)return null;
-    	return getEntityBoundingBox();
-    }
-    
-    @Override
-    public boolean canBeCollidedWith() {
-    	return collision;
-    }
-    
-    @Override
-    public boolean canBePushed() {
-    	return pushable;
-    }
-    
-    @Override
-    public boolean isInvisible() {
-    	return invisible;
-    }
-    
-    @Override
-    public boolean isInvisibleToPlayer(EntityPlayer player) {
-    	return invisible;
-    }
-    
-    @Override
-    public String getName() {
-    	return "Moving Block [" + getBlock().getBlock().getRegistryName() + "]";
-    }
-    
-    @Override
-    public boolean hasCustomName() {
-    	return true;
-    }
-    
-    @Override
-    public void onUpdate() {
-    	if(onTick != null && !onTick.equals("") && !getEntityWorld().isRemote){
-    		FileScriptInvoke scriptInvoke = new FileScriptInvoke(onTick);
-    		scope = TaleCraft.globalScriptManager.createNewMovingBlock(this);
-    		Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
-    	}
-    	vanillaUpdateMod();
-    }
-    
-    @Override
-    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
-    	if(onInteract != null && !onInteract.equals("") && !getEntityWorld().isRemote){
-    		FileScriptInvoke scriptInvoke = new FileScriptInvoke(onInteract);
-    		scope = TaleCraft.globalScriptManager.createNewMovingBlock(this, player);
-    		Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
-    	}
-    	return super.applyPlayerInteraction(player, vec, hand);
-    }
-    
-    @Override
-    public void applyEntityCollision(Entity entity) {
-       	if(onCollide != null && !onCollide.equals("") && !getEntityWorld().isRemote){
-    		FileScriptInvoke scriptInvoke = new FileScriptInvoke(onCollide);
-    		scope = TaleCraft.globalScriptManager.createNewMovingBlock(this, entity);
-    		Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
-    	}
-    	super.applyEntityCollision(entity);
-    }
-    
-    @Override
-    public void setDead() {
-    	if(onDeath != null && !onDeath.equals("") && !getEntityWorld().isRemote){
-    		FileScriptInvoke scriptInvoke = new FileScriptInvoke(onDeath);
-    		scope = TaleCraft.globalScriptManager.createNewMovingBlock(this);
-    		Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
-    	}
-    	super.setDead();
-    }
-    
-    private void vanillaUpdateMod(){
-        Block block = getBlock().getBlock();
-        if (getBlock().getMaterial() == Material.AIR){
-            this.setDead();
-        }
-        else{
-            this.prevPosX = this.posX;
-            this.prevPosY = this.posY;
-            this.prevPosZ = this.posZ;
-            if (!this.hasNoGravity())
-            {
-                this.motionY -= 0.03999999910593033D;
-            }
-            if(onGround || no_gravity)this.motionY = 0;
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-            this.motionX *= 0.9800000190734863D;
-            this.motionY *= 0.9800000190734863D;
-            this.motionZ *= 0.9800000190734863D;
+	}
+	
+	@Override
+	public double getMountedYOffset() {
+		return super.getMountedYOffset() + mount_y_offset;
+	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(double distance) {
+		return invisible ? false : super.isInRangeToRenderDist(distance);
+	}
+	
+	@Override
+	public void fall(float distance, float damageMultiplier) {
+		if(!no_gravity)super.fall(distance, damageMultiplier);
+	}
+	
+	@Override
+	public void setPosition(double x, double y, double z){
+		if(getBlock() != null){
+			this.posX = x;
+			this.posY = y;
+			this.posZ = z;
+			AxisAlignedBB aabb = getBlock().getBoundingBox(getEntityWorld(), getPosition());
+			this.width = (float) (aabb.maxX - aabb.minX);
+			this.height = (float) (aabb.maxY - aabb.minY);
+		}
+		super.setPosition(x, y, z);
+	}
+	
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound compound) {
+		super.readEntityFromNBT(compound);
+		collision = compound.getBoolean("collision");
+		invisible = compound.getBoolean("invisible");
+		pushable = compound.getBoolean("pushable");
+		no_gravity = compound.getBoolean("no_gravity");
+		onTick = compound.getString("onTick");
+		onCollide = compound.getString("onCollide");
+		onInteract = compound.getString("onInteract");
+		onDeath = compound.getString("onDeath");
+		mount_y_offset = compound.getFloat("mount_y_offset");
+		setInvisible(invisible);
+	}
+	
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound) {
+		super.writeEntityToNBT(compound);
+		compound.setBoolean("collision", collision);
+		compound.setBoolean("invisible", invisible);
+		compound.setBoolean("pushable", pushable);
+		compound.setBoolean("no_gravity", no_gravity);
+		compound.setString("onTick", onTick);
+		compound.setString("onCollide", onCollide);
+		compound.setString("onInteract", onInteract);
+		compound.setString("onDeath", onDeath);
+		compound.setFloat("mount_y_offset", mount_y_offset);
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox() {
+		if(!collision)return null;
+		return getEntityBoundingBox();
+	}
+	
+	@Override
+	public boolean canBeCollidedWith() {
+		return collision;
+	}
+	
+	@Override
+	public boolean canBePushed() {
+		return pushable;
+	}
+	
+	@Override
+	public boolean isInvisible() {
+		return invisible;
+	}
+	
+	@Override
+	public boolean isInvisibleToPlayer(EntityPlayer player) {
+		return invisible;
+	}
+	
+	@Override
+	public String getName() {
+		return "Moving Block [" + getBlock().getBlock().getRegistryName() + "]";
+	}
+	
+	@Override
+	public boolean hasCustomName() {
+		return true;
+	}
+	
+	@Override
+	public void onUpdate() {
+		if(onTick != null && !onTick.equals("") && !getEntityWorld().isRemote){
+			FileScriptInvoke scriptInvoke = new FileScriptInvoke(onTick);
+			scope = TaleCraft.globalScriptManager.createNewMovingBlock(this);
+			Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
+		}
+		vanillaUpdateMod();
+	}
+	
+	@Override
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
+		if(onInteract != null && !onInteract.equals("") && !getEntityWorld().isRemote){
+			FileScriptInvoke scriptInvoke = new FileScriptInvoke(onInteract);
+			scope = TaleCraft.globalScriptManager.createNewMovingBlock(this, player);
+			Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
+		}
+		return super.applyPlayerInteraction(player, vec, hand);
+	}
+	
+	@Override
+	public void applyEntityCollision(Entity entity) {
+		if(onCollide != null && !onCollide.equals("") && !getEntityWorld().isRemote){
+			FileScriptInvoke scriptInvoke = new FileScriptInvoke(onCollide);
+			scope = TaleCraft.globalScriptManager.createNewMovingBlock(this, entity);
+			Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
+		}
+		super.applyEntityCollision(entity);
+	}
+	
+	@Override
+	public void setDead() {
+		if(onDeath != null && !onDeath.equals("") && !getEntityWorld().isRemote){
+			FileScriptInvoke scriptInvoke = new FileScriptInvoke(onDeath);
+			scope = TaleCraft.globalScriptManager.createNewMovingBlock(this);
+			Invoke.invoke(scriptInvoke, this, null, EnumTriggerState.IGNORE);
+		}
+		super.setDead();
+	}
+	
+	private void vanillaUpdateMod(){
+		if (getBlock().getMaterial() == Material.AIR){
+			this.setDead();
+		}
+		else{
+			this.prevPosX = this.posX;
+			this.prevPosY = this.posY;
+			this.prevPosZ = this.posZ;
+			if (!this.hasNoGravity())
+			{
+				this.motionY -= 0.03999999910593033D;
+			}
+			if(onGround || no_gravity)this.motionY = 0;
+			this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+			this.motionX *= 0.9800000190734863D;
+			this.motionY *= 0.9800000190734863D;
+			this.motionZ *= 0.9800000190734863D;
 
-            if (!this.getEntityWorld().isRemote){
-                BlockPos blockpos1 = new BlockPos(this);
-                if (this.onGround){
-                    IBlockState iblockstate = this.getEntityWorld().getBlockState(blockpos1);
-                    if (this.getEntityWorld().isAirBlock(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))) //Forge: Don't indent below.
-                    if (BlockFalling.canFallThrough(this.getEntityWorld().getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))) && !no_gravity){
-                        this.onGround = false;
-                        return;
-                    }
-                    this.motionX *= 0.699999988079071D;
-                    this.motionZ *= 0.699999988079071D;
-                    this.motionY *= -0.5D;
-                }
-            }
-        }
-    }
+			if (!this.getEntityWorld().isRemote){
+				if (this.onGround){
+					if (this.getEntityWorld().isAirBlock(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))) //Forge: Don't indent below.
+					if (BlockFalling.canFallThrough(this.getEntityWorld().getBlockState(new BlockPos(this.posX, this.posY - 0.009999999776482582D, this.posZ))) && !no_gravity){
+						this.onGround = false;
+						return;
+					}
+					this.motionX *= 0.699999988079071D;
+					this.motionZ *= 0.699999988079071D;
+					this.motionY *= -0.5D;
+				}
+			}
+		}
+	}
 
 	@Override
-	public void writeSpawnData(ByteBuf buffer) { 
+	public void writeSpawnData(ByteBuf buffer) {
 		NBTTagCompound tag = new NBTTagCompound();
 		this.writeEntityToNBT(tag);
 		ByteBufUtils.writeTag(buffer, tag);
@@ -279,10 +273,10 @@ public class EntityMovingBlock extends EntityFallingBlock implements IEntityAddi
 		color[2] = 0.0f;
 	}
 	
-	public static class EntityMovingBlockRenderFactory implements IRenderFactory {
+	public static class EntityMovingBlockRenderFactory implements IRenderFactory <EntityFallingBlock>{
 		
 		@Override
-		public Render createRenderFor(RenderManager manager) {
+		public Render<EntityFallingBlock> createRenderFor(RenderManager manager) {
 			return new RenderFallingBlock(manager);
 		}
 		

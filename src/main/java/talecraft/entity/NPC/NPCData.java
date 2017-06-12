@@ -1,17 +1,14 @@
 package talecraft.entity.NPC;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.TextFormatting;
 import talecraft.entity.NPC.EntityNPC.NPCType;
 import talecraft.entity.NPC.NPCInventoryData.NPCDrop;
-import talecraft.entity.NPC.dialogue.NPCDialogue;
 import talecraft.entity.NPC.quest.NPCQuest;
 
 /** The class that stores all of the data for each NPC*/
@@ -136,7 +133,7 @@ public class NPCData {
 	
 	public String getMessage(){
 		return message;
-	}	
+	}
 	
 	public void setMessage(String str){
 		message = str;
@@ -290,9 +287,9 @@ public class NPCData {
 		tag.setFloat("pitch", pitch);
 		tag.setFloat("yaw", yaw);
 		tag.setBoolean("eyesfollow", eyesfollow);
-		tag.setInteger("skin_id", skin.ordinal()); 
+		tag.setInteger("skin_id", skin.ordinal());
 		tag.setString("customskin", customskin);
-		tag.setInteger("model_id", model.ordinal()); 
+		tag.setInteger("model_id", model.ordinal());
 		tag.setInteger("type_id", type.ordinal());
 		tag.setFloat("attackdamage", attackDamage);
 		tag.setBoolean("boss", boss);

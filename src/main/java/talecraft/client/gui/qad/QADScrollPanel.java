@@ -451,11 +451,11 @@ public class QADScrollPanel extends QADRectangularComponent implements QADCompon
 		return height;
 	}
 
-	public void handleMouseInput()
-	{
+	@Override
+	public void handleMouseInput() {
 		viewportPosition -= Mouse.getEventDWheel();
 
-        if(viewportPosition < 0) {
+		if(viewportPosition < 0) {
 			viewportPosition = 0;
 		}
 

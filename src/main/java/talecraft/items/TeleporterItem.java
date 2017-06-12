@@ -165,6 +165,7 @@ public class TeleporterItem extends TCItem {
 		return true;
 	}
 
+	@Override
 	public Vec3d getPositionEyes(float partialTicks, EntityPlayer player) {
 		if(partialTicks == 1.0F) {
 			return new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);

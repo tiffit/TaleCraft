@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import talecraft.Reference;
 import talecraft.TaleCraft;
 import talecraft.client.gui.nbt.GuiNBTEditor;
-import talecraft.items.weapon.TCGunClipItem;
 import talecraft.items.weapon.TCGunItem;
 import talecraft.network.packets.GunReloadPacket;
 import talecraft.network.packets.TriggerItemPacket;

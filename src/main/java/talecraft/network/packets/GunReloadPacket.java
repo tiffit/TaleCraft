@@ -12,7 +12,6 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import talecraft.items.weapon.TCGunClipItem;
 import talecraft.items.weapon.TCGunItem;
 
 public class GunReloadPacket implements IMessage {
@@ -50,7 +49,6 @@ public class GunReloadPacket implements IMessage {
 				if(index != -1){
 					if(!item.hasTagCompound())item.setTagCompound(new NBTTagCompound());
 					ItemStack clipStack = player.inventory.getStackInSlot(index);
-					TCGunClipItem clip = (TCGunClipItem)clipStack.getItem();
 					if(item.getItemDamage() == 0){
 						return null;
 					}

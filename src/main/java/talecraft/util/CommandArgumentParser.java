@@ -268,12 +268,12 @@ public class CommandArgumentParser {
 		String str = consume_string(errorText);
 
 		String typeStr = str;
-		String metaStr = "-1";
+		// String metaStr = "-1";
 
 		if(str.indexOf('/') != -1) {
 			int ix = str.indexOf('/');
 			typeStr = str.substring(0, ix);
-			metaStr = str.substring(ix +1);
+			// metaStr = str.substring(ix +1);
 		}
 
 		ResourceLocation location = new ResourceLocation(typeStr);

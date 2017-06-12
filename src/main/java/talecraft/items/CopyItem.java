@@ -19,7 +19,7 @@ public class CopyItem extends TCItem {
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		ItemStack stack = player.getHeldItem(hand);
+		// ItemStack stack = player.getHeldItem(hand);
 		if(world.isRemote) {
 			rightClickClient(world, player);
 		} else {

@@ -267,7 +267,7 @@ public class QADTextField extends QADRectangularComponent {
 			if(autoCompleteOptions != null && isFocused) {
 				int lh = (fontRendererInstance.FONT_HEIGHT+2);
 				int lw = 0;
-				int h = autoCompleteOptions.length * lh;
+				// int h = autoCompleteOptions.length * lh;
 				int count = 0;
 
 				{
@@ -536,7 +536,7 @@ public class QADTextField extends QADRectangularComponent {
 		int i = this.cursorPosition < this.selectionEnd ? this.cursorPosition : this.selectionEnd;
 		int j = this.cursorPosition < this.selectionEnd ? this.selectionEnd : this.cursorPosition;
 		int k = this.maxStringLength - model.getTextLength() - (i - j);
-		boolean flag = false;
+		// boolean flag = false;
 
 		if (model.getTextLength() > 0)
 		{

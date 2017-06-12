@@ -146,15 +146,13 @@ public final class BlockRegion implements Iterable<BlockPos>{
 
 	@Override
 	public Iterator<BlockPos> iterator() {
-		return new BlockRegionIterator(this);
+		return new BlockRegionIterator();
 	}
 
 	public final class BlockRegionIterator implements Iterator<BlockPos> {
 		private final MutableBlockPos XYZ;
-		private final BlockRegion region;
 
-		private BlockRegionIterator(BlockRegion blockRegion) {
-			this.region = blockRegion;
+		private BlockRegionIterator() {
 			this.XYZ = new MutableBlockPos(0,0,0);
 		}
 

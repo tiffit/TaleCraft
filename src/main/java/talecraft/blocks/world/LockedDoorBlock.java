@@ -175,24 +175,24 @@ public class LockedDoorBlock extends TCWorldBlock implements ITileEntityProvider
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-	    return new BlockStateContainer(this, new IProperty[] { CORNER });
+		return new BlockStateContainer(this, new IProperty[] { CORNER });
 	}
 	
 	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-	    return getDefaultState().withProperty(CORNER, DoorCorner.values()[meta]);
+		return getDefaultState().withProperty(CORNER, DoorCorner.values()[meta]);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-	    DoorCorner type = (DoorCorner) state.getValue(CORNER);
-	    return type.ordinal();
+		DoorCorner type = (DoorCorner) state.getValue(CORNER);
+		return type.ordinal();
 	}
 	
 	@Override
 	public int damageDropped(IBlockState state) {
-	    return getMetaFromState(state);
+		return getMetaFromState(state);
 	}
 
 	@Override

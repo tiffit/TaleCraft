@@ -6,7 +6,6 @@ import org.lwjgl.Sys;
 
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -106,7 +105,7 @@ public class ClientNetworkHandler {
 				@Override
 				public void run() {
 					CopyItem copy = TaleCraftItems.copy;
-					ItemStack stack = new ItemStack(copy);
+					// ItemStack stack = new ItemStack(copy);
 					copy.onItemRightClick(ClientProxy.mc.world, ClientProxy.mc.player, EnumHand.MAIN_HAND);
 				}
 			});

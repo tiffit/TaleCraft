@@ -1,13 +1,9 @@
 package talecraft.network.packets;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import talecraft.network.handlers.client.UndoGuiPacketHandler;
-import talecraft.network.handlers.client.VoxelatorGuiPacketHandler;
 import talecraft.util.UndoTask;
 
 public class UndoPacket implements IMessage {

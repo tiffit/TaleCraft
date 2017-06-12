@@ -1,6 +1,5 @@
 package talecraft.client.render.metaworld;
 
-import static talecraft.clipboard.ClipboardTagNames.$REGION_DATA;
 import static talecraft.clipboard.ClipboardTagNames.$REGION_PALLET;
 
 import org.lwjgl.opengl.GL11;
@@ -10,7 +9,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -96,7 +94,7 @@ public class PasteItemRender implements IMetadataRender {
 			dimY = height;
 			dimZ = width;
 
-			float shift = 0.5f;
+			// float shift = 0.5f;
 			plantPos = plantPos.subtract(width/2, 0, width/2);
 		}
 
@@ -118,10 +116,6 @@ public class PasteItemRender implements IMetadataRender {
 		ClientProxy.mc.renderEngine.bindTexture(ClientResources.textureSelectionBoxFF);
 		BoxRenderer.renderSelectionBox(tessellator, buffer, minX, minY, minZ, maxX, maxY, maxZ, color);
 		if(blocks != null){
-			int regionWidth = blocks.getInteger(ClipboardTagNames.$REGION_WIDTH);
-			int regionHeight = blocks.getInteger(ClipboardTagNames.$REGION_HEIGHT);
-			int regionLength = blocks.getInteger(ClipboardTagNames.$REGION_LENGTH);
-			int[] blockData = blocks.getIntArray($REGION_DATA);
 			NBTTagList pallet = blocks.getTagList($REGION_PALLET, new NBTTagString().getId());
 			IBlockState[] palletRaw = new IBlockState[pallet.tagCount()];
 			for(int i = 0; i < pallet.tagCount(); i++) {
@@ -134,6 +128,12 @@ public class PasteItemRender implements IMetadataRender {
 					System.out.println("Could not locate block type: " + typeString + " -> " + i);
 				}
 			}
+			
+			/*
+			int regionWidth = blocks.getInteger(ClipboardTagNames.$REGION_WIDTH);
+			int regionHeight = blocks.getInteger(ClipboardTagNames.$REGION_HEIGHT);
+			int regionLength = blocks.getInteger(ClipboardTagNames.$REGION_LENGTH);
+			int[] blockData = blocks.getIntArray($REGION_DATA);
 			for(int Yx = 0; Yx < regionHeight; Yx++) {
 				for(int Zx = 0; Zx < regionLength; Zx++) {
 					for(int Xx = 0; Xx < regionWidth; Xx++) {
@@ -145,10 +145,10 @@ public class PasteItemRender implements IMetadataRender {
 						int blockX = Xx + (int)minX;
 						BlockPos pos = new BlockPos(blockX, blockY, blockZ);
 						IBakedModel model = ClientProxy.mc.getBlockRendererDispatcher().getModelForState(state);
-						
 					}
 				}
 			}
+			*/
 		}
 		if(snap > 1) {
 			final int s = (int) snap;
@@ -185,5 +185,5 @@ public class PasteItemRender implements IMetadataRender {
 		}
 	}
 	
- 
+
 }
