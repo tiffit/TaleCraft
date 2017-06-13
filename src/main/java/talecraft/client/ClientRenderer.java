@@ -120,6 +120,7 @@ public class ClientRenderer {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	public void preInit() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPoint.class, PointEntityRenderer.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new EntityBulletRenderFactory());
