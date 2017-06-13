@@ -11,10 +11,12 @@ import talecraft.invoke.IInvoke;
 import talecraft.invoke.Invoke;
 
 public class RedstoneTriggerBlockTileEntity extends TCTileEntity {
-	IInvoke triggerInvoke;
+	IInvoke triggerInvokeOn;
+	IInvoke triggerInvokeOff;
 
 	public RedstoneTriggerBlockTileEntity() {
-		triggerInvoke = BlockTriggerInvoke.ZEROINSTANCE;
+		triggerInvokeOn = BlockTriggerInvoke.ZEROINSTANCE;
+		triggerInvokeOff = BlockTriggerInvoke.ZEROINSTANCE;
 	}
 
 	@Override
@@ -24,32 +26,46 @@ public class RedstoneTriggerBlockTileEntity extends TCTileEntity {
 
 	@Override
 	public void readFromNBT_do(NBTTagCompound compound) {
-		triggerInvoke = IInvoke.Serializer.read(compound.getCompoundTag("triggerInvoke"));
+		triggerInvokeOn = IInvoke.Serializer.read(compound.getCompoundTag("triggerInvokeOn"));
+		triggerInvokeOff = IInvoke.Serializer.read(compound.getCompoundTag("triggerInvokeOff"));
+		
+		// backwards compatibility
+		if(triggerInvokeOn.getType().equals("NullInvoke")) {
+			triggerInvokeOn = IInvoke.Serializer.read(compound.getCompoundTag("triggerInvoke"));
+		}
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT_do(NBTTagCompound comp) {
-		comp.setTag("triggerInvoke", IInvoke.Serializer.write(triggerInvoke));
+		comp.setTag("triggerInvokeOn", IInvoke.Serializer.write(triggerInvokeOn));
+		comp.setTag("triggerInvokeOff", IInvoke.Serializer.write(triggerInvokeOff));
 		return comp;
 	}
 
-	public void invokeFromUpdateTick(EnumTriggerState triggerState) {
+	public void invokeFromUpdateTick(EnumTriggerState triggerState, boolean onOff) {
 		if(this.world.isRemote)
 			return;
 
-		Invoke.invoke(triggerInvoke, this, null, triggerState);
+		if(onOff)
+			Invoke.invoke(triggerInvokeOn, this, null, triggerState);
+		else
+			Invoke.invoke(triggerInvokeOff, this, null, triggerState);
 	}
 
 	@Override
 	public void commandReceived(String command, NBTTagCompound data) {
 		if(command.equals("trigger")) {
-			Invoke.invoke(triggerInvoke, this, null, EnumTriggerState.ON);
+			Invoke.invoke(triggerInvokeOn, this, null, EnumTriggerState.ON);
+			Invoke.invoke(triggerInvokeOff, this, null, EnumTriggerState.ON);
 			return;
 		}
 
 		if(command.equals("reload")) {
-			if(triggerInvoke != null && triggerInvoke instanceof FileScriptInvoke) {
-				((FileScriptInvoke)triggerInvoke).reloadScript();
+			if(triggerInvokeOn != null && triggerInvokeOn instanceof FileScriptInvoke) {
+				((FileScriptInvoke)triggerInvokeOn).reloadScript();
+			}
+			if(triggerInvokeOff != null && triggerInvokeOff instanceof FileScriptInvoke) {
+				((FileScriptInvoke)triggerInvokeOff).reloadScript();
 			}
 			return;
 		}
@@ -64,16 +80,21 @@ public class RedstoneTriggerBlockTileEntity extends TCTileEntity {
 
 	@Override
 	public String toString() {
-		return "RedstoneTriggerTileEntity:{}";
+		return "RedstoneTriggerTileEntity:{"+triggerInvokeOn+", "+triggerInvokeOff+"}";
 	}
 
 	@Override
 	public void getInvokes(List<IInvoke> invokes) {
-		invokes.add(triggerInvoke);
+		invokes.add(triggerInvokeOn);
+		invokes.add(triggerInvokeOff);
 	}
 
-	public IInvoke getInvoke() {
-		return triggerInvoke;
+	public IInvoke getInvokeOn() {
+		return triggerInvokeOn;
+	}
+
+	public IInvoke getInvokeOff() {
+		return triggerInvokeOff;
 	}
 
 	//	@Override

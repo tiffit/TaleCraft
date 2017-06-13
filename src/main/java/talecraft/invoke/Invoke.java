@@ -113,7 +113,7 @@ public class Invoke {
 			int[] bounds = ((BlockTriggerInvoke) invoke).getBounds();
 			EnumTriggerState state = ((BlockTriggerInvoke) invoke).getOnOff();
 
-			state = state.override(triggerStateOverride);
+			state = triggerStateOverride.override(state);
 
 			if(bounds == null || bounds.length != 6) {
 				TaleCraft.logger.error("Invalid bounds @ BlockRegionTrigger @ " + source.getInvokePosition());

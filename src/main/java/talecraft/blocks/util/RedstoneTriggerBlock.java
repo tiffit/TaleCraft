@@ -49,6 +49,7 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 				worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 			} else if (!flag && flag1) {
 				worldIn.setBlockState(pos, state.withProperty(TRIGGERED, Boolean.valueOf(false)), 4);
+				worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 			}
 		}
 	}
@@ -59,9 +60,10 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 			return;
 
 		TileEntity tileentity = worldIn.getTileEntity(pos);
+		boolean flag1 = state.getValue(TRIGGERED).booleanValue();
 
 		if (tileentity instanceof RedstoneTriggerBlockTileEntity) {
-			((RedstoneTriggerBlockTileEntity)tileentity).invokeFromUpdateTick(EnumTriggerState.IGNORE);
+			((RedstoneTriggerBlockTileEntity)tileentity).invokeFromUpdateTick(EnumTriggerState.IGNORE, flag1);
 		}
 	}
 
@@ -117,7 +119,8 @@ public class RedstoneTriggerBlock extends TCBlockContainer implements TCITrigger
 		TileEntity tileentity = world.getTileEntity(position);
 
 		if (tileentity instanceof RedstoneTriggerBlockTileEntity) {
-			((RedstoneTriggerBlockTileEntity)tileentity).invokeFromUpdateTick(triggerState);
+			((RedstoneTriggerBlockTileEntity)tileentity).invokeFromUpdateTick(triggerState, true);
+			((RedstoneTriggerBlockTileEntity)tileentity).invokeFromUpdateTick(triggerState, false);
 		}
 	}
 

@@ -190,7 +190,7 @@ public class InvokePanelBuilder {
 				ordinal++;
 
 				if(ordinal > 1) {
-					ordinal = -1;
+					ordinal = -2;
 				}
 
 				NBTTagCompound invokeData = new NBTTagCompound();
