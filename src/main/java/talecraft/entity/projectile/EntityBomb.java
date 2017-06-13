@@ -10,9 +10,11 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import talecraft.TaleCraftItems;
@@ -26,14 +28,17 @@ public class EntityBomb extends EntityThrowable{
 	
 	public EntityBomb(World world){
 		super(world);
+		this.setSize(0.1F, 0.1F);
 	}
 
 	public EntityBomb(World world, EntityLivingBase thrower){
 		super(world, thrower);
+		this.setSize(0.1F, 0.1F);
 	}
 
 	public EntityBomb(World world, double x, double y, double z){
 		super(world, x, y, z);
+		this.setSize(0.1F, 0.1F);
 	}
 	
 	public void setFuse(int fuse){
@@ -45,12 +50,42 @@ public class EntityBomb extends EntityThrowable{
 		if (result.entityHit != null){
 			explode(); //explode on impact
 			updateMovementLogic = false;
+			return;
 		}
+		
 		if(result.typeOfHit == Type.BLOCK){
-			if(world.getBlockState(result.getBlockPos()).isFullBlock()){
-				updateMovementLogic = false;
-				setVelocityNew(0, 0, 0);
+			Vec3d nextPos = new Vec3d(motionX, motionY, motionZ).add(getPositionVector());
+			
+			if(this.world.isAirBlock(new BlockPos(nextPos))) {
+				switch(result.sideHit) {
+					case NORTH:
+					case SOUTH:
+					case EAST:
+					case WEST: {
+						rotationPitch = 90;
+						setVelocityNew(0, 0, 0);
+					} break;
+					case UP: {
+						rotationPitch = -rotationPitch;
+						setVelocityNew(motionX*0.5f, 0, motionZ*0.5f);
+					} break;
+					case DOWN: {
+						updateMovementLogic = false;
+						rotationPitch = -rotationPitch;
+						setVelocityNew(0, 0, 0);
+					} break;
+				}
+			} else {
+				/*if(world.getBlockState(getPosition()).isFullBlock()) {
+					setPositionAndUpdate(posX, posY + 1f/16f, posZ);
+					setVelocityNew(0, motionY, 0);
+				}*/
 			}
+			
+			/*if(world.getBlockState(result.getBlockPos()).isFullBlock()){
+				updateMovementLogic = false;
+				//setVelocityNew(0, 0, 0);
+			}*/
 		}
 	}
 	
@@ -84,6 +119,8 @@ public class EntityBomb extends EntityThrowable{
 			this.prevRotationYaw = this.rotationYaw;
 			this.prevRotationPitch = this.rotationPitch;
 		}
+		
+		velocityChanged = true;
 	}
 	
 	private void explode(){
@@ -104,8 +141,8 @@ public class EntityBomb extends EntityThrowable{
 
 		@Override
 			public void readEntityFromNBT(NBTTagCompound tag){
-		   super.readEntityFromNBT(tag);
-		   explosion_delay = tag.getInteger("explosion_delay");
+		super.readEntityFromNBT(tag);
+		explosion_delay = tag.getInteger("explosion_delay");
 		}
 	
 	
