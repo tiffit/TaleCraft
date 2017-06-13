@@ -5,6 +5,9 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.GameRules;
@@ -30,6 +33,7 @@ import talecraft.client.ClientSettings;
 import talecraft.client.InfoBar;
 import talecraft.client.InvokeTracker;
 import talecraft.client.commands.TaleCraftClientCommands;
+import talecraft.client.environment.Environments;
 import talecraft.client.gui.entity.npc.GuiNPCMerchant;
 import talecraft.client.render.metaworld.CustomPaintingRender;
 import talecraft.client.render.metaworld.PasteItemRender;
@@ -38,7 +42,7 @@ import talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import talecraft.clipboard.ClipboardItem;
 import talecraft.entity.NPC.NPCShop;
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 	// All the singletons!
 	public static final Minecraft mc = Minecraft.getMinecraft();
 	public static final ClientSettings settings = new ClientSettings();
@@ -67,6 +71,9 @@ public class ClientProxy extends CommonProxy {
 		clientKeyboardHandler = new ClientKeyboardHandler(this);
 		TaleCraftClientCommands.init();
 
+		IReloadableResourceManager resManager = (IReloadableResourceManager) mc.getResourceManager();
+		resManager.registerReloadListener(this);
+		
 		clientTickQeue = new ConcurrentLinkedDeque<Runnable>();
 		clientRenderer = new ClientRenderer(this);
 		clientRenderer.preInit();
@@ -100,6 +107,11 @@ public class ClientProxy extends CommonProxy {
 		ItemMetaWorldRenderer.ITEM_RENDERS.put(TaleCraftItems.custompainting, new CustomPaintingRender());
 		
 		gamerules = new GameRules();
+	}
+
+	@Override
+	public void onResourceManagerReload(IResourceManager resourceManager) {
+		// Environments.reload(resourceManager);
 	}
 
 	@SubscribeEvent
