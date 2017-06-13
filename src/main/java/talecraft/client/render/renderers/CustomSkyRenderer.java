@@ -9,10 +9,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.IRenderHandler;
-import talecraft.TaleCraft;
-import talecraft.client.ClientRenderer.VisualMode;
-import talecraft.client.render.RenderModeHelper;
-import talecraft.proxy.ClientProxy;
 
 public class CustomSkyRenderer extends IRenderHandler {
 	public static final CustomSkyRenderer instance = new CustomSkyRenderer();
@@ -20,18 +16,9 @@ public class CustomSkyRenderer extends IRenderHandler {
 
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
-		VisualMode visualizationMode = ((ClientProxy)TaleCraft.proxy).getRenderer().getVisualizationMode();
-
 		if(useDebugSky) {
 			renderDebugSky(partialTicks, world, mc);
-			if(visualizationMode != VisualMode.Default) {
-				RenderModeHelper.ENABLE(visualizationMode);
-			}
 			return;
-		}
-
-		if(visualizationMode != VisualMode.Default) {
-			RenderModeHelper.ENABLE(visualizationMode);
 		}
 	}
 
