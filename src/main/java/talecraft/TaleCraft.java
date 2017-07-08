@@ -110,9 +110,7 @@ public class TaleCraft {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init(event);
-		TCSoundHandler.init();
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-		ReflectionUtil.replaceMusicTicker();
+		NetworkRegistry.INSTANCE.registerGuiHandler(TaleCraft.instance, new GuiHandler());
 	}
 
 	@Mod.EventHandler
@@ -145,13 +143,13 @@ public class TaleCraft {
 
 	@Mod.EventHandler
 	public void serverStarted(FMLServerStartedEvent event){
-		 logger.info("Server started: " + event + " [TCINFO]");
-		 TaleCraftGameRules.registerGameRules(FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(0).getGameRules());
+		logger.info("Server started: " + event + " [TCINFO]");
+		TaleCraftGameRules.registerGameRules(FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(0).getGameRules());
 	}
 
 	@Mod.EventHandler
 	public void serverStopped(FMLServerStoppedEvent event){
-		 //logger.info("Server stopped: " + event + " [TCINFO]");
+		//logger.info("Server stopped: " + event + " [TCINFO]");
 	}
 
 	@SideOnly(Side.CLIENT)

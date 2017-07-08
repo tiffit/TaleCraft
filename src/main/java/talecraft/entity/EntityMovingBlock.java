@@ -51,7 +51,7 @@ public class EntityMovingBlock extends EntityFallingBlock implements IEntityAddi
 	
 	public void updateData(NBTTagCompound data){
 		readEntityFromNBT(data);
-		if(!getWorldObj().isRemote)TaleCraft.network.sendToDimension(new MovingBlockDataUpdatePacket(this.getEntityId(), data), getEntityWorld().provider.getDimension());
+		if(!world.isRemote)TaleCraft.network.sendToDimension(new MovingBlockDataUpdatePacket(this.getEntityId(), data), getEntityWorld().provider.getDimension());
 	}
 	
 	private void onCreate(){

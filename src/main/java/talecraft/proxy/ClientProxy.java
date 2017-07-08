@@ -24,6 +24,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import talecraft.TCSoundHandler;
 import talecraft.TaleCraft;
 import talecraft.TaleCraftItems;
 import talecraft.client.ClientKeyboardHandler;
@@ -41,6 +43,8 @@ import talecraft.client.render.renderables.SelectionBoxRenderer;
 import talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import talecraft.clipboard.ClipboardItem;
 import talecraft.entity.NPC.NPCShop;
+import talecraft.util.GuiHandler;
+import talecraft.util.ReflectionUtil;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 	// All the singletons!
@@ -91,6 +95,8 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());
 		
+		TCSoundHandler.init();
+		ReflectionUtil.replaceMusicTicker();
 	} // init(..){}
 
 	@Override
