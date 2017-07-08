@@ -47,12 +47,12 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 		float w = tileentity.getHologramWidth() / 2f;
 		float h = tileentity.getHologramHeight() / 2f;
 
-		float u = 1;
+		float u = 1 * tileentity.getHologramUscale();
 		if(w < 0) {
 			u = (w = w*-1) * 2f;
 		}
 
-		float v = 1;
+		float v = 1 * tileentity.getHologramVscale();
 		if(h < 0) {
 			v = (h = h*-1) * 2f;
 		}
@@ -78,15 +78,16 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 			GlStateManager.color(r, g, b, a);
 			vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 			vertexbuffer.setTranslation(0, 0, 0);
-			vertexbuffer.color(r, g, b, a);
 			// negative z | north
 			vertexbuffer.normal(0, 0, -1);
+			vertexbuffer.color(r, g, b, a);
 			vertexbuffer.pos(-w, +h, 0).tex(u, 0).endVertex();
 			vertexbuffer.pos(+w, +h, 0).tex(0, 0).endVertex();
 			vertexbuffer.pos(+w, -h, 0).tex(0, v).endVertex();
 			vertexbuffer.pos(-w, -h, 0).tex(u, v).endVertex();
 			// positive z | south
 			vertexbuffer.normal(0, 0, 1);
+			vertexbuffer.color(r, g, b, a);
 			vertexbuffer.pos(+w, +h, 0).tex(u, 0).endVertex();
 			vertexbuffer.pos(-w, +h, 0).tex(0, 0).endVertex();
 			vertexbuffer.pos(-w, -h, 0).tex(0, v).endVertex();

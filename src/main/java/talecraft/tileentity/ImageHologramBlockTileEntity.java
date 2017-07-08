@@ -135,6 +135,14 @@ public class ImageHologramBlockTileEntity extends TCTileEntity {
 		return holodata.hasKey("var_yaw") ? holodata.getFloat("var_yaw") : 0;
 	}
 
+	public float getHologramUscale() {
+		return holodata.hasKey("var_uscale") ? holodata.getFloat("var_uscale") : 1f;
+	}
+
+	public float getHologramVscale() {
+		return holodata.hasKey("var_vscale") ? holodata.getFloat("var_vscale") : 1f;
+	}
+
 	public int getHologramColor() {
 		if(!holodata.hasKey("var_color")) {
 			return 0xFFFFFFFF;
