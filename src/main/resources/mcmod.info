@@ -1,13 +1,13 @@
 [
 {
-  "modid": "talecraft",
-  "name": "TaleCraft",
-  "description": "The TaleCraft Mod.",
-  "mcversion": "1.10.2",
-  "updateUrl": "",
-  "authorList": ["Longor1996", "tiffit"],
-  "logoFile": "tclogo.png",
-  "screenshots": [],
-  "dependencies": []
+	"modid": "talecraft",
+	"name": "TaleCraft",
+	"description": "The TaleCraft Mod.",
+	"mcversion": "1.11.2",
+	"updateUrl": "",
+	"authorList": ["Longor1996", "tiffit"],
+	"logoFile": "tclogo.png",
+	"screenshots": [],
+	"dependencies": []
 }
 ]
