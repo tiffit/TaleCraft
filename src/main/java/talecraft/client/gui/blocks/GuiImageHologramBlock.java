@@ -105,6 +105,7 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 				"Example: 7F00FFFF = Transparent Cyan"
 		);
 		addComponent(colorTextField);
+		colorTextField.setEnabled(false);
 
 		QADButton applyButton = QADFACTORY.createButton("Apply", colp[1], rowp[8], colw[1], null);
 		applyButton.setEnabled(true);
@@ -127,7 +128,7 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 				commandComp.setFloat("var_uscale", parseFloat(textureUscaleTextField.getText(), tileEntity.getHologramUscale(), -1000, 1000));
 				commandComp.setFloat("var_vscale", parseFloat(textureVscaleTextField.getText(), tileEntity.getHologramVscale(), -1000, 1000));
 
-				commandComp.setFloat("var_color", parseInt(colorTextField.getText(), tileEntity.getHologramColor(), 0, 0xFFFFFFFF));
+				commandComp.setInteger("var_color", parseInt(colorTextField.getText(), tileEntity.getHologramColor(), Integer.MIN_VALUE, Integer.MAX_VALUE));
 
 				// Final
 				commandComp.setString("command", "set_vars");

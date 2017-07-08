@@ -326,16 +326,39 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 	}
 
 	// FOLLOWING ARE UTILITY METHODS!
+	public static final long parseLong(String string, long original, long min, long max) {
+		try {
+			long i = 0;
+
+			if(string.startsWith("0x"))
+				i = Long.parseLong(string.toLowerCase().substring(2), 16);
+			if(string.startsWith("0b"))
+				i = Long.parseLong(string.toLowerCase().substring(2), 2);
+			else
+				i = Long.parseLong(string);
+
+			if(i < min)
+				throw new NumberFormatException(i+" is smaller than "+min+".");
+			if(i > max)
+				throw new NumberFormatException(i+" is bigger than "+max+".");
+
+			return i;
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return original;
+		}
+	}
+	
 	public static final int parseInt(String string, int original, int min, int max) {
 		try {
 			int i = 0;
 
 			if(string.startsWith("0x"))
-				i = Integer.parseInt(string.toLowerCase(), 16);
+				i = Integer.parseInt(string.toLowerCase().substring(2), 16);
 			if(string.startsWith("0b"))
-				i = Integer.parseInt(string.toLowerCase(), 2);
+				i = Integer.parseInt(string.toLowerCase().substring(2), 2);
 			else
-				i = Integer.parseInt(string);
+				i = Integer.parseInt(string.toLowerCase());
 
 			if(i < min)
 				throw new NumberFormatException(i+" is smaller than "+min+".");
