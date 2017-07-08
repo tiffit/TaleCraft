@@ -48,6 +48,10 @@ public class GlobalScriptObject implements IObjectWrapper {
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		return server.getCommandManager().executeCommand(server, command);
 	}
+	
+	public void setTimeout(final Runnable callable, final int delay) {
+		TaleCraft.timedExecutor.executeLater(callable, delay);
+	}
 
 	public BlockStateObjectWrapper getBlock(String id) {
 		IBlockState block = GObjectTypeHelper.findBlockState(id);
