@@ -4,6 +4,9 @@ import java.util.Random;
 
 import org.apache.logging.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -52,6 +55,7 @@ public class TaleCraft {
 	public static TimedExecutor timedExecutor;
 	public static Logger logger;
 	public static Random random;
+	public static Gson gson;
 
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY, modId = Reference.MOD_ID)
 	public static CommonProxy proxy;
@@ -77,6 +81,8 @@ public class TaleCraft {
 		timedExecutor = new TimedExecutor();
 		globalScriptManager = new GlobalScriptManager();
 		globalScriptManager.init(this, proxy);
+		
+		gson = new GsonBuilder().setPrettyPrinting().create();
 
 		// Print debug information
 		logger.info("TaleCraft CoreManager @" + worldsManager.hashCode());

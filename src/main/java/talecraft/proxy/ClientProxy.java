@@ -24,7 +24,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import talecraft.TCSoundHandler;
 import talecraft.TaleCraft;
 import talecraft.TaleCraftItems;
@@ -35,7 +34,6 @@ import talecraft.client.ClientSettings;
 import talecraft.client.InfoBar;
 import talecraft.client.InvokeTracker;
 import talecraft.client.commands.TaleCraftClientCommands;
-import talecraft.client.environment.Environments;
 import talecraft.client.gui.entity.npc.GuiNPCMerchant;
 import talecraft.client.render.metaworld.CustomPaintingRender;
 import talecraft.client.render.metaworld.PasteItemRender;
@@ -43,7 +41,6 @@ import talecraft.client.render.renderables.SelectionBoxRenderer;
 import talecraft.client.render.renderers.ItemMetaWorldRenderer;
 import talecraft.clipboard.ClipboardItem;
 import talecraft.entity.NPC.NPCShop;
-import talecraft.util.GuiHandler;
 import talecraft.util.ReflectionUtil;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
