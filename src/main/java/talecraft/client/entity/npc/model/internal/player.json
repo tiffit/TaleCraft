@@ -1,0 +1,310 @@
+{
+	"name": "Player",
+	"animation": "internal:player",
+	"texture": {
+		"width": 64,
+		"height": 64
+	},
+	"parts": [
+		{
+			"name": "bipedHeadwear",
+			"type": "headwear",
+			"mirror": false,
+			"scale": 0.09375,
+			"texture": {
+				"x": 32,
+				"y": 0
+			},
+			"translation": {
+				"x": -4,
+				"y": -8,
+				"z": -4
+			},
+			"size": {
+				"x": 8,
+				"y": 8,
+				"z": 8
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			}
+		},
+		{
+			"name": "bipedHead",
+			"type": "head",
+			"mirror": false,
+			"scale": 0.0625,
+			"texture": {
+				"x": 0,
+				"y": 0
+			},
+			"translation": {
+				"x": -4,
+				"y": -8,
+				"z": -4
+			},
+			"size": {
+				"x": 8,
+				"y": 8,
+				"z": 8
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			}
+		},
+		{
+			"name": "bipedBody",
+			"type": "body",
+			"mirror": false,
+			"scale": 0.0625,
+			"texture": {
+				"x": 16,
+				"y": 16
+			},
+			"translation": {
+				"x": -4,
+				"y": 0,
+				"z": -2
+			},
+			"size": {
+				"x": 8,
+				"y": 12,
+				"z": 4
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			}
+		},
+		{
+			"name": "bipedRightArm",
+			"type": "rightarm",
+			"mirror": false,
+			"scale": 0.0625,
+			"texture": {
+				"x": 40,
+				"y": 16
+			},
+			"translation": {
+				"x": -3,
+				"y": -2,
+				"z": -2
+			},
+			"size": {
+				"x": 4,
+				"y": 12,
+				"z": 4
+			},
+			"rotation": {
+				"x": -5,
+				"y": 2.5,
+				"z": 0
+			}
+		},
+		{
+			"name": "bipedLeftArm",
+			"type": "leftarm",
+			"mirror": true,
+			"scale": 0.0625,
+			"texture": {
+				"x": 32,
+				"y": 48
+			},
+			"translation": {
+				"x": -1,
+				"y": -2,
+				"z": -2
+			},
+			"size": {
+				"x": 4,
+				"y": 12,
+				"z": 4
+			},
+			"rotation": {
+				"x": 5,
+				"y": 2.5,
+				"z": 0
+			}
+		},
+		{
+			"name": "bipedRightLeg",
+			"type": "rightleg",
+			"mirror": false,
+			"scale": 0.0625,
+			"texture": {
+				"x": 0,
+				"y": 16
+			},
+			"translation": {
+				"x": -2,
+				"y": 0,
+				"z": -2
+			},
+			"size": {
+				"x": 4,
+				"y": 12,
+				"z": 4
+			},
+			"rotation": {
+				"x": -1.9,
+				"y": 12,
+				"z": 0
+			}
+		},
+		{
+			"name": "bipedLeftLeg",
+			"type": "leftleg",
+			"mirror": false,
+			"scale": 0.0625,
+			"texture": {
+				"x": 16,
+				"y": 48
+			},
+			"translation": {
+				"x": -2,
+				"y": 0,
+				"z": -2
+			},
+			"size": {
+				"x": 4,
+				"y": 12,
+				"z": 4
+			},
+			"rotation": {
+				"x": 1.9,
+				"y": 12,
+				"z": 0
+			}
+		},
+		{
+			"name": "bipedLeftArmWear",
+			"type": "leftarmwear",
+			"mirror": false,
+			"scale": 0.0625,
+			"texture": {
+				"x": 48,
+				"y": 48
+			},
+			"translation": {
+				"x": -1,
+				"y": -2,
+				"z": -2
+			},
+			"size": {
+				"x": 4,
+				"y": 12,
+				"z": 4
+			},
+			"rotation": {
+				"x": 5,
+				"y": 2,
+				"z": 0
+			}
+		},
+		{
+			"name": "bipedRightArmWear",
+			"type": "rightarmwear",
+			"mirror": false,
+			"scale": 0.0625,
+			"texture": {
+				"x": 40,
+				"y": 32
+			},
+			"translation": {
+				"x": -3,
+				"y": -2,
+				"z": -2
+			},
+			"size": {
+				"x": 4,
+				"y": 12,
+				"z": 4
+			},
+			"rotation": {
+				"x": -5,
+				"y": 2,
+				"z": 10
+			}
+		},
+		{
+			"name": "bipedLeftLegWear",
+			"type": "leftlegwear",
+			"mirror": false,
+			"scale": 0.0625,
+			"texture": {
+				"x": 0,
+				"y": 48
+			},
+			"translation": {
+				"x": -2,
+				"y": -0,
+				"z": -2
+			},
+			"size": {
+				"x": 4,
+				"y": 12,
+				"z": 4
+			},
+			"rotation": {
+				"x": 1.9,
+				"y": 12,
+				"z": 0
+			}
+		},
+        {
+            "name": "bipedRightLegWear",
+            "type": "rightlegwear",
+            "mirror": false,
+            "scale": 0.0625,
+            "texture": {
+                "x": 0,
+                "y": 32
+            },
+            "translation": {
+                "x": -2,
+                "y": -0,
+                "z": -2
+            },
+            "size": {
+                "x": 4,
+                "y": 12,
+                "z": 4
+            },
+            "rotation": {
+                "x": -1.9,
+                "y": 12,
+                "z": 0
+            }
+        },
+        {
+            "name": "bipedBodyWear",
+            "type": "bodywear",
+            "mirror": false,
+            "scale": 0.0625,
+            "texture": {
+                "x": 16,
+                "y": 32
+            },
+            "translation": {
+                "x": -4,
+                "y": -0,
+                "z": -2
+            },
+            "size": {
+                "x": 8,
+                "y": 12,
+                "z": 4
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+	]
+}
