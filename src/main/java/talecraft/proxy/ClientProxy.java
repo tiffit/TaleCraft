@@ -34,6 +34,7 @@ import talecraft.client.ClientSettings;
 import talecraft.client.InfoBar;
 import talecraft.client.InvokeTracker;
 import talecraft.client.commands.TaleCraftClientCommands;
+import talecraft.client.environment.Environments;
 import talecraft.client.gui.entity.npc.GuiNPCMerchant;
 import talecraft.client.render.metaworld.CustomPaintingRender;
 import talecraft.client.render.metaworld.PasteItemRender;
