@@ -1,0 +1,39 @@
+{
+	"env_default": {
+		"predicate": {
+			"weather": ["clear", "rain", "thunder"],
+			"score": {"name":"health", "comp":"below", "data":0},
+			"health": {"comp":"below", "data":100},
+			"entity": {"type":"Skeleton","name":"Grunkle","range":10}
+		},
+		"lighting": "talecraft:environment/lightmap.png",
+		"fog": {
+			"start":   1,
+			"end":   100,
+			"density": 0.1,
+			"color": [1,1,1]
+		},
+		"clouds": [{
+			"angle":  360,
+			"speed":    1,
+			"height": 255,
+			"texture": "talecraft:environment/clouds.png"
+		}],
+		"sky": [{
+			"blend":  "replace",
+			"depth":  false,
+			"shape":  "plane",
+			"origin": "player",
+			"offset": [0, 0, 0],
+			"scale":  1,
+			"rotation": [{
+				"axis": [0, 0, 0],
+				"offset": 0,
+				"speed": 1
+			}]
+		}]
+	},
+	"env_something": {
+		
+	}
+}

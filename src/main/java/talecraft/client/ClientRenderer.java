@@ -27,6 +27,7 @@ import talecraft.TaleCraftBlocks;
 import talecraft.TaleCraftItems;
 import talecraft.client.entity.PointEntityRenderer;
 import talecraft.client.entity.RenderNPC.NPCRenderFactory;
+import talecraft.client.environment.Environments;
 import talecraft.client.render.IRenderable;
 import talecraft.client.render.ITemporaryRenderable;
 import talecraft.client.render.RenderModeHelper;
@@ -460,6 +461,9 @@ public class ClientRenderer {
 				
 				if(debugSkyActive) {
 					CustomSkyRenderer.instance.setDebugSky(true);
+					mc.world.provider.setSkyRenderer(CustomSkyRenderer.instance);
+				} else if(Environments.isNonDefault()) {
+					CustomSkyRenderer.instance.setDebugSky(false);
 					mc.world.provider.setSkyRenderer(CustomSkyRenderer.instance);
 				} else {
 					CustomSkyRenderer.instance.setDebugSky(false);

@@ -94,6 +94,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 		
 		TCSoundHandler.init();
 		ReflectionUtil.replaceMusicTicker();
+		
 	} // init(..){}
 
 	@Override
@@ -114,7 +115,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-		// Environments.reload(resourceManager);
+		Environments.reload(resourceManager);
 	}
 
 	@SubscribeEvent
