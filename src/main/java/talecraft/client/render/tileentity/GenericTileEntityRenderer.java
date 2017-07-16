@@ -109,17 +109,17 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 		}
 
 		/*
-        final String TEXT = tile.getBlockType().getLocalizedName(); // tile.getStateAsString();
-        if(TEXT != null || Boolean.FALSE) {
-        	final int TEXT_W = this.getFontRenderer().getStringWidth(TEXT);
-        	final float HEX = 1f / 32f;
-        	GlStateManager.translate(0.5f, 1.75f, 0.5f);
-        	GlStateManager.rotate(180, 1, 0, 0);
-        	GlStateManager.scale(HEX, HEX, HEX);
-        	GlStateManager.rotate((float)(Minecraft.getMinecraft().player.rotationYawHead + 180), 0, 1, 0);
-        	this.getFontRenderer().drawString(TEXT, -TEXT_W/2, 0, 0xFFFFFFFF);
-        }
-        //*/
+		final String TEXT = tile.getBlockType().getLocalizedName(); // tile.getStateAsString();
+		if(TEXT != null || Boolean.FALSE) {
+			final int TEXT_W = this.getFontRenderer().getStringWidth(TEXT);
+			final float HEX = 1f / 32f;
+			GlStateManager.translate(0.5f, 1.75f, 0.5f);
+			GlStateManager.rotate(180, 1, 0, 0);
+			GlStateManager.scale(HEX, HEX, HEX);
+			GlStateManager.rotate((float)(Minecraft.getMinecraft().player.rotationYawHead + 180), 0, 1, 0);
+			this.getFontRenderer().drawString(TEXT, -TEXT_W/2, 0, 0xFFFFFFFF);
+		}
+		//*/
 
 		if(extRenderer != null) {
 			GlStateManager.pushMatrix();

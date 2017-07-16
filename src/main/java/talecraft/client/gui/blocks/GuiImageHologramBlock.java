@@ -9,6 +9,8 @@ import talecraft.client.gui.qad.QADFACTORY;
 import talecraft.client.gui.qad.QADGuiScreen;
 import talecraft.client.gui.qad.QADLabel;
 import talecraft.client.gui.qad.QADTextField;
+import talecraft.client.gui.qad.QADTickBox;
+import talecraft.client.gui.qad.model.DefaultTickBoxModel;
 import talecraft.network.packets.StringNBTCommandPacket;
 import talecraft.tileentity.ImageHologramBlockTileEntity;
 
@@ -24,8 +26,8 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 		final BlockPos position = tileEntity.getPos();
 		addComponent(new QADLabel("Image Hologram Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
 
-		int[] colp = new int[4];
-		int[] colw = new int[4];
+		int[] colp = new int[5];
+		int[] colw = new int[5];
 		int[] rowp = new int[9];
 
 		colp[0] = 2;
@@ -36,6 +38,8 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 		colw[2] = 80;
 		colp[3] = colp[2] + colw[2] + 4;
 		colw[3] = 80;
+		colp[4] = colp[3] + colw[3] + 4;
+		colw[4] = 22;
 
 		int rowh = 20; // row height
 		int tfc = 2;
@@ -76,7 +80,11 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 		addComponent(offsetXTextField);
 		addComponent(offsetYTextField);
 		addComponent(offsetZTextField);
-
+		
+		final QADTickBox offsetRelativeTickbox = new QADTickBox(colp[4], rowp[3]+tfc, new DefaultTickBoxModel(tileEntity.getHologramOffsetRelative()));
+		offsetRelativeTickbox.setTooltip("If ticked the hologram is rendered","relative to the player.");
+		addComponent(offsetRelativeTickbox);
+		
 		final QADTextField rotationPitchTextField = QADFACTORY.createTextField(tileEntity.getHologramPitch(), colp[1], rowp[4]+tfc, colw[1]);
 		final QADTextField rotationYawTextField = QADFACTORY.createTextField(tileEntity.getHologramYaw(), colp[2], rowp[4]+tfc, colw[2]);
 		rotationPitchTextField.setTooltip("Rotation forward/backward. (Pitch)");
@@ -118,6 +126,7 @@ public class GuiImageHologramBlock extends QADGuiScreen {
 				commandComp.setFloat("var_offsetX", parseFloat(offsetXTextField.getText(), tileEntity.getHologramOffsetX(), -128, +128));
 				commandComp.setFloat("var_offsetY", parseFloat(offsetYTextField.getText(), tileEntity.getHologramOffsetY(), -128, +128));
 				commandComp.setFloat("var_offsetZ", parseFloat(offsetZTextField.getText(), tileEntity.getHologramOffsetZ(), -128, +128));
+				commandComp.setBoolean("var_offsetRelative", offsetRelativeTickbox.getState());
 
 				commandComp.setFloat("var_pitch", parseFloat(rotationPitchTextField.getText(), tileEntity.getHologramPitch(), -360, +360));
 				commandComp.setFloat("var_yaw", parseFloat(rotationYawTextField.getText(), tileEntity.getHologramYaw(), -360, +360));

@@ -57,7 +57,9 @@ public class ImageHologramBlockTileEntity extends TCTileEntity {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
-		return new AxisAlignedBB(getPos().add(-512, -512, -512), getPos().add(512, 512, 512));
+		return getHologramOffsetRelative()
+			? new AxisAlignedBB(getPos().add(-999999999, -999999999, -999999999), getPos().add(999999999, 999999999, 999999999))
+			: new AxisAlignedBB(getPos().add(-512, -512, -512), getPos().add(512, 512, 512));
 	}
 
 	@Override
@@ -117,6 +119,10 @@ public class ImageHologramBlockTileEntity extends TCTileEntity {
 
 	public float getHologramOffsetZ() {
 		return holodata.hasKey("var_offsetZ") ? holodata.getFloat("var_offsetZ") : 0;
+	}
+
+	public boolean getHologramOffsetRelative() {
+		return holodata.hasKey("var_offsetRelative") ? holodata.getBoolean("var_offsetRelative") : false;
 	}
 
 	public float getHologramWidth() {

@@ -10,9 +10,11 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import talecraft.client.ClientResources;
 import talecraft.proxy.ClientProxy;
 import talecraft.tileentity.ImageHologramBlockTileEntity;
+import talecraft.util.Vec3f;
 
 public class ImageHologramBlockTileEntityEXTRenderer implements
 IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
@@ -37,10 +39,16 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 				ClientProxy.mc.renderEngine.bindTexture(ClientResources.textureSelectionBoxFF);
 			}
 		}
-
-		float x = tileentity.getPos().getX() + 0.5f + tileentity.getHologramOffsetX();
-		float y = tileentity.getPos().getY() + 0.5f + tileentity.getHologramOffsetY();
-		float z = tileentity.getPos().getZ() + 0.5f + tileentity.getHologramOffsetZ();
+		
+		final BlockPos teorigin = tileentity.getPos();
+		
+		final Vec3f origin = tileentity.getHologramOffsetRelative() ?
+			new Vec3f((float)dispatcher.entityX, (float)dispatcher.entityY, (float)dispatcher.entityZ) :
+			new Vec3f(teorigin.getX(), teorigin.getY(), teorigin.getZ());
+		
+		float x = origin.x + tileentity.getHologramOffsetX();
+		float y = origin.y + tileentity.getHologramOffsetY();
+		float z = origin.z + tileentity.getHologramOffsetZ();
 
 		float pitch = tileentity.getHologramPitch();
 		float yaw = tileentity.getHologramYaw();
