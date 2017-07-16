@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import talecraft.client.ClientResources;
@@ -17,7 +18,7 @@ public class ImageHologramBlockTileEntityEXTRenderer implements
 IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 
 	@Override
-	public void render(ImageHologramBlockTileEntity tileentity, double posX, double posY, double posZ, float partialTicks) {
+	public void render(ImageHologramBlockTileEntity tileentity, TileEntityRendererDispatcher dispatcher, double posX, double posY, double posZ, float partialTicks) {
 		if(!tileentity.isActive()) return;
 
 		String locationStr = tileentity.getTextureLocation();

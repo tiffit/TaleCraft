@@ -1,6 +1,7 @@
 package talecraft.client.render.tileentity;
 
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import talecraft.client.ClientResources;
 import talecraft.client.render.renderers.BoxRenderer;
 import talecraft.proxy.ClientProxy;
@@ -11,8 +12,8 @@ IEXTTileEntityRenderer<StorageBlockTileEntity> {
 	@Override
 	public void render(
 			StorageBlockTileEntity tileentity,
-			double posX, double posY, double posZ,
-			float partialTicks
+			TileEntityRendererDispatcher dispatcher, double posX, double posY,
+			double posZ, float partialTicks
 			) {
 		if(!ClientProxy.isInBuildMode())return;
 

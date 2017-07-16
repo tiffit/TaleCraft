@@ -129,7 +129,7 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 					(float) -this.rendererDispatcher.entityZ
 					);
 
-			extRenderer.render(tile, posX, posY, posZ, partialTicks);
+			extRenderer.render(tile, rendererDispatcher, posX, posY, posZ, partialTicks);
 			GlStateManager.popMatrix();
 		}
 
