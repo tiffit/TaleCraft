@@ -407,7 +407,7 @@ public class QADDropdownBox extends QADRectangularComponent {
 				return;
 			}
 			
-			if(Character.isJavaIdentifierStart(typedChar) || Character.isWhitespace(typedChar)) {
+			if(Character.isJavaIdentifierPart(typedChar) || Character.isWhitespace(typedChar)) {
 				dropbox_filterstr += typedChar;
 				
 				if(dropbox_model!=null) {
