@@ -2,6 +2,7 @@ package talecraft.items;
 
 import java.util.List;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.item.EntityPainting.EnumArt;
@@ -42,7 +43,7 @@ public class CustomPaintingItem extends TCItem implements TCITriggerableItem{
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		if(!stack.hasTagCompound())return;
 		EnumArt painting = EnumArt.valueOf(stack.getTagCompound().getString("art"));
 		tooltip.add("Painting: " + painting.title);

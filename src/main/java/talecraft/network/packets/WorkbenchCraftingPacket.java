@@ -70,8 +70,8 @@ public class WorkbenchCraftingPacket implements IMessage {
 						if(ItemStack.areItemStacksEqual(rec.getRecipeOutput(), cur.getRecipeOutput())){
 							boolean equal = true;
 							for(int i = 0; i < 9; i++){
-								ItemStack grid1 = rec.recipeItems[i];
-								ItemStack grid2 = cur.recipeItems[i];
+								ItemStack grid1 = rec.recipeItems.get(i); // TODO: wat?
+								ItemStack grid2 = cur.recipeItems.get(i);
 								if((grid1 == null && grid2 != null) || (grid1 != null && grid2 == null)){
 									equal = false;
 									break;

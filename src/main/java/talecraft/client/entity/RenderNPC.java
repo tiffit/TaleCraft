@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import talecraft.client.entity.npc.model.NPCModel;
 import talecraft.entity.NPC.EntityNPC;
 import talecraft.entity.NPC.EnumNPCSkin;
 

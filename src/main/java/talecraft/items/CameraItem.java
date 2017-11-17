@@ -2,6 +2,7 @@ package talecraft.items;
 
 import java.util.List;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -40,7 +41,7 @@ public class CameraItem extends TCItem {
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("selected")){
 			BlockPos pos = BlockPos.fromLong(stack.getTagCompound().getLong("selected"));
 			int x = pos.getX();

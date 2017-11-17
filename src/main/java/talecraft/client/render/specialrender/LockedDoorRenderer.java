@@ -2,10 +2,10 @@ package talecraft.client.render.specialrender;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +14,7 @@ import talecraft.tileentity.LockedDoorTileEntity;
 public class LockedDoorRenderer extends TileEntitySpecialRenderer<LockedDoorTileEntity> {
 
 	@Override
-	public void renderTileEntityAt(LockedDoorTileEntity te, double posX, double posY, double posZ, float partialTicks, int destroyStage) {
+	public void func_192841_a(LockedDoorTileEntity te, double posX, double posY, double posZ, float partialTicks, int destroyStage, float wat) {
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();
@@ -27,7 +27,7 @@ public class LockedDoorRenderer extends TileEntitySpecialRenderer<LockedDoorTile
 
 		// get tessellator
 		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(posX, posY, posZ);

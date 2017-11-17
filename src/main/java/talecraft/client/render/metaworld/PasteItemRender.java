@@ -7,8 +7,8 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,7 +29,7 @@ import talecraft.util.NBTHelper;
 public class PasteItemRender implements IMetadataRender {
 
 	@Override
-	public void render(Item item, ItemStack stack, Tessellator tessellator, VertexBuffer buffer, double partialTick, BlockPos playerPos, EntityPlayerSP player, WorldClient world) {
+	public void render(Item item, ItemStack stack, Tessellator tessellator, BufferBuilder buffer, double partialTick, BlockPos playerPos, EntityPlayerSP player, WorldClient world) {
 		ClipboardItem clip = TaleCraft.asClient().getClipboard();
 
 		if(clip == null)

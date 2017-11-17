@@ -5,9 +5,9 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderPainting;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.item.EntityPainting.EnumArt;
@@ -29,7 +29,7 @@ public class CustomPaintingRender implements IMetadataRender{
 	}
 	
 	@Override
-	public void render(Item item, ItemStack stack, Tessellator tessellator, VertexBuffer buffer, double partialTick, BlockPos playerPos, EntityPlayerSP player, WorldClient world) {
+	public void render(Item item, ItemStack stack, Tessellator tessellator, BufferBuilder buffer, double partialTick, BlockPos playerPos, EntityPlayerSP player, WorldClient world) {
 		EnumArt painting = EnumArt.valueOf(stack.getTagCompound().getString("art"));
 		RayTraceResult result = player.rayTrace(5, (float)partialTick);
 		if(result.typeOfHit == Type.BLOCK){

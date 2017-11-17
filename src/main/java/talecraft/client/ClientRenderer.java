@@ -6,11 +6,11 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -351,7 +351,7 @@ public class ClientRenderer {
 			GlStateManager.pushMatrix();
 
 			Tessellator tessellator = Tessellator.getInstance();
-			VertexBuffer vertexbuffer = tessellator.getBuffer();
+			BufferBuilder vertexbuffer = tessellator.getBuffer();
 
 			on_render_world_post_sub(partialTicks, tessellator, vertexbuffer);
 
@@ -362,7 +362,7 @@ public class ClientRenderer {
 		GlStateManager.enableTexture2D();
 	}
 
-	private void on_render_world_post_sub(double partialTicks, Tessellator tessellator, VertexBuffer vertexbuffer) {
+	private void on_render_world_post_sub(double partialTicks, Tessellator tessellator, BufferBuilder vertexbuffer) {
 
 		// Translate into World-Space
 		double px = mc.player.prevPosX + (mc.player.posX - mc.player.prevPosX) * partialTicks;

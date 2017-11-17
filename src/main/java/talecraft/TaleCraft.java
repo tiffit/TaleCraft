@@ -39,7 +39,6 @@ import talecraft.script.GlobalScriptManager;
 import talecraft.server.ServerHandler;
 import talecraft.util.ConfigurationManager;
 import talecraft.util.GuiHandler;
-import talecraft.util.ReflectionUtil;
 import talecraft.util.TimedExecutor;
 import talecraft.versionchecker.SendMessage;
 

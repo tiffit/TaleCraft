@@ -2,6 +2,7 @@ package talecraft.items.weapon;
 
 import java.util.List;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,13 +28,13 @@ public abstract class TCGunItem extends TCWeaponItem {
 	}
 	
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-		list.add(new ItemStack(item, 1, item.getMaxDamage()));
-		list.add(new ItemStack(item));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+		list.add(new ItemStack(this, 1, this.getMaxDamage()));
+		list.add(new ItemStack(this));
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		int max = stack.getMaxDamage();
 		int ammo = stack.getMaxDamage() - stack.getItemDamage();
 		tooltip.add("Ammo: " + ammo + "/" + max);
@@ -75,12 +76,12 @@ public abstract class TCGunItem extends TCWeaponItem {
 		world.spawnEntity(bullet);
 	}
 	
-    @Override
+	@Override
 		public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft){
 		if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound tag = stack.getTagCompound();
 		tag.setBoolean("usingDone", true);
-    }
+	}
 	
 	public int getClipInInventory(InventoryPlayer inv){
 		for(int i = 0; i < inv.getSizeInventory(); i++){
@@ -91,15 +92,15 @@ public abstract class TCGunItem extends TCWeaponItem {
 		return -1; //-1 means the clip doesn't exist
 	}
 	
-    @Override
+	@Override
 		public int getMaxItemUseDuration(ItemStack stack){
-        return isPistol()? 10000000 : 0;
-    }
+		return isPistol()? 10000000 : 0;
+	}
 	
-    public SoundEvent reloadSound(){
-    	return TCSoundHandler.Reload;
-    }
-    
+	public SoundEvent reloadSound(){
+		return TCSoundHandler.Reload;
+	}
+	
 	protected abstract TCGunClipItem getClip();
 	protected abstract SoundEvent fireSound();
 	protected abstract int fireSpeed();

@@ -83,7 +83,7 @@ public class PanelEquips extends NPCPanel{
 				Item itm = item.getItem();
 				if(itm == null) continue;
 				NonNullList<ItemStack> subitems = NonNullList.create();
-				itm.getSubItems(itm, CreativeTabs.INVENTORY, subitems);
+				itm.getSubItems(CreativeTabs.INVENTORY, subitems);
 				for(final ItemStack stack : subitems){
 					if(slot != null){
 						if(!(stack.getItem() instanceof ItemArmor)) continue;

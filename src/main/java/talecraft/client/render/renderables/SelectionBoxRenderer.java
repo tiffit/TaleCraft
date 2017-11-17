@@ -5,10 +5,10 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -30,7 +30,7 @@ public class SelectionBoxRenderer implements IRenderable {
 
 	@Override
 	public void render(Minecraft mc, ClientProxy clientProxy,
-			Tessellator tessellator, final VertexBuffer vertexbuffer,
+			Tessellator tessellator, final BufferBuilder vertexbuffer,
 			double partialTicks) {
 
 		// Don't show the selection if we are not in BuildMode!

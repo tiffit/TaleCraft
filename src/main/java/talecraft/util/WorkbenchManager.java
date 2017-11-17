@@ -10,7 +10,8 @@ import talecraft.blocks.world.WorkbenchBlock;
 
 public class WorkbenchManager extends ArrayList<IRecipe> {
 
-	
+	private static final long serialVersionUID = -7624110812743587186L;
+
 	public NBTTagCompound toNBT(){
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setInteger("size", size());

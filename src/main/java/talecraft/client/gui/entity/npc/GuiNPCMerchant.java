@@ -228,7 +228,7 @@ public class GuiNPCMerchant extends GuiContainer
 			 * Draws this button to the screen.
 			 */
 			@Override
-						public void drawButton(Minecraft mc, int mouseX, int mouseY){
+			public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float lerp){
 				if (this.visible){
 					mc.getTextureManager().bindTexture(GuiNPCMerchant.MERCHANT_GUI_TEXTURE);
 					GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

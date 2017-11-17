@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mozilla.javascript.Scriptable;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -101,7 +102,7 @@ public class ScriptItem extends TCItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		NBTTagCompound compound = getNBT(stack);
 
 		NBTTagList lore = compound.getTagList("lore", NBT.TAG_STRING);

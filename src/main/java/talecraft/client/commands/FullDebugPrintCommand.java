@@ -82,7 +82,7 @@ public final class FullDebugPrintCommand extends CommandBase {
 			TaleCraft.logger.info("Item -> " + item + " / " + item.getUnlocalizedName());
 
 			NonNullList<ItemStack> stacks = NonNullList.create();
-			item.getSubItems(item, null, stacks);
+			item.getSubItems(null, stacks);
 
 			for(ItemStack stack : stacks) {
 				TaleCraft.logger.info("ItemStack -> " + stack.getUnlocalizedName());

@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.IRenderHandler;
 import talecraft.TaleCraft;
@@ -53,7 +53,7 @@ public class CustomSkyRenderer extends IRenderHandler {
 		final float B = 8;
 
 		Tessellator tess = Tessellator.getInstance();
-		VertexBuffer ren = tess.getBuffer();
+		BufferBuilder ren = tess.getBuffer();
 
 		ren.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
 		ren.setTranslation(0, 1, 0);

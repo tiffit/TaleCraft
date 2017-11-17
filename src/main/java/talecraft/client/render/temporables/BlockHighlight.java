@@ -3,9 +3,9 @@ package talecraft.client.render.temporables;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.util.math.BlockPos;
 import talecraft.client.ClientResources;
 import talecraft.client.render.ITemporaryRenderable;
@@ -23,7 +23,7 @@ public class BlockHighlight implements ITemporaryRenderable {
 
 	@Override
 	public void render(Minecraft mc, ClientProxy clientProxy,
-			Tessellator tessellator, VertexBuffer vertexbuffer,
+			Tessellator tessellator, BufferBuilder vertexbuffer,
 			double partialTicks) {
 
 		float minX = position.getX()+1;

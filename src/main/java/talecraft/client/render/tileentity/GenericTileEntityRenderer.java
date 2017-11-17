@@ -6,10 +6,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
@@ -40,7 +40,7 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 	}
 
 	@Override
-	public void renderTileEntityAt(T tile, double posX, double posY, double posZ, float partialTicks, int destroyStage) {
+	public void func_192841_a(T tile, double posX, double posY, double posZ, float partialTicks, int destroyStage, float wat) {
 		// render states
 		GlStateManager.disableLighting();
 		GlStateManager.color(1, 1, 1, 1);
@@ -54,7 +54,7 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 
 		// get tessellator
 		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		BufferBuilder vertexbuffer = tessellator.getBuffer();
 
 		if(ClientProxy.isInBuildMode()) {
 			GlStateManager.pushMatrix();

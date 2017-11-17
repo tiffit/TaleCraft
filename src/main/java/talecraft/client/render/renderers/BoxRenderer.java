@@ -3,9 +3,9 @@ package talecraft.client.render.renderers;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.AxisAlignedBB;
 import talecraft.TaleCraft;
@@ -104,7 +104,7 @@ public class BoxRenderer {
 
 	}
 
-	public static final void renderBoxLine(Tessellator tessellator, VertexBuffer vertexbuffer,
+	public static final void renderBoxLine(Tessellator tessellator, BufferBuilder vertexbuffer,
 			float x0, float y0, float z0, float x1, float y1, float z1,
 			float r, float g, float b, float a) {
 
@@ -180,7 +180,7 @@ public class BoxRenderer {
 	//        worldrenderer.setBrightness(0xEE);
 	//	}
 
-	public static final void renderBoxEmb(Tessellator tessellator, VertexBuffer ren, float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+	public static final void renderBoxEmb(Tessellator tessellator, BufferBuilder ren, float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
 		// top
 		VertexBufferHelper vertexbuffer = new VertexBufferHelper(ren);
 		vertexbuffer.normal(0, +1, 0);
@@ -221,7 +221,7 @@ public class BoxRenderer {
 	}
 
 
-	public static final void renderBox(Tessellator tessellator, VertexBuffer ren, float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+	public static final void renderBox(Tessellator tessellator, BufferBuilder ren, float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
 		// top
 		VertexBufferHelper vertexbuffer = new VertexBufferHelper(ren);
 		vertexbuffer.startDrawingQuads();
@@ -265,7 +265,7 @@ public class BoxRenderer {
 		tessellator.draw();
 	}
 
-	public static final void renderBox(Tessellator tessellator, VertexBuffer ren, AxisAlignedBB aabb, float r, float g, float b, float a) {
+	public static final void renderBox(Tessellator tessellator, BufferBuilder ren, AxisAlignedBB aabb, float r, float g, float b, float a) {
 		float minX = (float) aabb.minX;
 		float minY = (float) aabb.minY;
 		float minZ = (float) aabb.minZ;
@@ -318,7 +318,7 @@ public class BoxRenderer {
 	}
 
 	public static final void renderBox(
-			Tessellator tessellator, VertexBuffer ren,
+			Tessellator tessellator, BufferBuilder ren,
 			float minX, float minY, float minZ,
 			float maxX, float maxY, float maxZ,
 			float r, float g, float b, float a
@@ -373,7 +373,7 @@ public class BoxRenderer {
 	}
 
 	public static final void renderBox(
-			Tessellator tessellator, VertexBuffer ren,
+			Tessellator tessellator, BufferBuilder ren,
 			double minX, double minY, double minZ,
 			double maxX, double maxY, double maxZ,
 			float r, float g, float b, float a
@@ -424,7 +424,7 @@ public class BoxRenderer {
 	}
 
 	public static final void renderSelectionBox(//Used by selection
-			Tessellator tessellator, VertexBuffer ren,
+			Tessellator tessellator, BufferBuilder ren,
 			float minX, float minY, float minZ,
 			float maxX, float maxY, float maxZ, float a
 			) {
@@ -536,13 +536,13 @@ public class BoxRenderer {
 		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, u1, v0);
 		vertexbuffer.addVertexWithUV(minX, minY, maxZ, u1, v1);
 		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, u0, v1);
-		 //positive x | east
+		//positive x | east
 		vertexbuffer.normal(1, 0, 0);
 		vertexbuffer.addVertexWithUV(maxX, maxY, minZ, w0, v0);
 		vertexbuffer.addVertexWithUV(maxX, maxY, maxZ, w1, v0);
 		vertexbuffer.addVertexWithUV(maxX, minY, maxZ, w1, v1);
 		vertexbuffer.addVertexWithUV(maxX, minY, minZ, w0, v1);
-		 //negative x | west
+		//negative x | west
 		vertexbuffer.normal(-1, 0, 0);
 		vertexbuffer.addVertexWithUV(minX, maxY, maxZ, w0, v0);
 		vertexbuffer.addVertexWithUV(minX, maxY, minZ, w1, v0);
@@ -553,8 +553,8 @@ public class BoxRenderer {
 
 	//tiffit got lazy, he used a cheap way
 	private static class VertexBufferHelper {
-		private VertexBuffer rend;
-		public VertexBufferHelper(VertexBuffer rend) {
+		private BufferBuilder rend;
+		public VertexBufferHelper(BufferBuilder rend) {
 			this.rend = rend;
 		}
 
@@ -562,7 +562,7 @@ public class BoxRenderer {
 			rend.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		}
 
-		public VertexBuffer pos(double x, double y, double z) {
+		public BufferBuilder pos(double x, double y, double z) {
 			return rend.pos(x, y, z);
 		}
 		

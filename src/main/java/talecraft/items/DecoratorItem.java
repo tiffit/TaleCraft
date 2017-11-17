@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -90,7 +91,7 @@ public class DecoratorItem extends TCItem implements TCITriggerableItem{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		if(!stack.hasTagCompound()){
 			super.addInformation(stack, player, tooltip, advanced);
 			return;
