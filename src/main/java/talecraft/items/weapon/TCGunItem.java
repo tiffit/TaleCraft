@@ -6,6 +6,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
-import talecraft.TCSoundHandler;
+import talecraft.TaleCraftSounds;
 import talecraft.entity.projectile.EntityBullet;
 
 public abstract class TCGunItem extends TCWeaponItem {
@@ -53,7 +54,7 @@ public abstract class TCGunItem extends TCWeaponItem {
 		}
 		if(stack.getItemDamage() >= stack.getMaxDamage()){
 			stack.setItemDamage(stack.getMaxDamage());
-			world.playSound(null, player.getPosition(), TCSoundHandler.DryFire, SoundCategory.AMBIENT, 3F, 1F);
+			world.playSound(null, player.getPosition(), TaleCraftSounds.DryFire, SoundCategory.AMBIENT, 3F, 1F);
 			return ActionResult.newResult(EnumActionResult.FAIL, stack);
 		}
 		if(!tag.hasKey("fireSpeed")) tag.setLong("fireSpeed", world.getTotalWorldTime());
@@ -61,7 +62,7 @@ public abstract class TCGunItem extends TCWeaponItem {
 		if(isPistol() ? tag.getBoolean("usingDone") : world.getTotalWorldTime() - tag.getLong("fireSpeed") >= fireSpeed()){
 			tag.setBoolean("usingDone", false);
 			tag.setLong("fireSpeed", world.getTotalWorldTime());
-			stack.attemptDamageItem(1, itemRand);
+			stack.attemptDamageItem(1, itemRand, (EntityPlayerMP)player);
 			fire(world, player);
 			if(isPistol())player.setActiveHand(hand);
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
@@ -72,7 +73,7 @@ public abstract class TCGunItem extends TCWeaponItem {
 	protected void fire(World world, EntityPlayer player){
 		EntityBullet bullet = new EntityBullet(world, player, getDamage(), range());
 		world.playSound(null, player.getPosition(), fireSound(), SoundCategory.AMBIENT, 3F, 1F);
-		bullet.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+		bullet.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 		world.spawnEntity(bullet);
 	}
 	
@@ -98,7 +99,7 @@ public abstract class TCGunItem extends TCWeaponItem {
 	}
 	
 	public SoundEvent reloadSound(){
-		return TCSoundHandler.Reload;
+		return TaleCraftSounds.Reload;
 	}
 	
 	protected abstract TCGunClipItem getClip();

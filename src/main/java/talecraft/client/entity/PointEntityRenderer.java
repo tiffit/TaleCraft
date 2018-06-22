@@ -90,7 +90,7 @@ public class PointEntityRenderer extends Render<Entity> {
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(x, y+yeoffset, z);
 			TaleCraft.proxy.asClient();
-			FontRenderer fntrnd = ClientProxy.mc.fontRendererObj;
+			FontRenderer fntrnd = ClientProxy.mc.fontRenderer;
 			final int TEXT_W = fntrnd.getStringWidth(TEXT);
 			final float HEX = 1f / 32f;
 			GlStateManager.translate(0, .75f, 0);

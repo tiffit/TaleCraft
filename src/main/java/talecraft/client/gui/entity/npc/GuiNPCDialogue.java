@@ -38,19 +38,19 @@ public class GuiNPCDialogue extends GuiScreen {
         guiLeft = (this.width - 176) / 2;
         guiTop = (this.height - 166) / 2;
         this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, 176, 166);
-        this.fontRendererObj.drawString(current.getTitle(), (guiLeft + 176/2) - this.fontRendererObj.getStringWidth(current.getTitle())/2, guiTop + 7, 4210752);
-        this.fontRendererObj.drawSplitString(current.getText(), guiLeft + 5, guiTop + 20, 166 - 10, 0x666666);
+        this.fontRenderer.drawString(current.getTitle(), (guiLeft + 176/2) - this.fontRenderer.getStringWidth(current.getTitle())/2, guiTop + 7, 4210752);
+        this.fontRenderer.drawSplitString(current.getText(), guiLeft + 5, guiTop + 20, 166 - 10, 0x666666);
         
         int option_y = guiTop + 156 - current.getOptions().size()*10;
-        this.fontRendererObj.drawString("Responses:", guiLeft + 176/4, option_y - 10, 0x000077);
+        this.fontRenderer.drawString("Responses:", guiLeft + 176/4, option_y - 10, 0x000077);
         for(NPCDialogueOption option : current.getOptions()){
         	int color = 0x777777;
         	if(mouseX >= guiLeft + 176/3 && mouseY >= option_y){
-        		if(mouseX <= guiLeft + 176/3 + fontRendererObj.getStringWidth(option.option) && mouseY <= option_y + 7){
+        		if(mouseX <= guiLeft + 176/3 + fontRenderer.getStringWidth(option.option) && mouseY <= option_y + 7){
         			color = 0x00aa00;
         		}
         	}
-        	this.fontRendererObj.drawString(option.option, guiLeft + 176/3, option_y, color);
+        	this.fontRenderer.drawString(option.option, guiLeft + 176/3, option_y, color);
         	option_y += 10;
         }
 	}
@@ -61,7 +61,7 @@ public class GuiNPCDialogue extends GuiScreen {
 		int option_y = guiTop + 156 - current.getOptions().size()*10;
 		 for(NPCDialogueOption option : current.getOptions()){
 	        	if(mouseX >= guiLeft + 176/3 && mouseY >= option_y){
-	        		if(mouseX <= guiLeft + 176/3 + fontRendererObj.getStringWidth(option.option) && mouseY <= option_y + 7){
+	        		if(mouseX <= guiLeft + 176/3 + fontRenderer.getStringWidth(option.option) && mouseY <= option_y + 7){
 	        			TaleCraft.network.sendToServer(new NPCDialogueOptionPacket(uuid, current.getName(), option.option, npcid));
 	        			String dest = option.destination;
 	        			if(dest == null)mc.displayGuiScreen(null);

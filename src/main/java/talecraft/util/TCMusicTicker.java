@@ -24,7 +24,7 @@ public class TCMusicTicker extends MusicTicker {
 	@Override
 	public void update() {
 		if(mc.world != null && mc.player != null && (mc.player.getEntityData().getBoolean("no-music")  || !TaleCraft.proxy.asClient().gamerules.getBoolean("tc_playDefaultMusic"))){
-			stopMusic();
+			// stopMusic(); TODO
 		}
 		super.update();
 	}

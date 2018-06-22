@@ -1,7 +1,7 @@
 package talecraft.items.weapon;
 
 import net.minecraft.util.SoundEvent;
-import talecraft.TCSoundHandler;
+import talecraft.TaleCraftSounds;
 import talecraft.TaleCraftItems;
 
 public class PistolItem extends TCGunItem {
@@ -23,7 +23,7 @@ public class PistolItem extends TCGunItem {
 
 	@Override
 	protected SoundEvent fireSound() {
-		return TCSoundHandler.PistolFire;
+		return TaleCraftSounds.PistolFire;
 	}
 
 	@Override

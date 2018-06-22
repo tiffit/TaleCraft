@@ -9,10 +9,14 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 import talecraft.blocks.deco.BlankBlock;
 import talecraft.blocks.util.BlockUpdateDetector;
 import talecraft.blocks.util.CameraBlock;
@@ -60,9 +64,12 @@ import talecraft.tileentity.SummonBlockTileEntity;
 import talecraft.tileentity.TriggerFilterBlockTileEntity;
 import talecraft.tileentity.URLBlockTileEntity;
 
+@EventBusSubscriber
 public class TaleCraftBlocks {
 	public static HashMap<String, Block> blocksMap = Maps.newHashMap();
 	public static List<Block> blocks = Lists.newArrayList();
+	public static List<Block> customItemBlocks = Lists.newArrayList();
+	private static IForgeRegistry<Block> registry;
 
 	// UTILITY
 	public static KillBlock killBlock;
@@ -88,7 +95,7 @@ public class TaleCraftBlocks {
 	public static MusicBlock musicBlock;
 	public static CameraBlock cameraBlock;
 	
-	//WORLD
+	// WORLD
 	public static LockedDoorBlock lockedDoorBlock;
 	public static SpikeBlock spikeBlock;
 	public static WorkbenchBlock workbench;
@@ -105,20 +112,20 @@ public class TaleCraftBlocks {
 	public static BlankBlock deco_glass_a;
 	public static BlankBlock deco_cage_a;
 
-	public static void init()
-	{
+	@SubscribeEvent
+	public static void init(final RegistryEvent.Register<Block> event) {
+		registry = event.getRegistry();
+		
 		blocksMap = Maps.newHashMap();
 		blocks = Lists.newArrayList();
-		///////////////////////////////////
 
 		init_utility();
 		init_decoration();
 		init_world();
 	}
 
-	private static void init_world(){
-		lockedDoorBlock = register("lockeddoorblock", new LockedDoorBlock());
-		GameRegistry.registerTileEntity(LockedDoorTileEntity.class, "tc_lockeddoorblock");
+	private static void init_world() {
+		lockedDoorBlock = registerWithTE("lockeddoorblock", new LockedDoorBlock(), LockedDoorTileEntity.class);
 	}
 	
 	private static void init_utility() {
@@ -171,22 +178,22 @@ public class TaleCraftBlocks {
 	}
 
 	private static void init_decoration() {
-		blankBlock = register("blankblock", new BlankBlock(SoundType.STONE), ItemBlockBlankBlock.class);
-		deco_stone_a = register("deco_stone_a", new BlankBlock(SoundType.STONE), ItemBlockBlankBlock.class);
-		deco_stone_b = register("deco_stone_b", new BlankBlock(SoundType.STONE), ItemBlockBlankBlock.class);
-		deco_stone_c = register("deco_stone_c", new BlankBlock(SoundType.STONE), ItemBlockBlankBlock.class);
-		deco_stone_d = register("deco_stone_d", new BlankBlock(SoundType.STONE), ItemBlockBlankBlock.class);
-		deco_stone_e = register("deco_stone_e", new BlankBlock(SoundType.STONE), ItemBlockBlankBlock.class);
-		deco_stone_f = register("deco_stone_f", new BlankBlock(SoundType.STONE), ItemBlockBlankBlock.class);
+		blankBlock = register("blankblock", new BlankBlock(SoundType.STONE), true);
+		deco_stone_a = register("deco_stone_a", new BlankBlock(SoundType.STONE), true);
+		deco_stone_b = register("deco_stone_b", new BlankBlock(SoundType.STONE), true);
+		deco_stone_c = register("deco_stone_c", new BlankBlock(SoundType.STONE), true);
+		deco_stone_d = register("deco_stone_d", new BlankBlock(SoundType.STONE), true);
+		deco_stone_e = register("deco_stone_e", new BlankBlock(SoundType.STONE), true);
+		deco_stone_f = register("deco_stone_f", new BlankBlock(SoundType.STONE), true);
 
-		deco_wood_a = register("deco_wood_a", new BlankBlock(SoundType.WOOD), ItemBlockBlankBlock.class);
+		deco_wood_a = register("deco_wood_a", new BlankBlock(SoundType.WOOD), true);
 
-		deco_glass_a = register("deco_glass_a", new BlankBlock(SoundType.GLASS), ItemBlockBlankBlock.class);
+		deco_glass_a = register("deco_glass_a", new BlankBlock(SoundType.GLASS), true);
 		deco_glass_a.blockLayer = 1; // CUTOUT layer
 		deco_glass_a.ignoreSimilarity = false;
 		deco_glass_a.setLightOpacity(0);
 
-		deco_cage_a = register("deco_cage_a", new BlankBlock(SoundType.METAL), ItemBlockBlankBlock.class);
+		deco_cage_a = register("deco_cage_a", new BlankBlock(SoundType.METAL), true);
 		deco_cage_a.blockLayer = 1; // CUTOUT layer
 		deco_cage_a.ignoreSimilarity = true;
 		deco_cage_a.setLightOpacity(0);
@@ -194,58 +201,34 @@ public class TaleCraftBlocks {
 	}
 
 	private static <T extends Block> T register(String name, T block) {
-		block.setUnlocalizedName("talecraft:"+name);
+		block.setUnlocalizedName("talecraft:" + name);
 		block.setRegistryName(Reference.MOD_ID, name);
-		GameRegistry.register(block);
-		TaleCraftItems.register(new ItemBlock(block), name);
+		registry.register(block);
 		addToMaps(block, name);
 		return block;
 	}
 	
+	private static <T extends Block> T register(String name, T block, boolean customItemBlock) {
+		block.setUnlocalizedName("talecraft:" + name);
+		block.setRegistryName(Reference.MOD_ID, name);
+		registry.register(block);
+		addToMaps(block, name);
+		if(customItemBlock) customItemBlocks.add(block);
+		return block;
+	}
+	
+	@SuppressWarnings("deprecation")
 	private static <T extends Block, E extends TileEntity> T registerWithTE(String name, T block, Class<E> tileEntityClass) {
 		T returnBlock = register(name, block);
-		GameRegistry.registerTileEntity(tileEntityClass, "tc_" + name);
+		GameRegistry.registerTileEntity(tileEntityClass, new ResourceLocation("talecraft", "tc_" + name));
 		return returnBlock;
 	}
-
-	private static <T extends Block, I extends ItemBlock> T register(String name, T block, Class<I> itemblock) {
-		block.setUnlocalizedName("talecraft:"+name);
-		block.setRegistryName(Reference.MOD_ID, name);
-		GameRegistry.register(block);
-		addToMaps(block, name);
-		ItemBlock i = null;
-		try {
-			i = itemblock.getConstructor(Block.class).newInstance(block);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if(i != null){
-			TaleCraftItems.register(i, name);
-		}else{
-			System.out.println("ERROR: Failed to create ItemBlock FOR " + name);
-		}
-		return block;
-	}
 	
-	private static void addToMaps(Block block, String name){
+	private static void addToMaps(Block block, String name) {
 		blocksMap.put(name, block);
 		blocks.add(block);
 		Item item = Item.getItemFromBlock(block);
-		if(item!=null)TaleCraftItems.ALL_TC_ITEMS.add(item);
-	}
-
-	public static class ItemBlockKillBlock extends ItemMultiTexture {
-		public ItemBlockKillBlock(Block block) {
-			super(block, block, new String[] {
-					"all",
-					"npc",
-					"items",
-					"living",
-					"player",
-					"monster",
-					"xor_player"
-			});
-		}
+		if(item != null)TaleCraftItems.ALL_TC_ITEMS.add(item);
 	}
 
 	public static class ItemBlockBlankBlock extends ItemMultiTexture {

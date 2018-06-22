@@ -51,7 +51,7 @@ public class WorkbenchManager extends ArrayList<IRecipe> {
 		tag.setInteger("width", shaped.recipeWidth);
 		tag.setInteger("height", shaped.recipeHeight);
 		for(int i = 0; i < 9; i++){
-			ItemStack stack = shaped.recipeItems[i];
+			ItemStack stack = shaped.recipeItems.get(i);
 			NBTTagCompound stackTag = new NBTTagCompound();
 			if(stack != null){
 				stack.writeToNBT(stackTag);

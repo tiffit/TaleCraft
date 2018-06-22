@@ -55,7 +55,7 @@ public class GunReloadPacket implements IMessage {
 					item.setItemDamage(0);
 					item.getTagCompound().setLong("reloading", player.world.getTotalWorldTime() + 45);
 					clipStack.shrink(1);
-					if(clipStack.getCount() <= 0) clipStack = null;
+					if(clipStack.getCount() <= 0) clipStack = ItemStack.EMPTY;
 					player.inventory.setInventorySlotContents(index, clipStack);
 				}
 			}

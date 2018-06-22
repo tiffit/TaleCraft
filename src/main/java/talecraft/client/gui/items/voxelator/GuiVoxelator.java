@@ -72,7 +72,7 @@ public class GuiVoxelator extends QADGuiScreen {
 			addComponent(panel);
 			
 			// Header
-			panel.addComponent(QADFACTORY.createLabel("Voxelator Settings", 88, 6)).setFontHeight(fontRendererObj.FONT_HEIGHT*2);
+			panel.addComponent(QADFACTORY.createLabel("Voxelator Settings", 88, 6)).setFontHeight(fontRenderer.FONT_HEIGHT*2);
 			
 			// Apply Button
 			QADButton apply_button = (QADButton) QADFACTORY.createButton("Apply", 2, 0, 80).setEnabled(true).setName("apply");

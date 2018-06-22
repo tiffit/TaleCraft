@@ -222,8 +222,8 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 		}
 
 		// ...
-		if(this.fontRendererObj != null)
-			instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
+		if(this.fontRenderer != null)
+			instance.setCurrentScreen(this, this.zLevel, this.fontRenderer, this.itemRender);
 		
 		instance.drawDefaultBackground();
 		
@@ -258,7 +258,7 @@ public class QADGuiScreen extends GuiScreen implements QADComponentContainer {
 						int yPos = mouseY;
 						if(text.get(0).equalsIgnoreCase("ylock")) {
 							int add = component instanceof QADRectangularComponent ? ((QADRectangularComponent) component).getHeight() : 20;
-							yPos = component.getY()+add+fontRendererObj.FONT_HEIGHT*2;
+							yPos = component.getY()+add+fontRenderer.FONT_HEIGHT*2;
 							text = text.subList(1, text.size()-1);
 						}
 						this.drawHoveringText(text, mouseX, yPos);

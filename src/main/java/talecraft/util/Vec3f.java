@@ -33,9 +33,9 @@ public class Vec3f {
 	}
 
 	public Vec3f(Vec3d vec) {
-		x = (float) vec.xCoord;
-		y = (float) vec.yCoord;
-		z = (float) vec.zCoord;
+		x = (float) vec.x;
+		y = (float) vec.y;
+		z = (float) vec.z;
 	}
 
 	public Vec3f copy() {

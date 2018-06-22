@@ -1,5 +1,6 @@
 package talecraft.voxelator.predicates;
 
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +36,7 @@ public final class VXPredicateIsSolid extends VXPredicate {
 
 	@Override
 	public boolean test(BlockPos pos, BlockPos center, MutableBlockPos offset, CachedWorldDiff fworld) {
-		return fworld.getBlockState(pos).getBlock().isBlockSolid(fworld, pos, EnumFacing.UP);
+		return fworld.getBlockState(pos).getBlockFaceShape(fworld, pos, EnumFacing.UP) == BlockFaceShape.SOLID;
 	}
 
 }

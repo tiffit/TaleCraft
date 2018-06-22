@@ -28,12 +28,12 @@ public class GuiURLBlock extends QADGuiScreen {
 
 		addComponent(new QADLabel("URL Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
 
-		textField_url = new QADTextField(fontRendererObj, 3, 14+20+4, width-6, 20);
+		textField_url = new QADTextField(fontRenderer, 3, 14+20+4, width-6, 20);
 		textField_url.setText(tileEntity.getURL());
 		textField_url.setTooltip("The URL to open.");
 		addComponent(textField_url);
 
-		textField_selector = new QADTextField(fontRendererObj, 3, 14+20+4+20+4, width-6, 20);
+		textField_selector = new QADTextField(fontRenderer, 3, 14+20+4+20+4, width-6, 20);
 		textField_selector.setText(tileEntity.getSelector());
 		textField_selector.setTooltip("Selector to select players.", "Default: @a");
 		addComponent(textField_selector);

@@ -272,7 +272,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Variant", 2, yOff));
 			Number value = entityData.getInteger("Variant");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTIntegerTextFieldModel("Variant", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -282,7 +282,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Type", 2, yOff));
 			Number value = entityData.getInteger("Type");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTIntegerTextFieldModel("Type", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -292,7 +292,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Temper", 2, yOff));
 			Number value = entityData.getShort("Temper");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTShortTextFieldModel("Temper", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -347,7 +347,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Anger Time", 2, yOff));
 			Number value = entityData.getShort("Anger");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTShortTextFieldModel("Anger", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -357,7 +357,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Conversion Time", 2, yOff));
 			Number value = entityData.getInteger("ConversionTime");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTIntegerTextFieldModel("ConversionTime", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -395,7 +395,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getByte("CollarColor");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTByteTextFieldModel("CollarColor", entityData));
 			panel.addComponent(tf);
 		}
@@ -421,7 +421,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getByte("CatType");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTByteTextFieldModel("CatType", entityData));
 			panel.addComponent(tf);
 		}
@@ -442,7 +442,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 		{
 			panel.addComponent(QADFACTORY.createLabel("Owner UUID", 2, yOff));
-			QADTextField textField = new QADTextField(fontRendererObj, rightColumnOffset, yOff-3, 140, 14);
+			QADTextField textField = new QADTextField(fontRenderer, rightColumnOffset, yOff-3, 140, 14);
 			textField.setModel(new NBTStringTextFieldModel("OwnerUUID", entityData));
 			textField.textChangedListener = new TextChangeListener(){
 				@Override public void call(QADTextField field, String text) {
@@ -485,7 +485,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getByte("Color");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTByteTextFieldModel("Color", entityData));
 			panel.addComponent(tf);
 		}
@@ -556,7 +556,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getInteger("Size");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTIntegerTextFieldModel("Size", entityData));
 			panel.addComponent(tf);
 		}
@@ -586,7 +586,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getShort("fuse");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTShortTextFieldModel("fuse", entityData));
 			panel.addComponent(tf);
 		}
@@ -596,7 +596,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getShort("ExplosionRadius");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTShortTextFieldModel("ExplosionRadius", entityData));
 			panel.addComponent(tf);
 		}
@@ -621,7 +621,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 
 		{
 			panel.addComponent(QADFACTORY.createLabel("Custom Name", 2, yOff));
-			QADTextField textField = new QADTextField(fontRendererObj, rightColumnOffset, yOff-3, 140, 14);
+			QADTextField textField = new QADTextField(fontRenderer, rightColumnOffset, yOff-3, 140, 14);
 			textField.setModel(new NBTStringTextFieldModel("CustomName", entityData));
 			panel.addComponent(textField);
 			yOff += lineHeight;
@@ -695,7 +695,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("[TC] Width", 2, yOff));
 			Number value = entityData.getFloat("TC_Width");
 			NumberType type = NumberType.DECIMAL;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTFloatTextFieldModel("TC_Width", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -704,7 +704,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("[TC] Height", 2, yOff));
 			Number value = entityData.getFloat("TC_Height");
 			NumberType type = NumberType.DECIMAL;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTFloatTextFieldModel("TC_Height", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -714,7 +714,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Step Height", 2, yOff));
 			Number value = entityData.getFloat("TC_StepHeight");
 			NumberType type = NumberType.DECIMAL;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTFloatTextFieldModel("TC_StepHeight", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -896,7 +896,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getInteger("Profession");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTIntegerTextFieldModel("Profession", entityData));
 			panel.addComponent(tf);
 		}
@@ -907,7 +907,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			{
 				Number value = entityData.getInteger("CareerLevel");
 				NumberType type = NumberType.INTEGER;
-				QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+				QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 				tf.setModel(new NBTIntegerTextFieldModel("CareerLevel", entityData));
 				panel.addComponent(tf);
 			}
@@ -966,7 +966,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 				{
 					Number value = recipe.getInteger("uses");
 					NumberType type = NumberType.INTEGER;
-					QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+					QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 					tf.setModel(new NBTIntegerTextFieldModel("uses", recipe));
 					panel.addComponent(tf);
 				}
@@ -976,7 +976,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 				{
 					Number value = recipe.getInteger("maxUses");
 					NumberType type = NumberType.INTEGER;
-					QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+					QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 					tf.setModel(new NBTIntegerTextFieldModel("maxUses", recipe));
 					panel.addComponent(tf);
 				}
@@ -1032,7 +1032,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			panel.addComponent(QADFACTORY.createLabel("Health", 2, yOff));
 			Number value = entityData.getFloat("HealF");
 			NumberType type = NumberType.DECIMAL;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTFloatTextFieldModel("HealF", entityData));
 			panel.addComponent(tf);
 			yOff += lineHeight;
@@ -1042,7 +1042,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getInteger("Air");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTIntegerTextFieldModel("Air", entityData));
 			panel.addComponent(tf);
 		}
@@ -1052,7 +1052,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getInteger("Fire");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTIntegerTextFieldModel("Fire", entityData));
 			panel.addComponent(tf);
 		}
@@ -1062,7 +1062,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 		{
 			Number value = entityData.getInteger("Age");
 			NumberType type = NumberType.INTEGER;
-			QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+			QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 			tf.setModel(new NBTIntegerTextFieldModel("Age", entityData));
 			panel.addComponent(tf);
 		}
@@ -1107,7 +1107,7 @@ public class GuiEntityEditor extends QADGuiScreen {
 			if(attribute.hasKey("Base")) {
 				Number value = entityData.getFloat("Base");
 				NumberType type = NumberType.DECIMAL;
-				QADNumberTextField tf = new QADNumberTextField(fontRendererObj, rightColumnOffset, yOff - 3, 140, 14, value, type);
+				QADNumberTextField tf = new QADNumberTextField(fontRenderer, rightColumnOffset, yOff - 3, 140, 14, value, type);
 				tf.setModel(new NBTDoubleTextFieldModel("Base", attribute));
 				panel.addComponent(tf);
 			}

@@ -23,7 +23,7 @@ public class BombItem extends TCWeaponItem {
 
         if (!worldIn.isRemote){
             EntityBomb bomb = new EntityBomb(worldIn, player);
-            bomb.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+            bomb.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.spawnEntity(bomb);
         }
         

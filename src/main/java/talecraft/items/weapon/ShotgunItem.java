@@ -1,7 +1,7 @@
 package talecraft.items.weapon;
 
 import net.minecraft.util.SoundEvent;
-import talecraft.TCSoundHandler;
+import talecraft.TaleCraftSounds;
 import talecraft.TaleCraftItems;
 
 public class ShotgunItem extends TCGunItem {
@@ -23,12 +23,12 @@ public class ShotgunItem extends TCGunItem {
 
 	@Override
 	protected SoundEvent fireSound() {
-		return TCSoundHandler.ShotgunFire;
+		return TaleCraftSounds.ShotgunFire;
 	}
 	
 	@Override
 	public SoundEvent reloadSound() {
-		return TCSoundHandler.ShotgunReload;
+		return TaleCraftSounds.ShotgunReload;
 	}
 
 	@Override

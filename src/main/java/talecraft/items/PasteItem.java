@@ -39,9 +39,9 @@ public class PasteItem extends TCItem {
 		float lenMul = settings.getInteger("item.paste.reach");
 		Vec3d plantPos = player.getLook(1);
 		plantPos = new Vec3d(
-				plantPos.xCoord*lenMul,
-				plantPos.yCoord*lenMul,
-				plantPos.zCoord*lenMul
+				plantPos.x*lenMul,
+				plantPos.y*lenMul,
+				plantPos.z*lenMul
 				).add(new Vec3d(player.posX, player.posY + (double)player.getEyeHeight(), player.posZ));
 
 		// PLANT!
@@ -53,18 +53,18 @@ public class PasteItem extends TCItem {
 			if(item.getData().hasKey(ClipboardTagNames.$OFFSET, item.getData().getId())) {
 				NBTTagCompound offset = item.getData().getCompoundTag(ClipboardTagNames.$OFFSET);
 				plantPos = new Vec3d(
-						plantPos.xCoord + offset.getFloat("x"),
-						plantPos.yCoord + offset.getFloat("y"),
-						plantPos.zCoord + offset.getFloat("z")
+						plantPos.x + offset.getFloat("x"),
+						plantPos.y + offset.getFloat("y"),
+						plantPos.z + offset.getFloat("z")
 						);
 			}
 
 			float snap = ServerMirror.instance().playerList().getPlayer((EntityPlayerMP) player).settings.getInteger("item.paste.snap");
 			if(snap > 1) {
 				plantPos = new Vec3d(
-						Math.floor(plantPos.xCoord / snap) * snap,
-						Math.floor(plantPos.yCoord / snap) * snap,
-						Math.floor(plantPos.zCoord / snap) * snap
+						Math.floor(plantPos.x / snap) * snap,
+						Math.floor(plantPos.y / snap) * snap,
+						Math.floor(plantPos.z / snap) * snap
 						);
 			}
 

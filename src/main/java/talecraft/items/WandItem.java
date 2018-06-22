@@ -44,7 +44,7 @@ public class WandItem extends TCItem implements TCITriggerableItem{
 			
 			Vec3d start = getPositionEyes(lerp, player);
 			Vec3d direction = player.getLook(lerp);
-			Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
+			Vec3d end = start.addVector(direction.x * dist, direction.y * dist, direction.z * dist);
 
 			RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
 			

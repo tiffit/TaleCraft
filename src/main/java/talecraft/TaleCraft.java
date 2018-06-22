@@ -96,19 +96,15 @@ public class TaleCraft {
 		if(ConfigurationManager.USE_VERSION_CHECKER && event.getSide() == Side.CLIENT)MinecraftForge.EVENT_BUS.register(new WorldSelectorInjector());
 		logger.info("TaleCraft Event Handler @" + eventHandler.hashCode());
 		// Initialize all the Tabs/Blocks/Items/Commands etc.
-		logger.info("Loading Tabs, Blocks, Items, Entities and Commands (In that order)");
+		logger.info("Loading Tabs, Blocks, Items, Entities and Commands");
 		TaleCraftTabs.init();
-		TaleCraftItems.init();
-		TaleCraftBlocks.init();
 		TaleCraftEntities.init();
 		TaleCraftCommands.init();
-		MinecraftForge.EVENT_BUS.register(TaleCraftItems.boomerang);
 
 		// Initialize the Proxy
 		logger.info("Initializing Proxy...");
 		proxy.taleCraft = this;
 		proxy.preInit(event);
-		
 
 	}
 
@@ -149,7 +145,7 @@ public class TaleCraft {
 	@Mod.EventHandler
 	public void serverStarted(FMLServerStartedEvent event){
 		logger.info("Server started: " + event + " [TCINFO]");
-		TaleCraftGameRules.registerGameRules(FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(0).getGameRules());
+		TaleCraftGameRules.registerGameRules(FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0).getGameRules());
 	}
 
 	@Mod.EventHandler

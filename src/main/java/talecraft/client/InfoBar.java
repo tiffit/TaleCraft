@@ -76,9 +76,9 @@ public class InfoBar {
 		}
 
 		// Finally, draw the whole thing!
-		Gui.drawRect(0, 0, mc.displayWidth, mc.fontRendererObj.FONT_HEIGHT+1, 0xAA000000);
-		mc.fontRendererObj.drawString(builder.toString(), 1, 1, 14737632);
-		lastHeight = mc.fontRendererObj.FONT_HEIGHT+1;
+		Gui.drawRect(0, 0, mc.displayWidth, mc.fontRenderer.FONT_HEIGHT+1, 0xAA000000);
+		mc.fontRenderer.drawString(builder.toString(), 1, 1, 14737632);
+		lastHeight = mc.fontRenderer.FONT_HEIGHT+1;
 
 		if(mc.player != null && mc.player.getEntityData().hasKey("tcWand") && ClientProxy.settings.getBoolean("client.infobar.showWandInfo")) {
 			NBTTagCompound tcWand = mc.player.getEntityData().getCompoundTag("tcWand");
@@ -115,9 +115,9 @@ public class InfoBar {
 				builder.append(TextFormatting.RESET);
 			}
 
-			Gui.drawRect(0, 10, mc.displayWidth, mc.fontRendererObj.FONT_HEIGHT+11, 0xAA000000);
-			mc.fontRendererObj.drawString(builder.toString(), 1, 11, 14737632);
-			lastHeight += mc.fontRendererObj.FONT_HEIGHT+1;
+			Gui.drawRect(0, 10, mc.displayWidth, mc.fontRenderer.FONT_HEIGHT+11, 0xAA000000);
+			mc.fontRenderer.drawString(builder.toString(), 1, 11, 14737632);
+			lastHeight += mc.fontRenderer.FONT_HEIGHT+1;
 		}
 	}
 

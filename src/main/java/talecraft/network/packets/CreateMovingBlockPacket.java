@@ -80,7 +80,7 @@ public class CreateMovingBlockPacket implements IMessage{
 		@Override
 		public IMessage onMessage(CreateMovingBlockPacket message, MessageContext ctx) {
 			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-			WorldServer world = server.worldServerForDimension(message.world);
+			WorldServer world = server.getWorld(message.world);
 			EntityMovingBlock ent = new EntityMovingBlock(world);
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setString("Block", message.STATE.getBlock().getRegistryName().toString());

@@ -29,12 +29,12 @@ public class GuiMessageBlock extends QADGuiScreen {
 
 		addComponent(new QADLabel("Message Block @ " + position.getX() + " " + position.getY() + " " + position.getZ(), 2, 2));
 
-		textField_message = new QADTextField(fontRendererObj, 3, 14+20+4, width-6, 20);
+		textField_message = new QADTextField(fontRenderer, 3, 14+20+4, width-6, 20);
 		textField_message.setText(tileEntity.getMessage());
 		textField_message.setTooltip("The message to send.");
 		addComponent(textField_message);
 
-		textField_selector = new QADTextField(fontRendererObj, 3, 14+20+4+20+4, width-6, 20);
+		textField_selector = new QADTextField(fontRenderer, 3, 14+20+4+20+4, width-6, 20);
 		textField_selector.setText(tileEntity.getPlayerSelector());
 		textField_selector.setTooltip("Selector to select players to send the message to.", "Default: @a");
 		addComponent(textField_selector);
