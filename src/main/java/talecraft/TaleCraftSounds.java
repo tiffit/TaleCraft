@@ -27,7 +27,6 @@ public final class TaleCraftSounds {
 	
 	@SubscribeEvent
 	public void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-		SoundEvent.REGISTRY.getKeys().size();
 		registry = event.getRegistry();
 		
 		SONG1 = register("SONG1");
