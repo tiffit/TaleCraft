@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -30,8 +29,10 @@ public abstract class TCGunItem extends TCWeaponItem {
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
-		list.add(new ItemStack(this, 1, this.getMaxDamage()));
-		list.add(new ItemStack(this));
+		if(this.isInCreativeTab(tab)) {
+			list.add(new ItemStack(this, 1, this.getMaxDamage()));
+			list.add(new ItemStack(this));
+		}
 	}
 	
 	@Override
