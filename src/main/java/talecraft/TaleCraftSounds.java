@@ -26,7 +26,7 @@ public final class TaleCraftSounds {
 	public static SoundEvent ShotgunReload;
 	
 	@SubscribeEvent
-	public void registerSounds(RegistryEvent.Register<SoundEvent> event) {
+	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
 		registry = event.getRegistry();
 		
 		SONG1 = register("SONG1");
@@ -52,17 +52,18 @@ public final class TaleCraftSounds {
 		EXTRA3 = register("EXTRA3");
 		EXTRA4 = register("EXTRA4");
 		
-		DryFire = register("DryFire");
-		Reload = register("Reload");
-		PistolFire = register("PistolFire");
-		RifleFire = register("RifleFire");
-		ShotgunFire = register("ShotgunFire");
-		ShotgunReload = register("ShotgunReload");
+		DryFire = register("dryfire");
+		Reload = register("reload");
+		PistolFire = register("pistolfire");
+		RifleFire = register("riflefire");
+		ShotgunFire = register("shotgunfire");
+		ShotgunReload = register("shotgunreload");
 	}
 	
 	private static SoundEvent register(String name) {
-		ResourceLocation loc = new ResourceLocation(Reference.MOD_ID + ":" + name);
+		ResourceLocation loc = new ResourceLocation(Reference.MOD_ID, name);
 		SoundEvent e = new SoundEvent(loc);
+		e.setRegistryName(name);
 		registry.register(e);
 		return e;
 	}

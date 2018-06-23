@@ -7,8 +7,9 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import talecraft.TaleCraft;
 import talecraft.container.WorkbenchContainer;
@@ -55,19 +56,19 @@ public class GuiWorkbench extends GuiContainer {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if(button.id == 0 || button.id == 1){
 			boolean empty = true;
-			ItemStack[] stacks = new ItemStack[9];
+			NonNullList<Ingredient> ingredients = NonNullList.create();
 			for(int i = 0; i < container.craftMatrix.getSizeInventory(); i++){
-				if(container.craftMatrix.getStackInSlot(i) != null){
+				if(!container.craftMatrix.getStackInSlot(i).isEmpty()){
 					empty = false;
 				}
-				stacks[i] = container.craftMatrix.getStackInSlot(i);
+				ingredients.add(Ingredient.fromStacks(container.craftMatrix.getStackInSlot(i)));
 			}
 			if(!empty){
-				if(container.getSlot(0).getStack() != null){
+				if(!container.getSlot(0).getStack().isEmpty()){
 					if(button.id == 0){
-						TaleCraft.network.sendToServer(new WorkbenchCraftingPacket(new ShapedRecipes(3, 3, stacks, container.getSlot(0).getStack()), true));
+						TaleCraft.network.sendToServer(new WorkbenchCraftingPacket(new ShapedRecipes(null, 3, 3, ingredients, container.getSlot(0).getStack()), true));
 					}else{
-						TaleCraft.network.sendToServer(new WorkbenchCraftingPacket(new ShapedRecipes(3, 3, stacks, container.getSlot(0).getStack()), false));
+						TaleCraft.network.sendToServer(new WorkbenchCraftingPacket(new ShapedRecipes(null, 3, 3, ingredients, container.getSlot(0).getStack()), false));
 					}
 				}
 			}
