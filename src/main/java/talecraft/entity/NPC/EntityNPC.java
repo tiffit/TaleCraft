@@ -237,10 +237,10 @@ public class EntityNPC extends EntityCreature implements IEntityAdditionalSpawnD
 		if (ent instanceof EntityPlayerMP && data.getType() != NPCType.Passive) {
 			EntityPlayerMP player = (EntityPlayerMP) ent;
 			player.attackEntityFrom(DamageSource.causeMobDamage(this), data.getDamage());
-			this.setLastAttacker(ent);
+			this.setLastAttackedEntity(ent);
 			return true;
 		}
-		this.setLastAttacker(ent);
+		this.setLastAttackedEntity(ent);
 		return false;
 	}
 

@@ -14,7 +14,7 @@ import talecraft.tileentity.LockedDoorTileEntity;
 public class LockedDoorRenderer extends TileEntitySpecialRenderer<LockedDoorTileEntity> {
 
 	@Override
-	public void func_192841_a(LockedDoorTileEntity te, double posX, double posY, double posZ, float partialTicks, int destroyStage, float wat) {
+	public void render(LockedDoorTileEntity te, double posX, double posY, double posZ, float partialTicks, int destroyStage, float wat) {
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();

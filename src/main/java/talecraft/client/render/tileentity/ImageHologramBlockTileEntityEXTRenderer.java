@@ -111,7 +111,7 @@ IEXTTileEntityRenderer<ImageHologramBlockTileEntity> {
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(x, y, z);
 			GlStateManager.scale(1f/32f, -1f/32f, 1f/32f);
-			ClientProxy.mc.fontRendererObj.drawString("PATH " + locationStr, 0, 32, 0xFFFFFFFF);
+			ClientProxy.mc.fontRenderer.drawString("PATH " + locationStr, 0, 32, 0xFFFFFFFF);
 			GlStateManager.popMatrix();
 		}
 	}

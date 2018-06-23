@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 import talecraft.TaleCraft;
-import talecraft.TCSoundHandler.SoundEnum;
+import talecraft.TaleCraftSounds.SoundEnum;
 import talecraft.blocks.TCTileEntity;
 import talecraft.invoke.EnumTriggerState;
 import talecraft.invoke.IInvoke;

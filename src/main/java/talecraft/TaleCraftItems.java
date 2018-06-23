@@ -4,9 +4,15 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.NoteBlockEvent.Instrument;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import talecraft.items.CameraItem;
 import talecraft.items.CopyItem;
 import talecraft.items.CustomPaintingItem;
@@ -41,8 +47,10 @@ import talecraft.items.world.KeyItem;
 import talecraft.items.world.TCInstrumentItem;
 import talecraft.items.world.TCWorldItem;
 
+@EventBusSubscriber
 public class TaleCraftItems {
 	public static final List<Item> ALL_TC_ITEMS = Lists.newArrayList();
+	private static IForgeRegistry<Item> registry;
 
 	public static WandItem wand;
 	public static FillerItem filler;
@@ -87,7 +95,10 @@ public class TaleCraftItems {
 	public static TCInstrumentItem guitar;
 	public static TCInstrumentItem drums;
 
-	public static void init() {
+	@SubscribeEvent
+	public static void init(final RegistryEvent.Register<Item> event) {
+		registry = event.getRegistry();	
+		
 		wand = register(new WandItem(), "wand");
 		filler = register(new FillerItem(), "filler");
 		eraser = register(new EraserItem(), "eraser");
@@ -129,13 +140,26 @@ public class TaleCraftItems {
 		harp = register(new TCInstrumentItem(Instrument.PIANO), "harp");
 		guitar = register(new TCInstrumentItem(Instrument.BASSGUITAR), "guitar");
 		drums = register(new TCInstrumentItem(Instrument.BASSDRUM), "drums");
+		
+		MinecraftForge.EVENT_BUS.register(boomerang);
+		
+		registerItemBlocks();
+	}
+	
+	private static void registerItemBlocks() {
+		for(Block block : TaleCraftBlocks.blocks) {
+			if(TaleCraftBlocks.customItemBlocks.contains(block)) {
+				registry.register(new TaleCraftBlocks.ItemBlockBlankBlock(block).setRegistryName(block.getRegistryName()));
+			} else {
+				registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+			}
+		}
 	}
 
-	public static <T extends Item> T register(T item, String name) {
+	private static <T extends Item> T register(T item, String name) {
 		item.setUnlocalizedName(name);
-		GameRegistry.register(item.getRegistryName() == null ? item.setRegistryName(name) : item);
+		registry.register(item.getRegistryName() == null ? item.setRegistryName(name) : item);
 		ALL_TC_ITEMS.add(item);
 		return item;
 	}
-
 }

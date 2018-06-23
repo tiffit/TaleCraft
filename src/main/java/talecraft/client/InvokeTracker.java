@@ -47,7 +47,7 @@ public class InvokeTracker {
 		// Finally, draw the whole thing!
 		final int BASEY = clientProxy.getInfoBar().getLastMaxY();
 		final int BAWI = mc.displayWidth;
-		final int BAHE = mc.fontRendererObj.FONT_HEIGHT;
+		final int BAHE = mc.fontRenderer.FONT_HEIGHT;
 		final int BAYM = BASEY+BAHE;
 		final int BAYI = BASEY;
 

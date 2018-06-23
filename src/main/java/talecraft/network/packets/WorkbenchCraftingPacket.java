@@ -3,6 +3,7 @@ package talecraft.network.packets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -70,13 +71,13 @@ public class WorkbenchCraftingPacket implements IMessage {
 						if(ItemStack.areItemStacksEqual(rec.getRecipeOutput(), cur.getRecipeOutput())){
 							boolean equal = true;
 							for(int i = 0; i < 9; i++){
-								ItemStack grid1 = rec.recipeItems.get(i); // TODO: wat?
-								ItemStack grid2 = cur.recipeItems.get(i);
-								if((grid1 == null && grid2 != null) || (grid1 != null && grid2 == null)){
+								Ingredient grid1 = rec.recipeItems.get(i);
+								Ingredient grid2 = cur.recipeItems.get(i);
+								if((grid1 == Ingredient.EMPTY && grid2 != Ingredient.EMPTY) || (grid1 != Ingredient.EMPTY && grid2 == Ingredient.EMPTY)){
 									equal = false;
 									break;
 								}
-								if(!ItemStack.areItemStacksEqual(grid1, grid2)){
+								if(!grid1.equals(grid2)){
 									equal = false;
 									break;
 								}

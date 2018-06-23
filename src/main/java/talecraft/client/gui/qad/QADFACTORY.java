@@ -33,25 +33,25 @@ public class QADFACTORY {
 	}
 
 	public static final QADTextField createTextField(String text, int x, int y, int width) {
-		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRendererObj, x, y, width, 16);
+		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRenderer, x, y, width, 16);
 		textField.setText(text);
 		return textField;
 	}
 
 	public static final QADTextField createTextField(int number, int x, int y, int width) {
-		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRendererObj, x, y, width, 16);
+		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRenderer, x, y, width, 16);
 		textField.setText(Integer.toString(number));
 		return textField;
 	}
 
 	public static final QADTextField createTextField(float number, int x, int y, int width) {
-		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRendererObj, x, y, width, 16);
+		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRenderer, x, y, width, 16);
 		textField.setText(Float.toString(number));
 		return textField;
 	}
 
 	public static final QADTextField createNumberTextField(int number, int x, int y, int width) {
-		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRendererObj, x, y, width, 16);
+		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRenderer, x, y, width, 16);
 		textField.setText(Integer.toString(number));
 		textField.textChangedListener = new TextChangeListener() {
 			@Override public void call(QADTextField qadTextField, String text) {
@@ -72,7 +72,7 @@ public class QADFACTORY {
 	}
 
 	public static final QADTextField createNumberTextField(int number, int x, int y, int width, final int MAX) {
-		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRendererObj, x, y, width, 16);
+		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRenderer, x, y, width, 16);
 		textField.setText(Integer.toString(number));
 		textField.textChangedListener = new TextChangeListener() {
 			int max = MAX;
@@ -99,7 +99,7 @@ public class QADFACTORY {
 	}
 
 	public static final QADTextField createNumberTextField(int number, int x, int y, int width, final int MAX, final int MIN) {
-		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRendererObj, x, y, width, 16);
+		QADTextField textField = new QADTextField(Minecraft.getMinecraft().fontRenderer, x, y, width, 16);
 		textField.setText(Integer.toString(number));
 		textField.textChangedListener = new TextChangeListener() {
 			int max = MAX;

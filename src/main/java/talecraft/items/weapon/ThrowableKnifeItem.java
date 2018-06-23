@@ -42,8 +42,8 @@ public class ThrowableKnifeItem extends TCWeaponItem {
 	@SubscribeEvent
 	public void onItemDrop(ItemTossEvent event){
 		if(!event.getPlayer().world.isRemote){
-			if(isThrown(event.getEntityItem().getEntityItem())){
-				event.getEntityItem().getEntityItem().getTagCompound().setBoolean("thrown", false);
+			if(isThrown(event.getEntityItem().getItem())){
+				event.getEntityItem().getItem().getTagCompound().setBoolean("thrown", false);
 			}
 		}
 	}
@@ -58,7 +58,7 @@ public class ThrowableKnifeItem extends TCWeaponItem {
 				stack.getTagCompound().setBoolean("thrown", true);
 				EntityBoomerang boomerang = new EntityBoomerang(world, player);
 				boomerang.setItemStack(stack);
-				boomerang.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+				boomerang.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 				world.spawnEntity(boomerang);
 			}
 		}

@@ -260,9 +260,9 @@ public class ClipboardItem {
 	}
 
 	public static void pasteEntity(ClipboardItem item, Vec3d plantPos, World worldIn, EntityPlayer playerIn) {
-		double posX = plantPos.xCoord;
-		double posY = plantPos.yCoord;
-		double posZ = plantPos.zCoord;
+		double posX = plantPos.x;
+		double posY = plantPos.y;
+		double posZ = plantPos.z;
 
 		// Create the entity, merge the existing NBT into it, then spawn the entity.
 		NBTTagCompound entityNBT = item.getData().getCompoundTag($ENTITY);

@@ -94,7 +94,7 @@ public class CameraBlockTileEntity extends TCTileEntity {
 		public void teleportTo(EntityPlayer player){
 			if(!(player instanceof EntityPlayerMP)) return;
 			EntityPlayerMP mp = (EntityPlayerMP) player;
-			mp.connection.setPlayerLocation(xCoord, yCoord, zCoord, calcOrientation(), pitch);
+			mp.connection.setPlayerLocation(x, y, z, calcOrientation(), pitch);
 		}
 		
 		private float calcOrientation(){
@@ -107,9 +107,9 @@ public class CameraBlockTileEntity extends TCTileEntity {
 		
 		public NBTTagCompound toNBT(){
 			NBTTagCompound tag = new NBTTagCompound();
-			tag.setDouble("x", xCoord);
-			tag.setDouble("y", yCoord);
-			tag.setDouble("z", zCoord);
+			tag.setDouble("x", x);
+			tag.setDouble("y", y);
+			tag.setDouble("z", z);
 			tag.setFloat("yaw", yaw);
 			tag.setFloat("pitch", pitch);
 			return tag;
@@ -127,7 +127,7 @@ public class CameraBlockTileEntity extends TCTileEntity {
 		@Override
 		public String toString(){
 			DecimalFormat format = ItemStack.DECIMALFORMAT;
-			return "[x=" + format.format(xCoord) + ", y=" + format.format(yCoord) + ", z=" + format.format(zCoord) + " | yaw=" + format.format(yaw) + ", pitch=" + format.format(pitch) + "]";
+			return "[x=" + format.format(x) + ", y=" + format.format(y) + ", z=" + format.format(z) + " | yaw=" + format.format(yaw) + ", pitch=" + format.format(pitch) + "]";
 		}
 	}
 	
@@ -190,9 +190,9 @@ public class CameraBlockTileEntity extends TCTileEntity {
 		}
 		
 		private List<CameraPos> calcDestPos(CameraPos pos){
-			double xDiff =  pos.xCoord - player.posX;
-			double yDiff = pos.yCoord - player.posY;
-			double zDiff = pos.zCoord - player.posZ;
+			double xDiff =  pos.x - player.posX;
+			double yDiff = pos.y - player.posY;
+			double zDiff = pos.z - player.posZ;
 			double yawDiff = (double) calcYaw(pos.yaw, player.rotationYaw);
 			double pitchDiff = pos.pitch - player.rotationPitch;
 			double distance = calcDistance(pos);
@@ -231,9 +231,9 @@ public class CameraBlockTileEntity extends TCTileEntity {
 		}
 		
 		private double calcDistance(CameraPos pos){
-			double xDiff = player.posX - pos.xCoord;
-			double yDiff = player.posY - pos.yCoord;
-			double zDiff = player.posZ - pos.zCoord;
+			double xDiff = player.posX - pos.x;
+			double yDiff = player.posY - pos.y;
+			double zDiff = player.posZ - pos.z;
 			double arg1 = xDiff*xDiff;
 			double arg2 = yDiff*yDiff;
 			double arg3 = zDiff*zDiff;

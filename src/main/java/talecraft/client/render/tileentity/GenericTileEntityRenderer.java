@@ -40,7 +40,7 @@ public class GenericTileEntityRenderer<T extends TileEntity> extends TileEntityS
 	}
 
 	@Override
-	public void func_192841_a(T tile, double posX, double posY, double posZ, float partialTicks, int destroyStage, float wat) {
+	public void render(T tile, double posX, double posY, double posZ, float partialTicks, int destroyStage, float wat) {
 		// render states
 		GlStateManager.disableLighting();
 		GlStateManager.color(1, 1, 1, 1);

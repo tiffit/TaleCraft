@@ -69,7 +69,7 @@ public class VoxelatorItem extends TCItem implements TCITriggerableItem{
 		float dist = 256;
 		Vec3d start = this.getPositionEyes(lerp, player);
 		Vec3d direction = player.getLook(lerp);
-		Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
+		Vec3d end = start.addVector(direction.x * dist, direction.y * dist, direction.z * dist);
 
 		RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
 

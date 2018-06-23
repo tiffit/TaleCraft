@@ -110,7 +110,7 @@ public class TCItem extends Item {
 	public RayTraceResult rayTrace(double blockReachDistance, EntityPlayer player){
 		Vec3d vec3d = getPositionEyes(1.0F, player);
 		Vec3d vec3d1 = player.getLook(1.0F);
-		Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * blockReachDistance, vec3d1.yCoord * blockReachDistance, vec3d1.zCoord * blockReachDistance);
+		Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
 		return player.world.rayTraceBlocks(vec3d, vec3d2, false, false, true);
 	}
 	

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import talecraft.blocks.world.WorkbenchBlock;
 
 public class WorkbenchManager extends ArrayList<IRecipe> {
@@ -51,10 +53,12 @@ public class WorkbenchManager extends ArrayList<IRecipe> {
 		tag.setInteger("width", shaped.recipeWidth);
 		tag.setInteger("height", shaped.recipeHeight);
 		for(int i = 0; i < 9; i++){
-			ItemStack stack = shaped.recipeItems[i];
+			ItemStack[] stacks = shaped.recipeItems.get(i).getMatchingStacks();
 			NBTTagCompound stackTag = new NBTTagCompound();
-			if(stack != null){
-				stack.writeToNBT(stackTag);
+			for(ItemStack stack : stacks) {
+				if(!stack.isEmpty()){
+					stack.writeToNBT(stackTag);
+				}
 			}
 			tag.setTag("item_" + i, stackTag);
 		}
@@ -65,18 +69,18 @@ public class WorkbenchManager extends ArrayList<IRecipe> {
 	private static ShapedRecipes shapedFromNBT(NBTTagCompound tag){
 		int width = tag.getInteger("width");
 		int height = tag.getInteger("height");
-		ItemStack[] items = new ItemStack[9];
+		NonNullList<Ingredient> ingredients = NonNullList.create();
 		for(int i = 0; i < 9; i++){
 			NBTTagCompound stackTag = tag.getCompoundTag("item_" + i);
 			if(stackTag.hasNoTags()){
-				items[i] = null;
+				ingredients.add(Ingredient.fromStacks(ItemStack.EMPTY));
 				continue;
 			}else{
-				items[i] = new ItemStack(stackTag);
+				ingredients.add(Ingredient.fromStacks(new ItemStack(stackTag)));
 			}
 		}
 		ItemStack output = new ItemStack(tag.getCompoundTag("output"));
-		return new ShapedRecipes(width, height, items, output);
+		return new ShapedRecipes(null, width, height, ingredients, output);
 	}
 	
 	public static WorkbenchManager getInstance(){

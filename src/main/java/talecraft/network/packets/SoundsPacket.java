@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import talecraft.TCSoundHandler.SoundEnum;
+import talecraft.TaleCraftSounds.SoundEnum;
 import talecraft.network.handlers.client.SoundsPacketHandler;
 
 public class SoundsPacket implements IMessage {

@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import talecraft.TaleCraft;
-import talecraft.TCSoundHandler.SoundEnum;
+import talecraft.TaleCraftSounds.SoundEnum;
 import talecraft.client.ClientNetworkHandler;
 import talecraft.client.gui.qad.QADDropdownBox;
 import talecraft.client.gui.qad.QADFACTORY;
@@ -45,7 +45,7 @@ public class GuiMusicBlock extends QADGuiScreen {
 		repeatBox = new QADTickBox(120, 44);
 		repeatBox.getModel().setState(tileEntity.isRepeat());
 		repeatBox.setTooltip("Repeat?");
-		delayField = new QADNumberTextField(fontRendererObj, 10, 40, 75, 20, tileEntity.repeatDelay());
+		delayField = new QADNumberTextField(fontRenderer, 10, 40, 75, 20, tileEntity.repeatDelay());
 		delayField.setTooltip("Repeat Delay");
 		addComponent(delayField);
 		addComponent(repeatBox);

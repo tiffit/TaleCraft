@@ -64,8 +64,8 @@ public class GuiNPCMerchant extends GuiContainer
 		super.initGui();
 		int i = (this.width - this.xSize) / 2;
 		int j = (this.height - this.ySize) / 2;
-		this.nextButton = (GuiNPCMerchant.MerchantButton)addButton(new GuiNPCMerchant.MerchantButton(1, i + 120 + 27, j + 24 - 1, true));
-		this.previousButton = (GuiNPCMerchant.MerchantButton)addButton(new GuiNPCMerchant.MerchantButton(2, i + 36 - 19, j + 24 - 1, false));
+		this.nextButton = addButton(new GuiNPCMerchant.MerchantButton(1, i + 120 + 27, j + 24 - 1, true));
+		this.previousButton = addButton(new GuiNPCMerchant.MerchantButton(2, i + 36 - 19, j + 24 - 1, false));
 		this.nextButton.enabled = false;
 		this.previousButton.enabled = false;
 	}
@@ -76,8 +76,8 @@ public class GuiNPCMerchant extends GuiContainer
 	@Override
 		protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		String s = this.chatComponent.getUnformattedText();
-		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
+		this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class GuiNPCMerchant extends GuiContainer
 				return;
 			}
 
-			NPCTrade trade = (NPCTrade)trades.get(k);
+			NPCTrade trade = trades.get(k);
 
 			if (!trade.inStock()){
 				this.mc.getTextureManager().bindTexture(MERCHANT_GUI_TEXTURE);
@@ -172,7 +172,7 @@ public class GuiNPCMerchant extends GuiContainer
 			int i = (this.width - this.xSize) / 2;
 			int j = (this.height - this.ySize) / 2;
 			int k = this.selectedMerchantRecipe;
-			NPCTrade trade = (NPCTrade)trades.get(k);
+			NPCTrade trade = trades.get(k);
 			ItemStack buy = trade.getBuying();
 			ItemStack sell = trade.getSelling();
 			GlStateManager.pushMatrix();
@@ -183,25 +183,25 @@ public class GuiNPCMerchant extends GuiContainer
 			GlStateManager.enableLighting();
 			this.itemRender.zLevel = 100.0F;
 			this.itemRender.renderItemAndEffectIntoGUI(buy, i + 36, j + 24);
-			this.itemRender.renderItemOverlays(this.fontRendererObj, buy, i + 36, j + 24);
+			this.itemRender.renderItemOverlays(this.fontRenderer, buy, i + 36, j + 24);
 
 			this.itemRender.renderItemAndEffectIntoGUI(sell, i + 120, j + 24);
-			this.itemRender.renderItemOverlays(this.fontRendererObj, sell, i + 120, j + 24);
+			this.itemRender.renderItemOverlays(this.fontRenderer, sell, i + 120, j + 24);
 			this.itemRender.zLevel = 0.0F;
 			GlStateManager.disableLighting();
 
 			if (this.isPointInRegion(36, 24, 16, 16, mouseX, mouseY) && buy != null){
 				this.renderToolTip(buy, mouseX, mouseY);
 			}
-			else if (sell != null && this.isPointInRegion(120, 24, 16, 16, mouseX, mouseY) && sell != null){
+			else if (sell != null && this.isPointInRegion(120, 24, 16, 16, mouseX, mouseY)){
 				this.renderToolTip(sell, mouseX, mouseY);
 			}
 			else if (this.isPointInRegion(83, 21, 28, 21, mouseX, mouseY) || this.isPointInRegion(83, 51, 28, 21, mouseX, mouseY)){
 				if(trade.inStock()){
 					String stock = trade.getStock() == -1 ? "Infinite" : (trade.getStock() + "");
 					TextFormatting color = trade.getStock() == -1 ? TextFormatting.GOLD : TextFormatting.WHITE;
-					this.drawCreativeTabHoveringText("Stock: " + color + stock, mouseX, mouseY);
-				}else this.drawCreativeTabHoveringText(TextFormatting.DARK_RED + "Out Of Stock", mouseX, mouseY);
+					this.drawHoveringText("Stock: " + color + stock, mouseX, mouseY);
+				}else this.drawHoveringText(TextFormatting.DARK_RED + "Out Of Stock", mouseX, mouseY);
 			}
 
 			GlStateManager.popMatrix();
@@ -224,15 +224,12 @@ public class GuiNPCMerchant extends GuiContainer
 				this.forward = p_i1095_4_;
 			}
 
-			/**
-			 * Draws this button to the screen.
-			 */
 			@Override
-			public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float lerp){
+			public void drawButton(Minecraft mc, int mouseX, int mouseY, float lerp){
 				if (this.visible){
 					mc.getTextureManager().bindTexture(GuiNPCMerchant.MERCHANT_GUI_TEXTURE);
 					GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-					boolean flag = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+					boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 					int i = 0;
 					int j = 176;
 
@@ -247,7 +244,7 @@ public class GuiNPCMerchant extends GuiContainer
 						i += this.height;
 					}
 
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, j, i, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, j, i, this.width, this.height);
 				}
 			}
 		}

@@ -82,7 +82,7 @@ public class QADTextField extends QADRectangularComponent {
 	public QADTextField(int xPos, int yPos, int width, int height) {
 		// this.ID = __id__;
 		this.model = new DefaultTextFieldModel();
-		this.fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
+		this.fontRendererInstance = Minecraft.getMinecraft().fontRenderer;
 		this.xPosition = xPos;
 		this.yPosition = yPos;
 		this.width = width;
@@ -96,7 +96,7 @@ public class QADTextField extends QADRectangularComponent {
 	public QADTextField(int xPos, int yPos, int width, int height, String text) {
 		// this.ID = __id__;
 		this.model = new DefaultTextFieldModel(text);
-		this.fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
+		this.fontRendererInstance = Minecraft.getMinecraft().fontRenderer;
 		this.xPosition = xPos;
 		this.yPosition = yPos;
 		this.width = width;
@@ -110,7 +110,7 @@ public class QADTextField extends QADRectangularComponent {
 	public QADTextField(String text) {
 		// this.ID = __id__;
 		this.model = new DefaultTextFieldModel(text);
-		this.fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
+		this.fontRendererInstance = Minecraft.getMinecraft().fontRenderer;
 		this.xPosition = 0;
 		this.yPosition = 0;
 		this.width = 20;
@@ -124,7 +124,7 @@ public class QADTextField extends QADRectangularComponent {
 	public QADTextField(TextFieldModel model) {
 		// this.ID = __id__;
 		this.model = model;
-		this.fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
+		this.fontRendererInstance = Minecraft.getMinecraft().fontRenderer;
 		this.xPosition = 0;
 		this.yPosition = 0;
 		this.width = 20;

@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
-import talecraft.TCSoundHandler;
+import talecraft.TaleCraftSounds;
 import talecraft.TaleCraft;
 import talecraft.TaleCraftItems;
 import talecraft.client.ClientKeyboardHandler;
@@ -88,12 +88,9 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 		// create client network'er
 		clientNetworkHandler = new ClientNetworkHandler(this);
 
-		// create client renderer
-		clientRenderer.init();
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());
 		
-		TCSoundHandler.init();
 		ReflectionUtil.replaceMusicTicker();
 		
 	} // init(..){}

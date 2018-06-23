@@ -84,7 +84,7 @@ public class EntityPoint extends Entity {
 			return false;
 
 		if(source.isCreativePlayer()) {
-			ItemStack heldItem = ((EntityPlayerMP)source.getEntity()).getHeldItemMainhand();
+			ItemStack heldItem = ((EntityPlayerMP)source.getTrueSource()).getHeldItemMainhand();
 
 			if(heldItem != null) {
 				if(heldItem.getItem() instanceof TeleporterItem) {

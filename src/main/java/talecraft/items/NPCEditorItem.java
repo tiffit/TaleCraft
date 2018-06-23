@@ -23,10 +23,10 @@ public class NPCEditorItem extends TCItem {
 		float dist = 7;
 		Vec3d start = this.getPositionEyes(lerp, player);
 		Vec3d direction = player.getLook(lerp);
-		Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
+		Vec3d end = start.addVector(direction.x * dist, direction.y * dist, direction.z * dist);
 
 		RayTraceResult result = world.rayTraceBlocks(start, end, false, false, false);
-		if(result.typeOfHit == Type.BLOCK){
+		if(result != null && result.typeOfHit == Type.BLOCK){
 			spawnNPC(world, result.getBlockPos());
 			if(!world.isRemote) player.sendMessage(new TextComponentString("NPC spawned!"));
 		}

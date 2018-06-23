@@ -24,11 +24,11 @@ public class WorldDescGui extends GuiScreen {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		this.drawDefaultBackground();
-		drawCenteredString(fontRendererObj, world_title, width / 2, 3, 0x00decc);
+		drawCenteredString(fontRenderer, world_title, width / 2, 3, 0x00decc);
 		for (int i = 0; i < lines.size(); i++) {
 			String line = lines.get(i);
 			for (ColoredString cstring : getColoredStrings(line, i + 1)) {
-				fontRendererObj.drawStringWithShadow(cstring.str, cstring.x, cstring.y,
+				fontRenderer.drawStringWithShadow(cstring.str, cstring.x, cstring.y,
 						cstring.color);
 			}
 		}
@@ -53,7 +53,7 @@ public class WorldDescGui extends GuiScreen {
 			int offset = 0;
 			if (i > 0) {
 				for (int j = 0; j < i; j++) {
-					offset += fontRendererObj.getStringWidth(coloredStrings.get(j).str);
+					offset += fontRenderer.getStringWidth(coloredStrings.get(j).str);
 				}
 				String[] endSplit = colorsStart[i].split(">");
 				try {

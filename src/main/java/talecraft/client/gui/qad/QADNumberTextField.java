@@ -32,11 +32,11 @@ public class QADNumberTextField extends QADTextField implements TextChangeListen
 	}
 
 	public QADNumberTextField(int xPos, int yPos, int width, int height, Number value, NumberType valueType) {
-		this(Minecraft.getMinecraft().fontRendererObj, xPos, yPos, width, height, value, valueType);
+		this(Minecraft.getMinecraft().fontRenderer, xPos, yPos, width, height, value, valueType);
 	}
 
 	public QADNumberTextField(Number value, NumberType valueType) {
-		this(Minecraft.getMinecraft().fontRendererObj, 0, 0, 20, 20, value, valueType);
+		this(Minecraft.getMinecraft().fontRenderer, 0, 0, 20, 20, value, valueType);
 	}
 
 	@Override

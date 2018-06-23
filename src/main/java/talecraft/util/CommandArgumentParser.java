@@ -249,9 +249,9 @@ public class CommandArgumentParser {
 		int zPos = parseInt(zPosStr, errorText);
 
 		if(commandSenderPosition != null) {
-			if(xPosr) xPos += Math.floor(commandSenderPosition.xCoord);
-			if(yPosr) yPos += Math.floor(commandSenderPosition.yCoord);
-			if(zPosr) zPos += Math.floor(commandSenderPosition.zCoord);
+			if(xPosr) xPos += Math.floor(commandSenderPosition.x);
+			if(yPosr) yPos += Math.floor(commandSenderPosition.y);
+			if(zPosr) zPos += Math.floor(commandSenderPosition.z);
 		}
 
 		return new BlockPos(xPos, yPos, zPos);

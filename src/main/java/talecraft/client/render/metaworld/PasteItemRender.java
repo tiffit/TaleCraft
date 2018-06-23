@@ -38,9 +38,9 @@ public class PasteItemRender implements IMetadataRender {
 		float lenMul = ClientProxy.settings.getInteger("item.paste.reach");
 		Vec3d plantPos = player.getLook((float) partialTick);
 		plantPos = new Vec3d(
-				plantPos.xCoord*lenMul,
-				plantPos.yCoord*lenMul,
-				plantPos.zCoord*lenMul
+				plantPos.x*lenMul,
+				plantPos.y*lenMul,
+				plantPos.z*lenMul
 				).add(player.getPositionEyes((float) partialTick));
 
 		float dimX = 0;
@@ -53,18 +53,18 @@ public class PasteItemRender implements IMetadataRender {
 		if(clip.getData().hasKey(ClipboardTagNames.$OFFSET, clip.getData().getId())) {
 			NBTTagCompound offset = clip.getData().getCompoundTag(ClipboardTagNames.$OFFSET);
 			plantPos = new Vec3d(
-					plantPos.xCoord + offset.getFloat("x"),
-					plantPos.yCoord + offset.getFloat("y"),
-					plantPos.zCoord + offset.getFloat("z")
+					plantPos.x + offset.getFloat("x"),
+					plantPos.y + offset.getFloat("y"),
+					plantPos.z + offset.getFloat("z")
 					);
 		}
 
 		float snap = ClientProxy.settings.getInteger("item.paste.snap");
 		if(snap > 1) {
 			plantPos = new Vec3d(
-					Math.floor(plantPos.xCoord / snap) * snap,
-					Math.floor(plantPos.yCoord / snap) * snap,
-					Math.floor(plantPos.zCoord / snap) * snap
+					Math.floor(plantPos.x / snap) * snap,
+					Math.floor(plantPos.y / snap) * snap,
+					Math.floor(plantPos.z / snap) * snap
 					);
 		}
 
@@ -78,9 +78,9 @@ public class PasteItemRender implements IMetadataRender {
 			dimZ = blocks.getInteger(ClipboardTagNames.$REGION_LENGTH);
 			
 			plantPos = new Vec3d(
-					Math.floor(plantPos.xCoord),
-					Math.floor(plantPos.yCoord),
-					Math.floor(plantPos.zCoord)
+					Math.floor(plantPos.x),
+					Math.floor(plantPos.y),
+					Math.floor(plantPos.z)
 					);
 		}
 
@@ -98,9 +98,9 @@ public class PasteItemRender implements IMetadataRender {
 			plantPos = plantPos.subtract(width/2, 0, width/2);
 		}
 
-		float minX = (float) plantPos.xCoord;
-		float minY = (float) plantPos.yCoord;
-		float minZ = (float) plantPos.zCoord;
+		float minX = (float) plantPos.x;
+		float minY = (float) plantPos.y;
+		float minZ = (float) plantPos.z;
 		float maxX = minX + dimX;
 		float maxY = minY + dimY;
 		float maxZ = minZ + dimZ;

@@ -95,7 +95,7 @@ public class TCGuiScreen extends GuiScreen {
 
 	@Override
 	public final void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		if(this.fontRendererObj != null) instance.setCurrentScreen(this, this.zLevel, this.fontRendererObj, this.itemRender);
+		if(this.fontRenderer != null) instance.setCurrentScreen(this, this.zLevel, this.fontRenderer, this.itemRender);
 		instance.drawDefaultBackground();
 
 		if(Mouse.isInsideWindow() && Boolean.TRUE.booleanValue()) {

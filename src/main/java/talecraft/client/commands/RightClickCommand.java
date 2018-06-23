@@ -39,9 +39,9 @@ public class RightClickCommand extends CommandBase {
 		final int min = -6000000;
 		final int max = +6000000;
 
-		final double baseX = sender.getPositionVector().xCoord;
-		final double baseY = sender.getPositionVector().yCoord;
-		final double baseZ = sender.getPositionVector().zCoord;
+		final double baseX = sender.getPositionVector().x;
+		final double baseY = sender.getPositionVector().y;
+		final double baseZ = sender.getPositionVector().z;
 
 		// <x> <y> <z>
 		final double xCoord = CommandBase.parseDouble(baseX, args[0], min, max, true);

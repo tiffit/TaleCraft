@@ -18,10 +18,14 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import talecraft.TaleCraftBlocks;
 import talecraft.TaleCraftItems;
@@ -75,6 +79,7 @@ import talecraft.tileentity.SummonBlockTileEntity;
 import talecraft.tileentity.TriggerFilterBlockTileEntity;
 import talecraft.tileentity.URLBlockTileEntity;
 
+@EventBusSubscriber
 public class ClientRenderer {
 	private final ClientProxy proxy;
 	private final Minecraft mc;
@@ -116,8 +121,8 @@ public class ClientRenderer {
 		visualizationMode = VisualMode.Default;
 		partialTicks = 1f;
 
-		temporaryRenderers = new ConcurrentLinkedDeque<ITemporaryRenderable>();
-		staticRenderers = new ConcurrentLinkedDeque<IRenderable>();
+		temporaryRenderers = new ConcurrentLinkedDeque<>();
+		staticRenderers = new ConcurrentLinkedDeque<>();
 	}
 
 	
@@ -133,18 +138,14 @@ public class ClientRenderer {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingBlock.class, new EntityMovingBlockRenderFactory());
 	}
 	
-	public void init() {
-		// Get the ModelMesher and register ALL item-models
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
-		init_render_item(mesher);
-		init_render_block(mesher);
-
-		init_render_entity();
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event) {
+		init_render_item();
+		init_render_block();
 		init_render_tilentity();
 	}
 
-	private void init_render_tilentity() {
+	private static void init_render_tilentity() {
 		ClientRegistry.bindTileEntitySpecialRenderer(ClockBlockTileEntity.class,
 				new GenericTileEntityRenderer<ClockBlockTileEntity>("talecraft:textures/blocks/util/timer.png"));
 
@@ -161,14 +162,14 @@ public class ClientRenderer {
 				new GenericTileEntityRenderer<BlockUpdateDetectorTileEntity>("talecraft:textures/blocks/util/bud.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(StorageBlockTileEntity.class,
-				new GenericTileEntityRenderer<StorageBlockTileEntity>("talecraft:textures/blocks/util/storage.png",
+				new GenericTileEntityRenderer<>("talecraft:textures/blocks/util/storage.png",
 						new StorageBlockTileEntityEXTRenderer()));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(EmitterBlockTileEntity.class,
 				new GenericTileEntityRenderer<EmitterBlockTileEntity>("talecraft:textures/blocks/util/emitter.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(ImageHologramBlockTileEntity.class,
-				new GenericTileEntityRenderer<ImageHologramBlockTileEntity>("talecraft:textures/blocks/util/texture.png",
+				new GenericTileEntityRenderer<>("talecraft:textures/blocks/util/texture.png",
 						new ImageHologramBlockTileEntityEXTRenderer()));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(CollisionTriggerBlockTileEntity.class,
@@ -196,7 +197,7 @@ public class ClientRenderer {
 				new GenericTileEntityRenderer<URLBlockTileEntity>("talecraft:textures/blocks/util/url.png"));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(SummonBlockTileEntity.class,
-				new GenericTileEntityRenderer<SummonBlockTileEntity>("talecraft:textures/blocks/util/spawner.png",
+				new GenericTileEntityRenderer<>("talecraft:textures/blocks/util/spawner.png",
 						new SummonBlockTileEntityEXTRenderer()));
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(LockedDoorTileEntity.class, new LockedDoorRenderer());
@@ -211,79 +212,50 @@ public class ClientRenderer {
 				new GenericTileEntityRenderer<CameraBlockTileEntity>("talecraft:textures/blocks/util/camera.png"));
 	}
 
-	private void init_render_item(ItemModelMesher mesher) {
-		// items
-		
+	private static void init_render_item() {
 		for(Item item : TaleCraftItems.ALL_TC_ITEMS){
-			if(!(item instanceof ItemBlock))mesher.register(item, 0, new ModelResourceLocation("talecraft:" + item.getUnlocalizedName().replace("item.", ""), "inventory"));
+			if(!(item instanceof ItemBlock)) ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation("talecraft:" + item.getUnlocalizedName().replace("item.", ""), "inventory"));
 		}
 	}
 
-	private void init_render_block(ItemModelMesher mesher) {
+	private static void init_render_block() {
 		for(String name : TaleCraftBlocks.blocksMap.keySet()){
-			mesher.register(Item.getItemFromBlock(TaleCraftBlocks.blocksMap.get(name)), 0, new ModelResourceLocation("talecraft:" + name, "inventory"));
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.blocksMap.get(name)), 0, new ModelResourceLocation("talecraft:" + name, "inventory"));
 		}
 		
 		// killblock (why?!)
-		for(int i = 0; i < 7; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.killBlock), i, new ModelResourceLocation("talecraft:killblock", "inventory"));
+		for(int i = 0; i < 7; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.killBlock), i, new ModelResourceLocation("talecraft:killblock", "inventory"));
 
 		// decoration blocks
 		// blank block
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.blankBlock), i, new ModelResourceLocation("talecraft:blankblock", "inventory"));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.blankBlock), i, new ModelResourceLocation("talecraft:blankblock", "inventory"));
 
 		// stone block A
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), i, new ModelResourceLocation("talecraft:deco_stone/block"+i, "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), mkstrlfint("talecraft:deco_stone/block", 0));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_a), i, new ModelResourceLocation("talecraft:deco_stone/block"+i, "inventory"));
 		// stone block B
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+16), "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), mkstrlfint("talecraft:deco_stone/block", 16));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_b), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+16), "inventory"));
 		// stone block C
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+32), "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), mkstrlfint("talecraft:deco_stone/block", 32));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_c), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+32), "inventory"));
 		// stone block D
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+48), "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), mkstrlfint("talecraft:deco_stone/block", 48));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_d), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+48), "inventory"));
 		// stone block E
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+64), "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), mkstrlfint("talecraft:deco_stone/block", 64));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_e), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+64), "inventory"));
 		// stone block E
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+80), "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), mkstrlfint("talecraft:deco_stone/block", 80));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_stone_f), i, new ModelResourceLocation("talecraft:deco_stone/block"+(i+80), "inventory"));
 
 		// wood block A
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), i, new ModelResourceLocation("talecraft:deco_wood/block"+i, "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), mkstrlfint("talecraft:deco_wood/block", 0));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_wood_a), i, new ModelResourceLocation("talecraft:deco_wood/block"+i, "inventory"));
 
 		// glass block A
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), i, new ModelResourceLocation("talecraft:deco_glass/block"+i, "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), mkstrlfint("talecraft:deco_glass/block", 0));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_glass_a), i, new ModelResourceLocation("talecraft:deco_glass/block"+i, "inventory"));
 
 		// cage block A
-		for(int i = 0; i < 16; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), i, new ModelResourceLocation("talecraft:deco_cage/block"+i, "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), mkstrlfint("talecraft:deco_cage/block", 0));
+		for(int i = 0; i < 16; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.deco_cage_a), i, new ModelResourceLocation("talecraft:deco_cage/block"+i, "inventory"));
 		
 		//Locked Door Block
-		for(int i = 0; i < 8; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.lockedDoorBlock), i, new ModelResourceLocation("talecraft:lockeddoorblock", "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.lockedDoorBlock), new ResourceLocation("talecraft:lockeddoorblock"));
+		for(int i = 0; i < 8; i++)ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.lockedDoorBlock), i, new ModelResourceLocation("talecraft:lockeddoorblock", "inventory"));
 		
-		for(int i = 0; i < 12; i++) mesher.register(Item.getItemFromBlock(TaleCraftBlocks.spikeBlock), i, new ModelResourceLocation("talecraft:spikeblock", "inventory"));
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(TaleCraftBlocks.spikeBlock), new ResourceLocation("talecraft:spikeblock"));
-
-	}
-
-	private ResourceLocation[] mkstrlfint(String string, int j) {
-		String[] ary = new String[16];
-
-		for(int i = 0; i < 16; i++)
-			ary[i] = string + (j+i);
-		ResourceLocation[] res = new ResourceLocation[16];
-		for(int i = 0; i < 16; i++){
-			res[i] = new ResourceLocation(ary[i]);
-		}
-		return res;
-	}
-
-	private void init_render_entity() {
+		for(int i = 0; i < 12; i++) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(TaleCraftBlocks.spikeBlock), i, new ModelResourceLocation("talecraft:spikeblock", "inventory"));
 
 	}
 

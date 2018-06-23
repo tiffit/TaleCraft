@@ -48,7 +48,7 @@ public class GuiYesNoQuestion extends QADGuiScreen {
 		int centerH = getWidth() / 2;
 		int centerV = getHeight() / 2;
 
-		Qquestion.setX(centerH - fontRendererObj.getStringWidth(question)/2);
+		Qquestion.setX(centerH - fontRenderer.getStringWidth(question)/2);
 		Qquestion.setY(centerV - 30);
 
 		QyesButton.setX(centerH - QyesButton.getButtonWidth() - 10);

@@ -152,9 +152,9 @@ public class SummonBlockTileEntity extends TCTileEntity {
 	public void summonEntity(SummonOption option) {
 		// Select 'random' position.
 		Vec3d position = selectRandomBoundedLocation();
-		double posX = position.xCoord;
-		double posY = position.yCoord;
-		double posZ = position.zCoord;
+		double posX = position.x;
+		double posY = position.y;
+		double posZ = position.z;
 
 		// Create the entity, merge the existing NBT into it, then spawn the entity.
 		NBTTagCompound entityNBT = option.getData();

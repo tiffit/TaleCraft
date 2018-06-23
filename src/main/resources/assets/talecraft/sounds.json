@@ -22,10 +22,10 @@
     "EXTRA3": { "category": "block", "sounds":[{"name":"talecraft:EXTRA3", "stream": true}] },
     "EXTRA4": { "category": "block", "sounds":[{"name":"talecraft:EXTRA4", "stream": true}] },
 	
-	"DryFire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/dryfire", "stream": false}] },
-    "PistolFire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/pistolfire", "stream": false}] },
-	"Reload": { "category": "ambient", "sounds":[{"name":"talecraft:gun/reload", "stream": false}] },
-	"RifleFire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/riflefire", "stream": false}] },
-	"ShotgunFire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/shotgunfire", "stream": false}] },
-	"ShotgunReload": { "category": "ambient", "sounds":[{"name":"talecraft:gun/shotgunreload", "stream": false}] }
+	"dryfire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/dryfire", "stream": false}] },
+    "pistolfire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/pistolfire", "stream": false}] },
+	"reload": { "category": "ambient", "sounds":[{"name":"talecraft:gun/reload", "stream": false}] },
+	"riflefire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/riflefire", "stream": false}] },
+	"shotgunfire": { "category": "ambient", "sounds":[{"name":"talecraft:gun/shotgunfire", "stream": false}] },
+	"shotgunreload": { "category": "ambient", "sounds":[{"name":"talecraft:gun/shotgunreload", "stream": false}] }
 }

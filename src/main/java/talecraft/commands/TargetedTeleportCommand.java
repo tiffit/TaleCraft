@@ -88,9 +88,9 @@ public class TargetedTeleportCommand extends TCCommandBase {
 			final int min = -6000000;
 			final int max = -6000000;
 
-			final double baseX = sender.getPositionVector().xCoord;
-			final double baseY = sender.getPositionVector().yCoord;
-			final double baseZ = sender.getPositionVector().zCoord;
+			final double baseX = sender.getPositionVector().x;
+			final double baseY = sender.getPositionVector().y;
+			final double baseZ = sender.getPositionVector().z;
 
 			// <x> <y> <z>
 			final double xCoord = CommandBase.parseDouble(baseX, args[1], min, max, true);
@@ -186,12 +186,12 @@ public class TargetedTeleportCommand extends TCCommandBase {
 			float f1 = entity.rotationYaw;
 
 			entity.startRiding((Entity)null);
-			((EntityPlayerMP)entity).connection.setPlayerLocation(target.xCoord, target.yCoord, target.zCoord, f, f1, enumset);
+			((EntityPlayerMP)entity).connection.setPlayerLocation(target.x, target.y, target.z, f, f1, enumset);
 			entity.velocityChanged = true;
 			return;
 		}
 
-		entity.setPositionAndUpdate(target.xCoord, target.yCoord, target.zCoord);
+		entity.setPositionAndUpdate(target.x, target.y, target.z);
 		entity.velocityChanged = true;
 	}
 

@@ -60,7 +60,7 @@ public class DecoratorItem extends TCItem implements TCITriggerableItem{
 		float dist = 256;
 		Vec3d start = this.getPositionEyes(lerp, p);
 		Vec3d direction = p.getLook(lerp);
-		Vec3d end = start.addVector(direction.xCoord * dist, direction.yCoord * dist, direction.zCoord * dist);
+		Vec3d end = start.addVector(direction.x * dist, direction.y * dist, direction.z * dist);
 		RayTraceResult result = p.world.rayTraceBlocks(start, end, false, false, false);
 		BlockPos center = result.getBlockPos().up().add(offset);
 			
