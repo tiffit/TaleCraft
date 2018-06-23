@@ -88,8 +88,6 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 		// create client network'er
 		clientNetworkHandler = new ClientNetworkHandler(this);
 
-		// create client renderer
-		clientRenderer.init();
 		// add all static renderers
 		clientRenderer.addStaticRenderer(new SelectionBoxRenderer());
 		
