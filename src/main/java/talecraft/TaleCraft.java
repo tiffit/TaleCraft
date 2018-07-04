@@ -13,8 +13,11 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.datafix.FixTypes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.util.CompoundDataFixer;
+import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModContainer;
@@ -39,6 +42,7 @@ import talecraft.script.GlobalScriptManager;
 import talecraft.server.ServerHandler;
 import talecraft.util.ConfigurationManager;
 import talecraft.util.GuiHandler;
+import talecraft.util.TCDataFixer;
 import talecraft.util.TimedExecutor;
 import talecraft.versionchecker.SendMessage;
 
@@ -112,6 +116,11 @@ public class TaleCraft {
 	public void init(FMLInitializationEvent event) {
 		proxy.init(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(TaleCraft.instance, new GuiHandler());
+		
+		// Convert tile entity IDs
+		CompoundDataFixer compoundDataFixer = FMLCommonHandler.instance().getDataFixer();
+		ModFixs dataFixer = compoundDataFixer.init(Reference.MOD_ID, 1);
+		dataFixer.registerFix(FixTypes.BLOCK_ENTITY, new TCDataFixer());
 	}
 
 	@Mod.EventHandler

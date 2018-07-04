@@ -219,7 +219,7 @@ public class TaleCraftBlocks {
 	
 	private static <T extends Block, E extends TileEntity> T registerWithTE(String name, T block, Class<E> tileEntityClass) {
 		T returnBlock = register(name, block);
-		GameRegistry.registerTileEntity(tileEntityClass, new ResourceLocation("talecraft", "tc_" + name));
+		GameRegistry.registerTileEntity(tileEntityClass, new ResourceLocation("talecraft", name));
 		return returnBlock;
 	}
 	
