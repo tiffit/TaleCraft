@@ -40,6 +40,7 @@ public class TCDataFixer implements IFixableData {
         OLD_TO_NEW_ID_MAP.put("tc_killblock", Reference.MOD_ID + ":killblock");
         OLD_TO_NEW_ID_MAP.put("tc_clockblock", Reference.MOD_ID + ":clockblock");
         OLD_TO_NEW_ID_MAP.put("tc_redstone_trigger", Reference.MOD_ID + ":redstone_trigger");
+        OLD_TO_NEW_ID_MAP.put("tc_redstonetrigger", Reference.MOD_ID + ":redstone_trigger");
         OLD_TO_NEW_ID_MAP.put("tc_redstone_activator", Reference.MOD_ID + ":redstone_activator");
         OLD_TO_NEW_ID_MAP.put("tc_relayblock", Reference.MOD_ID + ":relayblock");
         OLD_TO_NEW_ID_MAP.put("tc_scriptblock", Reference.MOD_ID + ":scriptblock");
