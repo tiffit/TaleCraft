@@ -1,11 +1,11 @@
 package talecraft.client.environment;
 
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.Vector3d;
+import org.lwjgl.util.vector.Vector3f;
+
 import java.util.Arrays;
 import java.util.List;
-
-import javax.vecmath.AxisAngle4f;
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
 
 public class Environment {
 	public Conditions predicate = null;
@@ -72,6 +72,7 @@ public class Environment {
 	public static class SkyLayer {
 		public String  blend = "add";
 		public boolean depth = false;
+		public boolean cull = false;
 		public String  shape = "plane";
 		public String  origin = "player";
 		public String  texture = "talecraft:environment/noise.png";
@@ -90,11 +91,20 @@ public class Environment {
 			Matrix4f rot = new Matrix4f();
 			for(SkyLayerRotation roti : rotation) {
 				roti.getMatrix(rot, time);
-				matrix.mul(rot);
+				Matrix4f.mul(matrix, rot, matrix);
 			}
-			
-			matrix.setTranslation(new Vector3f(offset[0], offset[1], offset[2]));
-			matrix.setScale(scale);
+
+			Vector3f offsetVec = new Vector3f();
+			offsetVec.x = offset[0];
+			offsetVec.y = offset[1];
+			offsetVec.z = offset[2];
+			matrix.translate(offsetVec);
+
+			Vector3f scaleVec = new Vector3f();
+			scaleVec.x = scale;
+			scaleVec.y = scale;
+			scaleVec.z = scale;
+			matrix.scale(scaleVec);
 		}
 		
 		public static class SkyLayerRotation {
@@ -114,7 +124,7 @@ public class Environment {
 			public void getMatrix(Matrix4f matrix, float time) {
 				double angleDeg = (offset + time * speed) * 360.0;
 				matrix.setIdentity();
-				matrix.setRotation(new AxisAngle4f(axis[0], axis[1], axis[2], (float)Math.toRadians(angleDeg)));
+				matrix.rotate((float)Math.toRadians(angleDeg), new Vector3f(axis[0], axis[1], axis[2]));
 			}
 		}
 	}
