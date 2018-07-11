@@ -1,17 +1,6 @@
 {
 	"versions": [
 		{
-			"version": "v0.3.1",
-			"mc": "1.12.2",
-			"forge": "1.12.2-14.23.0.2491",
-			"libs": "https://raw.githubusercontent.com/MinecraftForge/MinecraftForge/1.12.x/jsons/1.12.2-rel.json",
-			"id": "",
-			"type": "Beta",
-			"assets": "1.12",
-			"reddit": "",
-			"changelog": []
-		},
-		{
 			"version": "v0.2.19",
 			"mc": "1.10.2",
 			"forge": "1.12.2-14.23.0.2491",
